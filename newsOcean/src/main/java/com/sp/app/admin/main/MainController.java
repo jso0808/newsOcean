@@ -9,6 +9,6 @@ public class MainController {
 	 
 	@RequestMapping(value="/admin", method=RequestMethod.GET)
 	public String method() {
-		return "  ";
+		return ".adminLayout";
 	}
 }
