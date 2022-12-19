@@ -6,7 +6,7 @@
 <div class="body-container">
     <div class="body-main">
     	<p> FAQ 작성/수정 페이지 입니다. </p>
-    	<p> 커밋 테스트 입니다.</p>
+    	<p> 커밋 테스트 입니다.2</p>
 	</div>
 </div>
 
