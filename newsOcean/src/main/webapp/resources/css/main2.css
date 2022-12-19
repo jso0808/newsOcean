@@ -6,8 +6,8 @@ header {
 
 	width: 100%; height: 60px;
 
-	background: #eeeeee;
-	box-shadow: rgba(0, 0, 0, 0.5) 0 -20px 20px 20px;
+	background: #fff;
+	box-shadow: rgba(0, 0, 0.6, 0.4) 0 -20px 20px 20px;
 }
 
 body {
@@ -44,12 +44,19 @@ body {
   }
 
   .wrapper {
-    margin-left: 200px;
+    margin-left: 280px;
   }
 
   .wrapper__minify {
     margin-left: 50px;
   }
+}
+
+.logo__size {
+	width: 300px;
+	margin-top: -20px;
+	margin-left: -18px;
+	
 }
 
 /* header ------------------------ */
@@ -59,10 +66,17 @@ body {
 }
 .header-left {
 	padding: 16px 15px;
+	width: 250px;
+	height: 60px;
+	background: #393939ff;
 }
+
 .header-right {
-	padding: 13px 15px;
+	padding: 13px 30px;
+	height: 60px;
+	background: #fff
 }
+
 
 .header-left h1 {
 	margin: 0;
@@ -76,7 +90,6 @@ body {
 }
 
 .header-right .img {
-	border: 1px solid #ccc;
 	width: 35px;
 	height: 35px;
 	border-radius: 35px;
@@ -90,12 +103,15 @@ body {
 }
 .header-right .roll {
 	 font-size: 10px;
+	 color: #000;
 }
 .header-right .user span {
 	 vertical-align: top;
+	 color: #000;
 }
 .header-right .user i {
 	 padding-left: 7px;
+	 color: #000;
 }
 
 /* body ------------------------ */
@@ -114,7 +130,7 @@ body {
 .body-title h2 {
     font-size: 23px;
     min-width: 300px;
-    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+    font-family:"line_font";
     font-weight: bold;
     margin: 0 0 -5px 0;
     padding-bottom: 5px;
