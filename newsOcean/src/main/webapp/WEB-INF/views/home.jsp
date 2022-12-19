@@ -5,6 +5,6 @@
 
 <div class="container body-container">
     <div class="inner-page">
-		홈 화면 부분
+		홈 화면 부분1
     </div>
 </div>
