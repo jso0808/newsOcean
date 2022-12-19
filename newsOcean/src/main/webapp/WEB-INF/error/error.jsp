@@ -23,7 +23,7 @@
 	                <div class="d-grid pt-3">
 						<p class="alert alert-primary text-center lh-base fs-6">
 							시스템에 오류가 발생했습니다.<br>
-							잠시후 다시 시도 해보시기 바랍니다.						
+							잠시후 다시 시도 해보시기 바랍니다!						
 						</p>
 	                </div>
                        
