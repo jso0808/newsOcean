@@ -1,0 +1,128 @@
+﻿@charset "UTF-8";
+
+header {
+	position: relative;
+	z-index: 999;
+
+	width: 100%; height: 60px;
+
+	background: #eeeeee;
+	box-shadow: rgba(0, 0, 0, 0.5) 0 -20px 20px 20px;
+}
+
+body {
+	color: #222;
+	line-height: 1.42857143;
+}
+
+.wrapper {
+	padding: 30px 30px 15px;
+	transition: all 0.3s ease-out;
+}
+
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/* Small devices (tablets) ------------------------*/
+@media (min-width: 768px) {
+}
+
+/* Medium devices (desktops) ------------------------*/
+@media (min-width: 992px) {
+  body {
+    overflow-y: scroll;
+  }
+
+  .logo img {
+    width: 200px;
+    text-align: center;
+    margin-top: 10px;
+    float: none;
+  }
+
+  .wrapper {
+    margin-left: 200px;
+  }
+
+  .wrapper__minify {
+    margin-left: 50px;
+  }
+}
+
+/* header ------------------------ */
+.header-container {
+	display: flex;
+	justify-content: space-between;
+}
+.header-left {
+	padding: 16px 15px;
+}
+.header-right {
+	padding: 13px 15px;
+}
+
+.header-left h1 {
+	margin: 0;
+	font-weight: 500;
+	font-size: 20px;
+}
+
+.header-right span {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.header-right .img {
+	border: 1px solid #ccc;
+	width: 35px;
+	height: 35px;
+	border-radius: 35px;
+	background-repeat : no-repeat;
+	background-size : cover;
+	margin-right: 5px;
+}
+
+.header-right label {
+	display: block;
+}
+.header-right .roll {
+	 font-size: 10px;
+}
+.header-right .user span {
+	 vertical-align: top;
+}
+.header-right .user i {
+	 padding-left: 7px;
+}
+
+/* body ------------------------ */
+.body-container {
+	display: block;
+	padding-top: 5px;
+}
+
+.body-title {
+    color: #424951;
+    padding-top: 0;
+    padding-bottom: 5px;
+    margin: 0 0 25px 0;
+    border-bottom: 1px solid #ddd;
+}
+.body-title h2 {
+    font-size: 23px;
+    min-width: 300px;
+    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+    font-weight: bold;
+    margin: 0 0 -5px 0;
+    padding-bottom: 5px;
+    display: inline-block;
+    border-bottom: 3px solid #424951;
+}
+
+.body-main {
+	display: block;
+	padding-bottom: 15px;
+}

@@ -1,0 +1,23 @@
+﻿@charset "UTF-8";
+
+.ui-dialog {
+	z-index: 9999;
+}
+
+.ui-dialog * {
+	box-sizing: content-box;
+}
+
+.ui-widget-header { /* 타이틀바 */
+	background: none;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0;
+}
+.ui-dialog .ui-dialog-title {
+	padding-top: 5px; padding-bottom: 5px;
+}
+.ui-widget-content { /* 내용 */
+   /* border: none; */
+   border-color: #ccc; 
+}

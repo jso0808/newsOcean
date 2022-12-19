@@ -1,0 +1,61 @@
+﻿@charset "UTF-8";
+
+/* 글 리스트 */
+.board-list-header { padding-top: 7px; padding-bottom: 7px; }
+
+.board-list { width: 100%; }
+.board-list thead { color: #787878; }
+.board-list tr>th, .board-list tr>td { text-align: center; }
+.board-list .left { text-align: left; padding-left: 5px; }
+
+.board-list .bw-30 { width: 30px; }
+.board-list .bw-40 { width: 40px; }
+.board-list .bw-50 { width: 50px; }
+.board-list .bw-60 { width: 60px; }
+.board-list .bw-70 { width: 70px; }
+.board-list .bw-80 { width: 80px; }
+.board-list .bw-90 { width: 90px; }
+.board-list .bw-100 { width: 100px; }
+.board-list .bw-110 { width: 110px; }
+.board-list .bw-120 { width: 120px; }
+.board-list .bw-130 { width: 130px; }
+.board-list .bw-140 { width: 140px; }
+.board-list .bw-150 { width: 150px; }
+.board-list .bw-160 { width: 160px; }
+.board-list .bw-170 { width: 170px; }
+
+.board-list-footer { padding-top: 7px; padding-bottom: 7px; }
+
+/* 글 쓰기 폼 */
+.write-form tr>td { vertical-align: middle; }
+.write-form p { line-height: 200%; }
+.write-form tr:first-child { border-top: 2px solid #212529; }
+.write-form tr>td:first-child { text-align: center; }
+.write-form tr>td:nth-child(2) { padding-left: 10px; }
+.write-form textarea { height: 170px; resize : none; }
+
+/* 댓글 */
+.reply { clear: both; padding: 20px 0 10px; }
+.reply .bold { font-weight: 600; }
+
+.reply .form-header { padding-bottom: 7px; }
+.reply-form  tr>td { padding: 2px 0 2px; }
+.reply-form textarea { width: 100%; height: 75px; resize: none; }
+.reply-form button { padding: 8px 25px; }
+
+.reply .reply-info { padding-top: 25px; padding-bottom: 7px; }
+.reply-info .reply-count { color: #3EA9CD; font-weight: 600; }
+
+.reply-writer .icon { font-size: 1.6rem; color: #999; }
+.reply-writer .name { font-size: 12px; font-weight: 600; }
+.reply-writer .date { font-size: 8px; }
+
+.reply .reply-dropdown { cursor: pointer; }
+.reply .reply-dropdown:hover { color: #0d6efd; font-weight: 500; }
+.reply .reply-menu { display: none; position: absolute; width: 80px; min-height: 65px; background:#fff; border: 1px solid #d5d5d5; border-radius: 3px; z-index: 9999; }
+.reply .reply-menu-item { text-align: center; cursor: pointer; padding: 7px; }
+.reply .reply-menu-item:nth-child(2n+1) { border-bottom: 1px solid #d5d5d5; }
+.reply .reply-menu-item:hover { color: #0d6efd; font-weight: 500; }
+
+.reply-answer { display: none; }
+.reply-answer textarea { width:98%; height: 75px; resize: none; }

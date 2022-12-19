@@ -1,0 +1,103 @@
+﻿@charset "UTF-8";
+
+.btn {
+	color: #333;
+	border: 1px solid #999;
+	background-color: #fff;
+	padding: 5px 10px;
+	border-radius: 4px;
+	font-weight: 500;
+	cursor:pointer;
+	font-size: 14px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.btn:active, .btn:focus, .btn:hover {
+	background-color: #f8f9fa;
+	color:#333;
+}
+.btn[disabled], fieldset[disabled] .btn {
+	pointer-events: none;
+	cursor: default;
+	opacity: .65;
+}
+
+.btn-dark {
+    background: #424951;
+	border:1px solid #2f3741;
+    color:#fff;
+}
+.btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+    background: #333;
+   	border:1px solid #222;
+   	color:#fff;
+}
+
+.btn-primary {
+    background: #106eea;
+	border:1px solid #00a6eb;
+    color:#fff;
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background: #3284f1;
+    border:1px solid #00a6eb;
+    color:#fff;
+}
+
+.btnConfirm {
+	background: #106eea;
+	border: solid 1px #00a6eb;
+    color: #fff;
+    font-size: 17px;
+    padding: 15px 10px;
+    text-align: center;
+    width: 100%;
+    border-radius:4px;
+    font-family: NanumGothic, 나눔고딕, "Malgun Gothic", "맑은 고딕", 돋움, "Raleway", sans-serif;
+    vertical-align: baseline;
+}
+.btnConfirm:hover, .btnConfirm:focus, .btnConfirm:active {
+	font-weight: 400;
+	background: #3284f1;
+	border: solid 1px #00a6eb;
+}
+
+.btn-dark { background: #424951; border:1px solid #2f3741; color:#fff; }
+.btn-dark:hover, .btn-dark:active, .btn-dark:focus { background: #333; border:1px solid #222; color:#fff; }
+
+.btn-primary { background: #106eea; border:1px solid #00a6eb; color:#fff; }
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus { background: #3284f1; border:1px solid #00a6eb; color:#fff; }
+
+/* form */
+.form-control {
+	border: 1px solid #999; border-radius: 4px; background-color: #fff;
+	padding: 5px 5px; 
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.form-control[readonly] { background-color:#f8f9fa; }
+
+textarea.form-control { height: 170px; resize : none; }
+
+.form-select {
+	border: 1px solid #999; border-radius: 4px; background-color: #fff;
+	padding: 4px 5px; 
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.form-select[readonly] { background-color:#f8f9fa; }
+
+.form-check-input { width: 1em; height: 1em; vertical-align: middle; background-color: #fff; border: 1px solid rgba(0,0,0,.25); margin-top: 7px; margin-bottom: 7px; }
+.form-check-input:checked { background-color: #0d6efd; border-color: #0d6efd; }
+.form-check-input[type=checkbox] { border-radius: 0.25em; }
+.form-check-label { cursor: pointer; vertical-align: middle; margin-top: 7px; margin-bottom: 7px; }
+
+textarea:focus, input:focus { outline: none; }
+input[type=checkbox], input[type=radio] { vertical-align: middle; }
+
+.lg { width: 98%; }
+.md { width: 50%; }
+.sm-33 { width: 33%; }
+.sm { width: 23%; }
+
+.form-control-plaintext { display: block; width: 100%; padding: 0.18rem 0; margin-bottom: 0; line-height: 1.5; }

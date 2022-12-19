@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+	<annotation-driven />
+
+	<!-- / 매핑에서 정적 리소스(html, css, js등)를 처리할수있도록 설정 -->
+ 	<default-servlet-handler/>
+
+	<context:component-scan base-package="com.sp.app" />
+
+	<!-- @Scheduled 애노테이션 -->
+	<task:annotation-driven/>
+
+    <!-- 트랜잭션 처리 -->
+    <aop:config proxy-target-class="true">
+	   <aop:pointcut id="controllerOperation" expression="execution(public * com.sp.app..*Controller.*(..))" />
+   </aop:config>
+   
+   	<!-- 타일즈 환경 설정 -->
+    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+    	<beans:property name="definitions">
+    		<beans:list>
+    			<beans:value>/WEB-INF/spring/tiles-defs.xml</beans:value>
+    		</beans:list>
+    	</beans:property>
+    </beans:bean>
+
+     <!-- 뷰 -->
+	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="order" value="1" />
+		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+		<beans:property name="viewNames" value=".*" />
+	</beans:bean>	
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="order" value="2" />
+		<beans:property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+	<!-- 파일 업로드 -->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="utf-8"/>
+		<beans:property name="maxUploadSize" value="10485760" />
+    </beans:bean>
+
+
+    <!-- 예외처리 
+    <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <beans:property name="order" value="1" />
+        <beans:property name="exceptionMappings">
+            <beans:props>
+                <beans:prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">.error.fileuploadFailure</beans:prop>
+                <beans:prop key="org.springframework.dao.DataAccessException">.error.dataAccessFailure</beans:prop>
+				<beans:prop key="java.lang.Exception">.error.error</beans:prop>
+            </beans:props>
+        </beans:property>
+        <beans:property name="defaultErrorView" value=".error.error"/>
+    </beans:bean>
+	-->
+	
+</beans:beans>
