@@ -1,16 +1,22 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-</head>
-<body>
+<style type="text/css">
+.body-container {
+	max-width: 800px;
+}
+</style>
 
-</body>
-</html>
+<div class="container">
+	<div class="body-container">	
+		<div class="body-title">
+			<h3><i class="bi bi-app"></i> 제목 </h3>
+		</div>
+		
+		<div class="body-main">
+			내용 입니다.
+		</div>
+	</div>
+</div>
