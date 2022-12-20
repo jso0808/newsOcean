@@ -183,6 +183,9 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 							<a href="#" title="마이페이지">마이페이지</a>
 						</div>
 						<div class="col p-2">
+							<a href="#" title="제휴 및 광고">제휴 및 광고</a>
+						</div>
+						<div class="col p-2">
 							<a href="#" title="고객센터">고객센터</a>
 						</div>
 						<div class="col p-2">
