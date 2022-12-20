@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+<!-- 
+	<http auto-config="true">
+	    <csrf disabled="true"/>
+		<intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')" />
+	</http>
+ -->
+ 
+ 	<context:component-scan base-package="com.sp.app"/>
+ 	
+    <!-- 권한이 없는 페이지를 접근할 경우 접근 불가 메시지 출력  -->
+	<http auto-config="true">
+		<!-- spring 4.x때 추가된 옵션으로 ssl을 사용하지 않을 경우 csrf는 disalbed=true로 설정. -->
+		<csrf disabled="true"/>
+		
+		<!-- 모든 접속자 접근 허용 -->
+		<intercept-url pattern="/" access="permitAll"/>
+		<intercept-url pattern="/index.jsp" access="permitAll"/>
+		<intercept-url pattern="/member/login" access="permitAll"/>
+		<intercept-url pattern="/member/member" access="permitAll"/>
+		<intercept-url pattern="/member/userIdCheck" access="permitAll"/>
+		<intercept-url pattern="/member/complete" access="permitAll"/>
+		<intercept-url pattern="/member/pwdFind" access="permitAll"/>
+		<intercept-url pattern="/member/expired" access="permitAll"/>
+		
+		<intercept-url pattern="/resources/**" access="permitAll"/>
+		<intercept-url pattern="/uploads/photo/**" access="permitAll"/>
+		
+		<!-- 관리자 페이지 -->
+		<intercept-url pattern="/admin" access="hasAnyRole('ROLE_ADMIN', 'ROLE_EMP')"/>
+		
+		<!-- 모든 페이지 -->
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_EMP', 'ROLE_USER')"/>
+		
+		<!-- 로그인 폼 -->
+		<form-login login-page="/member/login"
+			login-processing-url="/member/login"
+			username-parameter="userId"
+			password-parameter="userPwd"
+			authentication-failure-url="/member/login?login_error"
+			default-target-url="/"
+			always-use-default-target="false"
+			authentication-success-handler-ref="loginSuccessHandler"
+			authentication-failure-handler-ref="loginFailureHandler"
+			/>
+		<logout logout-url="/member/logout"
+			invalidate-session="true"
+			logout-success-url="/"/>
+			
+		<!-- AJAX 로그인 검사를 위한 필터 등록 -->
+		<!-- EXCEPTION_TRANSLATION_FILTER : 요청을 처리하는 동안 발생하는 예외의 기본 라우팅과 위임을 처리 -->
+		<custom-filter ref="ajaxSessionTimeoutFilter"
+			after="EXCEPTION_TRANSLATION_FILTER"/>
+		
+		<!-- 접근 권한이 없는 경우 -->
+		<access-denied-handler error-page="/member/noAuthorized"/>
+		
+		<!-- 동일 아이디로 한명만 로그인. 기존 세션 만료 -->
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/member/expired"/>
+		</session-management>
+	</http>
+	
+	<beans:bean id="loginSuccessHandler" class="com.sp.app.security.LoginSuccessHandler">
+		<beans:property name="defaultUrl" value="/"></beans:property>
+	</beans:bean>
+    
+    <beans:bean id="loginFailureHandler" class="com.sp.app.security.LoginFailureHandler">
+    	<beans:property name="defaultFailureUrl" value="/member/login?login_error"/>
+    </beans:bean>
+    
+    <!-- ajax 시 예외가 발생할 떄 처리할 필터 등록 -->
+    <beans:bean id="ajaxSessionTimeoutFilter" class="com.sp.app.security.AjaxSessionTimeoutFilter">
+    	<beans:property name="ajaxHeader" value="AJAx"></beans:property>
+    </beans:bean>
+    
+    <jdbc-user-service data-source-ref="dataSource"
+    	id="userService"
+    	users-by-username-query="SELECT email AS username, pwd AS password, enabled FROM member WHERE email = ?"
+    	authorities-by-username-query="SELECT email AS username, authority FROM member, authority WHERE email = ?"/>
+    
+    <!-- bcrypt : 패스워드 암호화에 특화된 password hashing function -->
+    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    
+	<authentication-manager>
+		<authentication-provider user-service-ref="userService">
+			<password-encoder ref="bcryptEncoder"/>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

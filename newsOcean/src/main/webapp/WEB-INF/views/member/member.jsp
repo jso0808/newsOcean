@@ -18,9 +18,14 @@ function memberOk() {
 	const f = document.memberForm;
 	let str;
 	
-	console.log(f.email1.value + f.email2.value)
-	
 	str = f.email1.value.trim();
+    if( !str ) {
+        alert("이메일을 입력하세요. ");
+        f.email1.focus();
+        return;
+    }
+    
+    str = f.email1.value.trim();
     if( !str ) {
         alert("이메일을 입력하세요. ");
         f.email1.focus();
@@ -30,7 +35,7 @@ function memberOk() {
     str = f.email2.value.trim();
     if( !str ) {
         alert("이메일을 입력하세요. ");
-        f.email2.focus();
+        f.email1.focus();
         return;
     }
 
@@ -124,6 +129,7 @@ function emailCheck() {
 		}
 	});
 }
+
 </script>
 
 <div class="main-container">
@@ -217,15 +223,15 @@ function emailCheck() {
 			        <div class="col-sm-10">
 			           	<div class="form-check">
 						  <input class="form-check-input" type="radio" name="gender" id="gender" value="m">
-							  <label class="form-check-label" for="flexRadioDefault1">
-							  	남성
-							  </label>
+						  <label class="form-check-label" for="flexRadioDefault1">
+						     	남성
+						  </label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault" value="f" checked>
-							  <label class="form-check-label" for="flexRadioDefault2">
-							  	여성
-							  </label>
+						  <input class="form-check-input" type="radio" name="gender" id="gender" value="f" checked>
+						  <label class="form-check-label" for="flexRadioDefault2">
+						     	여성
+						  </label>
 						</div>
 			       		
 					</div>
@@ -249,12 +255,12 @@ function emailCheck() {
 			        <div class="text-center">
 			            <button type="button" name="sendButton" class="btn btn-primary" onclick="memberOk();"> ${mode=="member"?"회원가입":"정보수정"} <i class="bi bi-check2"></i></button>
 			            <button type="button" class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/';"> ${mode=="member"?"가입취소":"수정취소"} <i class="bi bi-x"></i></button>
-						<input type="hidden" name="emailValid" id="userIdValid" value="false">
+						<input type="hidden" name="emailValid" id="userIdValid" value="true">
 			        </div>
 			    </div>
 			
 			    <div class="row">
-					<p class="form-control-plaintext text-center">${message}</p>
+					<p class="form-control-plaintext text-center">${msg}</p>
 			    </div>
 			</form>
 
