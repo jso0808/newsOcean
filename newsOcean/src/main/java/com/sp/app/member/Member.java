@@ -1,11 +1,13 @@
 package com.sp.app.member;
 
 public class Member {
-	private int memberNo;
+	private long memberNo;
 	private String userEmail;
+	private String email1;
+	private String email2;
 	private String userPwd;
 	private String userName;
-	private String ninkName;
+	private String userNickName;
 	private String birth;
 	private String gender;
 	private String joinDate;
@@ -13,17 +15,17 @@ public class Member {
 	private int wrongCnt;
 	private String profile;
 	private String modifyDate; // 비번변경일
+	private int memberShip; // 회원 등급
 	private int enabled;
 	
 	private String authority;
-	private long num;
-	public int getMemberNo() {
+	
+	public long getMemberNo() {
 		return memberNo;
 	}
-	public void setMemberNo(int memberNo) {
+	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
-	
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -42,11 +44,11 @@ public class Member {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getNinkName() {
-		return ninkName;
+	public String getUserNickName() {
+		return userNickName;
 	}
-	public void setNinkName(String ninkName) {
-		this.ninkName = ninkName;
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
 	}
 	public String getBirth() {
 		return birth;
@@ -102,11 +104,23 @@ public class Member {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
-	public long getNum() {
-		return num;
+	public int getMemberShip() {
+		return memberShip;
 	}
-	public void setNum(long num) {
-		this.num = num;
+	public void setMemberShip(int memberShip) {
+		this.memberShip = memberShip;
+	}
+	public String getEmail1() {
+		return email1;
+	}
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+	public String getEmail2() {
+		return email2;
+	}
+	public void setEmail2(String email2) {
+		this.email2 = email2;
 	}
 	
 }

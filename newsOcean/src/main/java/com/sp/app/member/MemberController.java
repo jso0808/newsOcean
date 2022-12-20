@@ -1,7 +1,11 @@
 package com.sp.app.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -11,14 +15,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller("member.memberController")
 @RequestMapping(value = "/member/*")
 public class MemberController {
 	
+	@Autowired
+	private MemberService service;
+	
 	@GetMapping(value = "member")
 	public String memberForm(Model model) {
+		model.addAttribute("mode", "member");
 		return ".member.member";
 	}
 	
@@ -30,7 +39,7 @@ public class MemberController {
 			Model model) {
 		
 		try {
-		
+			service.insertMember(dto);
 
 		} catch (DuplicateKeyException e) {
 			model.addAttribute("mode", "member");
@@ -48,7 +57,7 @@ public class MemberController {
 		}
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("반가워요 "+dto.getNinkName() + " 오셔너⛵🌊⛵🌊 ");
+		sb.append("반가워요 "+dto.getUserNickName() + " 오셔너⛵🌊⛵🌊 ");
 		sb.append("메인화면에서 로그인 해주세요.");
 		
 		// 리다이렉트된 페이지에 데이터 넘기기
@@ -107,8 +116,70 @@ public class MemberController {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
+		Member dto = service.readMember(info.getUserEmail());
+		if(dto == null) {
+			session.invalidate();
+			return "redirect:/;";
+		}
 		
+		// 패스워드 검사
+		boolean bPwd = service.isPasswordCheck(info.getUserEmail(), userPwd);
 		
-		return "";
+		if( ! bPwd ) {
+			if (mode.equals("update")) {
+				model.addAttribute("mode", "update");
+			} else {
+				model.addAttribute("mode", "dropout");
+			}
+			model.addAttribute("msg", "패스워드가 일치하지 않습니다.");
+			return ".member.pwd";
+		}
+		
+		if(mode.equals("dropout")) {
+			// 회원 탈퇴
+			/*
+			 * Map<String, Object> map = new HashMap<>();
+			 * map.put("memberIdx", info.getMemberIdx());
+			 * map.put("userId", info.getUserId());
+			 */
+			
+			// 세션 정보 삭제하기
+			session.removeAttribute("member");
+			session.invalidate();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(dto.getUserNickName() + "오셔너의 탈퇴 처리가 정상적으로 처리되었습니다. <br>");
+			
+			reAttr.addFlashAttribute("title", "회원 탈퇴");
+			reAttr.addFlashAttribute("msg", sb.toString());
+			
+			return "redirect:/member/complete";
+		}
+		
+		// 회원 정보 수정 폼
+		model.addAttribute("dto", dto);
+		model.addAttribute("mode", "update");
+		
+		return ".member.member";
 	}
+	
+	// AJAX - JSON : 이메일 중복 체크 
+	@PostMapping(value = "userEmailCheck")
+	@ResponseBody
+	public Map<String, Object> emailCheck(@RequestParam String email) throws Exception {
+		
+		String p = "true";
+		Member dto = service.readMember(email);
+		if(dto != null) {
+			p = "false";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("passed", p);
+		
+		return model;
+	}
+	
+	// ninkNameCheck
+	
 }
