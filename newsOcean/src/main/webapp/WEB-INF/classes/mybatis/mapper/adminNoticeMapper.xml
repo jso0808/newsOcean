@@ -10,7 +10,7 @@
 	<insert id="insertNotice" parameterType="com.sp.app.admin.notice.CompanyNotice">
 		INSERT INTO company(companyNo, notice, memberNo, companySubject, companyContent, 
 				companyDate, companyHitcount) 
-			VALUES(#{companyNo}, #{notice}, #{memberNo}, #{companySubject}, #{companyContent} 
+			VALUES(#{companyNo}, #{notice}, #{memberNo}, #{companySubject}, #{companyContent}, 
 				SYSDATE, 0)
 	</insert>
 	

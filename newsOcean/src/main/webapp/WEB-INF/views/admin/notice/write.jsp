@@ -8,7 +8,7 @@
 		<tr>
 			<td class="table-light col-sm-2" scope="row">제 목</td>
 			<td>
-				<input type="text" name="subject" class="form-control" value="${dto.companySubject}">
+				<input type="text" name="companySubject" class="form-control" value="${dto.companySubject}">
 			</td>
 		</tr>
 		
@@ -23,14 +23,14 @@
 		<tr>
 			<td class="table-light col-sm-2" scope="row">작성자명</td>
 				<td>
-				<p class="form-control-plaintext">${sessionScope.member.nickName}</p>
+				<p class="form-control-plaintext">${sessionScope.member.memberNo}</p>
 			</td>
 		</tr>
 
 		<tr>
 			<td class="table-light col-sm-2" scope="row">내 용</td>
 			<td>
-				<textarea name="content" id="content" class="form-control">${dto.companyContent}</textarea>
+				<textarea name="companyContent" id="companyContent" class="form-control">${dto.companyContent}</textarea>
 			</td>
 		</tr>
 		

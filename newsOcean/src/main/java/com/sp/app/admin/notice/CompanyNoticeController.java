@@ -86,11 +86,13 @@ public class CompanyNoticeController {
 		try {
 			
 			String root = session.getServletContext().getRealPath("/");
-			String pathname = root + "uploads" +File.separator + "admin/notice";
+			String pathname = root + "uploads" +File.separator + "admin_notice";
 			
 			dto.setMemberNo(info.getMemberNo());
 			service.insertNotice(dto, pathname);
 			state = "true";
+			
+			System.out.println(state);
 			
 		} catch (Exception e) {
 		}

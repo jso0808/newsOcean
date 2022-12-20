@@ -65,6 +65,41 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
+function ajaxFileFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		processData: false,  // file 전송시 필수. 서버로전송할 데이터를 쿼리문자열로 변환여부
+		contentType: false,  // file 전송시 필수. 서버에전송할 데이터의 Content-Type. 기본:application/x-www-urlencoded
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+	    	} else if(jqXHR.status === 402) {
+	    		alert("권한이 없습니다.");
+	    		return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+	    	} else if(jqXHR.status === 410) {
+	    		alert("삭제된 게시물입니다.");
+	    		return false;
+	    	}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+
 $(function(){
 	listPage(1);
 });
@@ -105,9 +140,10 @@ function insertForm() {
 function sendOk(mode, page) {
 	const f = document.noticeForm;
 	let str;
-	
+
 	let url ="${pageContext.request.contextPath}/admin/notice/"+mode;
 	let query = new FormData(f); // IE는 10이상에서만 가능
+	
 	
 	const fn = function(data){
 		let state = data.state;
