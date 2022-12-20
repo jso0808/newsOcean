@@ -3,8 +3,10 @@ package com.sp.app.member;
 // 세션에 저장할 정보 
 public class SessionInfo {
 	private long memberNo;
-	private String email;
-	private String nickName;
+	private int memberShip;
+	private String userEmail;
+	private String userNickName;
+
 	
 	public long getMemberNo() {
 		return memberNo;
@@ -12,17 +14,23 @@ public class SessionInfo {
 	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
-	public String getEmail() {
-		return email;
+	public String getUserEmail() {
+		return userEmail;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
-	public String getNickName() {
-		return nickName;
+	public String getUserNickName() {
+		return userNickName;
 	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
+	}
+	public int getMemberShip() {
+		return memberShip;
+	}
+	public void setMemberShip(int memberShip) {
+		this.memberShip = memberShip;
 	}
 	
 }
