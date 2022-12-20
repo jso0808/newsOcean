@@ -89,7 +89,7 @@ $(function(){
 					<a href="#" class="sub_menu--link">자주하는 질문</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">공지사항</a>
+					<a href="${pageContext.request.contextPath}/admin/notice/main" class="sub_menu--link">공지사항</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">1:1문의</a>

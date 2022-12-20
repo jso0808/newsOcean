@@ -2,5 +2,23 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminNotice">
+	<select id="seq" resultType="Long">
+		SELECT companyNo_seq.NEXTVAL FROM dual
+	</select>
+	
+	<!-- 글 추가 -->
+	<insert id="insertNotice" parameterType="com.sp.app.admin.notice.CompanyNotice">
+		INSERT INTO company(companyNo, notice, memberNo, companySubject, companyContent, 
+				companyDate, companyHitcount) 
+			VALUES(#{companyNo}, #{notice}, #{memberNo}, #{companySubject}, #{companyContent} 
+				SYSDATE, 0)
+	</insert>
+	
+	<!-- 파일 추가 -->
+	<insert id="insertFile" parameterType="com.sp.app.admin.notice.CompanyNotice">
+		INSERT INTO companyFile(fileNo, companyNo, saveFilename, originalFilename, fileSize )
+		VALUES (comFileNo_seq.NEXTVAL, #{companyNo}, 
+			#{saveFilename}, #{originalFilename}, #{fileSize})
+	</insert>
 
 </mapper>
