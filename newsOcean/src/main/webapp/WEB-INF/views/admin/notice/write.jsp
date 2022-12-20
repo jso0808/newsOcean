@@ -35,7 +35,7 @@
 		</tr>
 		
 		<tr>
-			<td class="table-light col-sm-2">첨 부</td>
+			<td class="table-light col-sm-2">첨 부 </td>
 			<td> 
 				<input type="file" name="selectFile" multiple="multiple" class="form-control">
 			</td>
