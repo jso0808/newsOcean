@@ -121,7 +121,7 @@ function sendOk(mode, page) {
     	}
     	
     	if(mode === "write") {
-    		reloadBoard()
+    		listPage(page);
     	} else {
     		listPage(page);
     	}
