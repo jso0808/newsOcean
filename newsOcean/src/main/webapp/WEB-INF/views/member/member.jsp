@@ -11,6 +11,10 @@
 .main-container {
 	display: flex;
 }
+
+.help-block {
+	color: red;
+}
 </style>
 
 <script type="text/javascript">
@@ -19,13 +23,6 @@ function memberOk() {
 	let str;
 	
 	str = f.email1.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email1.focus();
-        return;
-    }
-    
-    str = f.email1.value.trim();
     if( !str ) {
         alert("이메일을 입력하세요. ");
         f.email1.focus();
@@ -42,8 +39,7 @@ function memberOk() {
 	let mode = "${mode}";
 	if(mode === "member" && f.emailValid.value === "false") {
 		str = "이메일 중복 검사가 실행되지 않았습니다.";
-		$("#email").parent().find(".help-block").html(str);
-		f.userId.focus();
+		f.email1.focus();
 		return;
 	}
 	
@@ -96,17 +92,25 @@ function changeEmail() {
 
 function emailCheck() {
 	// 이메일 중복 검사
-	let email = $("#email").val();
-
-	if(!email) { 
+	let email1 = $("#email1").val();
+	let email2 = $("#email2").val();
+	if(!email1) { 
 		let str = "이메일을 입력해주세요";
-		$("#userId").focus();
-		$("#userId").parent().find(".help-block").html(str);
+		$("#email1").focus();
+		return;
+	}
+	
+	if(!email2) { 
+		let str = "이메일을 입력해주세요";
+		$("#email1").focus();
 		return;
 	}
 	
 	let url = "${pageContext.request.contextPath}/member/emailCheck";
-	let query = "userId=" + userId;
+	let email = email1 + "@" + email2
+	console.log(email)
+	let query = "email=" + email;
+	
 	$.ajax({
 		type:"POST"
 		,url:url
@@ -116,12 +120,17 @@ function emailCheck() {
 			let passed = data.passed;
 
 			if(passed === "true") {
-				let str = "<span style='color:blue; font-weight: bold;'>" + userId + "</span> 사용 가능합니다.";
+				console.log('passed = true')
+				
+				let str = "<span style='color:blue; font-weight: bold;'>" + email1+"@"+email2 + "</span> 사용 가능합니다.";
 				$(".email-box").find(".help-block").html(str);
+				$(".email-box").find(".help-block").css("color","blue");
 				$("#emailValid").val("true");
 			} else {
-				let str = "<span style='color:red; font-weight: bold;'>" + userId + "</span> 사용할 수 없는 이메일입니다.";
-				$(".emailValid-box").find(".help-block").html(str);
+				console.log('passed = false')
+				let str = "<span style='color:red; font-weight: bold;'>" + email1+"@"+email2 + "</span> 사용할 수 없는 이메일입니다.";
+				$(".email-box").find(".help-block").css("color","red");
+				$(".email-box").find(".help-block").html(str);
 				$("#emailValid").val("");
 				$("#emailValid").val("false");
 				$("#emailValid").focus();
@@ -129,6 +138,49 @@ function emailCheck() {
 		}
 	});
 }
+
+function nickNameCheck() {
+	// 닉네임 중복 검사
+	let userNickName = $("#userNickName").val();
+	
+	if(!userNickName) { 
+		let str = "닉네임을 입력해주세요";
+		$("#userNickName").focus();
+		return;
+	}
+	
+	let url = "${pageContext.request.contextPath}/member/nickNameCheck";
+	let query = "nickName=" + userNickName;
+	
+	$.ajax({
+		type:"POST"
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			let passed = data.passed;
+
+			if(passed === "true") {
+				console.log('passed = true')
+				
+				let str = "<span style='color:blue; font-weight: bold;'>" + userNickName + "</span> 사용 가능합니다.";
+				$(".nickName-box").find(".help-block").html(str);
+				$(".nickName-box").find(".help-block").css("color","blue");
+				$("#nickNameValid").val("true");
+			} else {
+				console.log('passed = false')
+				let str = "<span style='color:red; font-weight: bold;'>" + userNickName + "</span> 사용할 수 없는 이메일입니다.";
+				$(".nickName-box").find(".help-block").css("color","red");
+				$(".nickName-box").find(".help-block").html(str);
+				$("#nickNameValid").val("");
+				$("#nickNameValid").val("false");
+				$("#nickNameValid").focus();
+			}
+		}
+	});
+}
+
+
 
 </script>
 
@@ -160,19 +212,25 @@ function emailCheck() {
 						</div>
 						
 						<div class="col input-group">
-							<input type="text" name="email1" class="form-control" maxlength="30" value="${dto.email1}" >
+							<input type="text" name="email1" id="email1" class="form-control" maxlength="30" value="${dto.email1}" >
 						    <span class="input-group-text p-1" style="border: none; background: none;">@</span>
-							<input type="text" name="email2" class="form-control" maxlength="30" value="${dto.email2}" readonly="readonly">
+							<input type="text" name="email2" id="email2" class="form-control" maxlength="30" value="${dto.email2}" readonly="readonly">
 						</div>		
 						
 						<div class="col-3 ps-1">
-								<c:if test="${mode=='member'}">
-									<button type="button" class="btn btn-light" onclick="emailCheck();">이메일 중복검사</button>
-								</c:if>
-							</div>
+							<c:if test="${mode=='member'}">
+								<button type="button" class="btn btn-light" onclick="emailCheck();">이메일 중복검사</button>
+							</c:if>
 						</div>
+							
+						<div class="row-3">
+							<c:if test="${mode=='member'}">
+								<small class="form-control-plaintext help-block">이메일 중복검사를 해주세요.</small>
+							</c:if>
+						</div>
+					</div>
 	
-			        </div>
+			    </div>
 			 
 				<div class="row mb-3">
 					<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
@@ -201,11 +259,25 @@ function emailCheck() {
 			    
 			    <div class="row mb-3">
 			        <label class="col-sm-2 col-form-label" for="userNickName">닉네임</label>
-			        <div class="col-sm-10">
-			            <input type="text" name="userNickName" id="userNickName" class="form-control" value="${dto.nickName}" 
-			            		${mode=="update" ? "readonly='readonly' ":""}
-			            		placeholder="닉네임">
-			        </div>
+			        <div class="col-sm-10 row nickName-box">
+				        <div class="col-sm-7">
+				            <input type="text" name="userNickName" id="userNickName" class="form-control" value="${dto.nickName}" 
+				            		${mode=="update" ? "readonly='readonly' ":""}
+				            		placeholder="닉네임">
+				        </div>
+				        
+				        <div class="col-3 ps-1">
+							<c:if test="${mode=='member'}">
+								<button type="button" class="btn btn-light" onclick="nickNameCheck();">닉네임중복검사</button>
+							</c:if>
+						</div>
+				        
+				        <div class="row-3">
+							<c:if test="${mode=='member'}">
+								<small class="form-control-plaintext help-block">닉네임 중복검사를 해주세요.</small>
+							</c:if>
+						</div>
+					</div>
 			    </div>
 			 
 			    <div class="row mb-3">
@@ -222,13 +294,13 @@ function emailCheck() {
 			        <label class="col-sm-2 col-form-label" for="gender">성별</label>
 			        <div class="col-sm-10">
 			           	<div class="form-check">
-						  <input class="form-check-input" type="radio" name="gender" id="gender" value="m">
+						  <input class="form-check-input" type="radio" name="gender" id="gender-m" value="m">
 						  <label class="form-check-label" for="flexRadioDefault1">
 						     	남성
 						  </label>
 						</div>
 						<div class="form-check">
-						  <input class="form-check-input" type="radio" name="gender" id="gender" value="f" checked>
+						  <input class="form-check-input" type="radio" name="gender" id="gender-f" value="f" checked>
 						  <label class="form-check-label" for="flexRadioDefault2">
 						     	여성
 						  </label>
@@ -255,7 +327,8 @@ function emailCheck() {
 			        <div class="text-center">
 			            <button type="button" name="sendButton" class="btn btn-primary" onclick="memberOk();"> ${mode=="member"?"회원가입":"정보수정"} <i class="bi bi-check2"></i></button>
 			            <button type="button" class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/';"> ${mode=="member"?"가입취소":"수정취소"} <i class="bi bi-x"></i></button>
-						<input type="hidden" name="emailValid" id="userIdValid" value="true">
+						<input type="hidden" name="emailValid" id="emailValid" value="false">
+						<input type="hidden" name="nickNameValid" id="nickNameValid" value="false">
 			        </div>
 			    </div>
 			

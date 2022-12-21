@@ -18,18 +18,20 @@ public class MemberServiceImpl implements MemberService{
 	private BCryptPasswordEncoder bcrytp;
 	
 	// 로그인
+	/*
 	@Override
-	public Member loginMember(String email) {
+	public Member loginMember(String userEmail) {
 		Member dto = null;
 		
 		try {
-			dto = dao.selectOne("member.loginMember", email);
+			dto = dao.selectOne("member.loginMember", userEmail);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return dto;
 	}
+	*/
 	
 	// 회원 가입 및 권한 insert 
 	@Override
@@ -37,7 +39,7 @@ public class MemberServiceImpl implements MemberService{
 		try {
 			// 이메일 합치기 
 			if (dto.getEmail1().length()!=0 && dto.getEmail2().length()!=0) {
-				dto.setUserEmail(dto.getEmail1()+"@"+dto.getEmail2());
+				dto.setEmail(dto.getEmail1()+"@"+dto.getEmail2());
 			}
 			
 			// 권한 테이블 저장을 위해 시퀀스 가져오기
@@ -45,8 +47,8 @@ public class MemberServiceImpl implements MemberService{
 			dto.setMemberNo(memberSeq);
 			
 			// 패스워드 암호화
-			String encPassword = bcrytp.encode(dto.getUserPwd());
-			dto.setUserPwd(encPassword);
+			String encPassword = bcrytp.encode(dto.getPwd());
+			dto.setPwd(encPassword);
 			
 			// 회원 테이블에 정보 저장 (회원 가입)
 			dao.insertData("member.insertMember", dto);
@@ -60,9 +62,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void updateLastLogin(String email) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateLastLogin(String userEmail) throws Exception {
+		try {
+			dao.updateData("member.updateLastLogin", userEmail);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
@@ -84,6 +90,20 @@ public class MemberServiceImpl implements MemberService{
 
 		return dto;
 	}
+	
+	@Override
+	public Member readNickNameMember(String nickName) {
+		Member dto = null;
+		
+		try {
+			dto = dao.selectOne("member.readNickNameMember", nickName);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dto;
+	}
 
 	@Override
 	public void deleteMember(Map<String, Object> map) throws Exception {
@@ -98,14 +118,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public boolean isPasswordCheck(String email, String userPwd) {
-		Member dto = readMember(email);
+	public boolean isPasswordCheck(String userEmail, String userPwd) {
+		Member dto = readMember(userEmail);
 		
 		if(dto == null) {
 			return false;
 		}
 
-		return bcrytp.matches(userPwd, dto.getUserPwd());
+		return bcrytp.matches(userPwd, dto.getPwd());
 	}
 
 	@Override
@@ -115,19 +135,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int checkFailureCount(String email) {
+	public int checkFailureCount(String userEmail) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void updateFailureCount(String email) throws Exception {
+	public void updateFailureCount(String userEmail) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateFailureCountReset(String email) throws Exception {
+	public void updateFailureCountReset(String userEmail) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

@@ -7,7 +7,7 @@
 	<insert id="insertMember" parameterType="com.sp.app.member.Member">
 		INSERT INTO member(memberNo, email, name, nickName, pwd, birth, gender, joinDate, 
 			enabled, memberShip) 
-		VALUES(#{memberNo}, #{userEmail}, #{userName}, #{userNickName}, #{userPwd}, #{birth}, #{gender},
+		VALUES(#{memberNo}, #{email}, #{name}, #{nickName}, #{pwd}, #{birth}, #{gender},
 			SYSDATE, 1, 1)
 	</insert>
 	
@@ -27,22 +27,28 @@
 		SELECT memberNo, email, name, nickName, pwd, TO_CHAR(birth, 'YYYY-MM-DD') birth, 
 			gender, modifyDate, recentDate, profile
 		FROM member
-		WHERE email = #{userEmail} AND enabled != 0
+		WHERE email = #{email} AND enabled != 0
 	</select>
+	
+	<!-- 로그인 성공 시 최근 방문일 날짜 업데이트 -->
+	<update id="updateLastLogin" parameterType="String">
+		UPDATE member SET recentDate = SYSDATE, wrongCnt = 0
+		WHERE email=#{email}
+	</update>
 	
 	<select id="readMember" parameterType="String" resultType="com.sp.app.member.Member">
+		SELECT m.memberNo, email, name, nickName, pwd, TO_CHAR(birth, 'YYYY-MM-DD') birth, 
+			gender, modifyDate, recentDate, profile, authority, enabled, memberShip
+		FROM member m
+		JOIN Authority a ON m.memberNo = a.memberNo
+		WHERE email = #{email}
+	</select>
+	
+	<select id="readNickNameMember" parameterType="String" resultType="com.sp.app.member.Member">
 		SELECT memberNo, email, name, nickName, pwd, TO_CHAR(birth, 'YYYY-MM-DD') birth, 
 			gender, modifyDate, recentDate, profile
 		FROM member
-		WHERE email = #{userEmail}
+		WHERE nickName = #{nickName}
 	</select>
-	
-	<select id="readMemberNickName" parameterType="String" resultType="com.sp.app.member.Member">
-		SELECT memberNo, email, name, nickName, pwd, TO_CHAR(birth, 'YYYY-MM-DD') birth, 
-			gender, modifyDate, recentDate, profile
-		FROM member
-		WHERE nickName = #{userNickName}
-	</select>
-	
 
 </mapper>

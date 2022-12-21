@@ -4,33 +4,47 @@ package com.sp.app.member;
 public class SessionInfo {
 	private long memberNo;
 	private int memberShip;
-	private String userEmail;
-	private String userNickName;
-
+	private String email;
+	private String name;
+	private String nickName;
 	
+	private String authority;
+
 	public long getMemberNo() {
 		return memberNo;
 	}
 	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
-	public String getUserEmail() {
-		return userEmail;
+	public String getEmail() {
+		return email;
 	}
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public String getUserNickName() {
-		return userNickName;
+	public String getNickName() {
+		return nickName;
 	}
-	public void setUserNickName(String userNickName) {
-		this.userNickName = userNickName;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	public int getMemberShip() {
 		return memberShip;
 	}
 	public void setMemberShip(int memberShip) {
 		this.memberShip = memberShip;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAuthority() {
+		return authority;
+	}
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 	
 }

@@ -1,5 +1,5 @@
 package com.sp.app.mypage.bmember;
 
-public class bmember {
+public class Bmember {
 
 }

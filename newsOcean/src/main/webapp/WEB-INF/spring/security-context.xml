@@ -30,7 +30,8 @@
 		<intercept-url pattern="/index.jsp" access="permitAll"/>
 		<intercept-url pattern="/member/login" access="permitAll"/>
 		<intercept-url pattern="/member/member" access="permitAll"/>
-		<intercept-url pattern="/member/userIdCheck" access="permitAll"/>
+		<intercept-url pattern="/member/emailCheck" access="permitAll"/>
+		<intercept-url pattern="/member/nickNameCheck" access="permitAll"/>
 		<intercept-url pattern="/member/complete" access="permitAll"/>
 		<intercept-url pattern="/member/pwdFind" access="permitAll"/>
 		<intercept-url pattern="/member/expired" access="permitAll"/>
@@ -39,10 +40,11 @@
 		<intercept-url pattern="/uploads/photo/**" access="permitAll"/>
 		
 		<!-- 관리자 페이지 -->
-		<intercept-url pattern="/admin" access="hasAnyRole('ROLE_ADMIN', 'ROLE_EMP')"/>
+		<intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 		
 		<!-- 모든 페이지 -->
-		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_EMP', 'ROLE_USER')"/>
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 		
 		<!-- 로그인 폼 -->
 		<form-login login-page="/member/login"

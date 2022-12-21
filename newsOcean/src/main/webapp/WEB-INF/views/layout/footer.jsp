@@ -85,7 +85,16 @@ footer {
           <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">궁금하신 부분은 한 번에 해결하세요.</a></li>
         </ul>
       </div>
+      
+      <div class="col-6 col-md-3 mb-3">
+        <h5>Advertising</h5>
+        <ul class="nav flex-column mt-3">
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">제휴 및 광고문의하기</a></li>
+        </ul>
+      </div>
      </div>
+     
+     
 
     <div class="d-flex flex-column flex-sm-row py-4 border-top mt-4">
       <div class="service__info">사업자정보 | 개인정보처리방침 | 이용약관 | 저작권 정책 | 청소년보호정책 ⓒ NEWSOCEAN ALL RIGHTS RESERVED </div>

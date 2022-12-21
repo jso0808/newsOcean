@@ -2,12 +2,12 @@ package com.sp.app.member;
 
 public class Member {
 	private long memberNo;
-	private String userEmail;
+	private String email;
 	private String email1;
 	private String email2;
-	private String userPwd;
-	private String userName;
-	private String userNickName;
+	private String pwd;
+	private String name;
+	private String nickName;
 	private String birth;
 	private String gender;
 	private String joinDate;
@@ -26,29 +26,29 @@ public class Member {
 	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
-	public String getUserEmail() {
-		return userEmail;
+	public String getEmail() {
+		return email;
 	}
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setEmail(String userEmail) {
+		this.email = userEmail;
 	}
-	public String getUserPwd() {
-		return userPwd;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setUserPwd(String userPwd) {
-		this.userPwd = userPwd;
+	public void setPwd(String userPwd) {
+		this.pwd = userPwd;
 	}
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String userName) {
+		this.name = userName;
 	}
-	public String getUserNickName() {
-		return userNickName;
+	public String getNickName() {
+		return nickName;
 	}
-	public void setUserNickName(String userNickName) {
-		this.userNickName = userNickName;
+	public void setNickName(String userNickName) {
+		this.nickName = userNickName;
 	}
 	public String getBirth() {
 		return birth;

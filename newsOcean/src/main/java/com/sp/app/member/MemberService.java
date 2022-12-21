@@ -3,7 +3,6 @@ package com.sp.app.member;
 import java.util.Map;
 
 public interface MemberService {
-	public Member loginMember(String email);
 	
 	public void insertMember(Member dto) throws Exception;
 	
@@ -11,6 +10,7 @@ public interface MemberService {
 	public void updateMember(Member dto) throws Exception;
 	
 	public Member readMember(String email);
+	public Member readNickNameMember(String nickName);
 	
 	public void deleteMember(Map<String, Object> map) throws Exception;
 	
