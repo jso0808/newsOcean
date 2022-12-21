@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style type="text/css">
+.container {
+	display: flex;
+}
 .body-container {
 	max-width: 800px;
 }
@@ -38,10 +41,10 @@ function sendLogin() {
             <div class="col-md-6 offset-md-3">
                 <div class="border mt-5 p-4">
                     <form name="loginForm" action="" method="post" class="row g-3">
-                        <h3 class="text-center"><i class="bi bi-lock"></i> 회원 로그인</h3>
+                        <h3 class="text-center"><i class="bi bi-lock"></i> 오셔너 로그인</h3>
                         <div class="col-12">
-                            <label class="mb-1">아이디</label>
-                            <input type="text" name="userId" class="form-control" placeholder="아이디">
+                            <label class="mb-1">이메일</label>
+                            <input type="text" name="userId" class="form-control" placeholder="user@naver.com">
                         </div>
                         <div class="col-12">
                             <label class="mb-1">패스워드</label>
@@ -51,7 +54,7 @@ function sendLogin() {
                         <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe"> 아이디 저장</label>
+                                <label class="form-check-label" for="rememberMe">이메일 저장</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -61,7 +64,7 @@ function sendLogin() {
                     <hr class="mt-4">
                     <div class="col-12">
                         <p class="text-center mb-0">
-                        	<a href="#" class="text-decoration-none me-2">아이디 찾기</a>
+                        	<a href="#" class="text-decoration-none me-2">이메일 찾기</a>
                         	<a href="${pageContext.request.contextPath}/member/pwdFind" class="text-decoration-none me-2">패스워드 찾기</a>
                         	<a href="${pageContext.request.contextPath}/member/member" class="text-decoration-none">회원가입</a>
                         </p>

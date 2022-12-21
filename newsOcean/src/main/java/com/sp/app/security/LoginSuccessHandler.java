@@ -37,7 +37,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
 		// 로그인 날짜 변경
 		try {
-			// authentication.getName() : 로그인 아이디
+			// authentication.getName() : 로그인 아이디. (이메일)
 			service.updateLastLogin(authentication.getName());
 		} catch (Exception e) {
 		}
@@ -48,11 +48,12 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		Member member = service.readMember(authentication.getName());
 		
 		SessionInfo info = new SessionInfo();
-		
-		info.setUserEmail(member.getUserEmail());
-		info.setUserNickName(member.getUserNickName());
-		info.setMemberShip(member.getMemberShip());
 		info.setMemberNo(member.getMemberNo());
+		info.setEmail(member.getEmail());
+		info.setName(member.getName());
+		info.setNickName(member.getNickName());
+		info.setMemberShip(member.getMemberShip());
+		info.setAuthority(member.getAuthority());
 		
 		session.setAttribute("member", info);
 		

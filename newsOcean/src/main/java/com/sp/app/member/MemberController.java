@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -57,7 +58,7 @@ public class MemberController {
 		}
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("반가워요 "+dto.getUserNickName() + " 오셔너⛵🌊⛵🌊 ");
+		sb.append("반가워요 "+dto.getNickName() + " 오셔너⛵🌊⛵🌊 ");
 		sb.append("메인화면에서 로그인 해주세요.");
 		
 		// 리다이렉트된 페이지에 데이터 넘기기
@@ -116,14 +117,14 @@ public class MemberController {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
-		Member dto = service.readMember(info.getUserEmail());
+		Member dto = service.readMember(info.getEmail());
 		if(dto == null) {
 			session.invalidate();
 			return "redirect:/;";
 		}
 		
 		// 패스워드 검사
-		boolean bPwd = service.isPasswordCheck(info.getUserEmail(), userPwd);
+		boolean bPwd = service.isPasswordCheck(info.getEmail(), userPwd);
 		
 		if( ! bPwd ) {
 			if (mode.equals("update")) {
@@ -148,7 +149,7 @@ public class MemberController {
 			session.invalidate();
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append(dto.getUserNickName() + "오셔너의 탈퇴 처리가 정상적으로 처리되었습니다. <br>");
+			sb.append(dto.getNickName() + "오셔너의 탈퇴 처리가 정상적으로 처리되었습니다. <br>");
 			
 			reAttr.addFlashAttribute("title", "회원 탈퇴");
 			reAttr.addFlashAttribute("msg", sb.toString());
@@ -163,11 +164,10 @@ public class MemberController {
 		return ".member.member";
 	}
 	
-	// AJAX - JSON : 이메일 중복 체크 
-	@PostMapping(value = "userEmailCheck")
+	// AJAX - JSON : 회원가입 이메일 중복 체크 
+	@RequestMapping(value = "emailCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> emailCheck(@RequestParam String email) throws Exception {
-		
 		String p = "true";
 		Member dto = service.readMember(email);
 		if(dto != null) {
@@ -180,6 +180,20 @@ public class MemberController {
 		return model;
 	}
 	
-	// ninkNameCheck
+	// AJAX - JSON : 회원가입 닉네임 중복 체크 
+	@RequestMapping(value = "nickNameCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> nickNameCheck(@RequestParam String nickName) throws Exception {
+		String p = "true";
+		Member dto = service.readNickNameMember(nickName);
+		if(dto != null) {
+			p = "false";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("passed", p);
+		
+		return model;
+	}
 	
 }
