@@ -52,15 +52,15 @@ $(function(){
 			<img class="logo__size" src="${pageContext.request.contextPath}/resources/images/logo_white.png">
 		</div>
 		<div class="header-title-container">
-			<div class="header--title">관리자 페이지 </div>
+			<div class="header--title" style="color: #fff;">관리자 페이지 </div>
 		</div>
 		<div class="header-right ">
-			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/admin_profile.png');"></span>
-			<span class="roll-user">
-				<label class="roll">관리자</label>
-				<label class="user">
-					<span class="name">${sessionScope.member.name}님, 환영합니다. </span>
-					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/admin_logo.png');"></span>
+			<span class="roll-user ">
+				<label class="roll" style="color: #fff;">관리자</label>
+				<label class="user" style="color: #fff;">
+					<span class="name" style="color: #fff;">${sessionScope.member.name}님, 환영합니다. </span>
+					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #fff;"></i></a>
 				</label>
 			</span>
 		</div>

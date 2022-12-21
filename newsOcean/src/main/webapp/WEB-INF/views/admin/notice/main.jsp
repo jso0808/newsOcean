@@ -15,8 +15,17 @@
 
 </style>
 
-<div class="body-title ">
-	<div><i class="bi bi-clipboard"></i> 공지사항 </div>
+<div class="body-title">
+	<div class="col" style="display: flex; justify-content: space-between;">
+		<div>
+			<button type="button" class="btn btn-light" onclick="insertForm();">글올리기</button>
+		</div>
+		<div class="">
+			<button type="button" class="btn btn-light" onclick="insertForm();">글올리기</button>
+			<button type="button" class="btn btn-light" onclick="reloadBoard();">새로고침</button>
+		</div>
+	</div>
+	
 </div>
 
 <div class="row">

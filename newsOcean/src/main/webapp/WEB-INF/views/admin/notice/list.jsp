@@ -66,9 +66,6 @@
 </div>
 
 <div class="row board-list-footer">
-	<div class="col">
-		<button type="button" class="btn btn-light" onclick="reloadBoard();">새로고침</button>
-	</div>
 	<div class="col-6 text-center">
 		<div class="row">
 			<div class="col-4 p-1">
@@ -86,8 +83,5 @@
 				<button type="button" class="btn btn-light" onclick="searchList()">검색</button>
 			</div>
 		</div>
-	</div>
-	<div class="col text-end">
-		<button type="button" class="btn btn-light" onclick="insertForm();">글올리기</button>
 	</div>
 </div>
