@@ -20,5 +20,80 @@
 		VALUES (comFileNo_seq.NEXTVAL, #{companyNo}, 
 			#{saveFilename}, #{originalFilename}, #{fileSize})
 	</insert>
+	
+	<sql id="where-list">
+		<if test="condition=='all' ">
+			( INSTR(companySubject, #{keyword}) &gt; 0
+				OR DBMS_LOB.INSTR(companyContent, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject' ">
+			INSTR(companySubject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content' ">
+			DBMS_LOB.INSTR(companyContent, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='reg_date' ">
+			( TO_CHAR(companyDate, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(companyDate, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+	
+	<!-- 데이터  dataCount 쿼리 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM company c
+		JOIN member m ON c.memberNo = m.memberNo
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 일반글 리스트 -->
+	<select id="listNotice" parameterType="map" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT c.companyNo, notice, c.memberNo, m.name, companySubject, companyContent, 
+			companyDate, companyHitcount, NVL(fileCount, 0) fileCount
+		FROM company c
+		JOIN member m ON c.memberNo = m.memberNo
+		LEFT OUTER JOIN (
+			SELECT fileNo, companyNo, COUNT(*) fileCount FROM CompanyFile
+			GROUP BY fileNo, companyNo
+		) f ON f.companyNo = c.companyNo
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY c.companyNo DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<!-- 공지 등록 글 리스트 -->
+	<select id="listNoticeTop" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT c.companyNo, notice, c.memberNo, m.name, companySubject, companyContent,
+			TO_CHAR(companyDate, 'YYYY-MM-DD') companyDate, companyHitcount,
+				NVL(fileCount, 0) fileCount 
+		FROM company c
+		JOIN member m ON m.memberNo = c.memberNo
+		LEFT OUTER JOIN (
+			SELECT fileNo, companyNo, COUNT(*) fileCount FROM CompanyFile
+			GROUP BY fileNo, companyNo
+		) f ON f.companyNo = c.companyNo
+		WHERE notice = 1
+		ORDER BY c.companyNo DESC
+	</select>
+	
+	<!-- 파일 리스트 -->
+	<select id="listFile" parameterType="Long" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT fileNo, companyNo, saveFilename, originalFilename, fileSize
+		FROM CompanyFile
+		WHERE companyNo = #{companyNo}
+	</select>
+	
+	
+	
+	
+	
 
 </mapper>

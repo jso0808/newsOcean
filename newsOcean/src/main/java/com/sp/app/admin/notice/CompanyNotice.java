@@ -13,6 +13,16 @@ public class CompanyNotice {
 	private int companyHitcount; //조회수
 	private int notice; //처음 = 0
 	
+	//작성자 이름
+	private String name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 	private long fileNo;
 	private String saveFilename;
 	private String originalFilename;

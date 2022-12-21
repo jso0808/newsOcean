@@ -7,21 +7,25 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-notice.css" type="text/css">
 
 
+<style type="text/css">
+.new__tag {
+	font-family: line_font_b;
+	font-size: 11px;
+}
+
+</style>
+
 <div class="body-title ">
 	<div><i class="bi bi-clipboard"></i> 공지사항 </div>
 </div>
 
 <div class="row">
 	<div class="col-6">
-		<div class=" content-frame-list" style="border: 1px solid #000">
-			리스트
-		</div>
+		<div class="content-frame-list shadow"></div>
 	</div>
 
 	<div class="col-6">
-		<div class="content-frame-second" style="border: 1px solid #000">
-				글보기
-		</div>
+		<div class="content-frame-second shadow"></div>
 	</div>
 </div>
 
@@ -105,7 +109,6 @@ $(function(){
 });
 
 //글 리스트 
-
 function listPage(page) {
 	let url = "${pageContext.request.contextPath}/admin/notice/list";
 	let query = "pageNo="+page;
@@ -121,6 +124,23 @@ function listPage(page) {
 
 }
 
+//새로고침
+function reloadBoard() {
+	const f = document.searchForm;
+	f.condition.value = "all";
+	f.keyword.value = "";
+	
+	listPage(1);
+}
+
+//검색 리스트
+function searchList() {
+	const f = document.searchForm;
+	
+	f.condition.value = $("#condition").val();
+	f.keyword.value = $.trim($("#keyword").val());
+	listPage(1);	
+}
 
 //글쓰기폼
 function insertForm() {

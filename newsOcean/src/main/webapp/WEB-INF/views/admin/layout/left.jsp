@@ -32,10 +32,14 @@ $(function(){
 	$('nav ul>.menu--item__has_sub_menu ul>li>a').each(function() {
 		if($(this).hasClass('active_menu')) {
 			$(this).closest(".menu--item__has_sub_menu").addClass('menu--subitens__opened');
+			$(".header--title").text($(this).text());
 			return false;
 		}
 	});
 });
+
+
+
 </script>
 
 <header class="header clearfix">
@@ -47,12 +51,15 @@ $(function(){
 		<div class="header-left">
 			<img class="logo__size" src="${pageContext.request.contextPath}/resources/images/logo_white.png">
 		</div>
+		<div class="header-title-container">
+			<div class="header--title">관리자 페이지 </div>
+		</div>
 		<div class="header-right ">
 			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/admin_profile.png');"></span>
 			<span class="roll-user">
 				<label class="roll">관리자</label>
 				<label class="user">
-					<span class="name">관리자 님</span>
+					<span class="name">${sessionScope.member.memberNo}</span>
 					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
 				</label>
 			</span>
@@ -71,82 +78,93 @@ $(function(){
 			</a>
 		</li>
 
-		<li class="menu--item">
-	        <a href="${pageContext.request.contextPath}/admin/memberManage/list" class="menu--link" title="회원 관리">
-				<i class="menu--icon  fa-fw fa-solid fa-user-group"></i>
-				<span class="menu--label">회원 관리</span>
-			</a>
-		</li>
-	
 		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="고객센터관리">
-				<i class="menu--icon  fa-fw fa-solid fa-person-circle-question"></i>
-				<span class="menu--label">고객센터관리</span>
+			<label class="menu--link" title="통계관리">
+				<i class="menu--icon  fa-fw fa-solid fa-graduation-cap"></i>
+				<span class="menu--label">통계관리</span>
+			</label>
+			<ul class="sub_menu">
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">사이트 전체 통계</a>
+				</li>
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">회원 활동 통계</a>
+				</li>
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">실시간 검색어</a>
+				</li>
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">통계 자료 다운로드</a>
+				</li>
+			</ul>
+		</li>
+		<li class="menu--item menu--item__has_sub_menu">
+			<label class="menu--link" title="실적관리">
+				<i class="menu--icon  fa-fw fa-solid fa-graduation-cap"></i>
+				<span class="menu--label">KPI/매출관리</span>
 			</label>
 
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">자주하는 질문</a>
+					<a href="#" class="sub_menu--link">KPI 관리</a>
 				</li>
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">매출관리 (광고/구독)</a>
+				</li>
+			</ul>
+		</li>
+
+		<li class="menu--item">
+			<a href="#" class="menu--link" title="제휴/광고관리">
+				<i class="menu--icon  fa-fw fa-regular fa-calendar"></i>
+				<span class="menu--label">제휴/광고관리</span>
+			</a>
+		</li>
+		
+		<li class="menu--item menu--item__has_sub_menu">
+			<label class="menu--link" title="회원관리">
+				<i class="menu--icon  fa-fw fa-solid fa-person-circle-question"></i>
+				<span class="menu--label">회원관리</span>
+			</label>
+
+			<ul class="sub_menu">
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">회원 조회</a>
+				</li>
+				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">신고 회원 관리</a>
+				</li>
+			</ul>
+		</li>
+		
+		<!--  중간 구분줄 -->
+		<li class="">
+			<span class=""></span>
+		</li>
+		
+		<li class="menu--item menu--item__has_sub_menu">
+			<label class="menu--link" title="사내게시판">
+				<i class="menu--icon  fa-fw fa-solid fa-person-circle-question"></i>
+				<span class="menu--label">사내게시판</span>
+			</label>
+
+			<ul class="sub_menu">
 				<li class="sub_menu--item">
 					<a href="${pageContext.request.contextPath}/admin/notice/main" class="sub_menu--link">공지사항</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">1:1문의</a>
+					<a href="#" class="sub_menu--link">실적 게시판</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">쪽지</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">신고</a>
-				</li>
-			</ul>
-		</li>
-
-		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="스터디관리">
-				<i class="menu--icon  fa-fw fa-solid fa-graduation-cap"></i>
-				<span class="menu--label">스터디관리</span>
-			</label>
-
-			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">카테고리 관리</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">강좌 관리</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">질문과 답변</a>
+					<a href="#" class="sub_menu--link">쪽지함</a>
 				</li>
 			</ul>
 		</li>
 
 		<li class="menu--item">
-			<a href="#" class="menu--link" title="일정관리">
-				<i class="menu--icon  fa-fw fa-regular fa-calendar"></i>
-				<span class="menu--label">일정관리</span>
-			</a>
-		</li>
-		
-		<li class="menu--item">
-			<a href="#" class="menu--link" title="지역명소관리">
-				<i class="menu--icon  fa-fw fa-solid fa-location-dot"></i>
-				<span class="menu--label">지역명소관리</span>
-			</a>
-		</li>
-
-		<li class="menu--item">
-			<a href="#" class="menu--link" title="메인화면 설정">
+			<a href="#" class="menu--link" title="관리자 정보 수정">
 				<i class="menu--icon  fa-fw fa-solid fa-gear"></i>
-				<span class="menu--label">메인화면 설정</span>
-			</a>
-		</li>
-
-		<li class="menu--item">
-			<a href="#" class="menu--link" title="GroupWare">
-				<i class="menu--icon  fa-fw fa-solid fa-id-card"></i>
-				<span class="menu--label">GroupWare</span>
+				<span class="menu--label">관리자 정보 수정</span>
 			</a>
 		</li>
 
@@ -160,7 +178,7 @@ $(function(){
 
 	<button id="collapse_menu" class="collapse_menu">
 		<i class="collapse_menu--icon fa fa-fw"></i>
-		<span class="menu--label">NewsOcean 메인</span>
+		<span class="menu--label"> 메뉴바 접기  </span>
 	</button>
 
 </nav>

@@ -56,20 +56,43 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminNotice.dataCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
+	
 
 	@Override
 	public List<CompanyNotice> listNotice(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CompanyNotice> list = null;
+		
+		try {
+			list = dao.selectList("adminNotice.listNotice", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
+	
 	@Override
 	public List<CompanyNotice> listNoticeTop() {
-		// TODO Auto-generated method stub
-		return null;
+		List<CompanyNotice> list = null;
+		
+		try {
+			list = dao.selectList("adminNotice.listNoticeTop");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -104,9 +127,17 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 
 	@Override
 	public List<CompanyNotice> listFile(long companyNo) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CompanyNotice> list = null;
+		
+		try {
+			list = dao.selectList("adminNotice.listFile", companyNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
+	
 
 	@Override
 	public CompanyNotice readFile(long fileNo) {

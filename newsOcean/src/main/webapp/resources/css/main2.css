@@ -74,7 +74,9 @@ body {
 .header-right {
 	padding: 13px 30px;
 	height: 60px;
-	background: #fff
+	background: #fff;
+	display: flex;
+	justify-content: flex-end;
 }
 
 
@@ -112,6 +114,13 @@ body {
 .header-right .user i {
 	 padding-left: 7px;
 	 color: #000;
+}
+
+.header--title {
+	font-size: 23px;
+	margin-top: 15px;
+	margin-left: -610px;
+    
 }
 
 /* body ------------------------ */
