@@ -94,7 +94,7 @@
     	authorities-by-username-query="SELECT email AS username, authority FROM member, authority WHERE email = ?"/>
     
     <!-- bcrypt : 패스워드 암호화에 특화된 password hashing function -->
-    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> 
     
 	<authentication-manager>
 		<authentication-provider user-service-ref="userService">
