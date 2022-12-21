@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Qualifier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -200,6 +199,78 @@ public class CompanyNoticeController {
 		}
 		
 	}
+	
+	
+	// ajax - html
+	@RequestMapping(value = "article")
+	public String article(@RequestParam long companyNo,
+			@RequestParam String pageNo,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword, 
+			HttpServletResponse resp,
+			Model model) throws Exception {
+		
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		
+		service.updateHitCount(companyNo);
+		
+		CompanyNotice dto = service.readNotice(companyNo);
+		if(dto == null) {
+			resp.sendError(410);
+			return "redirect:/admin/notice/main";
+		}
+		
+		dto.setCompanyContent(dto.getCompanyContent().replaceAll("\n", "<br>"));
+		
+		//파일
+		List<CompanyNotice> listFile = service.listFile(companyNo);
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("listFile", listFile);
+		model.addAttribute("pageNo", pageNo);
+		
+		return "admin/notice/article";
+	}
+	
+	//파일 읽어서 다운로드
+	@RequestMapping(value = "download")
+	public void download(@RequestParam long fileNo,
+			HttpServletResponse resp,
+			HttpSession session) throws Exception {
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "admin_notice";
+		
+		boolean b = false;
+		
+		CompanyNotice dto = service.readFile(fileNo);
+		if(dto != null) {
+			String saveFilename = dto.getSaveFilename();
+			String originalFilename = dto.getOriginalFilename();
+			
+			b = fileManager.doFileDownload(saveFilename, originalFilename, pathname, resp);
+		}
+		
+		if( ! b ) {
+			try {
+				resp.setContentType("text/html; charset=utf-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('파일 다운로드가 불가능 합니다 !!!');history.back();</script>");
+			} catch (Exception e) {
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

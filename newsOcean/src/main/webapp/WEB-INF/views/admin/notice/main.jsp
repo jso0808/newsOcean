@@ -195,6 +195,27 @@ function sendOk(mode, page) {
 	ajaxFileFun(url, "post", query, "json", fn);
 }
 
+//글 보기 ! article
+function articleBoard(companyNo, page) {
+	let url = "${pageContext.request.contextPath}/admin/notice/article";
+	let query = "companyNo="+companyNo;
+	let search = $('form[name=searchForm]').serialize();
+	query = query + "&pageNo="+page + "&"+search;
+	let selector = ".content-frame-second";
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+
+
+
+
+
+
+
 
 
 

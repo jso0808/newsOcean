@@ -53,7 +53,12 @@
 </main>
 
 <div id="loadingLayout" style="display:none; position: absolute; left: 0; top:0; width: 100%; height: 100%; z-index: 9000; background: #eee;">
-	<div class="loader"></div>
+	<div class="loader">
+		<span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+	</div>
 </div>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/js/jquery-ui.min.js"></script>

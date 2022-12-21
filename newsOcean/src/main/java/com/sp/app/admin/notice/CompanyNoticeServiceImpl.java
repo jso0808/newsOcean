@@ -97,14 +97,27 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 
 	@Override
 	public void updateHitCount(long companyNo) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.updateData("adminNotice.updateHitCount", companyNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
+	
 	@Override
 	public CompanyNotice readNotice(long companyNo) {
-		// TODO Auto-generated method stub
-		return null;
+		CompanyNotice dto = null;
+		
+		try {
+			dto = dao.selectOne("adminNotice.readNotice", companyNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return dto;
 	}
 
 	@Override
@@ -141,8 +154,15 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 
 	@Override
 	public CompanyNotice readFile(long fileNo) {
-		// TODO Auto-generated method stub
-		return null;
+		CompanyNotice dto = null;
+		
+		try {
+			dto = dao.selectOne("adminNotice.readFile", fileNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
 	}
 
 	@Override

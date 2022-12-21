@@ -91,6 +91,27 @@
 		WHERE companyNo = #{companyNo}
 	</select>
 	
+	<!--  글보기 article -->
+	<select id="readNotice" parameterType="Long" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT companyNo, notice, c.memberNo, m.name, companySubject, companyContent,
+			companyDate, companyHitcount
+		FROM company c
+		JOIN member m ON m.memberNo = c.memberNo
+		WHERE companyNo = #{companyNo}
+	</select>
+	
+	<!-- 조회수 카운트 증가 -->
+	<update id="updateHitCount" parameterType="Long">
+		UPDATE company SET companyHitcount = companyHitcount+1 
+			WHERE companyNo = #{companyNo}
+	</update>
+	
+	<!-- 개별 파일 읽기 -->
+	<select id="readFile" parameterType="Long" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT fileNo, companyNo, saveFilename, originalFilename, fileSize
+		FROM CompanyFile
+		WHERE fileNo = #{fileNo}
+	</select>
 	
 	
 	
