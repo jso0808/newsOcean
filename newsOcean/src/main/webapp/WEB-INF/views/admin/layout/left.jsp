@@ -59,7 +59,7 @@ $(function(){
 			<span class="roll-user">
 				<label class="roll">관리자</label>
 				<label class="user">
-					<span class="name">${sessionScope.member.memberNo}</span>
+					<span class="name">${sessionScope.member.name}님, 환영합니다. </span>
 					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
 				</label>
 			</span>

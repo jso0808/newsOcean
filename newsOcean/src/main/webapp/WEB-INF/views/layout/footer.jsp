@@ -26,30 +26,36 @@ h5 {
 footer {
 	font-family: "line_font_r";
 	background: #eee;
+	align-items: center;
+	text-align: center;
 }
 
 .footer__logo {
-	width: 270px;
+	width: 240px;
 	float: right;
 	justify-content: flex-end;
-	margin-left: 290px;
-	margin-top: -20px;
+	margin-left: 440px;
+	margin-top: -17px;
 	
 }
 
 .btn__size {
-	width: 330px;
+	width: 340px;
+	margin-left: 90px;
 }
 
 .service__info {
-	font-size: 12px;
+	font-size: 11px;
+	color: #6c757d;
+	margin-left: 30px;
+	margin-top: 10px;
 }
 
 
 </style>
 
 <div class="container container_font">
-  <footer class="py-5">
+  <footer class="py-5 ">
     <div class="row">
       <div class="col-6 col-md-3 mb-3">
         <h5 class="font__b"> Notice</h5>
@@ -67,7 +73,7 @@ footer {
         </ul>
       </div>
       
-      <div class="col-md-5 offset-md-1 mb-3">
+      <div class="col-5 offset-md-1 mb-3">
         <form>
           <h5>매주 간편하게 NewsOcean 받아보기 🌊 </h5>
           <p> ✨ 1년 정기 구독시 10% 추가 할인과 에디터 컬럼 제공! </p>
