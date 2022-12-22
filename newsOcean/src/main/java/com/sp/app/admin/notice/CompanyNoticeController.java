@@ -147,6 +147,7 @@ public class CompanyNoticeController {
 			String pathname = root + "uploads" +File.separator + "admin_notice";
 			
 			dto.setMemberNo(info.getMemberNo());
+			dto.setName(info.getName());
 			service.insertNotice(dto, pathname);
 			state = "true";
 			
@@ -262,11 +263,103 @@ public class CompanyNoticeController {
 	}
 	
 	
+	//삭제
+	//글삭제
+	// AJAX-JSON
+	@RequestMapping(value = "delete")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam long companyNo,
+			HttpSession session) throws Exception {
+		
+		String state = "false";
+		
+		try {
+			
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + "uploads" + File.separator + "admin_notice";
+			service.deleteNotice(companyNo, pathname);
+			
+			state = "true";
+
+		} catch (Exception e) {
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+	
+	@RequestMapping(value = "deleteFile", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteFile(@RequestParam long fileNo,
+			HttpSession session) throws Exception {
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "admin_notice";
+		
+		CompanyNotice dto = service.readFile(fileNo);
+		if(dto != null) {
+			fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("field", "fileNo");
+		map.put("num", fileNo);
+		service.deleteFile(map);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", "true");
+		return model;
+	}
 	
 	
 	
+	//수정 AJAX - HTML
+	@RequestMapping(value = "update", method = RequestMethod.GET)
+	public String updateForm(@RequestParam long companyNo,
+			@RequestParam String pageNo,
+			HttpSession session,
+			HttpServletResponse resp,
+			Model model) throws Exception {
+		
+		CompanyNotice dto = service.readNotice(companyNo);
+		
+		List<CompanyNotice> listFile = service.listFile(companyNo);
+		
+		model.addAttribute("mode", "update");
+		model.addAttribute("pageNo", "pageNo");
+		model.addAttribute("dto", dto);
+		model.addAttribute("listFile", listFile);
+		
+		return "admin/notice/write";
+	}
+
 	
-	
+	// AJAX - JSON
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateSubmit(CompanyNotice dto,
+			HttpSession session) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String state = "false";
+		
+		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + "uploads" + File.separator + "admin_notice";
+			
+			dto.setMemberNo(info.getMemberNo());
+			service.updateNotice(dto, pathname);
+			
+			state = "true";
+			
+		} catch (Exception e) {
+		}
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
 	
 	
 	

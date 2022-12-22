@@ -138,8 +138,10 @@ function reloadBoard() {
 	const f = document.searchForm;
 	f.condition.value = "all";
 	f.keyword.value = "";
-	
 	listPage(1);
+	
+	let selector = ".content-frame-second";
+	$(selector).html("<p></p>");
 }
 
 //검색 리스트
@@ -164,11 +166,39 @@ function insertForm() {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
+//글 수정폼
+function updateForm(companyNo, pageNo) {
+	let url = "${pageContext.request.contextPath}/admin/notice/update";
+	let query = "companyNo="+companyNo+"&pageNo="+pageNo;
+	let selector = ".content-frame-second";
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
 
 //등록, 수정완료
-function sendOk(mode, page) {
+function sendOk(mode, pageNo) {
 	const f = document.noticeForm;
 	let str;
+	
+	str = f.companySubject.value;
+	if(!str){
+		alert("공지글 제목을 입력하세요.");
+		f.companySubject.focus();
+		return;
+	}
+	
+	str = f.companyContent.value;
+	if(!str){
+		alert("내용을 입력하세요.");
+		f.companyContent.focus();
+		return;
+	}
 
 	let url ="${pageContext.request.contextPath}/admin/notice/"+mode;
 	let query = new FormData(f); // IE는 10이상에서만 가능
@@ -181,19 +211,20 @@ function sendOk(mode, page) {
             return false;
         }
         
-    	if(! page) {
-    		page = "1";
+    	if(! pageNo) {
+    		pageNo = "1";
     	}
     	
     	if(mode === "write") {
-    		listPage(page);
+    		reloadBoard();
     	} else {
-    		listPage(page);
+    		listPage(pageNo);
     	}
 	};
 	
 	ajaxFileFun(url, "post", query, "json", fn);
 }
+
 
 //글 보기 ! article
 function articleBoard(companyNo, page) {
@@ -206,11 +237,45 @@ function articleBoard(companyNo, page) {
 	const fn = function(data) {
 		$(selector).html(data);
 	};
+	
 	ajaxFun(url, "get", query, "html", fn);
 }
 
+//글 삭제
+function deleteOk(companyNo) {
+	let url = "${pageContext.request.contextPath}/admin/notice/delete";
+	let query = "companyNo="+companyNo;
+	let selector = ".content-frame-second";
+	
+	if( ! confirm("해당 게시글을 삭제하시겠습니까? ")) {
+		return;
+	}
+	
+	const fn = function(data) {
+		reloadBoard();
+		$(selector).html("<p></p>");
+	};
+	
+	ajaxFun(url, "post", query, "json", fn);
+}
 
 
+function deleteFile(fileNo) {
+	let url = "${pageContext.request.contextPath}/admin/notice/deleteFile";
+	
+	$.post(url, {fileNo:fileNo}, function(data){
+		$("#f"+fileNo).remove();
+	}, "json");
+}
+
+//쓰기 취소, 수정 취소
+function sendCancel() {
+	let selector = ".content-frame-second";	
+	listPage(1);
+	
+	$(selector).html("<p></p>");
+	
+}
 
 
 

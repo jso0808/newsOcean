@@ -113,7 +113,23 @@
 		WHERE fileNo = #{fileNo}
 	</select>
 	
+	<!-- 삭제 -->
+	<!-- 글 삭제 -->
+	<delete id="deleteNotice" parameterType="Long">
+		DELETE FROM company WHERE companyNo = #{companyNo}
+	</delete>
 	
+	<!-- 파일 삭제 -->
+	<delete id="deleteFile" parameterType="map">
+		DELETE FROM companyFile WHERE ${field} = #{num}
+	</delete>
+	
+	<!-- update 수정 -->
+	<update id="updateNotice" parameterType="com.sp.app.admin.notice.CompanyNotice">
+		UPDATE company SET companySubject = #{companySubject},
+			companyContent = #{companyContent}, notice = #{notice}
+		WHERE companyNo = #{companyNo}
+	</update>
 	
 	
 
