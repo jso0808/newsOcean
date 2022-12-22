@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cs.qna">
+	<insert id="insertQna" parameterType="com.sp.app.cs.qna.Qna">
+		INSERT INTO QNA(qnaNo, memberNo, qnaSubject, qnaContent, 
+			qnaHit, qnaRegdate)
+		VALUES (QNA_seq.NEXTVAL, #{memberNo}, #{qnaSubject}, #{qnaContent},
+			0, SYSDATE)
+	</insert>
+
+	<!--
+	  * ${} 는 테이블명 이나 컬럼명이 동적일때 테이블명 또는 컬럼명에 사용하고,
+	        값부분은 반드시 #{} 로 사용하며,
+        #{} 는 ? 로 치환되고 쿼리는 PreparedStatement 객체로 실행한다.
+    -->
+	<!--
+       * INSTR() 함수 대신 LIKE 를 사용하는 경우
+          subject LIKE '%' || #{keyword} || '%'
+       * CLOB인 경우 검색(LIKE 사용하지 말것)
+          DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 
+	-->	
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+			   ( INSTR(qnaSubject, #{keyword}) &gt; 0
+		          OR DBMS_LOB.INSTR(qnaContent, #{keyword}) &gt; 0 )
+			</when>
+			<when test="condition == 'qnaRegdate' ">
+			   ( TO_CHAR(qnaRegdate, 'YYYYMMDD') = #{keyword}
+		          OR TO_CHAR(qnaRegdate, 'YYYY-MM-DD') = #{keyword} )
+			</when>
+			<when test="condition == 'qnaContent'">
+			    DBMS_LOB.INSTR(qnaContent, #{keyword}) &gt; 0
+			</when>
+			<otherwise>
+			    INSTR(${condition}, #{keyword}) &gt; 0
+			</otherwise>
+		</choose>
+	</sql>
+
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM qna q
+		JOIN member m ON q.memberNo=m.memberNo
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>   
+	</select>
+
+	<!-- 글리스트 -->
+	<select id="listQna" parameterType="map" resultType="com.sp.app.cs.qna.Qna">
+		SELECT q.qnaNo, q.memberNo, nickName, qnaSubject, 
+			   TO_CHAR(q.qnaRegdate, 'YYYY-MM-DD') qnaRegdate,
+			   qnaHit,
+			   NVL(replyCount, 0) replyCount
+		FROM qna q
+		JOIN member m ON q.memberNo=m.memberNo
+		LEFT OUTER JOIN (
+			SELECT qnaNo, COUNT(*) replyCount FROM QnaReply
+			WHERE qnaAnswer = 0 AND qnaReply=1
+			GROUP BY qnaNo
+		) c ON q.qnaNo = c.qnaNo
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY qnaNo DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+
+	<!-- 글보기 -->
+	<select id="readQna" parameterType="Long" resultType="com.sp.app.cs.qna.Qna">
+		SELECT q.qnaNo, q.memberNo, nickName, qnaSubject, qnaContent,
+			   qnaHit, q.qnaRegdate
+		FROM qna q
+		JOIN member m ON q.memberNo=m.memberNo 
+		WHERE q.qnaNo = #{qnaNo}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Long">
+		UPDATE qna SET qnaHit=qnaHit+1 WHERE qnaNo = #{qnaNo}
+	</update>
+	
+	<!-- AND 가 필요 없는 경우 자동으로 제거 됨 -->
+	<!-- 이전글 -->
+	<select id="preReadQna" parameterType="map" resultType="com.sp.app.cs.qna.Qna">
+		SELECT qnaNo, qnaSubject
+		FROM qna q
+		JOIN member m ON q.memberNo=m.memberNo
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (qnaNo &gt; #{qnaNo})
+		</where>
+		ORDER BY qnaNo ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+
+	<!-- 다음글 -->
+	<select id="nextReadQna" parameterType="map" resultType="com.sp.app.cs.qna.Qna">
+		SELECT qnaNo, qnaSubject
+		FROM qna q
+		JOIN member m ON q.memberNo=m.memberNo
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (qnaNo &lt; #{qnaNo})
+		</where>
+		ORDER BY qnaNo DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+
+	<!-- 수정 -->
+	<update id="updateQna" parameterType="com.sp.app.cs.qna.Qna">
+		UPDATE qna SET qnaSubject=#{qnaSubject}, qnaContent=#{qnaContent}
+		WHERE qnaNo = #{qnaNo}
+	</update>
+      
+	<!-- 삭제 -->
+	<delete id="deleteQna" parameterType="Long">
+		DELETE FROM qna WHERE qnaNo = #{qnaNo}
+	</delete>
+</mapper>
