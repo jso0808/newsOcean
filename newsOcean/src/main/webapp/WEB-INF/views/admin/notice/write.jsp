@@ -23,7 +23,7 @@
 		<tr>
 			<td class="table-light col-sm-2" scope="row">작성자명</td>
 				<td>
-				<p class="form-control-plaintext">${sessionScope.member.memberNo}</p>
+				<p class="form-control-plaintext">${sessionScope.member.name}</p>
 			</td>
 		</tr>
 
@@ -61,9 +61,9 @@
 			<td class="text-center">
 				<button type="button" class="btn btn-dark" onclick="sendOk('${mode}', '${pageNo}');">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 				<button type="reset" class="btn btn-light">다시입력</button>
-				<button type="button" class="btn btn-light" onclick="sendCancel('${pageNo}');">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+				<button type="button" class="btn btn-light" onclick="sendCancel();">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 				<c:if test="${mode=='update'}">
-					<input type="hidden" name="num" value="${dto.companyNo}">
+					<input type="hidden" name="companyNo" value="${dto.companyNo}">
 				</c:if>
 			</td>
 		</tr>

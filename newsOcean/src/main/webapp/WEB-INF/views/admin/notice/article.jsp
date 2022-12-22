@@ -38,7 +38,7 @@
 							<td colspan="2">
 								파&nbsp;&nbsp;일 :
 								<a href="${pageContext.request.contextPath}/admin/notice/download?fileNo=${vo.fileNo}">${vo.originalFilename}</a>
-								(<fmt:formatNumber value="${vo.fileSize/1024}" pattern="0.00"/> kb)
+								(<fmt:formatNumber value="${vo.fileSize/1024}" pattern="0.00"/> KB)
 							</td>
 						</tr>
 					</c:forEach>
@@ -67,7 +67,7 @@
 					<td width="50%">
 						<c:choose>
 							<c:when test="${sessionScope.member.memberNo==dto.memberNo}">
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/update?num=${dto.companyNo}&page=${page}';">수정</button>
+								<button type="button" class="btn btn-light" onclick="updateForm('${dto.companyNo}', '${pageNo}');">수정</button>
 							</c:when>
 							<c:otherwise>
 								<button type="button" class="btn btn-light" disabled="disabled">수정</button>
@@ -76,7 +76,7 @@
 				    	
 						<c:choose>
 				    		<c:when test="${sessionScope.member.memberNo==dto.memberNo}">
-				    			<button type="button" class="btn btn-light" onclick="deleteOk();">삭제</button>
+				    			<button type="button" class="btn btn-light" onclick="deleteOk('${dto.companyNo}');">삭제</button>
 				    		</c:when>
 				    		<c:otherwise>
 				    			<button type="button" class="btn btn-light" disabled="disabled">삭제</button>

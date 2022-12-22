@@ -1,5 +1,6 @@
 package com.sp.app.admin.notice;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -122,13 +123,60 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 
 	@Override
 	public void updateNotice(CompanyNotice dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			dao.updateData("adminNotice.updateNotice", dto);
+			
+			if(! dto.getSelectFile().isEmpty()) {
+				for (MultipartFile mf : dto.getSelectFile()) {
+					String saveFilename = fileManager.doFileUpload(mf, pathname);
+					if(saveFilename == null) {
+						continue;
+					}
+					
+					String originalFilename = mf.getOriginalFilename();
+					long fileSize = mf.getSize();
+					
+					dto.setOriginalFilename(originalFilename);
+					dto.setSaveFilename(saveFilename);
+					dto.setFileSize(fileSize);
+					
+					dao.insertData("adminNotice.insertFile", dto);
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
+	
+	
 
 	@Override
 	public void deleteNotice(long companyNo, String pathname) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			//파일 먼저 지우기
+			List<CompanyNotice> listFile = listFile(companyNo);
+			if(listFile != null) {
+				for(CompanyNotice dto : listFile) {
+					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				}
+			}
+			
+			//파일 테이블 내용 지우기
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("field", "companyNo");
+			map.put("num", companyNo);
+			deleteFile(map);
+			
+			dao.deleteData("adminNotice.deleteNotice", companyNo);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 
@@ -167,7 +215,12 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 
 	@Override
 	public void deleteFile(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			dao.deleteData("adminNotice.deleteFile", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 	

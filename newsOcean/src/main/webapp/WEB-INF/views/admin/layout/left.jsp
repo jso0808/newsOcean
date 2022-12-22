@@ -49,7 +49,9 @@ $(function(){
 	
 	<div class="header-container">
 		<div class="header-left">
-			<img class="logo__size" src="${pageContext.request.contextPath}/resources/images/logo_white.png">
+			<a href="${pageContext.request.contextPath}/admin">
+				<img class="logo__size" src="${pageContext.request.contextPath}/resources/images/logo_white.png">
+			</a>
 		</div>
 		<div class="header-title-container">
 			<div class="header--title" style="color: #fff;">관리자 페이지 </div>
