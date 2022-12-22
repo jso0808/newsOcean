@@ -7,6 +7,9 @@
 .body-container {
 	max-width: 800px;
 }
+.container {
+	display: contents;
+}
 </style>
 
 <div class="container">

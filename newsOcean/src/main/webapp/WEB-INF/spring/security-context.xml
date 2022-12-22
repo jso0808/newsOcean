@@ -91,7 +91,8 @@
     <jdbc-user-service data-source-ref="dataSource"
     	id="userService"
     	users-by-username-query="SELECT email AS username, pwd AS password, enabled FROM member WHERE email = ?"
-    	authorities-by-username-query="SELECT email AS username, authority FROM member, authority WHERE email = ?"/>
+    	authorities-by-username-query="SELECT email AS username, authority FROM member m 
+			JOIN authority a ON a.memberNo = m.memberNo WHERE email = ?"/>
     
     <!-- bcrypt : 패스워드 암호화에 특화된 password hashing function -->
     <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> 
