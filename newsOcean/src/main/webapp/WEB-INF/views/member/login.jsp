@@ -5,10 +5,14 @@
 
 <style type="text/css">
 .container {
-	display: flex;
+	display: inline-block;
 }
 .body-container {
 	max-width: 800px;
+}
+.body-container-login {
+	display: flex;
+    justify-content: flex-end;
 }
 </style>
 
@@ -35,7 +39,7 @@ function sendLogin() {
 </script>
 
 <div class="container">
-	<div class="body-container">	
+	<div class="body-container-login">	
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
