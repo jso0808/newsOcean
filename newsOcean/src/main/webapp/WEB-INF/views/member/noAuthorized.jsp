@@ -22,8 +22,8 @@
                        
 	                <div class="d-grid pt-3">
 						<p class="alert border bg-light text-center lh-base fs-6" >
-							해당 정보를 접근 할 수 있는 권한 이 없습니다.<br>
-							메인화면으로 이동하시기 바랍니다.
+							오셔너🌊 는 접근할 수 없는 권한이에요.<br>
+							서퍼🏄 (관리자) 만 접근 가능합니다.
 						</p>
 	                </div>
                        
