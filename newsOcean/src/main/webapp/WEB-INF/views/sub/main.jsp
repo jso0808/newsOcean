@@ -6,7 +6,7 @@
 
 <style type="text/css">
 .body-container {
-	max-width: 1300px;
+	max-width: 1500px;
 	max-height: 1200px;
 }
 
@@ -24,14 +24,8 @@
 	margin-top: 50px;
 }
 
-.btn-style{
-	background-color: #bbeedd;
-	width: 80%;
-    height: 100px;
-}
-
-.btn:hover{
-	background-color: #ccc;
+.btn, btn:hover{
+	background-color: #4FC4F7;
 }
 
 .div-select-container {
@@ -49,10 +43,13 @@
 }
 
 .div-sub2 {
+	width: 60%;
 }
 
-.div-area1 {
+.div-area {
 	margin-bottom: 50px;
+	display: flex;
+    flex-direction: column;
 }
 
 .div-select-period {
@@ -72,6 +69,14 @@
 	
 }
 
+.form-label {
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+}
+
+.div-area-sub2 {
+	padding-bottom: 30px;
+}
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
@@ -88,7 +93,7 @@
   height: 180px;
   border-radius: 5px;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
-  background-color: #bbeedd;
+  background-color: #4FC4F7;
   padding: 40px 30px;
   position: relative;
 }
@@ -190,6 +195,23 @@
 
 </style>
 
+<script type="text/javascript">
+function paySubmit() {
+	alert('결제 버튼 클릭')
+}
+
+// 선택한 구독권의 종류 가져오기
+$(function() {
+	$(".card").click(function() {
+		s = $(this).attr("id");
+		alert(s)
+		$(this).css({background:"#fff"});
+		$("input[name=selectSub]").attr('value',s);
+	});
+});
+
+</script>
+
 
 <div class="main-container">
 	<div class="body-container">	
@@ -204,11 +226,13 @@
 					<!-- 구독권 선택  영역-->
 					<div class="col row row-cols-2 div-area1">
 						<div class="col div-sub1">
-							구독권 선택
+							<div>구독권 선택</div>
+							<div id="selectSub"></div>
+							<input type="hidden" name="selectSub" value="">
 						</div>
 						<div class="col div-sub2">
 							<div class="col div-select-container">
-								<div class="card btn">
+								<div class="card btn" id="monthSub">
 									<div class="main">
 										<div class="co-img">
 											<img class="img-circle" src="${pageContext.request.contextPath}/resources/images/logo_circle_gray.png"
@@ -217,9 +241,9 @@
 										<div class="vertical"></div>
 										<div class="content-card ">
 											<h2>월 구독권</h2>
-												<h1>
-													1개월<span>3,000원</span>
-												</h1>
+											<h1>
+												1개월<span>3,000원</span>
+											</h1>
 										</div>
 									</div>
 								</div>
@@ -227,7 +251,7 @@
 							
 							<div class="col div-select-container">
 								<div class="col">
-									<div class="card btn">
+									<div class="card btn" id="yearSub">
 										<div class="main">
 											<div class="co-img">
 												<img class="img-circle" src="${pageContext.request.contextPath}/resources/images/logo_circle.png"
@@ -255,29 +279,59 @@
 						<div class="col div-sub2">
 							<div class="col row">
 								<label for="exampleFormControlInput1" class="form-label">구독 시작일</label>
-								<input class="form-control form-control-lg" type="text" class="orm-control" readonly="readonly" value="2022.12.23">
+								<input class="form-control form-control-lg" type="text" name="dateSubStart" id="dateSubStart"
+									 class="orm-control" readonly="readonly" value="2022.12.23">
 							</div>
 							
 							<div class="col row">
 								<label for="exampleFormControlInput1" class="form-label">구독 종료일</label>
-								<input class="form-control form-control-lg" type="text" readonly="readonly" value="2023.01.22">
+								<input class="form-control form-control-lg" type="text" name="dateSubEnd" id="dateSubEnd"
+									 readonly="readonly" value="2023.01.22">
 							</div>
 							
 							<div class="col row">
 								<label for="exampleFormControlInput1" class="form-label">첫 메일 발송일</label>
-								<input class="form-control form-control-lg" type="text" readonly="readonly" value="2022.12.26">
+								<input class="form-control form-control-lg" type="text" name="dateFirstMail" id="dateFirstMail"
+									readonly="readonly" value="2022.12.26">
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- 결제금액 영역 -->
-				<div class="col">
-					<span>영역2</span>
-					<table>
+				<div class="col div-area">
+					<div class="col div-sub2 div-area-sub2">
+						<div class="col row">
+							<label for="exampleFormControlInput1" class="form-label">상품 금액</label> 
+							<input class="form-control form-control-lg" type="text" name="price" id="price"
+								class="orm-control" readonly="readonly" value="24,000원">
+						</div>
+
+						<div class="col row">
+							<label for="exampleFormControlInput1" class="form-label">최종 결제 금액</label> 
+							<input class="form-control form-control-lg" type="text" name="totalPrice" id="totalPrice"
+								readonly="readonly" value="24,000원">
+						</div>
+
+						<div class="col row">
+							<label class="col-sm-2 col-form-label" for="agree">약관 동의</label>
+							<div class="col-sm-8" style="padding-top: 5px;">
+								<input type="checkbox" id="agree" name="agree"
+									class="form-check-input"
+									
+									style="margin-left: 0;"
+									onchange="form.sendButton.disabled = !checked">
+								<label class="form-check-label">
+									<a href="#" class="text-decoration-none">결제 규정</a>에 동의합니다.
+								</label>
+							</div>
+						</div>
+						<div>
+							 <button type="button" name="btnPay" class="btn btn-primary" onclick="paySubmit();"> 결제하기 <i class="bi bi-check2"></i></button>
+			            
+						</div>
 						
-					
-					</table>
+					</div>
 				</div>
 			</div>
 		</div>
