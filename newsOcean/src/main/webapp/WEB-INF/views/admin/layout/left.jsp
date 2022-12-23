@@ -48,14 +48,15 @@ $(function(){
 	</button>
 	
 	<div class="header-container">
-		<div class="header-left">
-			<a href="${pageContext.request.contextPath}/admin">
-				<img class="logo__size" src="${pageContext.request.contextPath}/resources/images/logo_white.png">
-			</a>
+		<div class="header-container2">
+			<span class="header-left">
+					<a href="${pageContext.request.contextPath}/admin">
+						<img class="logo__size" src="${pageContext.request.contextPath}/resources/images/logo_white.png">
+					</a>
+			</span>
+			<a class="header--title" style="color: #fff; ">관리자 페이지 </a>
 		</div>
-		<div class="header-title-container">
-			<div class="header--title" style="color: #fff;">관리자 페이지 </div>
-		</div>
+		
 		<div class="header-right ">
 			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/admin_logo.png');"></span>
 			<span class="roll-user ">
@@ -164,7 +165,7 @@ $(function(){
 		</li>
 
 		<li class="menu--item">
-			<a href="#" class="menu--link" title="관리자 정보 수정">
+			<a href="${pageContext.request.contextPath}/admin/mypage/main" class="menu--link" title="관리자 정보 수정">
 				<i class="menu--icon  fa-fw fa-solid fa-gear"></i>
 				<span class="menu--label">관리자 정보 수정</span>
 			</a>
@@ -180,7 +181,7 @@ $(function(){
 
 	<button id="collapse_menu" class="collapse_menu">
 		<i class="collapse_menu--icon fa fa-fw"></i>
-		<span class="menu--label"> 메뉴바 접기  </span>
+		<span class="menu--label"> close menu  </span>
 	</button>
 
 </nav>

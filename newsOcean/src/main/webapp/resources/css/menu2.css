@@ -24,7 +24,7 @@
   border: 0;
   text-align: center;
   cursor: pointer;
-  background: #393939ff; }
+  background: #004b81; }
 
 .toggle_menu i {
   display: block;
@@ -37,7 +37,7 @@
   top: 50px;
   bottom: 0px;
   width: 250px;
-  background: #393939ff; }
+  background: #fff; }
 
 .vertical_nav__closed {
   left: -200px !important; }
@@ -98,7 +98,7 @@
   overflow: hidden;
   font-size: 0.875rem;
   text-decoration: none;
-  color: #fff;
+  color: #595959;
   font-weight: 400;
   white-space: nowrap;
   cursor: pointer; 
@@ -107,7 +107,9 @@
 .menu--link:hover, .menu--link:hover .menu--label {
   color: #fff;
   background: #004B81; 
-  font-family: "line_font_b";}
+  font-family: "line_font_b";
+  border-radius: 7px;
+  }
 
 .menu--icon {
   display: block;
@@ -150,8 +152,11 @@
 .active_menu {
   background: #004B81;
   color: #fff;
-  font-family: "line_font_b"
-  font-weight: 500; }
+  font-family: "line_font_b";
+  font-weight: 500; 
+  border-radius: 7px;
+  
+  }
 
 .collapse_menu {
   display: none; }
@@ -211,7 +216,7 @@
     line-height: 40px;
     padding: 0;
     border: 0;
-    background: #393939ff;
+    background: #fff;
     box-shadow: rgba(0, 0, 0.6, 0.2) 0 -3px 8px 0px;
     color: #6e6e6e;
     font-size: 0.875rem;

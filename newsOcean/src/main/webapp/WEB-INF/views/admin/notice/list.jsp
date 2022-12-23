@@ -64,24 +64,3 @@
 <div class="page-navigation">
 	${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 </div>
-
-<div class="row board-list-footer">
-	<div class="col-6 text-center">
-		<div class="row">
-			<div class="col-4 p-1">
-				<select name="condition" id="condition" class="form-select">
-					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-					<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
-					<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-					<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-				</select>
-			</div>
-			<div class="col-auto p-1">
-				<input type="text" name="keyword" id="keyword" value="${keyword}" class="form-control">
-			</div>
-			<div class="col-auto p-1">
-				<button type="button" class="btn btn-light" onclick="searchList()">검색</button>
-			</div>
-		</div>
-	</div>
-</div>

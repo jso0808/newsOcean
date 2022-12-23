@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+.mypage-info {
+	height: inherit;
+	
+	
+}
+
+.body-container {
+	background: #fff;
+	width: 340px;
+	height: 100%;
+	border-radius: 10px;
+	margin-left: 13px;
+}
+
+.body-container_list1 {
+	background: #fff;
+	width: 680px;
+	height: 100%;
+	border-radius: 10px;
+	margin-left: 13px;
+	margin-top: 15px;
+}
+
+.body-container_list2 {
+	background: #fff;
+	width: 680px;
+	height: 100%;
+	border-radius: 10px;
+	margin-left: 13px;
+	margin-top: 15px;
+	
+}
+
+.body-container2 {
+	background: #fff;
+	width: 1000px;
+	height: 120%;
+	border-radius: 10px;
+	margin-left: 30px;
+	padding-bottom: 20px;
+	
+}
+
+.div--row {
+	display: flex;
+}
+
+
+
+/*마이페이지 - info*/
+.table-mypage-info {
+	background: #fff;
+	width: 600px;
+	height: 100%;
+	border-radius: 20px;
+	display: flex;
+	
+}
+
+.profile__size {
+	width: 200px;
+	margin-left: 0px;
+	
+}
+
+
+/* table */
+.table-mypage { width: 100%; border-spacing: 0; height:100%; border-collapse: collapse; }
+.table-mypage th, .table-mypage td { padding-top: 10px; padding-bottom: 10px; }
+
+.mt__size {
+	margin-top: 50px;
+	
+}
+
+
+/*버튼*/
+.btn-mypage2 {
+	width: 85%;
+	height: 35px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 6px;
+	border: none;
+	margin-top: -12px;
+	margin-bottom: 20px;
+}
+
+.btn-mypage {
+	width: 85%;
+	height: 35px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 6px;
+	border: none;
+}
+
+.btn-mypage:hover , .btn-mypage2:hover {
+	opacity: 80%;
+}
+
+.reload_btn {
+	height: 35px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 6px;
+	width: 100px;
+	border: none;
+	background: #fff;
+	
+}
+
+
+.title-area {
+	width: 340px;
+	height: 46px;
+	background: #004b81;
+	margin-left: -12px;
+	margin-top: -10px;
+	border-radius: 10px;
+}
+
+.title-area-text {
+	color: #fff;
+	font-size: 15px;
+	padding-top: 13px;
+	padding-left: 20px;
+	font-family: line_font_b;
+	
+}
+
+.title-area-large {
+	width: 102.5%;
+	height: 46px;
+	background: #004b81;
+	margin-left: -12px;
+	margin-top: -9px;
+	border-radius: 10px;
+	
+}
+
+/*    list 부분 디자인               */
+.email__design {
+	color: #0080ff;
+	font-family: line_font_b;
+	font-size: 16px;
+	
+}
+
+

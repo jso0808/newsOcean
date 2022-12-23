@@ -41,6 +41,7 @@ body {
     text-align: center;
     margin-top: 10px;
     float: none;
+    overflow: visible;
   }
 
   .wrapper {
@@ -64,6 +65,12 @@ body {
 	display: flex;
 	justify-content: space-between;
 }
+
+.header-container2 {
+	display: flex;
+}
+
+
 .header-left {
 	padding: 16px 15px;
 	width: 250px;
@@ -122,12 +129,12 @@ body {
 
 .header--title {
 	font-size: 23px;
-	margin-top: 15px;
-	margin-left: -560px;
-}
-
-.header-title-container {
-	display: flex;
+	float:left;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 14px;
+	margin-left: 27px;
 }
 
 

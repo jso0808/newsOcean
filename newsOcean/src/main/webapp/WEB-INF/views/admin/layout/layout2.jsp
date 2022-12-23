@@ -45,7 +45,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/menu2.js"></script>
 </head>
 
-<body>
+<body style="background: #EBECF0;">
 
 <tiles:insertAttribute name="left"/>
 <main class="wrapper">

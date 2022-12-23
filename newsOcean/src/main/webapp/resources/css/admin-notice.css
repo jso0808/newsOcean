@@ -1,2 +1,53 @@
 @charset "UTF-8";
 
+.reload_btn {
+	height: 35px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 6px;
+	width: 100px;
+	border: none;
+	background: #fff;
+	
+}
+
+.upload_btn {
+	height: 35px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 6px;
+	width: 100px;
+	border: none;
+	background: #0080ff;
+	color: #fff;
+	
+}
+
+.new__tag {
+	font-family: line_font_b;
+	font-size: 11px;
+}
+
+
+.search--design1 {
+	width: 150px;
+	font-size: 11px;
+	
+}
+
+.search--design2 {
+	width: 400px;
+	font-size: 12px;
+}
+
+.search--design3 {
+	width: 100px;
+	text-align: center;
+	vertical-align: middle;
+	background: #004B81;
+	height: 35px;
+	border-radius: 6px;
+	color: #eee;
+	border: none;
+	font-weight: 600;
+}

@@ -7,22 +7,27 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-notice.css" type="text/css">
 
 
-<style type="text/css">
-.new__tag {
-	font-family: line_font_b;
-	font-size: 11px;
-}
-
-</style>
-
 <div class="body-title">
 	<div class="col" style="display: flex; justify-content: space-between;">
-		<div>
-			<button type="button" class="btn btn-light" onclick="insertForm();">글올리기</button>
+		<div class="row">
+			<div class="search--design1 p-1">
+				<select name="condition" id="condition" class="form-select">
+					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+					<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
+					<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+					<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+				</select>
+			</div>
+			<div class=" search--design2 p-1">
+				<input type="text" name="keyword" id="keyword" value="${keyword}" placeholder="검색어를 입력하세요" class="form-control">
+			</div>
+			<div class="col p-1">
+				<button type="button" class="search--design3" onclick="searchList()">검색</button>
+			</div>
 		</div>
 		<div class="">
-			<button type="button" class="btn btn-light" onclick="insertForm();">글올리기</button>
-			<button type="button" class="btn btn-light" onclick="reloadBoard();">새로고침</button>
+			<button type="button" class="upload_btn" onclick="insertForm();">글올리기</button>
+			<button type="button" class="reload_btn" onclick="reloadBoard();">새로고침</button>
 		</div>
 	</div>
 	
