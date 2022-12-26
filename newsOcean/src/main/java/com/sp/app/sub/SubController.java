@@ -22,11 +22,14 @@ public class SubController {
 	public String main(Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 오늘 날짜
-		
-		
-
 		return ".sub.main";
+	}
+	
+	@RequestMapping(value = "complete")
+	public String payComplete(Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		return ".sub.complete";
 	}
 
 	
