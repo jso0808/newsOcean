@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminMember">
+
+	<sql id="where-list">
+		<if test="condition=='all' ">
+			
+		</if>
+		<if test="condition=='email' ">
+			INSTR(email, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='name_nickname' ">
+			INSTR(name, #{keyword}) &gt; 0 OR INSTR(nickname, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='birth' ">
+			( TO_CHAR(birth, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(birth, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+
+	<!-- 관리자 계정 : 99 / 일반 유저 : 1 -->
+	<!-- enabled 회원 = 0 -->
+	<select id="listMember" parameterType="map" resultType="com.sp.app.admin.member.Member">
+		SELECT a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership, NVL(subtype, '0') subtype
+		FROM member m
+		JOIN authority a ON a.memberNo = m.memberNo
+		LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+			ORDER BY joindate DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) dataCount
+		FROM member 
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 오늘 가입한 회원 -->
+	<select id="listToday" parameterType="map" resultType="com.sp.app.admin.member.Member">
+		SELECT a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
+		FROM member m
+		JOIN authority a ON a.memberNo = m.memberNo
+		WHERE TO_CHAR(joindate,'YYYY-MM-DD') = SYSDATE
+			ORDER BY joindate DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<!-- 오늘 가입한 회원 수  -->
+	<select id="todayCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) todayCount
+		FROM member 
+		WHERE TO_CHAR(joindate,'YYYY-MM-DD') = SYSDATE
+	</select>
+	
+	
+	<!-- 유료 회원 리스트 -->
+	<select id="listSub" resultType="com.sp.app.admin.member.Member">
+		SELECT subno, subtype, m.memberNo, email, substart, subend, pay, memo, name, nickName, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate ,
+				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership
+			FROM member m
+			JOIN authority a ON a.memberNo = m.memberNo
+	        JOIN subscript s ON a.memberNo = s.memberNo
+	        ORDER BY subtype DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+
+	
+	
+
+</mapper>

@@ -3,8 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
+
 <form name="noticeForm" method="post" enctype="multipart/form-data">
-	<table class="table mt-5 write-form">
+	<table class="table mt-5 write__form">
 		<tr>
 			<td class="table-light col-sm-2" scope="row">제 목</td>
 			<td>
@@ -30,7 +32,8 @@
 		<tr>
 			<td class="table-light col-sm-2" scope="row">내 용</td>
 			<td>
-				<textarea name="companyContent" id="companyContent" class="form-control">${dto.companyContent}</textarea>
+				<div class="editor">${dto.companyContent}</div>
+				<input type="hidden" name="companyContent" id="companyContent">
 			</td>
 		</tr>
 		
@@ -69,3 +72,58 @@
 		</tr>
 	</table>
 </form>
+
+
+
+<script>
+			ClassicEditor
+				.create( document.querySelector( '.editor' ), {
+					fontFamily: {
+			            options: [
+			                'default',
+			                '맑은 고딕, Malgun Gothic, 돋움, sans-serif',
+			                '나눔고딕, NanumGothic, Arial'
+			            ]
+			        },
+			        fontSize: {
+			            options: [
+			                9, 11, 13, 'default', 17, 19, 21
+			            ]
+			        },
+					toolbar: {
+						items: [
+							'heading','|',
+							'fontFamily','fontSize','bold','italic','fontColor','|',
+							'alignment','bulletedList','numberedList','|',
+							'imageUpload','insertTable','sourceEditing','blockQuote','mediaEmbed','|',
+							'undo','redo','|',
+							'link','outdent','indent','|',
+						]
+					},
+					image: {
+			            toolbar: [
+			                'imageStyle:inline',
+			                'imageStyle:side',
+			                '|',
+			                'imageTextAlternative'
+			            ],
+	
+			            // The default value.
+			            styles: [
+			                'full',
+			                'side'
+			            ]
+			        },
+					language: 'ko',
+					ckfinder: {
+				        uploadUrl: '${pageContext.request.contextPath}/image/upload' // 업로드 url (post로 요청 감)
+				    }
+				})
+				.then( editor => {
+					window.editor = editor;
+				})
+				.catch( err => {
+					console.error( err.stack );
+				});
+	</script>
+

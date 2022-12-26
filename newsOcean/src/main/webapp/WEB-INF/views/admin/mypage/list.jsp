@@ -16,7 +16,7 @@
 		<c:forEach var="dto" items="${list}" varStatus="status">
 			<tr>
 				<td>
-				<c:if test="${dto.gender=='W'}">
+				<c:if test="${dto.gender=='F'}">
 					<img class="profile__size " src="${pageContext.request.contextPath}/resources/images/admin_img.png">
 				</c:if>			
 				<c:if test="${dto.gender=='M'}">

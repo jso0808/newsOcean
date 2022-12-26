@@ -167,6 +167,11 @@
 
 </style>
 
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+
 <script type="text/javascript">
 function paySubmit() {
 	alert('결제 버튼 클릭')
@@ -175,28 +180,38 @@ function paySubmit() {
 // 구독 기간 날짜 계산하기
 function selectSubDate(selectSub) {
 	let today = new Date();
-	let resultDate;
-	console.log("오늘 날짜 : "+today);
-	console.log(selectSub)
-	// 종료일 구하기
-	if(selectSub === 'monthSub') {
+	let endDate; 
+	
+	// 구독 시작일을 오늘 날짜로 
+	startDate = new Date(today).toISOString().substring(0, 10);
+	$("input[name=dateSubStart]").attr("value", startDate); 
+	
+	// 구독 종료일 구하기
+	if(selectSub === 'monthSub') { // 1개월 구독권
 		// 1개월 후 날짜 
-		resultDate = new Date(today.setMonth(today.getMonth() + 1)).toISOString().substring(0, 10);
-	} else if(selectSub === 'yearSub') {
+		endDate = new Date(today.setMonth(today.getMonth() + 1)).toISOString().substring(0, 10);
+		$("input[name=dateSubEnd]").attr("value", endDate);
+		$("input[name=price]").attr("value", 3000);
+	} else if(selectSub === 'yearSub') { // 12개월 구독권
 		// 12개월 후 날짜
-		resultDate = new Date(today.setMonth(today.getMonth() + 12)).toISOString().substring(0, 10);
+		endDate = new Date(today.setMonth(today.getMonth() + 12)).toISOString().substring(0, 10);
+		$("input[name=dateSubEnd]").attr("value", endDate);
+		$("input[name=price]").attr("value", 24000);
 	}
-	console.log(resultDate)
 	
 	// 첫 메일 발송일 (오는 화요일 날짜) 구하기
-	let day = today.getDay(); // 화요일 날일 
-	// 오는 화요일 구하기
-	let nextTus = today.getDate() - day + ((day == 0 ? 2 : 9) + 0);
-	console.log("다음 화요일: "+nextTus)
+	let thisDate = new Date();
+	let dayToday = thisDate.getDay(); // 오늘 요일 구하기
+	let firstMailDate; // 첫 메일 발송일 
 	
-	// 첫 메일 발송 날짜 구하기
-	let firstMailDate = new Date(today.setDate(nextTus)).toISOString().substring(0, 10);
-	console.log("메일 발송일: "+firstMailDate)
+	if(dayToday === 2) { // 오늘이 화요일이면
+		firstMailDate = new Date(dayToday.getDate() + 7); // 다음주 화요일
+	} else {
+		let calcDate = thisDate.getDate() - dayToday + ((dayToday == 0 ? 2 : 9) + 0); 
+		firstMailDate = new Date(thisDate.setDate(calcDate)).toISOString().substring(0, 10);
+	}
+	
+	$("input[name=dateFirstMail]").attr("value", firstMailDate);
 }
 
 // 선택한 구독권 데이터 가져오기
@@ -212,12 +227,19 @@ $(function() {
 		$(this).css({background:"#4FC4F7"});
 		// 선택한 구독권 값 저장
 		$("input[name=selectSub]").attr('value',s);
+		
 		// 구독기간 가져오기
 		selectSubDate(s);
+		
 	});
 });
 
+function requestPay() {
+	alert('결제 버튼 클릭');
+}
+
 </script>
+
 
 
 <div class="main-container">
@@ -245,7 +267,7 @@ $(function() {
 												alt="" />
 										</div>
 										<div class="vertical"></div>
-										<div class="content-card ">
+										<div class="content-card">
 											<h2>월 구독권</h2>
 											<h1>
 												1개월<span>3,000원</span>
@@ -292,13 +314,13 @@ $(function() {
 							<div class="col row">
 								<label for="exampleFormControlInput1" class="form-label">구독 종료일</label>
 								<input class="form-control form-control-lg" type="text" name="dateSubEnd" id="dateSubEnd"
-									 readonly="readonly" value="2023.01.22">
+									 readonly="readonly" value="" placeholder="구독권 선택">
 							</div>
 							
 							<div class="col row">
 								<label for="exampleFormControlInput1" class="form-label">첫 메일 발송일</label>
 								<input class="form-control form-control-lg" type="text" name="dateFirstMail" id="dateFirstMail"
-									readonly="readonly" value="2022.12.26">
+									readonly="readonly" value="" placeholder="구독권 선택">
 							</div>
 						</div>
 					</div>
@@ -310,13 +332,13 @@ $(function() {
 						<div class="col row">
 							<label for="exampleFormControlInput1" class="form-label">상품 금액</label> 
 							<input class="form-control form-control-lg" type="text" name="price" id="price"
-								class="orm-control" readonly="readonly" value="24,000원">
+								class="orm-control" readonly="readonly" value="">
 						</div>
 
 						<div class="col row">
 							<label for="exampleFormControlInput1" class="form-label">최종 결제 금액</label> 
 							<input class="form-control form-control-lg" type="text" name="totalPrice" id="totalPrice"
-								readonly="readonly" value="24,000원">
+								readonly="readonly" value="">
 						</div>
 
 						<div class="col row">
@@ -333,8 +355,8 @@ $(function() {
 							</div>
 						</div>
 						<div>
-							<button type="button" name="btnPay" class="btn btn-primary" onclick="paySubmit();"> 결제하기 <i class="bi bi-check2"></i></button>
-			            	<input type="hidden" name="selectSub" value="">
+							<button type="button" name="btnPay" id="btnPay" class="btn btn-primary btnPay"  onclick="requestPay()"> 결제하기 <i class="bi bi-check2"></i></button>
+			            	<input type="hidden" name="selectSub" value=""> 
 			            	<input type="hidden" name="memberNo" value="${sessionScope.member.memberNo}">
 			            	<input type="hidden" name="email" value="${sessionScope.member.email}">
 			            	<input type="hidden" name="authority" value="${sessionScope.member.authority}">

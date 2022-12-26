@@ -37,6 +37,7 @@
   top: 50px;
   bottom: 0px;
   width: 250px;
+  height: 100%;
   background: #fff; }
 
 .vertical_nav__closed {
