@@ -83,7 +83,7 @@ $(function(){
 
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="통계관리">
-				<i class="menu--icon  fa-fw fa-solid fa-graduation-cap"></i>
+				<i class="menu--icon  fa-fw fa-solid fa-chart-line"></i>
 				<span class="menu--label">통계관리</span>
 			</label>
 			<ul class="sub_menu">
@@ -103,7 +103,7 @@ $(function(){
 		</li>
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="실적관리">
-				<i class="menu--icon  fa-fw fa-solid fa-graduation-cap"></i>
+				<i class="menu--icon  fa-fw fa-solid fa-sack-dollar"></i>
 				<span class="menu--label">KPI/매출관리</span>
 			</label>
 
@@ -147,7 +147,7 @@ $(function(){
 		
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="사내게시판">
-				<i class="menu--icon  fa-fw fa-solid fa-person-circle-question"></i>
+				<i class="menu--icon  fa-fw fa-solid fa-chalkboard-user"></i>
 				<span class="menu--label">사내게시판</span>
 			</label>
 

@@ -72,11 +72,11 @@
 .member__design {margin-left: 180px; }
 .au__design {margin-left: 100px; }
 .jo__design {margin-left: 70px; }
-.en__btn {float: right; margin-right: 60px; margin-top: 30px;}
+.en__btn {float: right; margin-right: 46px; margin-top: 30px;}
 .membership__btn {float: right; margin-right: 50px; margin-top: 30px;}
 
-.en__btn__design {width: 60px; height: 30px; border-radius: 10px; border: none; background: #9999FF	; font-family: line_font_b; color: #fff; padding-top: 3px;}
-.no_en__btn__design {width: 60px; height: 30px; border-radius: 10px; border: none; background: #DC143C; font-family: line_font_b; color: #fff; padding-top: 3px;}
+.en__btn__design {width: 80px; height: 30px; border-radius: 10px; border: none; background: #9999FF	; font-family: line_font_b; color: #fff; padding-top: 3px;}
+.no_en__btn__design {width: 80px; height: 30px; border-radius: 10px; border: none; background: #DC143C; font-family: line_font_b; color: #fff; padding-top: 3px;}
 
 .membership__btn__design {width: 130px; height: 30px; border-radius: 10px; border: none; background: #004B81; font-family: line_font_b; color: #fff; padding-top: 3px;}
 .not__membership__btn__design {width: 130px; height: 30px; border-radius: 10px; border: none; background: #CCCCCC; font-family: line_font_b; color: #fff; padding-top: 3px;}
@@ -122,6 +122,10 @@
 .side__by__side {margin-left: 40px;}
 .side__by__left{margin-left: 560px;}
 
+.paging_container {
+	width: 1300px;
+	
+}
 
 </style>
 
@@ -142,7 +146,7 @@
 			<div class="today__cnt__title">신규 유료 회원</div>
 		</div>
 		<div class="col">
-			<div class="today__member__cnt">505</div>
+			<div class="today__member__cnt">${todaySubCount}</div>
 		</div>
 	</div>
 	
@@ -155,6 +159,7 @@
 			<div class="today__member__cnt">${dataCount}</div>
 		</div>
 	</div>
+	
 </div>
 
 <!-- 제목 -->
@@ -182,18 +187,21 @@
 					<img class="profile__loc " src="${pageContext.request.contextPath}/resources/images/member_img2.png">
 				</c:if>	
 		</span>
-		<span class="name__design">${dto.name} </span>
+		<span class="name__design">${dto.name}</span>
 		<span class="member__design">${dto.memberNo}</span>
 		<span class="au__design">${dto.authority}</span>
 		<span class="jo__design">${dto.joindate}</span>
 		<span class="jo__design">${dto.birth}</span>
 		<span class="membership__btn"><button class="${dto.subtype=='1' or dto.subtype=='12' ? 'membership__btn__design' :'not__membership__btn__design' }">${dto.subtype=='1' or dto.subtype=='12' ? 'Subscript!' :'None' }</button></span>
-		<span class="en__btn"><button type="button" onclick="changeEnalbed('${dto.memberNo}')" class="${dto.enabled=='1' ? 'en__btn__design' : 'no_en__btn__design'}">${dto.enabled == '1' ? "활성화" : "비활성화"}</button></span>
+		<span class="en__btn"><button type="button" onclick="changeEnalbed('${dto.memberNo}')" value="${dto.enabled}" data-en${dto.memberNo}='${dto.enabled}' class="${dto.enabled=='1' ? 'en__btn__design' : 'no_en__btn__design'}">${dto.enabled == '1' ? "활성화" : "비활성화"}</button></span>
 	</div>
 </c:forEach>
 
 
-<div class="">
-	${dataCount == 0 ? "등록된 회원이 없습니다." : paging}
+<div class="paging_container">
+	<div class="pt-3">
+		${dataCount == 0 ? "등록된 회원이 없습니다." : paging}
+	</div>
 </div>
+
 

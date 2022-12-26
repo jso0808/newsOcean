@@ -112,6 +112,23 @@
 	
 }
 
+.member_list_btn1 {
+	height: 40px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 30px;
+	width: 163px;
+	border: none;
+	font-size: 14px;
+	background: #fff;
+	margin-right: 5px;
+	font-family: 'line_font_r';
+}
+
+.member_list_btn1:hover {background: #9999FF; color: #fff;}
+.member_list_btn1__click {background: #9999FF; color: #fff;}
+
+
 
 .title-area {
 	width: 340px;

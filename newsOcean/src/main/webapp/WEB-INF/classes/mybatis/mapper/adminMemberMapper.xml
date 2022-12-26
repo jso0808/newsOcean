@@ -36,7 +36,6 @@
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
-	
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0) dataCount
 		FROM member 
@@ -47,13 +46,14 @@
 		</where>
 	</select>
 	
+	
 	<!-- 오늘 가입한 회원 -->
 	<select id="listToday" parameterType="map" resultType="com.sp.app.admin.member.Member">
 		SELECT a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
 			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
 		FROM member m
 		JOIN authority a ON a.memberNo = m.memberNo
-		WHERE TO_CHAR(joindate,'YYYY-MM-DD') = SYSDATE
+		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 			ORDER BY joindate DESC
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
@@ -62,14 +62,14 @@
 	<select id="todayCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0) todayCount
 		FROM member 
-		WHERE TO_CHAR(joindate,'YYYY-MM-DD') = SYSDATE
+		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 	
 	
 	<!-- 유료 회원 리스트 -->
 	<select id="listSub" resultType="com.sp.app.admin.member.Member">
 		SELECT subno, subtype, m.memberNo, email, substart, subend, pay, memo, name, nickName, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate ,
-				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership
+				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled
 			FROM member m
 			JOIN authority a ON a.memberNo = m.memberNo
 	        JOIN subscript s ON a.memberNo = s.memberNo
@@ -77,7 +77,47 @@
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
+	<!-- 유료 회원 수  -->
+	<select id="dataCount_sub" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) dataCount_sub
+		FROM subscript 
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 오늘 유입된 유료회원 수  -->
+	<select id="todaySubCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) todaySubCount
+		FROM subscript 
+		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
 
+
+	<!-- 계정 비활성화 회원 조회 ! -->
+	<select id="listEn" resultType="com.sp.app.admin.member.Member">
+		SELECT subno, subtype, m.memberNo, email, substart, subend, pay, memo, name, nickName, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate ,
+				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled
+			FROM member m
+			JOIN authority a ON a.memberNo = m.memberNo
+	        JOIN subscript s ON a.memberNo = s.memberNo
+	        WHERE enabled = 0
+	        ORDER BY subtype DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<!-- 계정 비활성화 회원 수  -->
+	<select id="dataCount_en" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) dataCount_sub
+		FROM member 
+		WHERE enabled = 0
+	</select>
+	
+	
+	
 	
 	
 
