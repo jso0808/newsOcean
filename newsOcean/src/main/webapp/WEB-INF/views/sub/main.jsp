@@ -24,7 +24,7 @@
 	margin-top: 50px;
 }
 
-.btn, btn:hover{
+.btn-card, btn-card:hover, btn:hover{
 	background-color: #4FC4F7;
 }
 
@@ -93,13 +93,13 @@
   height: 180px;
   border-radius: 5px;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
-  background-color: #4FC4F7;
+  background-color: #fff;
   padding: 40px 30px;
   position: relative;
+  border: 1px solid gray;
 }
 
-.main,
-.copy-button {
+.main {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,6 +114,7 @@
   top: 70px;
   background-color: #fff;
   width: 40px;
+  border-left: 1px solid gray;
 }
 
 .card::before {
@@ -126,6 +127,7 @@
   top: 70px;
   background-color: #fff;
   width: 40px;
+  border-right: 1px solid gray;
 }
 
 .co-img img {
@@ -161,36 +163,6 @@
   color: #696969;
 }
 
-.copy-button {
-  margin: 12px 0 -5px 0;
-  height: 45px;
-  border-radius: 4px;
-  padding: 0 5px;
-  border: 1px solid #e1e1e1;
-}
-
-.copy-button input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  font-size: 15px;
-}
-
-.copy-button button {
-  padding: 5px 20px;
-  background-color: #dc143c;
-  color: #fff;
-  border: 1px solid transparent;
-}
-
-.buy{
- position: absolute;
-  content: "";
-  bottom: 20px;
-  left:20px;
-  background-color: #dc143c;
- }
 
 
 </style>
@@ -200,13 +172,48 @@ function paySubmit() {
 	alert('결제 버튼 클릭')
 }
 
-// 선택한 구독권의 종류 가져오기
+// 구독 기간 날짜 계산하기
+function selectSubDate(selectSub) {
+	let today = new Date();
+	let resultDate;
+	console.log("오늘 날짜 : "+today);
+	console.log(selectSub)
+	// 종료일 구하기
+	if(selectSub === 'monthSub') {
+		// 1개월 후 날짜 
+		resultDate = new Date(today.setMonth(today.getMonth() + 1)).toISOString().substring(0, 10);
+	} else if(selectSub === 'yearSub') {
+		// 12개월 후 날짜
+		resultDate = new Date(today.setMonth(today.getMonth() + 12)).toISOString().substring(0, 10);
+	}
+	console.log(resultDate)
+	
+	// 첫 메일 발송일 (오는 화요일 날짜) 구하기
+	let day = today.getDay(); // 화요일 날일 
+	// 오는 화요일 구하기
+	let nextTus = today.getDate() - day + ((day == 0 ? 2 : 9) + 0);
+	console.log("다음 화요일: "+nextTus)
+	
+	// 첫 메일 발송 날짜 구하기
+	let firstMailDate = new Date(today.setDate(nextTus)).toISOString().substring(0, 10);
+	console.log("메일 발송일: "+firstMailDate)
+}
+
+// 선택한 구독권 데이터 가져오기
 $(function() {
 	$(".card").click(function() {
+		// 선택한 구독권 객체의 아이디를 변수에 저장
 		s = $(this).attr("id");
-		alert(s)
-		$(this).css({background:"#fff"});
+		
+		// 이전에 눌렀던 구독권 색 전부 초기화
+		$(".card").css({background:"#fff"});
+		
+		// 선택한 구독권 색 변경
+		$(this).css({background:"#4FC4F7"});
+		// 선택한 구독권 값 저장
 		$("input[name=selectSub]").attr('value',s);
+		// 구독기간 가져오기
+		selectSubDate(s);
 	});
 });
 
@@ -228,11 +235,10 @@ $(function() {
 						<div class="col div-sub1">
 							<div>구독권 선택</div>
 							<div id="selectSub"></div>
-							<input type="hidden" name="selectSub" value="">
 						</div>
 						<div class="col div-sub2">
 							<div class="col div-select-container">
-								<div class="card btn" id="monthSub">
+								<div class="card btn btn-card" id="monthSub">
 									<div class="main">
 										<div class="co-img">
 											<img class="img-circle" src="${pageContext.request.contextPath}/resources/images/logo_circle_gray.png"
@@ -251,7 +257,7 @@ $(function() {
 							
 							<div class="col div-select-container">
 								<div class="col">
-									<div class="card btn" id="yearSub">
+									<div class="card btn btn-card" id="yearSub">
 										<div class="main">
 											<div class="co-img">
 												<img class="img-circle" src="${pageContext.request.contextPath}/resources/images/logo_circle.png"
@@ -327,8 +333,11 @@ $(function() {
 							</div>
 						</div>
 						<div>
-							 <button type="button" name="btnPay" class="btn btn-primary" onclick="paySubmit();"> 결제하기 <i class="bi bi-check2"></i></button>
-			            
+							<button type="button" name="btnPay" class="btn btn-primary" onclick="paySubmit();"> 결제하기 <i class="bi bi-check2"></i></button>
+			            	<input type="hidden" name="selectSub" value="">
+			            	<input type="hidden" name="memberNo" value="${sessionScope.member.memberNo}">
+			            	<input type="hidden" name="email" value="${sessionScope.member.email}">
+			            	<input type="hidden" name="authority" value="${sessionScope.member.authority}">
 						</div>
 						
 					</div>
