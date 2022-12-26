@@ -3,8 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-notice.css" type="text/css">
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/ckeditor.js"></script>
 
 
 <div class="body-title">
@@ -33,13 +37,18 @@
 	
 </div>
 
+
 <div class="row">
-	<div class="col-6">
-		<div class="content-frame-list shadow"></div>
+	<div class="">
+		<div class="content-frame-second shadow"></div>
 	</div>
 
-	<div class="col-6">
-		<div class="content-frame-second shadow"></div>
+</div>
+
+
+<div class="row">
+	<div class="">
+		<div class="content-frame-list shadow"></div>
 	</div>
 </div>
 
@@ -198,12 +207,14 @@ function sendOk(mode, pageNo) {
 		return;
 	}
 	
-	str = f.companyContent.value;
+	str = window.editor.getData().trim();
 	if(!str){
 		alert("내용을 입력하세요.");
-		f.companyContent.focus();
+		window.editor.focus();
 		return;
 	}
+	
+	f.companyContent.value = str;
 
 	let url ="${pageContext.request.contextPath}/admin/notice/"+mode;
 	let query = new FormData(f); // IE는 10이상에서만 가능
@@ -281,11 +292,6 @@ function sendCancel() {
 	$(selector).html("<p></p>");
 	
 }
-
-
-
-
-
 
 
 

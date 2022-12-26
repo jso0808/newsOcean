@@ -18,6 +18,7 @@ body {
 .wrapper {
 	padding: 30px 30px 15px;
 	transition: all 0.3s ease-out;
+
 }
 
 .clearfix:after {
