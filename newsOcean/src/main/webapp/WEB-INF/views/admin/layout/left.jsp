@@ -132,7 +132,7 @@ $(function(){
 
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">회원 조회</a>
+					<a href="${pageContext.request.contextPath}/admin/member/main" class="sub_menu--link">회원 조회</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">신고 회원 관리</a>
@@ -154,9 +154,6 @@ $(function(){
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
 					<a href="${pageContext.request.contextPath}/admin/notice/main" class="sub_menu--link">공지사항</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">실적 게시판</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">쪽지함</a>
