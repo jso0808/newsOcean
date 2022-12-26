@@ -3,11 +3,15 @@ package com.sp.app.cs.qna;
 public class Qna {
 	private long qnaNo;
 	private long memberNo;
+	private String nickName;
 	private String qnaSubject;
 	private String qnaContent;
 	private String qnaRegdate;
 	private int qnaHit;
 	
+	private int replyCount;
+	
+
 	public long getQnaNo() {
 		return qnaNo;
 	}
@@ -22,6 +26,13 @@ public class Qna {
 	}
 	public String getQnaSubject() {
 		return qnaSubject;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	public void setQnaSubject(String qnaSubject) {
 		this.qnaSubject = qnaSubject;
@@ -43,6 +54,12 @@ public class Qna {
 	}
 	public void setQnaHit(int qnaHit) {
 		this.qnaHit = qnaHit;
+	}
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 	
 }
