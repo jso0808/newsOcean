@@ -7,6 +7,9 @@
 .body-container {
 	max-width: 800px;
 }
+.container {
+	display: contents;
+}
 </style>
 
 <div class="container">
@@ -15,20 +18,22 @@
         <div class="row justify-content-md-center mt-5">
             <div class="col-md-8">
                 <div class="border border-primary mt-5 p-4">
-                       <h4 class="text-center fw-bold">${title}</h4>
-                       <hr class="mt-4">
+                       <h4 class="text-center fw-bold">회원 가입 성공</h4>
                        
-	                <div class="d-grid p-3">
-						<p class="text-center">${message}</p>
+	                <div class="d-grid pt-3">
+						<p class="alert border bg-light text-center lh-base fs-6" >
+							반갑습니다 오셔너🌊 <br>
+							메인 화면에서 로그인 해주세요.
+							
+						</p>
 	                </div>
                        
                        <div class="d-grid">
-                           <button type="button" class="btn btn-lg btn-primary" onclick="location.href='${pageContext.request.contextPath}/';">메인화면 <i class="bi bi-check2"></i> </button>
+                           <button type="button" class="btn btn-lg btn-primary" onclick="location.href='${pageContext.request.contextPath}/';">메인화면으로 이동 <i class="bi bi-arrow-counterclockwise"></i> </button>
                        </div>
                 </div>
-
             </div>
         </div>
-	        
+
 	</div>
 </div>

@@ -43,23 +43,30 @@ function memberOk() {
 		return;
 	}
 	
-	str = f.userPwd.value;
+	str = f.pwd.value;
 	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
 		alert("패스워드를 다시 입력 하세요. ");
-		f.userPwd.focus();
+		f.pwd.focus();
 		return;
 	}
 
-	if( str !== f.userPwd2.value ) {
+	if( str !== f.pwd2.value ) {
         alert("패스워드가 일치하지 않습니다. ");
-        f.userPwd.focus();
+        f.pwd.focus();
         return;
 	}
 	
-    str = f.userName.value;
+    str = f.name.value;
     if( !/^[가-힣]{2,5}$/.test(str) ) {
         alert("이름을 다시 입력하세요. ");
-        f.userName.focus();
+        f.name.focus();
+        return;
+    }
+    
+    str = f.nickName.value;
+    if( !str ) {
+        alert("닉네임을 입력하세요. ");
+        f.nickName.focus();
         return;
     }
 
@@ -141,16 +148,16 @@ function emailCheck() {
 
 function nickNameCheck() {
 	// 닉네임 중복 검사
-	let userNickName = $("#userNickName").val();
+	let nickName = $("#nickName").val();
 	
-	if(!userNickName) { 
+	if(!nickName) { 
 		let str = "닉네임을 입력해주세요";
-		$("#userNickName").focus();
+		$("#nickName").focus();
 		return;
 	}
 	
 	let url = "${pageContext.request.contextPath}/member/nickNameCheck";
-	let query = "nickName=" + userNickName;
+	let query = "nickName=" + nickName;
 	
 	$.ajax({
 		type:"POST"
@@ -163,13 +170,13 @@ function nickNameCheck() {
 			if(passed === "true") {
 				console.log('passed = true')
 				
-				let str = "<span style='color:blue; font-weight: bold;'>" + userNickName + "</span> 사용 가능합니다.";
+				let str = "<span style='color:blue; font-weight: bold;'>" + nickName + "</span> 사용 가능합니다.";
 				$(".nickName-box").find(".help-block").html(str);
 				$(".nickName-box").find(".help-block").css("color","blue");
 				$("#nickNameValid").val("true");
 			} else {
 				console.log('passed = false')
-				let str = "<span style='color:red; font-weight: bold;'>" + userNickName + "</span> 사용할 수 없는 이메일입니다.";
+				let str = "<span style='color:red; font-weight: bold;'>" + nickName + "</span> 사용할 수 없는 이메일입니다.";
 				$(".nickName-box").find(".help-block").css("color","red");
 				$(".nickName-box").find(".help-block").html(str);
 				$("#nickNameValid").val("");
@@ -205,7 +212,7 @@ function nickNameCheck() {
 								<option value="">선 택</option>
 								<option value="naver.com" ${dto.email2=="naver.com" ? "selected='selected'" : ""}>naver</option>
 								<option value="gmail.com" ${dto.email2=="gmail.com" ? "selected='selected'" : ""}>gmail</option>
-								<option value="daummail.net" ${dto.email2=="daum.net" ? "selected='selected'" : ""}>daum</option>
+								<option value="daum.net" ${dto.email2=="daum.net" ? "selected='selected'" : ""}>daum</option>
 								<option value="hotmail.com" ${dto.email2=="hotmail.com" ? "selected='selected'" : ""}>hotmail</option>
 								<option value="direct">직접입력</option>
 							</select>
@@ -235,7 +242,7 @@ function nickNameCheck() {
 				<div class="row mb-3">
 					<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
 					<div class="col-sm-10">
-			            <input type="password" name="userPwd" id="userPwd" class="form-control" autocomplete="off" placeholder="패스워드">
+			            <input type="password" name="pwd" id="pwd" class="form-control" autocomplete="off" placeholder="패스워드">
 			            <small class="form-control-plaintext">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
 			        </div>
 			    </div>
@@ -243,7 +250,7 @@ function nickNameCheck() {
 			    <div class="row mb-3">
 			        <label class="col-sm-2 col-form-label" for="userPwd2">패스워드 확인</label>
 			        <div class="col-sm-10">
-			            <input type="password" name="userPwd2" id="userPwd2" class="form-control" autocomplete="off" placeholder="패스워드 확인">
+			            <input type="password" name="pwd2" id="pwd2" class="form-control" autocomplete="off" placeholder="패스워드 확인">
 			            <small class="form-control-plaintext">패스워드를 한 번 더 입력해주세요.</small>
 			        </div>
 			    </div>
@@ -251,7 +258,7 @@ function nickNameCheck() {
 			    <div class="row mb-3">
 			        <label class="col-sm-2 col-form-label" for="userName">이름</label>
 			        <div class="col-sm-10">
-			            <input type="text" name="userName" id="userName" class="form-control" value="${dto.userName}" 
+			            <input type="text" name="name" id="name" class="form-control" value="${dto.name}" 
 			            		${mode=="update" ? "readonly='readonly' ":""}
 			            		placeholder="이름">
 			        </div>
@@ -261,7 +268,7 @@ function nickNameCheck() {
 			        <label class="col-sm-2 col-form-label" for="userNickName">닉네임</label>
 			        <div class="col-sm-10 row nickName-box">
 				        <div class="col-sm-7">
-				            <input type="text" name="userNickName" id="userNickName" class="form-control" value="${dto.nickName}" 
+				            <input type="text" name="nickName" id="nickName" class="form-control" value="${dto.nickName}" 
 				            		${mode=="update" ? "readonly='readonly' ":""}
 				            		placeholder="닉네임">
 				        </div>
@@ -294,13 +301,13 @@ function nickNameCheck() {
 			        <label class="col-sm-2 col-form-label" for="gender">성별</label>
 			        <div class="col-sm-10">
 			           	<div class="form-check">
-						  <input class="form-check-input" type="radio" name="gender" id="gender-m" value="m">
+						  <input class="form-check-input" type="radio" name="gender" id="gender-m" value="M">
 						  <label class="form-check-label" for="flexRadioDefault1">
 						     	남성
 						  </label>
 						</div>
 						<div class="form-check">
-						  <input class="form-check-input" type="radio" name="gender" id="gender-f" value="f" checked>
+						  <input class="form-check-input" type="radio" name="gender" id="gender-f" value="F" checked>
 						  <label class="form-check-label" for="flexRadioDefault2">
 						     	여성
 						  </label>
