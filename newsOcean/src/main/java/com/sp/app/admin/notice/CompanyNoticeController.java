@@ -327,7 +327,7 @@ public class CompanyNoticeController {
 		List<CompanyNotice> listFile = service.listFile(companyNo);
 		
 		model.addAttribute("mode", "update");
-		model.addAttribute("pageNo", "pageNo");
+		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("dto", dto);
 		model.addAttribute("listFile", listFile);
 		

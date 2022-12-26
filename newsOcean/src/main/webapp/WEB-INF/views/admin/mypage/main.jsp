@@ -19,27 +19,35 @@
 		</div>
 	</div>
 </div>
+<div class="my__admin__title">👨‍💻 Admin account update <span class="my__admin__title2"> Detail Infomation </span> <span class="my__admin__title3"> Admin account list </span> </div> 
+
 
 
 <div class="row">
 	<div class=" body-container shadow ">
+		<div class="tti__design">로그인 계정 정보 </div>
 		<div class="content-frame-list "></div>
 	</div>
-	<div class="body-container2 shadow">
-		<div class="content-frame-second ">
-		
-		</div>
-		<div class="content-frame-three ">
-		
-		</div>
+	<div class="body-container2 shadow ">
+		<div class="tti__design__detail">계정 상세 정보</div>
+		<div class="content-frame-second "></div>
+		<div class="content-frame-three "></div>
+	</div>
+	<div class=" body-container3 shadow ">
+		<div class="content-frame-admin-list "></div>
 	</div>
 </div>
 
+<!--  게시판 리스트  -->
+<div class="my__board__list">📝 My Board List </div> 
 <div class="row mt-3">
 	<div class="body-container_list1 shadow ">
+		<div class="tti__design__board">QnA</div>
 		<div class="content-frame-qna "></div>
 	</div>
+
 	<div class="body-container_list2 shadow ">
+		<div class="tti__design__board">FAQ</div>
 		<div class="content-frame-faq "></div>
 	</div>
 	
@@ -201,7 +209,7 @@ function reload() {
 	listInfo(1);
 	let selector = ".content-frame-three";
 	
-	$(selector).html("<p></p>");
+	$(selector).html("");
 }
 
 //수정 취소
@@ -209,7 +217,7 @@ function sendCancel(){
 	listInfo(1);
 	let selector = ".content-frame-three";
 	
-	$(selector).html("<p></p>");
+	$(selector).html("");
 }
 
 //정보 수정

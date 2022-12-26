@@ -14,7 +14,7 @@
 <div class="body-title">
 	<div class="col" style="display: flex; justify-content: space-between;">
 
-		<div class="p-1">
+		<div class="p-1" >
 				<button type="button" class="member_list_btn1 shadow-sm" onclick="listPage(1)" id="list_btn1">전체 회원 목록</button>
 				<button type="button" class="member_list_btn1 shadow-sm" onclick="listSubpage(1)" id="list_btn2">유료 구독 회원 목록</button>
 				<button type="button" class="member_list_btn1 shadow-sm" onclick="listEnpage(1)" id="list_btn3">계정 비활성화 회원</button>
