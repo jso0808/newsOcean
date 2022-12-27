@@ -116,14 +116,6 @@ $(function(){
 				</li>
 			</ul>
 		</li>
-
-		<li class="menu--item">
-			<a href="#" class="menu--link" title="제휴/광고관리">
-				<i class="menu--icon  fa-fw fa-regular fa-calendar"></i>
-				<span class="menu--label">제휴/광고관리</span>
-			</a>
-		</li>
-		
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="회원관리">
 				<i class="menu--icon  fa-fw fa-solid fa-person-circle-question"></i>

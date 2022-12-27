@@ -18,8 +18,10 @@ public interface MemberService {
 	public int dataCount_en(Map<String, Object> map);
 	
 	
+	//하나의 회원정보 읽기 (기본정보, 구독 결제 정보)
+	public Member readMember(Map<String, Object> map);
 	//회원 enabled 변경 (풀어주기)
-	public void updateEnabled(Member dto) throws Exception;
+	public void updateEnabled(Map<String, Object> map) throws Exception;
 	//회원 권한 변경하기
 	public void updateAuthority(Member dto) throws Exception;
 	

@@ -268,7 +268,7 @@ function loginchange(){
 	}
 	
 	location.href="${pageContext.request.contextPath}/member/logout";
-	location.href="${pageContext.request.contextPath}/member/login";
+	location.href="${pageContext.request.contextPath}/member/logout";
 	
 }
 
