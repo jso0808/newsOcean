@@ -5,16 +5,11 @@
 
 
 <!-- 본문 -->
-<div class="title-area shadow">
-	<div class="title-area-text">
-		관리자 계정 정보
-	</div>
-</div>
 
 <table class="table-mypage text-center">
 	<tbody>	
 		<c:forEach var="dto" items="${list}" varStatus="status">
-			<tr>
+			<tr style="margin-bottom: -20px;">
 				<td>
 				<c:if test="${dto.gender=='F'}">
 					<img class="profile__size " src="${pageContext.request.contextPath}/resources/images/admin_img.png">
@@ -25,13 +20,13 @@
 				</td>
 			</tr>
 			<tr class="email__design">
-				<td>📧 ${dto.email} </td>
+				<td><span class="info__title">Email |</span>  ${dto.email} </td>
 			</tr>
 			<tr>
-				<td>${dto.name} ( ${dto.nickName} )</td>
+				<td><span class="info__title">Name | </span>${dto.name} ( ${dto.nickName} )</td>
 			</tr>
 			<tr>
-				<td>${dto.joindate}</td>
+				<td><span class="info__title">Join Date |</span> ${dto.joindate}</td>
 			</tr>
 			<input type="hidden" value="${dto.memberNo}">
 		

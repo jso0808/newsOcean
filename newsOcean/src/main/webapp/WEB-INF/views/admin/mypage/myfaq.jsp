@@ -5,16 +5,14 @@
 
 
 <div class="row board-list-header">
-	<div class="col-auto me-auto">
-    	${dataCount}개(${pageNo}/${total_page} 페이지)
-    </div>
+
     <div class="col-auto">&nbsp;</div>
 </div>
 
 <!-- 본문 -->
 <table class="table table-hover board-list">
-	<thead class="table-light">
-		<tr>
+	<thead class="">
+		<tr class="admin__tr__design">
 			<th class="bw-60">번호</th>
 			<th>제목</th>
 			<th class="bw-100">작성자</th>

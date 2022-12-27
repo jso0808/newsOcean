@@ -1,6 +1,5 @@
 package com.sp.app.admin.mypage;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.HttpServerErrorException;
 
-import com.sp.app.admin.notice.CompanyNotice;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
@@ -62,7 +59,6 @@ public class MypageController {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(info.getMemberNo());
 		map.put("memberNo", info.getMemberNo());
 		
 		List<Mypage> list = service.listMypage(map);
@@ -70,6 +66,23 @@ public class MypageController {
 		model.addAttribute("list", list);
 		
 		return "admin/mypage/info";
+	}
+	
+	//관리자 리스트
+	@RequestMapping(value = "listad")
+	public String listad(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			HttpSession session, Model model) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", info.getMemberNo());
+		
+		List<Mypage> list = service.listAdmin(map);
+		
+		model.addAttribute("list", list);
+		
+		return "admin/mypage/listad";
 	}
 	
 	

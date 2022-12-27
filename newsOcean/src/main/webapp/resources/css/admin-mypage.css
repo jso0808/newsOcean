@@ -6,11 +6,17 @@
 	
 }
 
+.info__title {
+	font-family: 'line_font_b';
+	color: #004b81;
+	
+}
+
 .body-container {
 	background: #fff;
 	width: 340px;
 	height: 100%;
-	border-radius: 10px;
+	border-radius: 20px;
 	margin-left: 13px;
 }
 
@@ -18,7 +24,7 @@
 	background: #fff;
 	width: 680px;
 	height: 100%;
-	border-radius: 10px;
+	border-radius: 20px;
 	margin-left: 13px;
 	margin-top: 15px;
 }
@@ -27,7 +33,7 @@
 	background: #fff;
 	width: 680px;
 	height: 100%;
-	border-radius: 10px;
+	border-radius: 20px;
 	margin-left: 13px;
 	margin-top: 15px;
 	
@@ -35,11 +41,24 @@
 
 .body-container2 {
 	background: #fff;
-	width: 1000px;
+	width: 480px;
 	height: 120%;
-	border-radius: 10px;
-	margin-left: 30px;
-	padding-bottom: 20px;
+	border-radius: 20px;
+	margin-left: 20px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	
+}
+
+.body-container3 {
+	background: #fff;
+	width: 500px;
+	height: 120%;
+	border-radius: 20px;
+	margin-left: 22px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	padding-left: 20px;
 	
 }
 
@@ -54,21 +73,42 @@
 	background: #fff;
 	width: 600px;
 	height: 100%;
-	border-radius: 20px;
+	border-radius: 40px;
 	display: flex;
 	
 }
 
 .profile__size {
-	width: 200px;
+	width: 180px;
 	margin-left: 0px;
+	margin-top: -15px;
+	
+}
+
+
+.info__bold {
+	font-size: 13px;
+	font-weight: 600;
+	color: #000;
+	font-family: 'line_font_b';
+	padding-left: 30px;
+	width: 43%;
+	border-radius: 7px 0px 0px 7px;
+	border-right: 2px solid #9999FF;
+}
+
+.info__second {
+	font-family: 'line_font_r';
+	padding-left: 40px;
+	border-radius: 30px;
 	
 }
 
 
 /* table */
-.table-mypage { width: 100%; border-spacing: 0; height:100%; border-collapse: collapse; }
-.table-mypage th, .table-mypage td { padding-top: 10px; padding-bottom: 10px; }
+.table-mypage { width: 98%; border-spacing: 0; height:100%; border-collapse: collapse; margin-top: 15px;}
+.table-mypage th, .table-mypage td { padding-top: 10px; padding-bottom: 10px; margin-top: 20px;}
+
 
 .mt__size {
 	margin-top: 50px;
@@ -76,25 +116,45 @@
 }
 
 
+
+
 /*버튼*/
 .btn-mypage2 {
 	width: 85%;
-	height: 35px;
+	height: 40px;
 	text-align: center;
 	vertical-align: middle;
 	border-radius: 6px;
 	border: none;
-	margin-top: -12px;
+	margin-top: -9px;
 	margin-bottom: 20px;
+	font-size: 15px;
 }
 
 .btn-mypage {
 	width: 85%;
-	height: 35px;
+	height: 40px;
 	text-align: center;
 	vertical-align: middle;
 	border-radius: 6px;
 	border: none;
+	font-size: 15px;
+}
+
+.btn-update-1 {
+	width: 100px;
+	height: 40px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 6px;
+	border: none;
+	font-size: 15px;
+	background: #9999FF;
+	color: #fff;
+	font-family: 'line_font_r';
+	margin-top: 27px;
+	margin-bottom: 20px;
+	
 }
 
 .btn-mypage:hover , .btn-mypage2:hover {
@@ -111,7 +171,6 @@
 	background: #fff;
 	
 }
-
 
 .title-area {
 	width: 340px;
@@ -141,12 +200,195 @@
 	
 }
 
+
+
 /*    list 부분 디자인               */
 .email__design {
-	color: #0080ff;
 	font-family: line_font_b;
 	font-size: 16px;
+}
+
+
+
+/*input 부분*/
+.myp__input {
+	margin-left: 20px;
+	height: 30px;
+	border-radius: 5px;
+	width: 110px;
+	border: 1px solid #595959;
+	padding: 7px;
+}
+
+.myp__input_name {
+	width: 110px;
+	height: 30px;
+	border-radius: 5px;
+	border: 1px solid #595959;
+	padding: 7px;
+}
+
+.myp__input_name:focus, .myp__input:focus {
+	border: 1px solid #9999FF;
+}
+
+
+
+
+/*마이페이지 디자인 ~~~~*/
+
+.my__board__list {
+	margin-top: 45px;
+	margin-bottom: -18px;
+	color: #595959;
+	font-size: 17px;
+	font-family: line_font_b;
+	margin-left: 10px;
+}
+
+.my__admin__title {
+	color: #595959;
+	font-size: 17px;
+	font-family: line_font_b;
+	margin-left: 10px;
+	margin-bottom: 12px;
+}
+
+.qna__admin , .faq__admin {
+	font-size: 22px;
+	font-family: line_font_b;
+	margin-left: 15px;
+	margin-top: 11px;
+	margin-bottom: 5px;
+
+}
+
+.admin__tr__design th {
+	color: #004b81;
+	font-family: line_font_b;
+}
+
+.my__admin__title2 {
+	color: #595959;
+	font-size: 17px;
+	font-family: line_font_b;
+	margin-left: 154px;
+	margin-bottom: 12px;
+}
+
+.my__admin__title3 {
+	color: #595959;
+	font-size: 17px;
+	font-family: line_font_b;
+	margin-left: 350px;
+	margin-bottom: 12px;
+}
+
+.update__form__design {
+	font-family: line_font_r;
+	background: #eee;
+	height: 30px;
+	padding-top:6px;
+	padding-left: 10px;
+	color: #595959;
+	margin-top: 20px;
+}
+
+.tti__design {
+	font-family: line_font_b;
+	background: linear-gradient( to right, #004b81, #9999FF );
+	height: 40px;
+	width:107.6%;
+	border-radius: 20px 20px 0px 0px;
+	color: #fff;
+	margin-right: 5px;
+	margin-left:-12px;
+	margin-top: -10px;
+	opacity: 85%;
+	font-size: 15px;
+	padding-left: 23px;
+	padding-top: 11px;
+}
+
+.tti__design__detail {
+	font-family: line_font_b;
+	background: linear-gradient( to right, #004b81, #9999FF );
+	height: 40px;
+	width: 105.3%;
+	border-radius: 20px 20px 0px 0px;
+	color: #fff;
+	margin-right: 1px;
+	margin-left:-11.9px;
+	margin-top: -20px;
+	opacity: 85%;
+	font-size: 15px;
+	padding-left: 26px;
+	padding-top: 11px;
+}
+
+.tti__design__board {
+	font-family: line_font_b;
+	background: linear-gradient( to right, #004b81, #9999FF );
+	height: 50px;
+	width:103.8%;
+	border-radius: 20px 20px 0px 0px;
+	color: #fff;
+	margin-right: 5px;
+	margin-left:-12px;
+	margin-top: -2px;
+	font-family: 'line_font_b';
+	font-size: 20px;
+	padding-left: 27px;
+	padding-top: 13px;
+	opacity: 85%;
+
+}
+
+.tti__design__admin {
+	font-family: line_font_b;
+	background: linear-gradient( to right, #004b81, #9999FF );
+	height: 40px;
+	width: 106.8%;
+	border-radius: 20px 20px 0px 0px;
+	color: #fff;
+	margin-right: 1px;
+	margin-left:-19.7px;
+	margin-top: -20px;
+	opacity: 85%;
+	font-size: 15px;
+	padding-left: 26px;
+	padding-top: 11px;
+}
+
+.admin__list__title {
+	font-family: 'line_font_b';
+	font-size: 15px;
+	border-bottom: 2px solid;
+	padding-right: 5px;
+	border-bottom-color: #9999FF;
+	text-align: center;
+}
+
+.admin__list__content {
+	font-size: 13px;
+	padding-left: 5px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+.admin__list__content2 {
+	font-size: 13px;
+	padding-left: 5px;
+	text-align: center;
+	padding-top: 5px;
+	color: #FF0066;
+	font-variant: 600;
+	font-family: 'line_font_b';
 	
 }
 
+.admin__list__tr:hover {
+	cursor: pointer;
+	background: #eee;
+}
 

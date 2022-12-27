@@ -12,12 +12,12 @@ import com.sp.app.common.dao.CommonDAO;
 public class QnaServiceImpl implements QnaService {
 	@Autowired
 	private CommonDAO dao;
-	
 
 	@Override
 	public void insertQna(Qna dto, String pathname) throws Exception {
 		try {
-			dao.insertData("cs.insertQna", dto);
+		
+			dao.insertData("cs.qna.insertQna", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -30,7 +30,7 @@ public class QnaServiceImpl implements QnaService {
 		List<Qna> list = null;
 		
 		try {
-			list = dao.selectList("cs.listQna", map);
+			list = dao.selectList("cs.qna.listQna", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,80 +40,158 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+
+		try {
+			result = dao.selectOne("cs.qna.dataCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 
 	@Override
 	public Qna readQna(long num) {
-		// TODO Auto-generated method stub
-		return null;
+		Qna dto = null;
+
+		// 게시물 가져오기
+		try {
+			dto = dao.selectOne("cs.qna.readQna", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dto;
 	}
 
 	@Override
 	public void updateHitCount(long num) throws Exception {
-		// TODO Auto-generated method stub
-		
+		// 조회수 증가
+		try {
+			dao.updateData("cs.qna.updateHitCount", num);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public Qna preReadQna(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Qna dto = null;
+
+		try {
+			dto = dao.selectOne("cs.qna.preReadQna", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dto;
 	}
 
 	@Override
 	public Qna nextReadQna(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Qna dto = null;
+
+		try {
+			dto = dao.selectOne("cs.qna.nextReadQna", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dto;
 	}
 
 	@Override
 	public void updateQna(Qna dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.updateData("cs.qna.updateQna", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
-	public void deleteQna(long num, String pathname, String userId, int membership) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void deleteQna(long num, String pathname, long memberNo, int membership) throws Exception {
+		try {
+			dao.deleteData("cs.qna.deleteQna", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
-	public void insertAswer(QnaReply dto) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void insertAnswer(QnaReply dto) throws Exception {
+		try {
+			dao.insertData("cs.qna.insertAnswer", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public List<QnaReply> listAnswer(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<QnaReply> list = null;
+		
+		try {
+			list = dao.selectList("cs.qna.listAnswer", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	@Override
 	public int QnaAnswerCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("cs.qna.QnaAnswerCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Override
 	public void deleteQnaAnswer(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.deleteData("cs.qna.deleteQnaAnswer", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public List<QnaReply> listReply(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<QnaReply> list = null;
+		
+		try {
+			list = dao.selectList("cs.qna.listReply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	@Override
 	public int replyCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("cs.qna.replyCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
-
 }

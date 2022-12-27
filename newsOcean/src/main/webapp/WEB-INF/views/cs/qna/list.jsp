@@ -78,7 +78,7 @@ function searchList() {
 							<td>${dataCount - (page-1) * size - status.index}</td>
 							<td class="left">
 								<c:url var="url" value="/cs/qna/article">
-									<c:param name="num" value="${dto.qnaNo}"/>
+									<c:param name="qnaNo" value="${dto.qnaNo}"/>
 									<c:param name="page" value="${page}"/>
 									<c:if test="${not empty keyword}">
 										<c:param name="condition" value="${condition}"/>
@@ -88,7 +88,7 @@ function searchList() {
 								<a href="${url}" class="text-reset">${dto.qnaSubject}</a>
 								<c:if test="${dto.replyCount!=0}">(${dto.replyCount})</c:if>
 							</td>
-							<td>${dto.memberNo}</td>
+							<td>${dto.nickName}</td>
 							<td>${dto.qnaRegdate}</td>
 							<td>${dto.qnaHit}</td>
 						</tr>

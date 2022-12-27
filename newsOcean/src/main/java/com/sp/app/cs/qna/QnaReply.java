@@ -6,7 +6,7 @@ public class QnaReply {
 	private long memberNo;
 	private String qnaAContent;
 	private String qnaARegdate;
-	private long qnaReply;
+	private long qnaAReply;
 	
 	public long getQnaAnswer() {
 		return qnaAnswer;
@@ -38,11 +38,11 @@ public class QnaReply {
 	public void setQnaARegdate(String qnaARegdate) {
 		this.qnaARegdate = qnaARegdate;
 	}
-	public long getQnaReply() {
-		return qnaReply;
+	public long getQnaAReply() {
+		return qnaAReply;
 	}
-	public void setQnaReply(long qnaReply) {
-		this.qnaReply = qnaReply;
+	public void setQnaAReply(long qnaAReply) {
+		this.qnaAReply = qnaAReply;
 	}
 	
 	

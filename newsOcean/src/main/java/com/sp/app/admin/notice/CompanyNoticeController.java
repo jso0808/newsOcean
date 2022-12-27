@@ -223,12 +223,23 @@ public class CompanyNoticeController {
 		
 		dto.setCompanyContent(dto.getCompanyContent().replaceAll("\n", "<br>"));
 		
+		//이전글, 다음글 가져오기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("companyNo", companyNo);
+		
+		CompanyNotice preReadDto = service.preReadNotice(map);
+		CompanyNotice nextReadDto = service.nextReadNotice(map);
+		
 		//파일
 		List<CompanyNotice> listFile = service.listFile(companyNo);
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("listFile", listFile);
 		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("preReadDto", preReadDto);
+		model.addAttribute("nextReadDto", nextReadDto);
 		
 		return "admin/notice/article";
 	}
@@ -327,7 +338,7 @@ public class CompanyNoticeController {
 		List<CompanyNotice> listFile = service.listFile(companyNo);
 		
 		model.addAttribute("mode", "update");
-		model.addAttribute("pageNo", "pageNo");
+		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("dto", dto);
 		model.addAttribute("listFile", listFile);
 		

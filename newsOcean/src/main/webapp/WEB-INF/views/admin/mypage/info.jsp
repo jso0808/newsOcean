@@ -5,29 +5,29 @@
 
 
 <!-- 본문 -->
-<div class="title-area-large shadow">
-	<div class="title-area-text">
-		상세 정보 
-	</div>
-</div>
 
-<table class="table-mypage text-center">
+<table class="table-mypage t__left__margin">
 	<tbody>					
 		<c:forEach var="dto" items="${list}" varStatus="status">
-			<tr class="">
-				<td> ${dto.email} </td>
+			<tr>
+				<td class="info__bold"> EMAIL </td>
+				<td class="info__second"> ${dto.email} </td>
 			</tr>
 			<tr>
-				<td>${dto.birth} </td>
+				<td class="info__bold"> BIRTH </td>
+				<td class="info__second">${dto.birth} </td>
 			</tr>
 			<tr>
-				<td>${dto.name} ( ${dto.nickName} )</td>
+				<td class="info__bold"> NAME (NICKNAME) </td>
+				<td class="info__second">${dto.name} ( ${dto.nickName} )</td>
 			</tr>
 			<tr>
-				<td>${dto.joindate}</td>
+				<td class="info__bold"> JOIN DATE </td>
+				<td class="info__second">${dto.joindate}</td>
 			</tr>
 			<tr>
-				<td>${dto.gender=='M' ? "남성" : "여성"}</td>
+				<td class="info__bold"> GENDER </td>
+				<td class="info__second">${dto.gender=='M' ? "남성" : "여성"}</td>
 			</tr>
 			
 			

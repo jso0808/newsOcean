@@ -14,8 +14,15 @@
 <div class="body-title">
 	<div class="col" style="display: flex; justify-content: space-between;">
 
+		<div class="p-1" >
+				<button type="button" class="member_list_btn1 shadow-sm" onclick="listPage(1)" id="list_btn1">전체 회원 목록</button>
+				<button type="button" class="member_list_btn1 shadow-sm" onclick="listSubpage(1)" id="list_btn2">유료 구독 회원 목록</button>
+				<button type="button" class="member_list_btn1 shadow-sm" onclick="listEnpage(1)" id="list_btn3">계정 비활성화 회원</button>
+		</div>
 		<div class="p-1">
-			<button type="button" class="reload_btn shadow-sm" onclick="reload();">새로고침</button>
+			<div >
+				<button type="button" class="reload_btn shadow-sm" onclick="reload();">새로고침</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -113,6 +120,7 @@ function ajaxFileFun(url, method, query, dataType, fn) {
 
 $(function(){
 	listPage(1);
+	$("#list_btn1").addClass("member_list_btn1__click");
 	
 });
 
@@ -122,6 +130,11 @@ function listPage(page) {
 	let query = "pageNo="+page;
 	let selector = ".content-frame-list";
 	
+	$("#list_btn1").addClass("member_list_btn1__click");
+	$("#list_btn2").removeClass("member_list_btn1__click");
+	$("#list_btn3").removeClass("member_list_btn1__click");
+	
+	
 	const fn = function(data){
 		$(selector).html(data);
 	};
@@ -130,22 +143,55 @@ function listPage(page) {
 
 }
 
+
+//유료 회원 리스트 
+function listSubpage(page) {
+	let url = "${pageContext.request.contextPath}/admin/member/listSub";
+	let query = "pageNo="+page;
+	let selector = ".content-frame-list";
+	
+	$("#list_btn2").addClass("member_list_btn1__click");
+	$("#list_btn1").removeClass("member_list_btn1__click");
+	$("#list_btn3").removeClass("member_list_btn1__click");
+	
+	
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+
+}
+
+
+//계정 비활성화 회원 리스트 
+function listEnpage(page) {
+	let url = "${pageContext.request.contextPath}/admin/member/listEn";
+	let query = "pageNo="+page;
+	let selector = ".content-frame-list";
+	
+	$("#list_btn3").addClass("member_list_btn1__click");
+	$("#list_btn1").removeClass("member_list_btn1__click");
+	$("#list_btn2").removeClass("member_list_btn1__click");
+	
+	
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+
+}
+
+
 //리로드
 function reload() {
 	listPage(1);
+	$("#list_btn1").addClass("member_list_btn1__click");
 
 }
 
-function changeEnalbed(memberNo) {
-	let url = "${pageContext.request.contextPath}/admin/member/updateEnabled";
-	let query = "memberNo="+memberNo+"&enabled="+enabled;
-	//let enabled = document.querySelector("#");
-	
-	
-	
-	
-	
-}
+
 
 
 </script>
