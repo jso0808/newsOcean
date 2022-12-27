@@ -47,7 +47,7 @@
 						<td colspan="2">
 							이전글 :
 							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+								<a href="javascript:articleBoard('${preReadDto.companyNo}', '${pageNo}');">${preReadDto.companySubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -55,7 +55,7 @@
 						<td colspan="2">
 							다음글 :
 							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+								<a href="javascript:articleBoard('${nextReadDto.companyNo}', '${pageNo}');" >${nextReadDto.companySubject}</a>
 							</c:if>
 						</td>
 					</tr>

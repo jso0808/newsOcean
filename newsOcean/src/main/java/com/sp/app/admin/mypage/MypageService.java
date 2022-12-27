@@ -10,6 +10,8 @@ public interface MypageService {
 	//관리자 정보 가져오기
 	public List<Mypage> listMypage(Map<String, Object> map);
 	public void updateMypage(Mypage dto) throws Exception;
+	//다른 관리자 계정정보
+	public List<Mypage> listAdmin(Map<String, Object> map);
 	
 	public Mypage readMypage(long memberNo);
 	public int dataCount(Map<String, Object> map);

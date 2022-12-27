@@ -132,5 +132,42 @@
 	</update>
 	
 	
+	<!-- 이전글  -->
+	<select id="preReadNotice" parameterType="map" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT companyNo, companySubject
+		FROM company c
+		JOIN member m ON m.memberNo = c.memberNo
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			AND (companyNo &gt; #{companyNo})
+		</where>
+		ORDER BY companyNo ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<!-- 다음글  -->
+	<select id="nextReadNotice" parameterType="map" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT companyNo, companySubject
+		FROM company c
+		JOIN member m ON m.memberNo = c.memberNo
+		<where>
+			<if test="keyword != null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			AND (companyNo &lt; #{companyNo})
+		</where>
+		ORDER BY companyNo DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

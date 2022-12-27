@@ -53,6 +53,14 @@
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
+	<!-- 다른 관리자 리스트 가져오기 -->
+	<select id="listAdmin" parameterType="map" resultType="com.sp.app.admin.mypage.Mypage">
+		SELECT memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
+		FROM member
+		WHERE membership = 99 AND memberNo != #{memberNo}
+	</select>
+	
 
 
 </mapper>

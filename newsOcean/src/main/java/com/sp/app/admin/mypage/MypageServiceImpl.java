@@ -102,5 +102,22 @@ public class MypageServiceImpl implements MypageService {
 
 
 
+	@Override
+	public List<Mypage> listAdmin(Map<String, Object> map) {
+		List<Mypage> list = null;
+		
+		try {
+			list = dao.selectList("adminMypage.listAdmin", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+
+
+
 
 }

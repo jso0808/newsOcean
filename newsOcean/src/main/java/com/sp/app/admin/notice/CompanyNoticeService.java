@@ -25,4 +25,9 @@ public interface CompanyNoticeService {
 	public CompanyNotice readFile(long fileNo);
 	public void deleteFile(Map<String, Object> map) throws Exception;
 	
+	//이전글, 다음글
+	public CompanyNotice preReadNotice(Map<String, Object> map);
+	public CompanyNotice nextReadNotice(Map<String, Object> map);
+	
+	
 }

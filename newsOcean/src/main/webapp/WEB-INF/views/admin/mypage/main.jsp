@@ -7,14 +7,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-mypage.css" type="text/css">
 
 
-<style type="text/css">
-
-</style>
-
 <div class="body-title">
 	<div class="col" style="display: flex; justify-content: space-between;">
 
-		<div class="">
+		<div class="pb-1">
 			<button type="button" class="reload_btn shadow-sm" onclick="reload();">새로고침</button>
 		</div>
 	</div>
@@ -33,14 +29,17 @@
 		<div class="content-frame-second "></div>
 		<div class="content-frame-three "></div>
 	</div>
+	<!-- 세번째 영역 ....다른 관리자 정보 리스트  -->
 	<div class=" body-container3 shadow ">
+		<div class="tti__design__admin">다른 관리자 계정</div>
 		<div class="content-frame-admin-list "></div>
 	</div>
 </div>
 
+
 <!--  게시판 리스트  -->
 <div class="my__board__list">📝 My Board List </div> 
-<div class="row mt-3">
+<div class="row mt-3" style="margin-bottom: 50px;">
 	<div class="body-container_list1 shadow ">
 		<div class="tti__design__board">QnA</div>
 		<div class="content-frame-qna "></div>
@@ -129,6 +128,7 @@ $(function(){
 	listInfo(1);
 	listQna(1);
 	listFaq(1);
+	listad(1);
 	
 });
 
@@ -159,6 +159,23 @@ function listInfo(page) {
 	ajaxFun(url, "get", query, "html", fn);
 
 }
+
+
+//admin_list
+function listad(page) {
+	let url = "${pageContext.request.contextPath}/admin/mypage/listad";
+	let query = "pageNo="+page;
+	let selector = ".content-frame-admin-list";
+	
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+
+}
+
+
 
 //qna 답변 리스트
 function listQna(page) {
@@ -242,6 +259,16 @@ function sendOk(){
 	};
 	
 	ajaxFileFun(url, "post", query, "json", fn);
+	
+}
+
+function loginchange(){
+	if(! confirm("로그아웃 후 해당 계정으로 로그인하시겠습니까? ")){
+		return false;
+	}
+	
+	location.href="${pageContext.request.contextPath}/member/logout";
+	location.href="${pageContext.request.contextPath}/member/login";
 	
 }
 

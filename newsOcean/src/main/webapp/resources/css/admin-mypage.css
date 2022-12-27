@@ -51,11 +51,11 @@
 }
 
 .body-container3 {
-	background: #9999FF;
+	background: #fff;
 	width: 500px;
 	height: 120%;
 	border-radius: 20px;
-	margin-left: 26px;
+	margin-left: 22px;
 	padding-bottom: 15px;
 	padding-top: 15px;
 	padding-left: 20px;
@@ -343,3 +343,52 @@
 	opacity: 85%;
 
 }
+
+.tti__design__admin {
+	font-family: line_font_b;
+	background: linear-gradient( to right, #004b81, #9999FF );
+	height: 40px;
+	width: 106.8%;
+	border-radius: 20px 20px 0px 0px;
+	color: #fff;
+	margin-right: 1px;
+	margin-left:-19.7px;
+	margin-top: -20px;
+	opacity: 85%;
+	font-size: 15px;
+	padding-left: 26px;
+	padding-top: 11px;
+}
+
+.admin__list__title {
+	font-family: 'line_font_b';
+	font-size: 15px;
+	border-bottom: 2px solid;
+	padding-right: 5px;
+	border-bottom-color: #9999FF;
+	text-align: center;
+}
+
+.admin__list__content {
+	font-size: 13px;
+	padding-left: 5px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+.admin__list__content2 {
+	font-size: 13px;
+	padding-left: 5px;
+	text-align: center;
+	padding-top: 5px;
+	color: #FF0066;
+	font-variant: 600;
+	font-family: 'line_font_b';
+	
+}
+
+.admin__list__tr:hover {
+	cursor: pointer;
+	background: #eee;
+}
+

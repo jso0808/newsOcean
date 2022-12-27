@@ -165,6 +165,9 @@ function searchList() {
 	f.condition.value = $("#condition").val();
 	f.keyword.value = $.trim($("#keyword").val());
 	listPage(1);	
+	let selector = ".content-frame-second";
+	$(selector).html("");
+	
 }
 
 //글쓰기폼

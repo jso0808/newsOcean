@@ -223,5 +223,37 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 		}
 		
 	}
+
+
+		// 이전글 , 다음글 가져와서 1개씩 출력 출력
+	@Override
+	public CompanyNotice preReadNotice(Map<String, Object> map) {
+		CompanyNotice dto = null;
+		
+		try {
+			dto = dao.selectOne("adminNotice.preReadNotice", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return dto;
+	}
+
+
+	@Override
+	public CompanyNotice nextReadNotice(Map<String, Object> map) {
+		CompanyNotice dto = null;
+		
+		try {
+			dto = dao.selectOne("adminNotice.nextReadNotice", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return dto;
+	}
+
 	
 }
