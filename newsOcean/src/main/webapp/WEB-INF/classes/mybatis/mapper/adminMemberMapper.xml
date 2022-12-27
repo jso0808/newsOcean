@@ -31,6 +31,7 @@
 			<if test="keyword != null and keyword!='' ">
 				<include refid="where-list"/>
 			</if>
+			AND membership != 99
 		</where>
 			ORDER BY joindate DESC
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
@@ -44,6 +45,17 @@
 				<include refid="where-list"/>
 			</if>
 		</where>
+	</select>
+	
+	<!-- 특정 하나의 회원 정보 : 1.회원정보, 2.구독정보 만 일단 가져오기 !!!!!!!! -->
+	<select id="readMember" parameterType="map" resultType="com.sp.app.admin.member.Member">
+		SELECT a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership, 
+			NVL(subtype, '0') subtype, NVL(TO_CHAR(substart, 'YYYY-MM-DD'), '2999-01-01') substart, NVL(TO_CHAR(subend, 'YYYY-MM-DD'), '2999-01-01') subend, NVL(pay, '0') pay, NVL(memo, '0') memo
+		FROM member m
+		JOIN authority a ON a.memberNo = m.memberNo
+		LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
+		WHERE m.memberNo = #{memberNo}
 	</select>
 	
 	
@@ -91,9 +103,10 @@
 	
 	<!-- 오늘 유입된 유료회원 수  -->
 	<select id="todaySubCount" parameterType="map" resultType="Integer">
-		SELECT NVL(COUNT(*), 0) todaySubCount
-		FROM subscript 
-		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		SELECT NVL(COUNT(*), 0)
+		FROM subscript s
+		JOIN member m ON m.memberNo = s.memberNo
+		WHERE TO_CHAR(m.joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 
 
@@ -103,7 +116,7 @@
 				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled
 			FROM member m
 			JOIN authority a ON a.memberNo = m.memberNo
-	        JOIN subscript s ON a.memberNo = s.memberNo
+	        LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
 	        WHERE enabled = 0
 	        ORDER BY subtype DESC
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
@@ -116,8 +129,10 @@
 		WHERE enabled = 0
 	</select>
 	
-	
-	
+	<!-- 계정 활성화 /비활성화  -->
+	<update id="updateEnabled" parameterType="map">
+		UPDATE member SET enabled = #{enabled} WHERE memberNo = #{memberNo}
+	</update>
 	
 	
 	

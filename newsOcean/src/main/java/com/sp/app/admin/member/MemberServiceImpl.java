@@ -44,10 +44,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateEnabled(Member dto) throws Exception {
-		// TODO Auto-generated method stub
+	public void updateEnabled(Map<String, Object> map) throws Exception {
+		
+		try {
+			dao.updateData("adminMember.updateEnabled", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
+	
 
 	@Override
 	public void updateAuthority(Member dto) throws Exception {
@@ -141,6 +148,20 @@ public class MemberServiceImpl implements MemberService {
 		
 		
 		return result;
+	}
+
+
+	@Override
+	public Member readMember(Map<String, Object> map) {
+		Member dto = null;
+		
+		try {
+			dto = dao.selectOne("adminMember.readMember", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
 	}
 
 

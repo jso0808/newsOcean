@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
 
@@ -262,5 +265,51 @@ public class MemberController {
 		return "admin/member/list";
 	}
 	
+	
+	@RequestMapping(value = "article")
+	public String article(@RequestParam long memberNo,
+			HttpServletResponse resp,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		
+		Member dto = service.readMember(map);
+		if(dto == null) {
+			resp.sendError(410);
+			return "redirect:/admin/member/main";
+		}
+		
+		model.addAttribute("dto", dto);
+		
+		return "admin/member/article";
+	}
+	
+	//계정 상태 변경
+	@RequestMapping(value = "update_en", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateEnabled(@RequestParam long memberNo,
+			@RequestParam long enabled) throws Exception {
+		
+		String state = "false";
+
+		try {
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberNo", memberNo);
+			map.put("enabled", enabled);
+			
+			service.updateEnabled(map);
+			
+			state = "true";
+			
+		} catch (Exception e) {
+		}
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
 	
 }

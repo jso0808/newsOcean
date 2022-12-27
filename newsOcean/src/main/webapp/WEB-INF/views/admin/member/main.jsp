@@ -191,6 +191,66 @@ function reload() {
 
 }
 
+//상세보기 페이지 
+function articleMember(memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/article";
+	let query = "memberNo="+memberNo;
+	let selector = ".content-frame-list";
+	
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
+//1. 계정 상태 변경
+function updateEnabled(memberNo, enabled) {
+
+	if(! confirm("계정 상태를 변경하시겠습니까?")){
+		return false;
+	}
+	
+	if(enabled == '1'){
+		let url = "${pageContext.request.contextPath}/admin/member/update_en";
+		let query = "memberNo="+memberNo+"&enabled=0";
+	
+		const fn = function(data){
+			let state = data.state;
+	        if(state === "false") {
+	            alert("계정 상태 변경에 실패했습니다. ");
+	            return false;
+	        }
+	        
+	        articleMember(memberNo);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	} else {
+		let url = "${pageContext.request.contextPath}/admin/member/update_en";
+		let query = "memberNo="+memberNo+"&enabled=1";
+	
+		const fn = function(data){
+			let state = data.state;
+	        if(state === "false") {
+	            alert("계정 상태 변경에 실패했습니다. ");
+	            return false;
+	        }
+	        
+	        articleMember(memberNo);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	};
+	
+}
+
+
+
+
 
 
 

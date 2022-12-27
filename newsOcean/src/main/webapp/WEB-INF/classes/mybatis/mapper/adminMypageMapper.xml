@@ -61,6 +61,15 @@
 		WHERE membership = 99 AND memberNo != #{memberNo}
 	</select>
 	
+	<!-- 관리자 권한 취소 하기 1 (member 테이블) -->
+	<update id="updateAdmin_1" parameterType="map">
+		UPDATE member SET membership = 1 WHERE memberNo = #{memberNo}
+	</update>
+	
+	<!-- 관리자 권한에서 취소하기 2 (member 테이블) -->
+	<update id="updateAdmin_2" parameterType="map">
+		UPDATE authority SET authority = 'ROLE_USER' WHERE memberNo = #{memberNo}
+	</update>
 
 
 </mapper>
