@@ -191,7 +191,6 @@ function reload() {
 
 }
 
-
 //상세보기 페이지 
 function articleMember(memberNo) {
 	let url = "${pageContext.request.contextPath}/admin/member/article";
@@ -214,28 +213,43 @@ function updateEnabled(memberNo, enabled) {
 	}
 	
 	if(enabled == '1'){
-		q = "memberNo="+memberNo+"&enabled="+0
+		let url = "${pageContext.request.contextPath}/admin/member/update_en";
+		let query = "memberNo="+memberNo+"&enabled=0";
+	
+		const fn = function(data){
+			let state = data.state;
+	        if(state === "false") {
+	            alert("계정 상태 변경에 실패했습니다. ");
+	            return false;
+	        }
+	        
+	        articleMember(memberNo);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
 		
 	} else {
-		q = "memberNo="+memberNo+"&enabled="+1
+		let url = "${pageContext.request.contextPath}/admin/member/update_en";
+		let query = "memberNo="+memberNo+"&enabled=1";
+	
+		const fn = function(data){
+			let state = data.state;
+	        if(state === "false") {
+	            alert("계정 상태 변경에 실패했습니다. ");
+	            return false;
+	        }
+	        
+	        articleMember(memberNo);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
 	};
-	
-	let url = "${pageContext.request.contextPath}/admin/member/updateEnabled";
-	let query = q;
-	
-	const fn = function(data){
-		let state = data.state;
-        if(state === "false") {
-            alert("계정 상태 변경에 실패했습니다. ");
-            return false;
-        }
-        
-        reload();
-	};
-	
-	ajaxFileFun(url, "post", query, "json", fn);
 	
 }
+
+
+
 
 
 

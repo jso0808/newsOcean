@@ -155,7 +155,7 @@ function reloadBoard() {
 	listPage(1);
 	
 	let selector = ".content-frame-second";
-	$(selector).html("<p></p>");
+	$(selector).html("");
 }
 
 //검색 리스트

@@ -286,13 +286,13 @@ public class MemberController {
 	}
 	
 	//계정 상태 변경
-	@RequestMapping(value = "updateEnabled", method = RequestMethod.POST)
+	@RequestMapping(value = "update_en", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateEnabled(@RequestParam long memberNo,
 			@RequestParam long enabled) throws Exception {
 		
 		String state = "false";
-		
+
 		try {
 			
 			Map<String, Object> map = new HashMap<String, Object>();

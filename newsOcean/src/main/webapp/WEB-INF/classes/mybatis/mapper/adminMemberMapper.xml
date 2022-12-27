@@ -116,7 +116,7 @@
 				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled
 			FROM member m
 			JOIN authority a ON a.memberNo = m.memberNo
-	        JOIN subscript s ON a.memberNo = s.memberNo
+	        LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
 	        WHERE enabled = 0
 	        ORDER BY subtype DESC
 			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
