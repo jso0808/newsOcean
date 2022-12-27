@@ -39,7 +39,14 @@ function memberOk() {
 	let mode = "${mode}";
 	if(mode === "member" && f.emailValid.value === "false") {
 		str = "이메일 중복 검사가 실행되지 않았습니다.";
+		alert(str);
 		f.email1.focus();
+		return;
+	}
+	
+	if(mode === "member" && f.nickNameValid.value === "nickNameValid") {
+		str = "닉네임 중복 검사가 실행되지 않았습니다.";
+		f.nickNameValid.focus();
 		return;
 	}
 	
