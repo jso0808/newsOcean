@@ -128,4 +128,72 @@
 	<delete id="deleteQna" parameterType="Long">
 		DELETE FROM qna WHERE qnaNo = #{qnaNo}
 	</delete>
+	
+	<!-- 댓글 -->
+	<insert id="insertAnswer" parameterType="com.sp.app.cs.qna.QnaReply">
+		INSERT INTO qnaReply(qnaAnswer, qnaNo, memberNo, qnaAContent, qnaAReply, showReply, qnaARegdate)
+		VALUES (QnaReply_seq.NEXTVAL, #{qnaNo}, #{memberNo}, #{qnaAContent}, #{qnaAReply}, 1, SYSDATE)
+	</insert>
+
+	<select id="QnaAnswerCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM qnaReply
+		WHERE qnaNo=#{qnaNo} AND qnaAReply=0
+		<if test="membership lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND memberNo=#{memberNo} ) )
+		</if>
+	</select>
+	
+	<!-- 댓글리스트 -->
+	<select id="listAnswer" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
+		SELECT r.qnaAnswer, r.memberNo, nickName, qnaNo, qnaAContent, r.qnaARegdate, NVL(showReply, 1) showReply, 
+			   NVL(qnaAReplyCount, 0) qnaAReplyCount
+		FROM qnaReply r
+		JOIN member m ON r.memberNo = m.memberNo
+		LEFT OUTER JOIN (
+			SELECT qnaAReply, COUNT(*) qnaAReplyCount
+			FROM qnaReply
+			WHERE answer!=0
+			<if test="membership lt 51">
+				AND ( showReply=1 OR ( showReply=0 AND memberNo=#{memberNo} ) )
+			</if>	
+			GROUP BY qnaAReply
+		) a ON r.qnaAnswer = r.qnaAReply
+		WHERE qnaNo=#{qnaNo} AND r.qnaAReply=0
+		<if test="membership lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND r.memberNo=#{memberNo} ) )
+		</if>
+		ORDER BY r.qnaAnswer DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<delete id="deleteQnaAnswer" parameterType="map">
+		DELETE FROM qnaReply
+		WHERE qnaAnswer=#{qnaAnswer}
+		<if test="mode=='qnaAReply'">
+			OR qnaAReply=#{qnaAnswer}
+		</if>
+	</delete>
+	
+	<!-- 댓글의 답글 리스트 -->
+	<select id="listReply" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
+		SELECT qnaAnswer, qnaNo, r.memberNo, nickName, qnaAContent, qnaARegdate, qnaAReply, NVL(showReply, 1) showReply
+		FROM qnaReply r
+		JOIN member m ON q.memberNo = m.memberNo
+		WHERE qnaAReply = #{qnaAReply}
+		<if test="membership lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND r.memberNo=#{memberNo} ) )
+		</if>
+		ORDER BY qnaAnswer DESC
+	</select>
+	
+	<!-- 댓글의 답글 개수 -->
+	<select id="qnaAReplyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM QnaReply
+		WHERE qnaAReply = #{qnaAReply}
+		<if test="membership lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND memberNo=#{memberNo} ) )
+		</if>
+	</select>
 </mapper>
