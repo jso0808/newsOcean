@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
@@ -208,5 +209,127 @@ public class QnaController {
 		return "redirect:/cs/qna/list?" + query;
 	}
 
+	// 댓글 리스트 : AJAX-TEXT
+		@GetMapping("listAnswer")
+		public String listAnswer(@RequestParam long qnaAnswer, 
+				@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+				HttpSession session,
+				Model model) throws Exception {
+
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			
+			int size = 5;
+			int total_page = 0;
+			int dataCount = 0;
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("qnaAnswer", qnaAnswer);
+			
+			map.put("memberShip", info.getMemberShip());
+			map.put("memberNo", info.getMemberNo());
+			
+			map.put("qnaAnswer", qnaAnswer);
+
+			dataCount = service.QnaAnswerCount(map);
+			total_page = myUtil.pageCount(dataCount, size);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+
+			int offset = (current_page - 1) * size;
+			if(offset < 0) offset = 0;
+
+			map.put("offset", offset);
+			map.put("size", size);
+			
+			List<QnaReply> listAnswer = service.listAnswer(map);
+
+			for (QnaReply dto : listAnswer) {
+				dto.setQnaAContent(dto.getQnaAContent().replaceAll("\n", "<br>"));
+			}
+
+			// AJAX 용 페이징
+			String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+
+			// 포워딩할 jsp로 넘길 데이터
+			model.addAttribute("listAnswer", listAnswer);
+			model.addAttribute("pageNo", current_page);
+			model.addAttribute("QnaAnswerCount", dataCount);
+			model.addAttribute("total_page", total_page);
+			model.addAttribute("paging", paging);
+
+			return "cs/qna/listAnswer";
+		}
 	
+		// 댓글 및 댓글의 답글 등록 : AJAX-JSON
+		@PostMapping("insertAnswer")
+		@ResponseBody
+		public Map<String, Object> insertAnswer(QnaReply dto, HttpSession session) {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			String state = "true";
+
+			try {
+				dto.setMemberNo(info.getMemberNo());
+				service.insertAnswer(dto);
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> model = new HashMap<>();
+			model.put("state", state);
+			return model;
+		}
+		
+		// 댓글 및 댓글의 답글 삭제 : AJAX-JSON
+		@PostMapping("deleteQnaAnswer")
+		@ResponseBody
+		public Map<String, Object> deleteQnaAnswer(@RequestParam Map<String, Object> paramMap) {
+			String state = "true";
+			
+			try {
+				service.deleteQnaAnswer(paramMap);
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("state", state);
+			return map;
+		}
+		
+		// 댓글의 답글 리스트 : AJAX-TEXT
+		@GetMapping("listReply")
+		public String listReply(@RequestParam Map<String, Object> paramMap, 
+				HttpSession session, Model model) throws Exception {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			
+			paramMap.put("membership", info.getMemberShip());
+			paramMap.put("MemberNo", info.getMemberNo());
+			
+			List<QnaReply> listReply = service.listReply(paramMap);
+			
+			for (QnaReply dto : listReply) {
+				dto.setQnaAContent(dto.getQnaAContent().replaceAll("\n", "<br>"));
+			}
+
+			model.addAttribute("listReply", listReply);
+			return "cs/qna/listReply";
+		}
+	
+		// 댓글의 답글 개수 : AJAX-JSON
+		@PostMapping(value = "qnaAReplyCount")
+		@ResponseBody
+		public Map<String, Object> replyCount(@RequestParam Map<String, Object> paramMap,
+				HttpSession session) {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			
+			paramMap.put("membership", info.getMemberShip());
+			paramMap.put("memberNo", info.getMemberNo());
+			
+			int count = service.qnaAReplyCount(paramMap);
+
+			Map<String, Object> model = new HashMap<>();
+			model.put("count", count);
+			return model;
+		}
 }

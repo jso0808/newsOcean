@@ -20,5 +20,5 @@ public interface QnaService {
 	public void deleteQnaAnswer(Map<String, Object> map) throws Exception;
 
 	public List<QnaReply> listReply(Map<String, Object> map);
-	public int replyCount(Map<String, Object> map);
+	public int qnaAReplyCount(Map<String, Object> map);
 }

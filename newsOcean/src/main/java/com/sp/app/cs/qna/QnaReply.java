@@ -4,9 +4,12 @@ public class QnaReply {
 	private long qnaAnswer;
 	private long qnaNo;
 	private long memberNo;
+	private String nickName;
 	private String qnaAContent;
 	private String qnaARegdate;
-	private long qnaAReply;
+	private String qnaAReply;
+	
+	private int qnaAReplyCount;
 	
 	public long getQnaAnswer() {
 		return qnaAnswer;
@@ -26,6 +29,12 @@ public class QnaReply {
 	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 	public String getQnaAContent() {
 		return qnaAContent;
 	}
@@ -38,12 +47,17 @@ public class QnaReply {
 	public void setQnaARegdate(String qnaARegdate) {
 		this.qnaARegdate = qnaARegdate;
 	}
-	public long getQnaAReply() {
+	public String getQnaAReply() {
 		return qnaAReply;
 	}
-	public void setQnaAReply(long qnaAReply) {
+	public void setQnaAReply(String qnaAReply) {
 		this.qnaAReply = qnaAReply;
 	}
-	
-	
+	public int getQnaAReplyCount() {
+		return qnaAReplyCount;
+	}
+	public void setQnaAReplyCount(int qnaAReplyCount) {
+		this.qnaAReplyCount = qnaAReplyCount;
+	}
+
 }

@@ -52,12 +52,12 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public Qna readQna(long num) {
+	public Qna readQna(long qnaNo) {
 		Qna dto = null;
 
 		// 게시물 가져오기
 		try {
-			dto = dao.selectOne("cs.qna.readQna", num);
+			dto = dao.selectOne("cs.qna.readQna", qnaNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,10 +66,10 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public void updateHitCount(long num) throws Exception {
+	public void updateHitCount(long qnaNo) throws Exception {
 		// 조회수 증가
 		try {
-			dao.updateData("cs.qna.updateHitCount", num);
+			dao.updateData("cs.qna.updateHitCount", qnaNo);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,9 +114,9 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public void deleteQna(long num, String pathname, long memberNo, int membership) throws Exception {
+	public void deleteQna(long qnaNo, String pathname, long memberNo, int membership) throws Exception {
 		try {
-			dao.deleteData("cs.qna.deleteQna", num);
+			dao.deleteData("cs.qna.deleteQna", qnaNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -183,11 +183,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int replyCount(Map<String, Object> map) {
+	public int qnaAReplyCount(Map<String, Object> map) {
 		int result = 0;
 		
 		try {
-			result = dao.selectOne("cs.qna.replyCount", map);
+			result = dao.selectOne("cs.qna.qnaAReplyCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

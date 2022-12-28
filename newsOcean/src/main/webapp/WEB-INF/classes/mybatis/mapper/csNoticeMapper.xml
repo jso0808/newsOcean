@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cs.notice">
+	<select id="seq" resultType="Long">
+		SELECT notice_seq.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="insertNotice" parameterType="com.sp.app.cs.notice.Notice">
+		INSERT INTO notice(noticeNo, memberNo, noticeSubject, noticeContent, notice, noticeRegdate)
+		VALUES(#{noticeNo}, #{memberNo}, #{noticeSubject}, #{noticeContent}, #{notice}, SYSDATE)
+	</insert>
+
+	<sql id="where-list">
+		<if test="condition=='all' ">
+			( INSTR(noticeSubject, #{keyword}) &gt; 0
+				OR DBMS_LOB.INSTR(noticeContent, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='noticeSubject' ">
+			INSTR(noticeSubject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='noticeContent' ">
+			DBMS_LOB.INSTR( noticeContent, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='nickName' ">
+			nickName=#{keyword}
+		</if>
+		<if test="condition=='noticeRegdate' ">
+			( TO_CHAR(noticeRegdate, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(noticeRegdate, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+	
+	<!-- 공지 글  리스트 -->
+	<select id="listNoticeTop" resultType="com.sp.app.cs.notice.Notice">
+		SELECT n.noticeNo, notice, n.memberNo, nickName, noticeSubject,
+				TO_CHAR(noticeRegdate, 'YYYY-MM-DD') noticeRegdate
+		FROM notice n
+		JOIN member m ON n.memberNo=m.memberNo
+		ORDER BY noticeNo DESC
+	</select>
+	
+	<!-- 데이터개수  -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM notice n
+		JOIN member m ON n.memberNo=m.memberNo
+		<where>
+			<if test="keyword != null and keyword!=''  ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 리스트 -->
+	<select id="listNotice" parameterType="map" resultType="com.sp.app.cs.notice.Notice">
+		SELECT n.noticeNo, notice, n.memberNo, nickName, noticeSubject, 
+			   noticeRegdate
+		FROM notice n
+		JOIN member m ON n.memberNo=m.memberNo
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY noticeNo DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+
+    <!-- 글보기 -->
+    <select id="readNotice" parameterType="Long" resultType="com.sp.app.cs.notice.Notice">
+		SELECT noticeNo, n.memberNo, nickName, noticeSubject, noticeContent, noticeRegdate, notice
+		FROM notice n
+		JOIN member m ON n.memberNo=m.memberNo 
+		WHERE noticeNo = #{noticeNo}
+	</select>
+
+	<!-- 이전글 -->
+	<select id="preReadNotice" parameterType="map" resultType="com.sp.app.cs.notice.Notice">
+		SELECT noticeNo, noticeSubject
+		FROM notice n
+		JOIN member m ON n.memberNo=m.memberNo
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (noticeNo &gt; #{noticeNo})
+		</where>
+		ORDER BY noticeNo ASC
+		FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <!-- 다음글 -->
+    <select id="nextReadNotice" parameterType="map" resultType="com.sp.app.cs.notice.Notice">
+		SELECT noticeNo, noticeSubject
+		FROM notice n
+		JOIN member m ON n.memberNo=m.memberNo
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (noticeNo &lt; #{noticeNo})
+		</where>
+		ORDER BY noticeNo DESC
+		FETCH FIRST 1 ROWS ONLY
+    </select>
+    
+	<!-- 수정 -->
+	<update id="updateNotice" parameterType="com.sp.app.cs.notice.Notice">
+		UPDATE notice SET noticeSubject=#{noticeSubject},
+			noticeContent=#{noticeContent}, notice=#{notice}
+		WHERE noticeNo=#{noticeNo}
+	</update>
+    
+	<!-- 삭제 -->
+	<delete id="deleteNotice" parameterType="Long">
+		DELETE FROM notice WHERE noticeNo=#{noticeNo}
+	</delete>
+</mapper>

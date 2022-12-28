@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
-<c:if test="${sessionScope.member.memberNo==dto.memberNo||sessionScope.member.membership>50}">
+<c:if test="${sessionScope.member.memberNo==dto.memberNo||sessionScope.member.memberShip>50}">
 	function deleteQna() {
 	    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
 		    let query = "qnaNo=${dto.qnaNo}&${query}";
@@ -59,9 +59,9 @@ $(function(){
 });
 
 function listPage(page) {
-	let url = "${pageContext.request.contextPath}/cs/qna/qnaReply";
+	let url = "${pageContext.request.contextPath}/cs/qna/listAnswer";
 	let query = "qnaNo=${dto.qnaNo}&pageNo="+page;
-	let selector = "#qnaReply";
+	let selector = "#listAnswer";
 	
 	const fn = function(data){
 		$(selector).html(data);
@@ -83,7 +83,7 @@ $(function(){
 		content = encodeURIComponent(content);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaAnswer=0";
+		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaAReply=0";
 		
 		const fn = function(data){
 			$tb.find("textarea").val("");
@@ -124,7 +124,7 @@ $(function(){
 
 // 댓글 삭제
 $(function(){
-	$("body").on("click", ".deleteAnswer", function(){
+	$("body").on("click", ".deleteQnaAnswer", function(){
 		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
 		    return false;
 		}
@@ -132,12 +132,116 @@ $(function(){
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
 		let page = $(this).attr("data-pageNo");
 		
-		let url = "${pageContext.request.contextPath}/cs/qna/deleteAnswer";
-		let query = "qnaAnswer=" + qnaAnswer + "&mode=reply";
+		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaAReply";
 		
 		const fn = function(data){
 			// let state = data.state;
 			listPage(page);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+//댓글별 답글 리스트
+function listReply(QnaAReply) {
+	let url = "${pageContext.request.contextPath}/cs/qna/listReply";
+	let query = "qnaAReply=" + qnaAReply;
+	let selector = "#listReply" + qnaAReply;
+	
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+//댓글별 답글 개수
+function qnaAReplyCount(QnaAReply) {
+	let url = "${pageContext.request.contextPath}/cs/qna/qnaAReplyCount";
+	let query = "qnaAReply=" + qnaAReply;
+	
+	const fn = function(data){
+		let count = data.count;
+		let selector = "#qnaAReplyCount"+qnaAReply;
+		$(selector).html(count);
+	};
+	
+	ajaxFun(url, "post", query, "json", fn);
+}
+
+//답글 버튼(댓글별 답글 등록폼 및 답글리스트)
+$(function(){
+	$("body").on("click", ".btnReplyAnswerLayout", function(){
+		const $trReplyAnswer = $(this).closest("tr").next();
+		// const $trReplyAnswer = $(this).parent().parent().next();
+		// const $answerList = $trReplyAnswer.children().children().eq(0);
+		
+		let isVisible = $trReplyAnswer.is(':visible');
+		let qnaAnswer = $(this).attr("data-qnaAnswer");
+			
+		if(isVisible) {
+			$trReplyAnswer.hide();
+		} else {
+			$trReplyAnswer.show();
+            
+			// 답글 리스트
+			listReplyAnswer(replyNum);
+			
+			// 답글 개수
+			countReplyAnswer(replyNum);
+		}
+	});
+	
+});
+
+// 댓글별 답글 등록
+$(function(){
+	$("body").on("click", ".btnSendReplyAnswer", function(){
+		let qnaNo = "${dto.qnaNo}";
+		let qnaAnswer = $(this).attr("data-qnaAnswer");
+		const $td = $(this).closest("td");
+		
+		let content = $td.find("textarea").val().trim();
+		if(! content) {
+			$td.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
+		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaAReply=" + qnaAnswer;
+		
+		const fn = function(data){
+			$td.find("textarea").val("");
+			
+			var state = data.state;
+			if(state === "true") {
+				listReply(qnaAnswer);
+				qnaAReplyCount(qnaAnswer);
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+// 댓글별 답글 삭제
+$(function(){
+	$("body").on("click", ".deleteQnaAnswer", function(){
+		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
+		    return false;
+		}
+		
+		let qnaAnswer = $(this).attr("data-qnaAnswer");
+		let qnaAReply = $(this).attr("data-qnaAReply");
+		
+		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaAReply";
+		
+		const fn = function(data){
+			listReply(qnaAReply);
+			qnaAReplyCount(qnaAReply);
 		};
 		
 		ajaxFun(url, "post", query, "json", fn);
@@ -210,7 +314,7 @@ $(function(){
 						</c:choose>
 				    	
 						<c:choose>
-				    		<c:when test="${sessionScope.member.memberNo==dto.memberNo || sessionScope.member.membership>50}">
+				    		<c:when test="${sessionScope.member.memberNo==dto.memberNo || sessionScope.member.memberShip>50}">
 				    			<button type="button" class="btn btn-light" onclick="deleteQna();">삭제</button>
 				    		</c:when>
 				    		<c:otherwise>
