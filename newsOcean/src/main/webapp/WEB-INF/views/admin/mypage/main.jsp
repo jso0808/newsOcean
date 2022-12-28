@@ -11,11 +11,11 @@
 	<div class="col" style="display: flex; justify-content: space-between;">
 
 		<div class="pb-1">
-			<button type="button" class="reload_btn shadow-sm" onclick="reload();">새로고침</button>
+			<button type="button" class="reload_btn shadow-sm" onclick="reload();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 		</div>
 	</div>
 </div>
-<div class="my__admin__title">👨‍💻 Admin account update <span class="my__admin__title2"> Detail Infomation </span> <span class="my__admin__title3"> Admin account list </span> </div> 
+<div class="my__admin__title">Admin account <span class="my__admin__title2"> Detail Infomation </span> <span class="my__admin__title3"> Admin account list </span> </div> 
 
 
 

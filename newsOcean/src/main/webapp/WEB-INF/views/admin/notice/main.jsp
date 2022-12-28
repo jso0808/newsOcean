@@ -4,6 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
+<style>
+
+</style>
+
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-notice.css" type="text/css">
@@ -11,46 +15,51 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/ckeditor.js"></script>
 
 
-<div class="body-title">
+<div class="body-title" style="margin-bottom: 20px; border-bottom: none;" >
 	<div class="col" style="display: flex; justify-content: space-between;">
 		<div class="row">
-			<div class="search--design1 p-1">
-				<select name="condition" id="condition" class="form-select">
+			<div class="search--design1 ">
+				<select name="condition" id="condition" class="form-select__search">
 					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
 					<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
 					<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 					<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 				</select>
 			</div>
-			<div class=" search--design2 p-1">
-				<input type="text" name="keyword" id="keyword" value="${keyword}" placeholder="검색어를 입력하세요" class="form-control">
+			<div class=" search--design2 ">
+				<input type="text" name="keyword" id="keyword" value="${keyword}" placeholder="검색어를 입력하세요" class="form-control__search">
 			</div>
-			<div class="col p-1">
-				<button type="button" class="search--design3" onclick="searchList()">검색</button>
+			<div class="search--design2 ">
+				<button type="button" class="search--design3" onclick="searchList()"><i class="fa-solid fa-magnifying-glass"></i> &nbsp;검색</button>
 			</div>
 		</div>
 		<div class="">
-			<button type="button" class="upload_btn" onclick="insertForm();">글올리기</button>
-			<button type="button" class="reload_btn" onclick="reloadBoard();">새로고침</button>
+			<button type="button" class="upload_btn shadow-sm" onclick="insertForm();"> + 글올리기</button>
+			<button type="button" class="reload_btn shadow-sm" onclick="reloadBoard();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 		</div>
 	</div>
-	
 </div>
 
 
-<div class="row">
-	<div class="">
+<div class="notice__title"> Company Notice </div>
+
+
+<!-- 게시글 본문 테이블  -->
+<div class="row" >
+	<div class="" style="margin-top: 10px;">
 		<div class="content-frame-second shadow"></div>
 	</div>
-
 </div>
 
 
-<div class="row">
-	<div class="">
+<div class="row" style="margin-top: 15px;">
+	<div class="list_title">
+		<div class="title__content__plus"></div>
 		<div class="content-frame-list shadow"></div>
 	</div>
 </div>
+
+
 
 
 <form name="searchForm" action="" method="post">
@@ -155,7 +164,10 @@ function reloadBoard() {
 	listPage(1);
 	
 	let selector = ".content-frame-second";
+	let selector_title = ".title__content__plus";
 	$(selector).html("");
+	$(selector_title).html("");
+	
 }
 
 //검색 리스트
@@ -166,7 +178,9 @@ function searchList() {
 	f.keyword.value = $.trim($("#keyword").val());
 	listPage(1);	
 	let selector = ".content-frame-second";
+	let selector_title = ".title__content__plus";
 	$(selector).html("");
+	$(selector_title).html("");
 	
 }
 
@@ -174,10 +188,15 @@ function searchList() {
 function insertForm() {
 	let url = "${pageContext.request.contextPath}/admin/notice/write";
 	let query = "tmp="+new Date().getTime();
-	let selector = ".content-frame-second";
+	let selector = ".content-frame-list";
+	let selector2 = ".content-frame-second";
+	let selector_title = ".title__content__plus";
 	
 	const fn = function(data){
 		$(selector).html(data);
+		$(selector2).html("");
+		$(selector_title).html("");
+		
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
@@ -187,10 +206,14 @@ function insertForm() {
 function updateForm(companyNo, pageNo) {
 	let url = "${pageContext.request.contextPath}/admin/notice/update";
 	let query = "companyNo="+companyNo+"&pageNo="+pageNo;
-	let selector = ".content-frame-second";
+	let selector = ".content-frame-list";
+	let selector2 = ".content-frame-second";
+	let selector_title = ".title__content__plus";
 	
 	const fn = function(data) {
 		$(selector).html(data);
+		$(selector2).html("");
+		$(selector_title).html("");
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
@@ -252,9 +275,12 @@ function articleBoard(companyNo, page) {
 	let search = $('form[name=searchForm]').serialize();
 	query = query + "&pageNo="+page + "&"+search;
 	let selector = ".content-frame-second";
+	let selector_title = ".title__content__plus";
 	
 	const fn = function(data) {
 		$(selector).html(data);
+		$(selector_title).html("<div class='notice__title2'>전체글 목록</div>");
+		
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);

@@ -102,14 +102,13 @@
 }
 
 .reload_btn {
-	height: 35px;
-	text-align: center;
-	vertical-align: middle;
-	border-radius: 6px;
-	width: 100px;
-	border: none;
-	background: #fff;
-	
+	height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 20px;
+    width: 120px;
+    border: none;
+    background: #fff;
 }
 
 .member_list_btn1 {

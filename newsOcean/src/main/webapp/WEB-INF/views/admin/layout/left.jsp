@@ -91,28 +91,13 @@ $(function(){
 					<a href="#" class="sub_menu--link">사이트 전체 통계</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">회원 활동 통계</a>
+					<a href="#" class="sub_menu--link">매출 통계</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">실시간 검색어</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">통계 자료 다운로드</a>
-				</li>
-			</ul>
-		</li>
-		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="실적관리">
-				<i class="menu--icon  fa-fw fa-solid fa-sack-dollar"></i>
-				<span class="menu--label">KPI/매출관리</span>
-			</label>
-
-			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">KPI 관리</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">매출관리 (광고/구독)</a>
 				</li>
 			</ul>
 		</li>

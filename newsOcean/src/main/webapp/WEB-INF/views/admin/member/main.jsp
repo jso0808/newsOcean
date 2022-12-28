@@ -21,7 +21,7 @@
 		</div>
 		<div class="p-1">
 			<div >
-				<button type="button" class="reload_btn shadow-sm" onclick="reload();">새로고침</button>
+				<button type="button" class="reload_btn shadow-sm" onclick="reload();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 			</div>
 		</div>
 	</div>

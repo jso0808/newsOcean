@@ -142,15 +142,15 @@
 }
 
 .btn-update-1 {
-	width: 100px;
+	width: 120px;
 	height: 40px;
 	text-align: center;
 	vertical-align: middle;
-	border-radius: 6px;
+	border-radius: 20px;
 	border: none;
 	font-size: 15px;
-	background: #9999FF;
-	color: #fff;
+	background: #eee;
+	color: #595959;
 	font-family: 'line_font_r';
 	margin-top: 27px;
 	margin-bottom: 20px;
@@ -162,13 +162,13 @@
 }
 
 .reload_btn {
-	height: 35px;
-	text-align: center;
-	vertical-align: middle;
-	border-radius: 6px;
-	width: 100px;
-	border: none;
-	background: #fff;
+	height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 20px;
+    width: 120px;
+    border: none;
+    background: #fff;
 	
 }
 
@@ -248,10 +248,10 @@
 
 .my__admin__title {
 	color: #595959;
-	font-size: 17px;
+	font-size: 22px;
 	font-family: line_font_b;
 	margin-left: 10px;
-	margin-bottom: 12px;
+	margin-bottom: 24px;
 }
 
 .qna__admin , .faq__admin {
@@ -272,7 +272,7 @@
 	color: #595959;
 	font-size: 17px;
 	font-family: line_font_b;
-	margin-left: 154px;
+	margin-left: 210px;
 	margin-bottom: 12px;
 }
 

@@ -19,6 +19,6 @@
 			</tr>
 		</tbody>
 	</table>
-	<button type="button" class="btn-update-1" style="margin-left: 115px;" onclick="sendOk();">수정하기</button>
+	<button type="button" class="btn-update-1" style="margin-left: 104px;" onclick="sendOk();">수정하기</button>
 	<button type="button" class="btn-update-1" onclick="sendCancel();">수정취소</button>
  </form>
