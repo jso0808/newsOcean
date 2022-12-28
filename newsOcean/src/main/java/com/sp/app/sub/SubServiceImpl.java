@@ -59,7 +59,7 @@ public class SubServiceImpl implements SubService {
  
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "KakaoAK " + "30030eeda4e3955ebc8fd154e358c9db");
+        headers.add("Authorization", "KakaoAK " + "");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
         
@@ -148,7 +148,7 @@ public class SubServiceImpl implements SubService {
 	private HttpHeaders getHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		// ADMIN 키
-		headers.set("Authorization", "30030eeda4e3955ebc8fd154e358c9db");
+		headers.set("Authorization", "");
 		headers.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
 		return headers;
