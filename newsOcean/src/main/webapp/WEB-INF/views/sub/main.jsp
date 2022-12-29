@@ -352,7 +352,7 @@ function requestPay() {
 	    item_name: selectSub,
 	    amount : price,
 	    buyer_email : email
-	}, function(rsp) { // callback 로직
+	}, function(rsp) { // callback 로직 뿡~~
 		if(rsp.success) {
 			alert("success");
 			console.log(rsp);
