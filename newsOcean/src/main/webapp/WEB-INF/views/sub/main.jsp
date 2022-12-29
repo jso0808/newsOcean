@@ -167,47 +167,11 @@
 
 </style>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript">
 
-
-/*
-	$("#check_module").click(function () {
-		var IMP = window.IMP; 
-		let selectSub = $("input[name=selectSub]").val(); // 구독권
-		let totalPrice = $("input[name=totalPrice]").val(); // 결제 금액
-		let buyer_name = $("input[name=name]").val(); // 구매자 이름
-		let buyer_email = $("input[name=email]").val(); // 구매자 이메일
-		
-		
-		IMP.init('imp72401774'); 
-		IMP.request_pay({
-			pg: 'kakao',
-			pay_method: 'card',
-			merchant_uid: 'merchant_' + new Date().getTime(),
-			name: '상품명 : ' + selectSub,
-			amount: totalPrice,
-			buyer_name: buyer_name,
-			buyer_email: buyer_email,
-			}, function (rsp) {
-				console.log(rsp);
-			if (rsp.success) {
-				var msg = '결제가 완료되었습니다.';
-				msg += '결제 금액 : ' + rsp.paid_amount;
-				// success.submit();
-				// 결제 성공 시 정보를 넘겨줘야한다면 body에 form을 만든 뒤 위의 코드를 사용하는 방법이 있습니다.
-				// 자세한 설명은 구글링으로 보시는게 좋습니다.
-			} else {
-				var msg = '결제에 실패하였습니다.';
-				msg += '에러내용 : ' + rsp.error_msg;
-			}
-			alert(msg);
-		});
-	});
-*/
-
+let impChk = 0;
 
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -304,77 +268,134 @@ $(function() {
 
 function requestPay() {
 	alert('결제 버튼 클릭 : 유효성 검사 추가해야댐!');
+
+	// 카카오페이 실행
+	execKakaoPay();
+	
+	// ajax 실행
+	// setTimeout("requestPaySuccess()", 10000);
+}
+
+// 결제 API 관련
+function execKakaoPay() {
+	alert('execKakaoPay');
 	var IMP = window.IMP;
-	IMP.init("imp72401774");
+	IMP.init("imp67011510");
 	
 	let selectSub = $("input[name=selectSub]").val(); // 구독권 
 	let email = $("input[name=email]").val();
+	let name = $("input[name=name]").val();
 	let memberShip = $("input[name=memberShip]").val();
 	let price = $("input[name=totalPrice]").val();
 	let selectNum;
-	
-	console.log(selectSub + email + name + price);
 	
 	var today = new Date();
 	var h = today.getHours().toString();
 	var min = today.getMinutes().toString();
 	var s = today.getSeconds().toString();
 	var m = today.getMilliseconds().toString();
-	var makeMerchanUid = h + min + s + m;
+	var makeMerchantUid = h + min + s + m;
 	
-	console.log("고유번호 시간으로 조합: "+makeMerchanUid);
-	
+	if(email === "") {
+		$(".email").focus();
+		return;
+	}
 	if(selectSub === "") {
 		$(".selectSub").focus();
+		return;
 	}
 	if(price === "") {
 		$(".price").focus();
+		return;
 	}
 	
 	if(selectSub === "monthSub"){
-		selectSub = "1개월 구독권";
+		selectSub = "1개월구독권";
 		selectNum = "1";
 	} else if(selectSub === "yearSub") {
-		selectSub = "12개월 구독권";
+		selectSub = "12개월구독권";
 		selectNum = "12";
 	}
 	
-	console.log(selectNum+makeMerchanUid);
-	console.log(selectSub);
-	console.log(price);
-	console.log(email);
-
-	IMP.request_pay({
+	IMP.request_pay({ 
+		/*
 	    pg : 'kakaopay',
 	    pay_method : 'card', 
-	    merchant_uid: selectNum+makeMerchanUid, // 고유 주문번호
+	    merchant_uid: selectNum + makeMerchantUid, // 고유 주문번호
 	    name : selectSub,
 	    item_name: selectSub,
 	    amount : price,
-	    buyer_email : email
-	}, function(rsp) { // callback 로직 뿡~~
+	    buyer_email : email,
+	    buyer_name : email
+	    */
+	    pg : 'kakaopay',
+	    merchant_uid: selectNum + makeMerchantUid, 
+        name : selectSub,
+        item_name: selectSub,
+        amount : price,
+        buyer_email : email,
+        buyer_name : name
+	}, function(rsp) { // callback 로직 
+		console.log(rsp);
 		if(rsp.success) {
 			alert("success");
 			console.log(rsp);
-			console.log(rsp.imp_uid);	
-			
-			console.log(rsp.imp_uid);
-			console.log(rsp.merchant_uid);
-			
-			$("input[name=imp_uid]").attr("value", rsp.imp_uid);
-			$("input[name=merchant_uid]").attr("value", rsp.merchant_uid);
-			$("input[name=paid_amount]").attr("value", rsp.paid_amount);
-			$("input[name=paid_at]").attr("value", rsp.paid_at);	
-			$("input[name=pg_tid]").attr("value", rsp.pg_tid);
-			
-			requestPaySuccess();
+ 			console.log(rsp.imp_uid);	
+ 			console.log(rsp.merchant_uid);  // merchant_uid
+ 			console.log(rsp.buyer_email);
+ 			console.log(rsp.buyer_name);
+ 			console.log(rsp.paid_at);		// 1672299858
+ 			console.log(rsp.paid_amount);	// 3000
+ 			console.log(rsp.pg_tid);		// "T3ad4546003e7c98e7c0"
+ 	
+ 			let url = "${pageContext.request.contextPath}/sub/paySuccess";
+ 			let query = "imp_uid="+rsp.imp_uid;
+ 			
+ 			const fn = function(data) {
+ 	    		console.log("ajax 성공이당~~");
+ 	    		console.log(data.msg);
+ 	        }
+ 	        
+ 	        ajaxFun(url, "post", query, "json", fn);
+ 			/*
+ 			// jQuery로 HTTP 요청
+ 	        $.ajax({
+ 	            url: url, // 예: https://www.myservice.com/payments/complete
+ 	            method: "POST",
+ 	            headers: { "Content-Type": "application/json" },
+ 	            dataType: 'json',
+ 	            data: query
+ 	       }).done(function(data) {
+ 	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+ 	    		if ( everythings_fine ) {
+ 	    			var msg = '결제가 완료되었습니다.';
+ 	    			msg += '\n고유ID : ' + rsp.imp_uid;
+ 	    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+ 	    			msg += '\결제 금액 : ' + rsp.paid_amount;
+ 	    			msg += '카드 승인번호 : ' + rsp.apply_num;
+ 	    			
+ 	    			alert(msg);
+ 	    		} else {
+ 	    			//[3] 아직 제대로 결제가 되지 않았습니다.
+ 	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+ 	    		}
+ 	    	});
+	        */
 		} else {
 			alert("fail");
 			console.log(rsp);
+			if(rsp.error_msg) {
+				console.log(rsp.error_msg);
+			}
+			return;
 		}
+		// requestPaySuccess();
 	});
 	
+	console.log("끝");
 }
+
+
 
 function requestPaySuccess() {
 	let memberShip = $("input[name=memberShip]").val();
@@ -396,7 +417,7 @@ function requestPaySuccess() {
 	console.log(email);
 	console.log(price);
 	console.log(imp_uid); 
-	console.log(merchant_uid);  // x
+	console.log(merchant_uid);  // 
 	console.log(paid_amount); 
 	console.log(paid_at);
 	console.log(dateSubStart);
@@ -405,9 +426,14 @@ function requestPaySuccess() {
 	console.log(pg_tid); 
 	
 	let url = "${pageContext.request.contextPath}/sub/paySuccess";
-	let query= "email="+email+"&imp_uid="+imp_uid+"&merchant="+merchant+"&selectSub="+selectSub+
+	let query= "email="+email+"&imp_uid="+imp_uid+"&merchant_uid="+merchant_uid+"&selectSub="+selectSub+
 		"&paid_amount="+paid_amount+"&paid_at="+paid_at+"&pg_tid="+pg_tid+"&dateSubStart="+dateSubStart+
 		"&dateSubEnd="+dateSubEnd+"&dateFirstMail="+dateFirstMail;
+	
+	const fn = function(data){
+		console.log('ajax 성공이에요');
+		console.log(data.msg);
+	};
 	
 	ajaxFun(url, "post", query, "html", fn);
 
@@ -439,7 +465,7 @@ function requestPaySuccess() {
 		<div class="area-title">
 			뉴스오션 구독하기
 		</div>
-
+		
 		<div class="body-main">
 			<div class="row row-cols-2">
 				<div class="col div-area">

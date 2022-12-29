@@ -1,10 +1,14 @@
 package com.sp.app.sub;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +28,7 @@ public class SubController {
 	@Autowired
 	private SubService service;
 
-	@GetMapping(value = "main")
+	@RequestMapping(value = "main")
 	public String main(Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -38,37 +42,38 @@ public class SubController {
 		return ".sub.complete";
 	}
 	
+	
 	@RequestMapping(value = "paySuccess")
 	@ResponseBody
-	public String paySuccess(@RequestParam String email,
+	public void paySuccess(
 			@RequestParam String imp_uid,
-			@RequestParam String merchant,
-			@RequestParam long amount,
-			@RequestParam String paid_at,
-			@RequestParam String selectSub,
-			@RequestParam String dateSubStart,
-			@RequestParam String dateSubEnd,
-			@RequestParam String dateFirstMail,
-			HttpSession session,
-			Model model) throws Exception {
+			Model model,
+			HttpServletResponse resp
+			) throws Exception {
 		
 		System.out.println("kakao pay Post 실행이다.~");
-		System.out.println(email);
 		System.out.println(imp_uid);
-		System.out.println(merchant);
-		System.out.println(amount);
-		System.out.println(paid_at);
-		System.out.println(selectSub);
-		System.out.println(dateSubStart);
-		System.out.println(dateSubEnd);
-		System.out.println(dateFirstMail);
 		
-		
-		return "";
-	}
+		String state = "false";
 
+		try {
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html; charset=utf-8"); 
+		PrintWriter out = resp.getWriter();
+		// json 객체를 문자열로 변환
+		out.print(job.toString());
+		
+	}
+	
 	@PostMapping("/kakaoPay")
-	public String kakaoPay(
+	public void kakaoPay(
 			@RequestParam String email,
 			@RequestParam String imp_uid,
 			@RequestParam String merchant,
@@ -79,8 +84,9 @@ public class SubController {
 			@RequestParam String dateSubEnd,
 			@RequestParam String dateFirstMail,
 			HttpSession session,
-			Model model
-			) {
+			Model model,
+			HttpServletResponse resp
+			) throws IOException {
 		System.out.println("kakao pay Post 실행이다.~");
 		System.out.println(email);
 		System.out.println(imp_uid);
@@ -92,18 +98,25 @@ public class SubController {
 		System.out.println(dateSubEnd);
 		System.out.println(dateFirstMail);
 		
+		String state = "false";
+		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		
-		if(selectSub.equals("monthSub")) {
-			selectSub = "1개월 구독권";
-		} else if (selectSub.equals("yearSub")) {
-			selectSub = "12개월 구독권";
+		try {
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
+		JSONObject job = new JSONObject();
+		job.put("state", state);
 		
-		return "redirect:";
+		resp.setContentType("text/html; charset=utf-8"); 
+		PrintWriter out = resp.getWriter();
+		// json 객체를 문자열로 변환
+		out.print(job.toString());
 	}
+	
 	
 	@GetMapping("/pay_complete")
 	public void kakaoPaySuccess(@RequestParam("pg_token") String pg_token,
