@@ -1,6 +1,7 @@
 package com.sp.app.cs.notice;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
@@ -30,14 +29,8 @@ public class NoticeController {
 	@Autowired
 	private MyUtil myUtil;
 
-	@RequestMapping(value = "main")
-	public String main() throws Exception {
-		return ".cs.notice.main";
-	}
-
-	// AJAX - HTML
 	@RequestMapping(value = "list")
-	public String list(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			HttpServletRequest req,
@@ -73,10 +66,11 @@ public class NoticeController {
 		}
 
 		// 리스트에 출력할 데이터를 가져오기
-		int start = (current_page - 1) * size + 1;
-		int end = current_page * size;
-		map.put("start", start);
-		map.put("end", end);
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		map.put("offset", offset);
+		map.put("size", size);
 
 		// 글 리스트
 		List<Notice> list = service.listNotice(map);
@@ -98,81 +92,88 @@ public class NoticeController {
 			dto.setNoticeRegdate(dto.getNoticeRegdate().substring(0, 10));
 		}
 
-		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		String cp = req.getContextPath();
+		String query = "";
+		String listUrl = cp + "/cs/notice/list";
+		String articleUrl = cp + "/cs/notice/article?page=" + current_page;
+		if (keyword.length() != 0) {
+			query = "condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
+		}
+
+		if (query.length() != 0) {
+			listUrl = cp + "/cs/notice/list?" + query;
+			articleUrl = cp + "/cs/notice/article?page=" + current_page + "&" + query;
+		}
+
+		String paging = myUtil.paging(current_page, total_page, listUrl);
 
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("list", list);
-		model.addAttribute("pageNo", current_page);
+		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("size", size);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		model.addAttribute("articleUrl", articleUrl);
 
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
 
-		return "cs/notice/list";
+		return ".cs.notice.list";
 	}
 
-	// AJAX - HTML
 	@RequestMapping(value = "write", method = RequestMethod.GET)
-	public String writeForm(Model model, 
-			HttpServletResponse resp,
-			HttpSession session) throws Exception {
+	public String writeForm(Model model, HttpSession session) throws Exception {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		if (info.getMemberShip() < 51) {
-			resp.sendError(402);
-			return "redirect:/cs/notice/main";
+			return "redirect:/cs/notice/list";
 		}
 
 		model.addAttribute("mode", "write");
-		model.addAttribute("pageNo", "1");
 
-		return "/csnotice/write";
+		return ".cs.notice.write";
 	}
 
-	// AJAX - JSON
 	@RequestMapping(value = "write", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> writeSubmit(Notice dto, 
-			HttpSession session) throws Exception {
+	public String writeSubmit(Notice dto, HttpSession session) throws Exception {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		String state = "false";
-		
+
+		if (info.getMemberShip() < 51) {
+			return "redirect:/cs/notice/list";
+		}
+
 		try {
-			if (info.getMemberShip() > 50) {
-				String root = session.getServletContext().getRealPath("/");
-				String pathname = root + "uploads" + "notice";
-	
-				dto.setMemberNo(info.getMemberNo());
-				service.insertNotice(dto, pathname);
-				state = "true";
-			}
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + "uploads" + "notice";
+
+			dto.setMemberNo(info.getMemberNo());
+			service.insertNotice(dto, pathname);
 		} catch (Exception e) {
 		}
 
-		Map<String, Object> model=new HashMap<>();
-		model.put("state", state);
-		return model;
+		return "redirect:/cs/notice/list";
 	}
 
-	// AJAX - HTML
 	@RequestMapping(value = "article")
 	public String article(@RequestParam long noticeNo,
-			@RequestParam String pageNo,
+			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
-			HttpServletResponse resp,
 			Model model) throws Exception {
 
 		keyword = URLDecoder.decode(keyword, "utf-8");
 
+		String query = "page=" + page;
+		if (keyword.length() != 0) {
+			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+
+
 		Notice dto = service.readNotice(noticeNo);
 		if (dto == null) {
-			resp.sendError(410);
-			return "redirect:/cs/notice/main";
+			return "redirect:/cs/notice/list?" + query;
 		}
 
 		dto.setNoticeContent(dto.getNoticeContent().replaceAll("\n", "<br>"));
@@ -190,82 +191,78 @@ public class NoticeController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);
-		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
 
-		return "cs/notice/article";
+		return ".cs.notice.article";
 	}
 
-	// AJAX - HTML
 	@RequestMapping(value = "update", method = RequestMethod.GET)
 	public String updateForm(@RequestParam long noticeNo,
-			@RequestParam String pageNo,
+			@RequestParam String page,
 			HttpSession session,
-			HttpServletResponse resp,
 			Model model) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		Notice dto = service.readNotice(noticeNo);
-		if (dto == null ||  info.getMemberNo() != dto.getMemberNo()) {
-			resp.sendError(402);
-			return "redirect:/cs/notice/main";
+		if (dto == null || info.getMemberNo() != dto.getMemberNo()) {
+			return "redirect:/cs/notice/list?page=" + page;
 		}
 
 		model.addAttribute("mode", "update");
-		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("page", page);
 		model.addAttribute("dto", dto);
 
-		return "cs/notice/write";
+		return ".cs.notice.write";
 	}
 
-	// AJAX - JSON
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> updateSubmit(Notice dto,
+	public String updateSubmit(Notice dto,
+			@RequestParam String page,
 			HttpSession session) throws Exception {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		String state = "false";
-		
+		if (info.getMemberShip() < 51) {
+			return "redirect:/cs/notice/list?page=" + page;
+		}
+
 		try {
-			if (info.getMemberShip() > 50) {
-				String root = session.getServletContext().getRealPath("/");
-				String pathname = root + "uploads" + "notice";
-	
-				dto.setMemberNo(info.getMemberNo());
-				service.updateNotice(dto, pathname);
-				
-				state = "true";
-			}
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + "uploads" + "notice";
+
+			dto.setMemberNo(info.getMemberNo());
+			service.updateNotice(dto, pathname);
 		} catch (Exception e) {
 		}
 
-		Map<String, Object> model=new HashMap<>();
-		model.put("state", state);
-		return model;
+		return "redirect:/cs/notice/list?page=" + page;
 	}
 
-	// AJAX-JSON
 	@RequestMapping(value = "delete")
-	@ResponseBody
-	public Map<String, Object> delete(@RequestParam long noticeNo,
+	public String delete(@RequestParam long noticeNo,
+			@RequestParam String page,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
 			HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		String state = "false";
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		String query = "page=" + page;
+		if (keyword.length() != 0) {
+			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+
+		if (info.getMemberShip() < 51) {
+			return "redirect:/cs/notice/list?" + query;
+		}
+
 		try {
-			if(info.getMemberShip() > 50) {
-				String root = session.getServletContext().getRealPath("/");
-				String pathname = root + "uploads" + "notice";
-				service.deleteNotice(noticeNo, pathname);
-				
-				state = "true";
-			}
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + "uploads" + "notice";
+			service.deleteNotice(noticeNo, pathname);
 		} catch (Exception e) {
 		}
 
-		Map<String, Object> model=new HashMap<>();
-		model.put("state", state);
-		return model;
+		return "redirect:/cs/notice/list?" + query;
 	}
-
 }

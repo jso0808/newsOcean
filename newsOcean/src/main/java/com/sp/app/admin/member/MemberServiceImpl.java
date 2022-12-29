@@ -193,5 +193,35 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public int dataCount_qna(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMember.dataCount_qna", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+
+
+	@Override
+	public List<Member> myqnalist(Map<String, Object> map) {
+		List<Member> list = null;
+		
+		try {
+			list = dao.selectList("adminMember.myqnalist", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+
 	
 }

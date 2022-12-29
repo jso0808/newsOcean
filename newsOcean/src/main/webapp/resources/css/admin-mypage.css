@@ -94,7 +94,7 @@
 	padding-left: 30px;
 	width: 43%;
 	border-radius: 7px 0px 0px 7px;
-	border-right: 2px solid #9999FF;
+	border-right: 2px solid #004b81;
 }
 
 .info__second {
@@ -365,7 +365,7 @@
 	font-size: 15px;
 	border-bottom: 2px solid;
 	padding-right: 5px;
-	border-bottom-color: #9999FF;
+	border-bottom-color: #004b81;
 	text-align: center;
 }
 

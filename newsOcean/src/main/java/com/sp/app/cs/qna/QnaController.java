@@ -211,7 +211,7 @@ public class QnaController {
 
 	// 댓글 리스트 : AJAX-TEXT
 		@GetMapping("listAnswer")
-		public String listAnswer(@RequestParam long qnaAnswer, 
+		public String listAnswer(@RequestParam long qnaNo, 
 				@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
 				HttpSession session,
 				Model model) throws Exception {
@@ -223,12 +223,10 @@ public class QnaController {
 			int dataCount = 0;
 
 			Map<String, Object> map = new HashMap<>();
-			map.put("qnaAnswer", qnaAnswer);
+			map.put("qnaNo", qnaNo);
 			
 			map.put("memberShip", info.getMemberShip());
 			map.put("memberNo", info.getMemberNo());
-			
-			map.put("qnaAnswer", qnaAnswer);
 
 			dataCount = service.QnaAnswerCount(map);
 			total_page = myUtil.pageCount(dataCount, size);

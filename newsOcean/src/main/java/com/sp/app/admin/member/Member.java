@@ -158,5 +158,64 @@ public class Member {
 	}
 	
 	
+	private String pdf_enabled;
+	private String pdf_sub;
+
+
+	public String getPdf_enabled() {
+		return pdf_enabled;
+	}
+	public void setPdf_enabled(String pdf_enabled) {
+		this.pdf_enabled = pdf_enabled;
+	}
+	public String getPdf_sub() {
+		return pdf_sub;
+	}
+	public void setPdf_sub(String pdf_sub) {
+		this.pdf_sub = pdf_sub;
+	}
+	
+	
+	private long qnaNo;
+	private String qnasubject;
+	private String qnacontent;
+	private String qnaregdate;
+	private int qnaHit;
+
+
+	public long getQnaNo() {
+		return qnaNo;
+	}
+	public void setQnaNo(long qnaNo) {
+		this.qnaNo = qnaNo;
+	}
+	public String getQnasubject() {
+		return qnasubject;
+	}
+	public void setQnasubject(String qnasubject) {
+		this.qnasubject = qnasubject;
+	}
+	public String getQnacontent() {
+		return qnacontent;
+	}
+	public void setQnacontent(String qnacontent) {
+		this.qnacontent = qnacontent;
+	}
+	public String getQnaregdate() {
+		return qnaregdate;
+	}
+	public void setQnaregdate(String qnaregdate) {
+		this.qnaregdate = qnaregdate;
+	}
+	public int getQnaHit() {
+		return qnaHit;
+	}
+	public void setQnaHit(int qnaHit) {
+		this.qnaHit = qnaHit;
+	}
+	
+	
+	
+	
 	
 }

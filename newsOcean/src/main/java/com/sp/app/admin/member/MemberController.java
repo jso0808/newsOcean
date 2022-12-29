@@ -1,7 +1,6 @@
 package com.sp.app.admin.member;
 
 import java.net.URLDecoder;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,7 +129,7 @@ public class MemberController {
 			keyword = URLDecoder.decode(keyword, "utf-8");
 		}
 		
-		//전체 페이지수  -
+		//전체 페이지수  - 구독자
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", condition);
 		map.put("keyword", keyword);
@@ -190,6 +189,7 @@ public class MemberController {
 		
 		return "admin/member/list";
 	}
+	
 	
 	@RequestMapping(value = "listEn")
 	public String listEn(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
@@ -314,6 +314,53 @@ public class MemberController {
 	}
 	
 	
+	//AJAX - HTML : LIST : qna 게시글
+	@RequestMapping(value = "myqna")
+	public String listQna(@RequestParam(value = "pageNo" , defaultValue = "1") int current_page,
+			@RequestParam long memberNo,
+			HttpServletRequest req, Model model) throws Exception {
+		
+		int size = 6;
+		int total_page = 0;
+		int dataCount = 0;
+		
+		//전체 페이지 수  - qna
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("table", "qna");
+		map.put("memberNo", memberNo);
+		
+		dataCount = service.dataCount_qna(map);
+		if(dataCount != 0) {
+			total_page = myUtil.pageCount(dataCount, size);
+		}
+		
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		//리스트
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		map.put("offset", offset);
+		map.put("size", size);
+		
+		List<Member> list = service.myqnalist(map);
+		
+		String paging = myUtil.pagingMethod(current_page, total_page, "listQna");
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		
+		
+		return "admin/member/myqna";
+	}
+	
+	
 	//계정 상태 변경
 	@RequestMapping(value = "update_en", method = RequestMethod.POST)
 	@ResponseBody
@@ -363,10 +410,26 @@ public class MemberController {
 		columnLabels.add("구독 상태");
 		
 		for(Member dto : list) {
+			
+			if(dto.getEnabled()==1) {
+				dto.setPdf_enabled("활성화");
+			} else {
+				dto.setPdf_enabled("잠금");
+			}
+			
+			if(dto.getSubtype()==1) {
+				dto.setPdf_sub("구독중");
+			} else if(dto.getSubtype()==12) {
+				dto.setPdf_sub("구독중");
+			} else {
+				dto.setPdf_sub("X");
+			}
+			
 			columnValues.add(new Object[] { dto.getAuthority(), dto.getMemberNo(), dto.getEmail(),
 					dto.getName(), dto.getBirth(), dto.getGender(), dto.getJoindate(),
-					dto.getRecentdate(), dto.getModifydate(), dto.getEnabled(), dto.getSubtype()});
+					dto.getRecentdate(), dto.getModifydate(), dto.getPdf_enabled(), dto.getPdf_sub()});
 		}
+		
 		
 		model.put("filename", "memberlist.pdf");
 		model.put("columnLabels", columnLabels);

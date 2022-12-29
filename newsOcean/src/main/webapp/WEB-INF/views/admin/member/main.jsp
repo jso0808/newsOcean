@@ -21,7 +21,7 @@
 		</div>
 		<div class="p-1">
 			<div >
-				<button type="button" class="pdf_btn shadow-sm" onclick=""><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운</button>
+				<button type="button" class="pdf_btn shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/member/pdf';"><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운 - 전체 회원 리스트 </button>
 				<button type="button" class="reload_btn shadow-sm" onclick="reload();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 			</div>
 		</div>
@@ -52,12 +52,12 @@
 
 
 
-<div class="row mt-3">
+<div class="row ">
 	<div class="body-container_list1 shadow ">
 		<div class="content-frame-qna "></div>
 	</div>
 	<div class="body-container_list2 shadow ">
-		<div class="content-frame-faq "></div>
+		<div class="content-frame-reply "></div>
 	</div>
 	
 </div>
@@ -155,7 +155,10 @@ function listPage(page) {
 		$(selector).html(data);
 	};
 	
+	clear_article();
+	
 	ajaxFun(url, "get", query, "html", fn);
+	
 
 }
 
@@ -166,10 +169,6 @@ function listSubpage(page) {
 	let query = "pageNo="+page;
 	let selector = ".content-frame-list";
 	
-	let selector_1 = ".content-frame-1"
-	let selector_2 = ".content-frame-2"
-			
-	
 	$("#list_btn2").addClass("member_list_btn1__click");
 	$("#list_btn1").removeClass("member_list_btn1__click");
 	$("#list_btn3").removeClass("member_list_btn1__click");
@@ -177,10 +176,10 @@ function listSubpage(page) {
 	
 	const fn = function(data){
 		$(selector).html(data);
-		$(selector_1).html("");
-		$(selector_2).html("");
 		
 	};
+	
+	clear_article();
 	
 	ajaxFun(url, "get", query, "html", fn);
 
@@ -197,15 +196,12 @@ function listEnpage(page) {
 	$("#list_btn1").removeClass("member_list_btn1__click");
 	$("#list_btn2").removeClass("member_list_btn1__click");
 	
-	let selector_1 = ".content-frame-1"
-	let selector_2 = ".content-frame-2"
-	
 	
 	const fn = function(data){
 		$(selector).html(data);
-		$(selector_1).html("");
-		$(selector_2).html("");
 	};
+	
+	clear_article();
 	
 	ajaxFun(url, "get", query, "html", fn);
 
@@ -217,13 +213,22 @@ function reload() {
 	listPage(1);
 	$("#list_btn1").addClass("member_list_btn1__click");
 	
-	let selector_1 = ".content-frame-1"
-	let selector_2 = ".content-frame-2"
-		
-	$(selector_1).html("");
-	$(selector_2).html("");
+	clear_article();
 	
 
+}
+
+// 클리어~~~~~~~~~~~~~
+function clear_article(){
+	let selector_1 = ".content-frame-1"
+	let selector_2 = ".content-frame-2"
+	let selector_3 = ".content-frame-qna"
+	
+	
+	$(selector_1).html("");
+	$(selector_2).html("");
+	$(selector_3).html("");
+			
 }
 
 //상세보기 페이지 
@@ -240,6 +245,7 @@ function articleMember(memberNo) {
 	};
 	
 	articleinfo(memberNo);
+	listQna(1, memberNo);
 	
 	ajaxFun(url, "get", query, "html", fn);
 	
@@ -264,6 +270,20 @@ function articleinfo(memberNo) {
 	ajaxFun(url, "get", query, "html", fn);
 	
 }
+
+//상세보기 페이지 - qna 답변 리스트
+function listQna(page, memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/myqna";
+	let query = "pageNo="+page+"&memberNo="+memberNo;
+	let selector = ".content-frame-qna";
+
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+}
+
 
 //1. 계정 상태 변경
 function updateEnabled(memberNo, enabled) {

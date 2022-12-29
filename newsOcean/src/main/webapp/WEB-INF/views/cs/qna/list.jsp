@@ -97,7 +97,6 @@ function searchList() {
 			</table>
 			
 			<div class="page-navigation"></div>
-s
 			<div class="row board-list-footer">
 				
 			

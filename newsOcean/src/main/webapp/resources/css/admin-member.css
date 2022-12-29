@@ -6,6 +6,17 @@
 	
 }
 
+.no__member {
+	width: 1250px;
+	text-align: center;
+	font-family: 'line_font_b';
+	font-size: 16px;
+	color: #595959;
+	font-weight: 600;
+	
+	
+}
+
 .body-container {
 	background: #fff;
 	width: 700px;
@@ -16,16 +27,17 @@
 
 .body-container_list1 {
 	background: #fff;
-	width: 680px;
+	width: 600px;
 	height: 100%;
 	border-radius: 10px;
-	margin-left: 13px;
+	margin-left: 23px;
 	margin-top: 15px;
+	margin-bottom: 20px;
 }
 
 .body-container_list2 {
 	background: #fff;
-	width: 680px;
+	width: 600px;
 	height: 100%;
 	border-radius: 10px;
 	margin-left: 13px;
@@ -103,14 +115,14 @@
 	font-family: 'line_font_b';
 }
 
-.btn-pdf {
+.btn-update {
 	width: 85%;
 	height: 35px;
 	text-align: center;
 	vertical-align: middle;
 	border-radius: 9px;
 	border: none;
-	background: #CC3333;
+	background: #004b81;
 	color: #fff;
 	display: inline-block;
 	font-family: 'line_font_b';
@@ -136,7 +148,7 @@
     text-align: center;
     vertical-align: middle;
     border-radius: 10px;
-    width: 120px;
+    width: 210px;
     border: none;
     background: #fff;
     margin-right: 7px;
@@ -390,6 +402,17 @@
     padding-bottom: -10px;
 }
 
+.title__member__3 {
+    margin-left: 3px;
+    color: #595959;
+    font-size: 22px;
+    font-family: line_font_b;
+    font-weight: 600;
+    padding-top: 16px;
+    padding-bottom: -5px;
+	padding-left: 30px;
+}
+
 
 .btn__enabled {
 	width: 100px;
@@ -413,9 +436,9 @@
 
 
 .profile__size__member {
-	width: 160px;
+	width: 140px;
 	margin-left: 0px;
-	margin-top: -15px;
+	margin-top: 0px;
 	
 }
 
@@ -427,6 +450,20 @@
 .state__en__yes {
 	color: #004b81;
 	font-family: line_font_b;
+}
+
+
+/*qna 디자인 */
+.admin__tr__design th {
+	color: #004b81;
+	font-family: line_font_b;
+}
+
+
+.info__st {
+	background: #fff;
+	border-radius: 15px;
+	width: 300px;
 }
 
 

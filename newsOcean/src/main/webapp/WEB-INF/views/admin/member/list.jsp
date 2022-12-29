@@ -73,9 +73,9 @@
 </c:forEach>
 
 
-<div class="paging_container">
+<div class="no__member">
 	<div class="pt-3">
-		${dataCount == 0 ? "등록된 회원이 없습니다." : paging}
+		${dataCount == 0 ? "조회된 회원이 없습니다!" : paging}
 	</div>
 </div>
 
