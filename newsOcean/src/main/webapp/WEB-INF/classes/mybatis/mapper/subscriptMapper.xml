@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="subscript">
+
+	<insert id="insertSubPay" parameterType="com.sp.app.sub.Subscript">
+		INSERT INTO SUBSCRIPT(subNo, memberNo, subStart, subEnd, subType,
+			paid_amount, memo, imp_uid, merchant_uid, paid_at, pg_tid, firstMail) 	
+		VALUES(subscript_seq.NEXTVAL, #{memberNo}, TO_DATE(#{subStart}, 'YYYY-MM-DD') ,TO_DATE(#{subEnd}, 'YYYY-MM-DD'), 
+			#{subType}, #{paid_amount}, #{memo, jdbcType=VARCHAR}, #{imp_uid}, #{merchant_uid}, 
+			TO_DATE(#{paid_at}, 'YYYY-MM-DD HH24:MI:SS'), #{pg_tid}, TO_DATE(#{firstMail}, 'YYYY-MM-DD'))
+	</insert>
+
+</mapper>

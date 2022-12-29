@@ -1,26 +1,21 @@
 package com.sp.app.sub;
 
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.sp.app.member.SessionInfo;
 
 @Controller("sub.subController")
 @RequestMapping(value = "/sub/*")
@@ -46,17 +41,47 @@ public class SubController {
 	@RequestMapping(value = "paySuccess")
 	@ResponseBody
 	public void paySuccess(
+			@RequestParam String memberNo,
 			@RequestParam String imp_uid,
+			@RequestParam String merchant_uid,
+			@RequestParam long paid_amount,
+			@RequestParam String paid_at,
+			@RequestParam String pg_tid,
+			@RequestParam String subStart,
+			@RequestParam String subEnd,
+			@RequestParam String firstMail,
+			@RequestParam int selectNum, 
+			Subscript sb,
 			Model model,
 			HttpServletResponse resp
 			) throws Exception {
 		
-		System.out.println("kakao pay Post 실행이다.~");
-		System.out.println(imp_uid);
+		sb.setMemberNo(Long.parseLong(memberNo));
+		sb.setImp_uid(imp_uid);
+		sb.setMerchant_uid(merchant_uid);
+		sb.setPaid_amount(paid_amount);
+		sb.setPg_tid(pg_tid);
+		sb.setSubStart(subStart);
+		sb.setSubEnd(subEnd);
+		sb.setFirstMail(firstMail);
+		sb.setSubType(selectNum);
+		
+		// 유닉스 타임스태프를 문자열로 변환
+		long timestamp = Long.parseLong(paid_at);
+		Date date = new Date(timestamp*1000L);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT+9")); 
+	
+		String time = sdf.format(date);
+		System.out.println(time);
+		sb.setPaid_at(time);
 		
 		String state = "false";
 
 		try {
+			service.insertSubPay(sb);
+			
 			state = "true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,64 +97,6 @@ public class SubController {
 		
 	}
 	
-	@PostMapping("/kakaoPay")
-	public void kakaoPay(
-			@RequestParam String email,
-			@RequestParam String imp_uid,
-			@RequestParam String merchant,
-			@RequestParam long amount,
-			@RequestParam String paid_at,
-			@RequestParam String selectSub,
-			@RequestParam String dateSubStart,
-			@RequestParam String dateSubEnd,
-			@RequestParam String dateFirstMail,
-			HttpSession session,
-			Model model,
-			HttpServletResponse resp
-			) throws IOException {
-		System.out.println("kakao pay Post 실행이다.~");
-		System.out.println(email);
-		System.out.println(imp_uid);
-		System.out.println(merchant);
-		System.out.println(amount);
-		System.out.println(paid_at);
-		System.out.println(selectSub);
-		System.out.println(dateSubStart);
-		System.out.println(dateSubEnd);
-		System.out.println(dateFirstMail);
-		
-		String state = "false";
-		
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		try {
-			state = "true";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		JSONObject job = new JSONObject();
-		job.put("state", state);
-		
-		resp.setContentType("text/html; charset=utf-8"); 
-		PrintWriter out = resp.getWriter();
-		// json 객체를 문자열로 변환
-		out.print(job.toString());
-	}
-	
-	
-	@GetMapping("/pay_complete")
-	public void kakaoPaySuccess(@RequestParam("pg_token") String pg_token,
-			Model model) {
-		System.out.println("kakaoPaySuccess Get 실행이다");
-		System.out.println("kakaoPaySuccess pg_token: " + pg_token);
-		
-		ApproveResponse approveResponse = service.kakaoPayInfo(pg_token);
-		
-		model.addAttribute("payInfo", approveResponse);
-		
-	}
-
 	
 	/**
 	 * 날짜 더하기 함수

@@ -167,7 +167,6 @@
 
 </style>
 
-<!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript">
 
@@ -266,28 +265,40 @@ $(function() {
 	});
 });
 
+// 결제버튼 클릭. 결제 전 유효성 검사 
 function requestPay() {
-	alert('결제 버튼 클릭 : 유효성 검사 추가해야댐!');
-
-	// 카카오페이 실행
-	execKakaoPay();
+	if(! confirm('선택한 구독권을 결제하시겠습니까 ? ')) {
+		return;
+	}
 	
-	// ajax 실행
-	// setTimeout("requestPaySuccess()", 10000);
+	if(! $("input[name=agree]").prop("checked") ){
+		alert("결제 약관에 동의해주세요!");
+		return;
+	}
+	
+	if($("input[name=selectSub]").val() === "") {
+		alert("구독권을 선택해주세요!");
+		return;
+	}
+	
+	// 카카오페이 결제 실행
+	execKakaoPay();
 }
 
-// 결제 API 관련
+// 카카오페이 결제 API 진행하기
 function execKakaoPay() {
-	alert('execKakaoPay');
 	var IMP = window.IMP;
 	IMP.init("imp67011510");
 	
 	let selectSub = $("input[name=selectSub]").val(); // 구독권 
 	let email = $("input[name=email]").val();
 	let name = $("input[name=name]").val();
-	let memberShip = $("input[name=memberShip]").val();
 	let price = $("input[name=totalPrice]").val();
-	let selectNum;
+	let memberNo = $("input[name=memberNo]").val();
+	let dateSubStart = $("input[name=dateSubStart]").val();
+	let dateSubEnd = $("input[name=dateSubEnd]").val();
+	let dateFirstMail = $("input[name=dateFirstMail]").val();
+	let selectNum; // subType
 	
 	var today = new Date();
 	var h = today.getHours().toString();
@@ -317,17 +328,7 @@ function execKakaoPay() {
 		selectNum = "12";
 	}
 	
-	IMP.request_pay({ 
-		/*
-	    pg : 'kakaopay',
-	    pay_method : 'card', 
-	    merchant_uid: selectNum + makeMerchantUid, // 고유 주문번호
-	    name : selectSub,
-	    item_name: selectSub,
-	    amount : price,
-	    buyer_email : email,
-	    buyer_name : email
-	    */
+	IMP.request_pay({
 	    pg : 'kakaopay',
 	    merchant_uid: selectNum + makeMerchantUid, 
         name : selectSub,
@@ -341,66 +342,42 @@ function execKakaoPay() {
 			alert("success");
 			console.log(rsp);
  			console.log(rsp.imp_uid);	
- 			console.log(rsp.merchant_uid);  // merchant_uid
+ 			console.log(rsp.merchant_uid);  
  			console.log(rsp.buyer_email);
  			console.log(rsp.buyer_name);
- 			console.log(rsp.paid_at);		// 1672299858
- 			console.log(rsp.paid_amount);	// 3000
- 			console.log(rsp.pg_tid);		// "T3ad4546003e7c98e7c0"
- 	
+ 			console.log(rsp.paid_at);		
+ 			console.log(rsp.paid_amount);	
+ 			console.log(rsp.pg_tid);	
+ 			
  			let url = "${pageContext.request.contextPath}/sub/paySuccess";
- 			let query = "imp_uid="+rsp.imp_uid;
+ 			let query= "memberNo="+memberNo+"&imp_uid="+rsp.imp_uid+"&merchant_uid="+rsp.merchant_uid+"&selectNum="+selectNum+
+ 				"&paid_amount="+rsp.paid_amount+"&paid_at="+rsp.paid_at+"&pg_tid="+rsp.pg_tid+"&subStart="+dateSubStart+
+ 				"&subEnd="+dateSubEnd+"&firstMail="+dateFirstMail;
  			
  			const fn = function(data) {
- 	    		console.log("ajax 성공이당~~");
  	    		console.log(data.msg);
  	        }
  	        
  	        ajaxFun(url, "post", query, "json", fn);
- 			/*
- 			// jQuery로 HTTP 요청
- 	        $.ajax({
- 	            url: url, // 예: https://www.myservice.com/payments/complete
- 	            method: "POST",
- 	            headers: { "Content-Type": "application/json" },
- 	            dataType: 'json',
- 	            data: query
- 	       }).done(function(data) {
- 	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
- 	    		if ( everythings_fine ) {
- 	    			var msg = '결제가 완료되었습니다.';
- 	    			msg += '\n고유ID : ' + rsp.imp_uid;
- 	    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
- 	    			msg += '\결제 금액 : ' + rsp.paid_amount;
- 	    			msg += '카드 승인번호 : ' + rsp.apply_num;
- 	    			
- 	    			alert(msg);
- 	    		} else {
- 	    			//[3] 아직 제대로 결제가 되지 않았습니다.
- 	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
- 	    		}
- 	    	});
-	        */
+ 		
 		} else {
-			alert("fail");
 			console.log(rsp);
 			if(rsp.error_msg) {
 				console.log(rsp.error_msg);
 			}
 			return;
 		}
-		// requestPaySuccess();
 	});
-	
-	console.log("끝");
+
 }
 
 
-
+/*
 function requestPaySuccess() {
 	let memberShip = $("input[name=memberShip]").val();
 	
 	let selectSub = $("input[name=selectSub]").val(); // 구독권 
+	let memberNo = $("input[name=memberNo]").val();
 	let email = $("input[name=email]").val();
 	let price = $("input[name=totalPrice]").val();
 	let imp_uid = $("input[name=imp_uid]").val();
@@ -417,18 +394,19 @@ function requestPaySuccess() {
 	console.log(email);
 	console.log(price);
 	console.log(imp_uid); 
-	console.log(merchant_uid);  // 
+	console.log(merchant_uid);  
 	console.log(paid_amount); 
 	console.log(paid_at);
 	console.log(dateSubStart);
 	console.log(dateSubEnd);
 	console.log(dateFirstMail);
 	console.log(pg_tid); 
+	console.log(memberNo);
 	
 	let url = "${pageContext.request.contextPath}/sub/paySuccess";
-	let query= "email="+email+"&imp_uid="+imp_uid+"&merchant_uid="+merchant_uid+"&selectSub="+selectSub+
-		"&paid_amount="+paid_amount+"&paid_at="+paid_at+"&pg_tid="+pg_tid+"&dateSubStart="+dateSubStart+
-		"&dateSubEnd="+dateSubEnd+"&dateFirstMail="+dateFirstMail;
+	let query= "memberNo="+memberNo+"&imp_uid="+imp_uid+"&merchant_uid="+merchant_uid+"&selectNum="+selectNum+
+		"&paid_amount="+paid_amount+"&paid_at="+paid_at+"&pg_tid="+pg_tid+"&subStart="+dateSubStart+
+		"&subEnd="+dateSubEnd+"&firstMail="+dateFirstMail;
 	
 	const fn = function(data){
 		console.log('ajax 성공이에요');
@@ -437,7 +415,7 @@ function requestPaySuccess() {
 	
 	ajaxFun(url, "post", query, "html", fn);
 
-	/*
+	
 	$.ajax({
 		type: "post",
 		url: url,
@@ -451,9 +429,9 @@ function requestPaySuccess() {
 			}
 		}
 	});
-	*/
-}
 
+}
+*/
 
 
 </script>
@@ -465,7 +443,6 @@ function requestPaySuccess() {
 		<div class="area-title">
 			뉴스오션 구독하기
 		</div>
-		
 		<div class="body-main">
 			<div class="row row-cols-2">
 				<div class="col div-area">
@@ -562,10 +539,7 @@ function requestPaySuccess() {
 							<label class="col-sm-2 col-form-label" for="agree">약관 동의</label>
 							<div class="col-sm-8" style="padding-top: 5px;">
 								<input type="checkbox" id="agree" name="agree"
-									class="form-check-input"
-									
-									style="margin-left: 0;"
-									onchange="form.sendButton.disabled = !checked">
+									class="form-check-input" style="margin-left: 0;">
 								<label class="form-check-label">
 									<a href="#" class="text-decoration-none">결제 규정</a>에 동의합니다.
 								</label>
@@ -584,7 +558,7 @@ function requestPaySuccess() {
 			            	<input type="hidden" name="paid_at" value="">
 			            	<input type="hidden" name="pg_tid" value="">
 						</div>
-						
+					
 					</div>
 				</div>
 			</div>
