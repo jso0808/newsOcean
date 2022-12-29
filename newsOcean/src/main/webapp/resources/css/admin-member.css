@@ -131,6 +131,29 @@
     background: #fff;
 }
 
+.pdf_btn {
+	height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+    width: 120px;
+    border: none;
+    background: #fff;
+    margin-right: 7px;
+    background: #CC3333;
+    color: #fff;
+    font-family: 'line_font_b';
+}
+
+.pdf_btn:hover {
+	 background: #fff;
+	 color: #595959;
+	
+	 transition: .5s;
+	
+}
+
+
 .member_list_btn1 {
 	height: 40px;
 	text-align: center;
@@ -146,9 +169,10 @@
 	margin-left: 2px;
 	color: #595959;
 	
+	
 }
 
-.member_list_btn1:hover {background: linear-gradient( to right, #004b81, #9999FF ); color: #fff;}
+.member_list_btn1:hover {background: linear-gradient( to right, #004b81, #9999FF ); color: #fff; transition: .5s;}
 .member_list_btn1__click {background: linear-gradient( to right, #004b81, #9999FF ); color: #fff;}
 
 

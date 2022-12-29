@@ -21,6 +21,7 @@
 		</div>
 		<div class="p-1">
 			<div >
+				<button type="button" class="pdf_btn shadow-sm" onclick=""><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운</button>
 				<button type="button" class="reload_btn shadow-sm" onclick="reload();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 			</div>
 		</div>
@@ -96,6 +97,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
+
 
 function ajaxFileFun(url, method, query, dataType, fn) {
 	$.ajax({
