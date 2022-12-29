@@ -11,10 +11,34 @@
 	margin-top: 25px;
 	height: 80px;
 	border-radius: 7px;
+	font-size: 11px;
+	padding-right:10px;
+	
+	box-shadow: 0 5px 10px -7px rgba(0,0,0,1);
+	border-color: linear-gradient( to right, #004b81, #9999FF );
+	
+}
+
+.sub__card:hover {
+	transform: scale(1.005);
+	transition: .2s;
 }
 
 .td__padd td {
-	padding-left: 20px;
+	padding-left: 10px;
+	font-family:'line_font_b';
+	color: #595959;
+}
+
+.icon__money {
+	font-size: 40px;
+	color: #fff;
+	padding-left: 25px;
+	padding-top: 5px;
+	background: #004b81;
+	padding-right: 20px;
+	border-radius: 10px 0px 0px 10px;
+	
 }
 </style>
 
@@ -51,9 +75,9 @@
 		<td class="ps-5">
 			${dto.enabled==1? "<span class='state__en__yes';>활성화</span>":"<span class='state__en__no';>계정 잠금</span>"}
 		</td>
-		<td class="text-center ">회원정보 출력</td>
+		<td class="text-center ">구독내역 출력</td>
 		<td class="ps-5">
-			<span class="btn btn-pdf" onclick="" style="cursor: pointer;"><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운</span>
+			<span class="btn btn-update" onclick="" style="cursor: pointer;"><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운로드</span>
 			<input type="hidden" value="${dto.enabled}" name="enabled" id="enabled">
 		</td>
 	</tr>
@@ -66,7 +90,10 @@
 <div class="row">
 
 	<c:forEach var="dto" items="${sublist}" varStatus="status">
-		<table class="sub__card shadow-sm " style="margin-left: 15px;">
+		<table class="sub__card  " style="margin-left: 15px;">
+			<tr>
+				<td rowspan='3' class="icon__money"><i class="fa-solid fa-circle-dollar-to-slot"></i></td>
+			</tr>
 			<tr class="td__padd">
 				<td class=" text-center ">구독권 정보</td>
 				<td class="">
@@ -79,11 +106,11 @@
 				<td class="">
 					<c:if test="${dto.substart=='2999-01-01'}"><span></span></c:if>
 					<c:if test="${dto.subtype=='1'}"><span>${dto.substart} ~ ${dto.subend } </span></c:if>
+					<c:if test="${dto.subtype=='12'}"><span>${dto.substart} ~ ${dto.subend } </span></c:if>
 				</td>
 			</tr>
 		</table>
 	</c:forEach>
-
 </div>
 	
 	<input type="hidden" name="memberNo" value="${dto.memberNo}">
