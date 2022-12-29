@@ -96,7 +96,7 @@ public class MainController2 {
 		search.setMemberNo(memberNo);
 		search.setKeyword(keyword);
 		search.setCategoryName(categoryName);
-		search.setCategoryNo(categoryNo);
+		
 		
 		try {
 			service.insertSearchHistory(search);
