@@ -167,39 +167,30 @@
 
 </style>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <script type="text/javascript">
 
 
-// 카카오페이 
-
+/*
 	$("#check_module").click(function () {
-		var IMP = window.IMP; // 생략가능
+		var IMP = window.IMP; 
+		let selectSub = $("input[name=selectSub]").val(); // 구독권
+		let totalPrice = $("input[name=totalPrice]").val(); // 결제 금액
+		let buyer_name = $("input[name=name]").val(); // 구매자 이름
+		let buyer_email = $("input[name=email]").val(); // 구매자 이메일
+		
+		
 		IMP.init('imp72401774'); 
-		// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
-		// ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
 		IMP.request_pay({
 			pg: 'kakao',
 			pay_method: 'card',
 			merchant_uid: 'merchant_' + new Date().getTime(),
-			/* 
-			 *  merchant_uid에 경우 
-			 *  https://docs.iamport.kr/implementation/payment
-			 *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
-			 */
-			name: '주문명 : 아메리카노',
-			// 결제창에서 보여질 이름
-			// name: '주문명 : ${auction.a_title}',
-			// 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
-			amount: 2000,
-			// amount: ${bid.b_bid},
-			// 가격 
-			buyer_name: '이름',
-			// 구매자 이름, 구매자 정보도 model값으로 바꿀 수 있습니다.
-			// 구매자 정보에 여러가지도 있으므로, 자세한 내용은 맨 위 링크를 참고해주세요.
-			buyer_postcode: '123-456',
+			name: '상품명 : ' + selectSub,
+			amount: totalPrice,
+			buyer_name: buyer_name,
+			buyer_email: buyer_email,
 			}, function (rsp) {
 				console.log(rsp);
 			if (rsp.success) {
@@ -215,7 +206,7 @@
 			alert(msg);
 		});
 	});
-
+*/
 // 구독 기간 날짜 계산하기
 function selectSubDate(selectSub) {
 	let today = new Date();
@@ -231,11 +222,13 @@ function selectSubDate(selectSub) {
 		endDate = new Date(today.setMonth(today.getMonth() + 1)).toISOString().substring(0, 10);
 		$("input[name=dateSubEnd]").attr("value", endDate);
 		$("input[name=price]").attr("value", 3000);
+		$("input[name=totalPrice]").attr("value", 3000);
 	} else if(selectSub === 'yearSub') { // 12개월 구독권
 		// 12개월 후 날짜
 		endDate = new Date(today.setMonth(today.getMonth() + 12)).toISOString().substring(0, 10);
 		$("input[name=dateSubEnd]").attr("value", endDate);
 		$("input[name=price]").attr("value", 24000);
+		$("input[name=totalPrice]").attr("value", 24000);
 	}
 	
 	// 첫 메일 발송일 (오는 화요일 날짜) 구하기
@@ -275,45 +268,124 @@ $(function() {
 });
 
 function requestPay() {
-	alert('결제 버튼 클릭');
-}
-/*
-$(function() {
-	$(".btnPay").click(function() {
-		var selectSub = $(".selectSub").val(); // 구독권 
-		var email = $(".email").val();
-		var name = $(".name").val();
-		var price = $(".price").val();
-		
-		if(selectSub === "") {
-			$(".selectSub").focus();
+	alert('결제 버튼 클릭 : 유효성 검사 추가해야댐!');
+	var IMP = window.IMP;
+	IMP.init("imp72401774");
+	
+	let selectSub = $("input[name=selectSub]").val(); // 구독권 
+	let email = $("input[name=email]").val();
+	let memberShip = $("input[name=memberShip]").val();
+	let price = $("input[name=totalPrice]").val();
+	let selectNum;
+	
+	console.log(selectSub + email + name + price);
+	
+	var today = new Date();
+	var h = today.getHours().toString();
+	var min = today.getMinutes().toString();
+	var s = today.getSeconds().toString();
+	var m = today.getMilliseconds().toString();
+	var makeMerchanUid = h + min + s + m;
+	console.log("고유번호 시간으로 조합: "+makeMerchanUid);
+	if(selectSub === "") {
+		$(".selectSub").focus();
+	}
+	if(price === "") {
+		$(".price").focus();
+	}
+	
+	if(selectSub === "monthSub"){
+		selectSub = "1개월 구독권";
+		selectNum = "1";
+	} else if(selectSub === "yearSub") {
+		selectSub = "12개월 구독권";
+		selectNum = "12";
+	}
+	
+	console.log(selectNum+makeMerchanUid);
+	console.log(selectSub);
+	console.log(price);
+	console.log(email);
+	IMP.request_pay({
+	    pg : 'kakaopay',
+	    pay_method : 'card',  //생략가
+	    merchant_uid: selectNum+makeMerchanUid, // 고유 주문번호
+	    name : selectSub,
+	    item_name: selectSub,
+	    amount : price,
+	    buyer_email : email
+	}, function(rsp) { // callback 로직
+		if(rsp.success) {
+			alert("success");
+			console.log(rsp);
+			console.log(rsp.imp_uid);	
+			
+			console.log(rsp.imp_uid);
+			console.log(rsp.merchant_uid);
+			
+			$("input[name=imp_uid]").attr("value", rsp.imp_uid);
+			$("input[name=merchant_uid]").attr("value", rsp.merchant_uid);
+			$("input[name=paid_amount]").attr("value", rsp.paid_amount);
+			$("input[name=paid_at]").attr("value", rsp.paid_at);	
+			$("input[name=pg_tid]").attr("value", rsp.pg_tid);
+			requestPaySuccess();
+		} else {
+			alert("fail");
+			console.log(rsp);
 		}
-		if(price === "") {
-			$(".price").focus();
-		}
-		
-		// 카카오페이 결제전송
-		$.ajax({
-			type:'get'
-			,url:'/sub/pay'
-			,data:{
-				total_amount: totalPayPrice
-				,selectSub: selectSub
-				,tel:tel
-				,email:email
-				,name:name
-				,price: price
-			},
-			success:function(response){
-				location.href = response.next_redirect_pc_url			
-			}
-		});
-		
 	});
 	
+}
+
+function requestPaySuccess() {
+	let memberShip = $("input[name=memberShip]").val();
 	
-});
-*/
+	let selectSub = $("input[name=selectSub]").val(); // 구독권 
+	let email = $("input[name=email]").val();
+	let price = $("input[name=totalPrice]").val();
+	let imp_uid = $("input[name=imp_uid]").val();
+	let merchant_uid = $("input[name=merchant_uid]").val();
+	let paid_amount = $("input[name=paid_amount]").val();
+	let paid_at = $("input[name=paid_at]").val();
+	let pg_tid = $("input[name=pg_tid]").val();
+	let dateSubStart = $("input[name=dateSubStart]").val();
+	let dateSubEnd = $("input[name=dateSubEnd]").val();
+	let dateFirstMail = $("input[name=dateFirstMail]").val();
+	console.log("requestPaySuccess 내부여요");
+	
+	console.log(selectSub); 
+	console.log(email);
+	console.log(price);
+	console.log(imp_uid); 
+	console.log(merchant_uid);  // x
+	console.log(paid_amount); 
+	console.log(paid_at);
+	console.log(dateSubStart);
+	console.log(dateSubEnd);
+	console.log(dateFirstMail);
+	console.log(pg_tid); 
+	
+	let url = "${pageContext.request.contextPath}/sub/paySuccess";
+	let query= "email="+email+"&imp_uid="+imp_uid+"&merchant="+merchant+"&selectSub="+selectSub+
+		"&paid_amount="+paid_amount+"&paid_at="+paid_at+"&pg_tid="+pg_tid+"&dateSubStart="+dateSubStart+
+		"&dateSubEnd="+dateSubEnd+"&dateFirstMail="+dateFirstMail;
+	
+	$.ajax({
+		type: "post",
+		url: url,
+		data: query,
+		success: function(data) {
+			let msg = data.msg;
+			if(msg==="true"){
+				alert(msg);
+			} else {
+				alert("ajax 실패 "+msg);
+			}
+		}
+	});
+}
+
+
 
 </script>
 
@@ -431,14 +503,17 @@ $(function() {
 							</div>
 						</div>
 						<div>
-							<form method="post" action="${pageContext.request.contextPath}/sub/kakaoPay">
-								<button name="btnPay" id="btnPay" class="btn btn-primary btnPay"  onclick="requestPay()"> 결제하기 <i class="bi bi-check2"></i></button>
-							</form>
+							<button name="btnPay" id="btnPay" class="btn btn-primary btnPay" onclick="requestPay()"> 결제하기 <i class="bi bi-check2"></i></button>
 							<input type="hidden" name="selectSub" value=""> 
 			            	<input type="hidden" name="memberNo" value="${sessionScope.member.memberNo}">
 			            	<input type="hidden" name="email" value="${sessionScope.member.email}">
-			            	<input type="hidden" name="authority" value="${sessionScope.member.name}">
+			            	<input type="hidden" name="name" value="${sessionScope.member.name}">
 			            	<input type="hidden" name="authority" value="${sessionScope.member.authority}">
+			            	<input type="hidden" name="imp_uid" value="">
+			            	<input type="hidden" name="merchant_uid" value="">
+			            	<input type="hidden" name="paid_amount" value="">
+			            	<input type="hidden" name="paid_at" value="">
+			            	<input type="hidden" name="pg_tid" value="">
 						</div>
 						
 					</div>

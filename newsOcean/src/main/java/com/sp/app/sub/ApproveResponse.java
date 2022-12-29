@@ -16,6 +16,7 @@ public class ApproveResponse {
 	private String approved_at;
 	private String payload;
 	private Amount amount;
+	private String pg_token;
 	
 	public String getAid() {
 		return aid;
@@ -101,13 +102,12 @@ public class ApproveResponse {
 	public void setAmount(Amount amount) {
 		this.amount = amount;
 	}
+	public String getPg_token() {
+		return pg_token;
+	}
+	public void setPg_token(String pg_token) {
+		this.pg_token = pg_token;
+	}
 	
-	/*
-	private String cid; // 가맹점 코든
-	private String tid; // 결제 고유 번호
-	private String partner_order_id; // 가맹점 주문번호 (일치 )
-	private String partner_user_id; // 가맹점 회원 id (일치)
-	private String pg_token; // 결재 승인 요청 인증 토큰
-	*/
 		
 }
