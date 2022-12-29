@@ -12,6 +12,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class MemberPdfView extends AbstractPdfView {
@@ -43,7 +44,10 @@ public class MemberPdfView extends AbstractPdfView {
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(p);
 		
-		
+		font.setSize(10);
+		font.setStyle(Font.NORMAL);
+		PdfPTable table = new PdfPTable(columnLabels.size()); // 한행의 컬럼수
+		table.setWidths(new int[] {50,100,50,50,50,50,50,50,50});
 		
 		
 		

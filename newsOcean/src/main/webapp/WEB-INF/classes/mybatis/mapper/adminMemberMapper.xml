@@ -142,7 +142,7 @@
 	</select>
 	
 	<!-- pdf 리스트 전용 -->
-	<select id="pdflist" resultMap="com.sp.app.admin.member.Member">
+	<select id="pdflist" resultType="com.sp.app.admin.member.Member">
 		SELECT a.authority, m.memberNo, email, name, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
 			NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, NVL(enabled, '0') enabled, NVL(subtype, '0') subtype
 		FROM member m
