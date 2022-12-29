@@ -134,6 +134,13 @@
 		UPDATE member SET enabled = #{enabled} WHERE memberNo = #{memberNo}
 	</update>
 	
+	<!-- 내 구독 정보 : list 로 반환할거임 -->
+	<select id="mysublist" parameterType="map" resultType="com.sp.app.admin.member.Member">
+		SELECT subno, subtype, substart, subend, memberNo, pay
+		FROM subscript
+		WHERE memberNo = #{memberNo}
+	</select>
+	
 	
 	
 

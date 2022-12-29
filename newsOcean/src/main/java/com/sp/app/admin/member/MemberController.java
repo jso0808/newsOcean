@@ -274,6 +274,30 @@ public class MemberController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", memberNo);
 		
+		//회원정보
+		Member dto = service.readMember(map);
+		if(dto == null) {
+			resp.sendError(410);
+			return "redirect:/admin/member/main";
+		}
+		
+		List<Member> sublist = service.mysublist(map);
+		
+		
+		model.addAttribute("dto", dto);
+		
+		return "admin/member/article";
+	}
+	
+	
+	@RequestMapping(value = "article_info")
+	public String article_info(@RequestParam long memberNo,
+			HttpServletResponse resp,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		
 		Member dto = service.readMember(map);
 		if(dto == null) {
 			resp.sendError(410);
@@ -282,8 +306,9 @@ public class MemberController {
 		
 		model.addAttribute("dto", dto);
 		
-		return "admin/member/article";
+		return "admin/member/info";
 	}
+	
 	
 	//계정 상태 변경
 	@RequestMapping(value = "update_en", method = RequestMethod.POST)

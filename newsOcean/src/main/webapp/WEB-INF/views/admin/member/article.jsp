@@ -5,93 +5,90 @@
 
 
 <style type="text/css">
-.table__con {
-	width: 97%;
-	border-radius: 20px;
-	height: 300px;
+.sub__card {
+	width: 305px;
+	background: #fff;
+	margin-top: 25px;
+	height: 80px;
+	border-radius: 7px;
 }
 
-.title__member__det{
-    margin-left: 3px;
-    color: #595959;
-    font-size: 17px;
-    font-family: line_font_b;
-    font-weight: 600;
-    margin-bottom: 10px;
+.td__padd td {
+	padding-left: 20px;
 }
-
 </style>
 
-<div class="title__member__det"> Member infomation 🙋‍♀️ </div>
 
-<table class="table__con td-border ">
-	<tr>
-		<td class="wp-15 text-center bg-light">회원번호</td>
+
+<table class="table__con shadow-sm tt_bold" >
+	<tr class="">
+		<td class="text-center">회원번호</td>
 		<td class="wp-35 ps-5">${dto.memberNo}</td>
-		<td class="wp-15 text-center bg-light">아이디</td>
+		<td class="wp-15 text-center ">아이디</td>
 		<td class="wp-35 ps-5">${dto.email}</td>
 	</tr>
 	<tr>
-		<td class="text-center bg-light">이 름</td>
+		<td class="text-center ">이 름</td>
 		<td class="ps-5">${dto.name}</td>
-		<td class="text-center bg-light">생년월일</td>
+		<td class="text-center ">생년월일</td>
 		<td class="ps-5">${dto.birth}</td>
 	</tr>
 	<tr>
-		<td class="text-center bg-light">닉네임</td>
+		<td class="text-center ">닉네임</td>
 		<td class="ps-5">${dto.nickname}</td>
-		<td class="text-center bg-light">성별</td>
+		<td class="text-center ">성별</td>
 		<td class="ps-5">${dto.gender}</td>
 	</tr>
 	<tr>
-		<td class="text-center bg-light">회원가입일</td>
+		<td class="text-center ">회원가입일</td>
 		<td class="ps-5">${dto.joindate}</td>
-		<td class="text-center bg-light">최근로그인</td>
+		<td class="text-center ">최근로그인</td>
 		<td class="ps-5">${dto.recentdate}</td>
 	</tr>
 	
-	<tr>
-		<td class="text-center bg-light">계정상태</td>
-		<td colspan="3" class="ps-5">
-			${dto.enabled==1?"활성":"잠금"}
-			&nbsp;<span class="btn" onclick="updateEnabled('${dto.memberNo}', '${dto.enabled}');" style="cursor: pointer;">계정 상태 변경</span>
+	<tr >
+		<td class="text-center ">계정상태</td>
+		<td class="ps-5">
+			${dto.enabled==1? "<span class='state__en__yes';>활성화</span>":"<span class='state__en__no';>계정 잠금</span>"}
+		</td>
+		<td class="text-center ">회원정보 출력</td>
+		<td class="ps-5">
+			<span class="btn btn-pdf" onclick="" style="cursor: pointer;"><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운</span>
 			<input type="hidden" value="${dto.enabled}" name="enabled" id="enabled">
 		</td>
 	</tr>
+	
 </table>
 
 
+<div class="title__member__second" style="margin-top: 20px;"> 구독 내역 </div>
 <form id="deteailedMemberForm" name="deteailedMemberForm" method="post">
-	<div class="title__member__det" style="margin-top: 20px;"> Membership list </div>
-	
-	<table class="table__con td-border ">
-		<tr>
-			<td class="wp-15 text-center bg-light">구독권 정보</td>
-			<td class="ps-5">${dto.subtype=='12' ? "1년 구독권" : "1개월 구독권" }</td>
-		</tr>
-		<tr>
-			<td class="wp-15 text-center bg-light">구독권 기간</td>
-			<td class="ps-5"></td>
-		</tr>
-	</table>
+<div class="row">
+
+	<c:forEach var="dto" items="${sublist}" varStatus="status">
+		<table class="sub__card shadow-sm " style="margin-left: 15px;">
+			<tr class="td__padd">
+				<td class=" text-center ">구독권 정보</td>
+				<td class="">
+					<c:if test="${dto.subtype=='12'}"><span>1년 구독권 (12개월)</span></c:if>
+					<c:if test="${dto.subtype=='1'}"><span>1개월 구독권 </span></c:if>
+				</td>
+			</tr>
+			<tr class="td__padd">
+				<td class=" text-center ">구독권 기간</td>
+				<td class="">
+					<c:if test="${dto.substart=='2999-01-01'}"><span></span></c:if>
+					<c:if test="${dto.subtype=='1'}"><span>${dto.substart} ~ ${dto.subend } </span></c:if>
+				</td>
+			</tr>
+		</table>
+	</c:forEach>
+
+</div>
 	
 	<input type="hidden" name="memberNo" value="${dto.memberNo}">
 	<input type="hidden" name="email" value="${dto.email}">
 	<input type="hidden" name="registerId" value="${sessionScope.member.memberNo}">
-	
-	
-	<div class="title__member__det" style="margin-top: 20px;"> Member activity </div>
-	
-	<table class="table__con td-border ">
-		<tr>
-			<td class="wp-15 text-center bg-light">구독권 정보</td>
-			<td class="ps-5">${dto.subtype=='12' ? "1년 구독권" : "1개월 구독권" }</td>
-		</tr>
-		<tr>
-			<td class="wp-15 text-center bg-light">구독권 기간</td>
-			<td class="ps-5"></td>
-		</tr>
-	</table>
 </form>
 
 

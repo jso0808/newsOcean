@@ -24,6 +24,8 @@ public interface MemberService {
 	public void updateEnabled(Map<String, Object> map) throws Exception;
 	//회원 권한 변경하기
 	public void updateAuthority(Member dto) throws Exception;
+	//구독 내역 list
+	public List<Member> mysublist(Map<String, Object> map);
 	
 	
 	//통계

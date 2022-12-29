@@ -165,5 +165,21 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	//구독 내역 조회
+	@Override
+	public List<Member> mysublist(Map<String, Object> map) {
+		List<Member> list = null;
+		
+		try {
+			list = dao.selectList("adminMember.mysublist", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+
 	
 }

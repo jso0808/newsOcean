@@ -31,10 +31,24 @@
 
 
 <div class="row">
-	<div class="main__left">
+	<div class="main__left ">
 		<div class="content-frame-list "></div>
 	</div>
+	<div class="main__left ">
+		<div class="content-frame-second "></div>
+	</div>
 </div>
+
+
+<div class="row">
+	<div class=" body-container__arti" >
+		<div class="content-frame-1 "></div>
+	</div>
+	<div class=" body-container2__arti">
+		<div class="content-frame-2 "></div>
+	</div>
+</div>
+
 
 
 <div class="row mt-3">
@@ -150,6 +164,10 @@ function listSubpage(page) {
 	let query = "pageNo="+page;
 	let selector = ".content-frame-list";
 	
+	let selector_1 = ".content-frame-1"
+	let selector_2 = ".content-frame-2"
+			
+	
 	$("#list_btn2").addClass("member_list_btn1__click");
 	$("#list_btn1").removeClass("member_list_btn1__click");
 	$("#list_btn3").removeClass("member_list_btn1__click");
@@ -157,6 +175,9 @@ function listSubpage(page) {
 	
 	const fn = function(data){
 		$(selector).html(data);
+		$(selector_1).html("");
+		$(selector_2).html("");
+		
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
@@ -174,9 +195,14 @@ function listEnpage(page) {
 	$("#list_btn1").removeClass("member_list_btn1__click");
 	$("#list_btn2").removeClass("member_list_btn1__click");
 	
+	let selector_1 = ".content-frame-1"
+	let selector_2 = ".content-frame-2"
+	
 	
 	const fn = function(data){
 		$(selector).html(data);
+		$(selector_1).html("");
+		$(selector_2).html("");
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
@@ -188,6 +214,13 @@ function listEnpage(page) {
 function reload() {
 	listPage(1);
 	$("#list_btn1").addClass("member_list_btn1__click");
+	
+	let selector_1 = ".content-frame-1"
+	let selector_2 = ".content-frame-2"
+		
+	$(selector_1).html("");
+	$(selector_2).html("");
+	
 
 }
 
@@ -195,10 +228,35 @@ function reload() {
 function articleMember(memberNo) {
 	let url = "${pageContext.request.contextPath}/admin/member/article";
 	let query = "memberNo="+memberNo;
-	let selector = ".content-frame-list";
+	let selector = ".content-frame-2";
+	let selector2 = ".content-frame-list";
+	
 	
 	const fn = function(data){
 		$(selector).html(data);
+		$(selector2).html("");
+	};
+	
+	articleinfo(memberNo);
+	
+	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
+
+//상세보기 페이지 - info
+function articleinfo(memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/article_info";
+	let query = "memberNo="+memberNo;
+	let selector = ".content-frame-1";
+	let selector2 = ".content-frame-second";
+
+	
+	const fn = function(data){
+		$(selector).html(data);
+		
+		$(selector2).html("");
+		
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
