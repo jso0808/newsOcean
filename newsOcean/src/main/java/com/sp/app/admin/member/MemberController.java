@@ -2,7 +2,6 @@ package com.sp.app.admin.member;
 
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -285,6 +284,8 @@ public class MemberController {
 		
 		
 		model.addAttribute("dto", dto);
+		model.addAttribute("sublist", sublist);
+		
 		
 		return "admin/member/article";
 	}
@@ -336,5 +337,11 @@ public class MemberController {
 		
 		return model;
 	}
+	
+	
+	//pdf 파일 다운로드 (회원 리스트)
+	
+	
+	
 	
 }

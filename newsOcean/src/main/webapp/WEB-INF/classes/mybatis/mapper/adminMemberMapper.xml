@@ -136,9 +136,14 @@
 	
 	<!-- 내 구독 정보 : list 로 반환할거임 -->
 	<select id="mysublist" parameterType="map" resultType="com.sp.app.admin.member.Member">
-		SELECT subno, subtype, substart, subend, memberNo, pay
+		SELECT subno, subtype, TO_CHAR(substart, 'YYYY-MM-DD') substart, TO_CHAR(subend, 'YYYY-MM-DD') subend, memberNo, pay
 		FROM subscript
 		WHERE memberNo = #{memberNo}
+	</select>
+	
+	<!-- pdf 리스트 전용 -->
+	<select id="pdflist" parameterType="map" resultMap="com.sp.app.admin.member.Member">
+	
 	</select>
 	
 	
