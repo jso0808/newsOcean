@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="search">
+	<!-- 대카테고리 종류-->
+	<select id="bigcategorylist" parameterType="com.sp.app.main.Search">
+		SELECT categoryNo, pcategoryNo, categoryName from category WHERE pcategoryNo is null
+	</select>
+	
+	<!-- 카테고리 종류-->
+	<select id="categorylist" resultType="com.sp.app.main.Search">
+		SELECT categoryNo,categoryName from category order by categoryNo
+	</select>
+	
+	<!-- 키워드 SELECT-->
+	<select id="keywordlist" parameterType="com.sp.app.main.Search">
+		SELECT keywordNo, keywordName, memberNo  from keyword
+	</select>
+	<!--  sectionlist -->
+	<select id="sectionlist" resultType="com.sp.app.main.MainCategory">
+		select categoryNo, categoryName from category where MOD(categoryNo,100) = 0
+	</select>
+	<!--  subsectionlist -->
+	<select id="subsectionlist" resultType="com.sp.app.main.MainCategory">
+		select categoryNo, categoryName from category where MOD(categoryNo,100) != 0
+	</select>
+	
+	<!--  카테고리별 뉴스 -->
+	<select id="categoryNews">
+		
+	</select>
+	
+	<!--  검색기록 저장 -->
+	<insert id="insertSearchHistory">
+			INSERT INTO searchHistory(searchNo, memberNo, searchName, categoryNo, searchnowDate)
+				VALUES(search_seq.NEXTVAL,#{memberNo}, #{keyword}, 
+				<foreach collection="list" index='index' item="categoryNo" open='(' close=')' separator=",">
+				#{categoryNo}
+				</foreach>
+				, SYSDATE)
+	</insert>
+</mapper>

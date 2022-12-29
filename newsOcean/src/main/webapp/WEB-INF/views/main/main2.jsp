@@ -91,28 +91,28 @@ display:flex;
     </div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
-			<a href="${pageContext.request.contextPath}/" class="all category_link">
+			<a href="${pageContext.request.contextPath}/" class="category_link">
 				<span>전체</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/recent?categoryNo=100" class="recent category_link">
+			<a href="${pageContext.request.contextPath}/recent" class="category_link">
 				<span>최신</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/section?categoryNo=200" class="politics category_link">
+			<a href="${pageContext.request.contextPath}/politics" class="category_link">
 				<span>정치</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/section?categoryNo=300" class="economy category_link">
+			<a href="${pageContext.request.contextPath}/economy" class="category_link">
 				<span>경제</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/section?categoryNo=400" class="social category_link">
+			<a href="${pageContext.request.contextPath}/social" class="category_link">
 				<span>사회</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/section?categoryNo=500" class="world category_link">
+			<a href="${pageContext.request.contextPath}/world" class="category_link">
 				<span>세계</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/section?categoryNo=600" class="science category_link">
+			<a href="${pageContext.request.contextPath}/science" class="category_link">
 				<span>IT/과학</span>
 			</a>
-			<a href="${pageContext.request.contextPath}/search" class="search category_link">
+			<a href="${pageContext.request.contextPath}/search" class="category_link">
 				<span>
 					<i class="bi bi-search search_icon"></i>
 				</span>
@@ -121,13 +121,13 @@ display:flex;
 	</nav>
 	<section class="main_section container">
 		<div class="posts row">
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">정치</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">경제</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/politics">정치</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/social">경제</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/science">IT/과학</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/science">IT/과학</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/science">IT/과학</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/science">IT/과학</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/science">IT/과학</a>
 		</div>
 		
 	</section>

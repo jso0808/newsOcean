@@ -33,19 +33,19 @@
 		
 		<div class="body-main">
 			<div class="col p-2">
-				<a href="#" title="키워드구독">키워드 구독 </a>
+				<a href="${pageContext.request.contextPath}/mypage/keyword" title="키워드구독">키워드 구독 </a>
 			</div>
 			<div class="col p-2">
-				<a href="#" title="회원정보수정">회원정보수정</a>
+				<a href="${pageContext.request.contextPath}/mypage/info" title="회원정보수정">회원정보수정</a>
 			</div>
 			<div class="col p-2">
-				<a href="#" title="즐겨찾는회원">즐겨찾는회원</a>
+				<a href="${pageContext.request.contextPath}/mypage/bmember" title="즐겨찾는회원">즐겨찾는회원</a>
 			</div>
 			<div class="col p-2">
-				<a href="#" title="나의 활동">나의 활동</a>
+				<a href="${pageContext.request.contextPath}/mypage/activity" title="나의 활동">나의 활동</a>
 			</div>
 			<div class="col p-2">
-				<a href="#" title="북마크">북마크</a>
+				<a href="${pageContext.request.contextPath}/mypage/bookmark" title="북마크">북마크</a>
 			</div>
 		</div>
 	</div>

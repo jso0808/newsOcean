@@ -1,7 +1,15 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<script>
+var myModal = document.getElementById('myModal')
+var myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})
+</script>
 <style type="text/css">
 *{margin:0; padding:0;}
 .body-container{
@@ -76,24 +84,36 @@ display:flex;
 	position:relative;
 	cursor:pointer;
 }
+.search_content{
+ margin:5px auto;
+}
+.search_keyword{
+margin-left:2.5rem;
+}
+.keyword{
+
+}
 </style>
+<script>
+$(function(){
+	let keyword = '<span class="keyword">'+${keyword}+"</span>";
+	keyword += '<span class="search_result_h1">'+"의 검색결과입니다"+'</span>';
+	
+	$(".search_keyword").html(keyword);
+	
+	//$(".search_result_count");
+})
+</script>
 <div class="container body-container">
-	<div class="inner-page">
-		메인 화면 입니다.
-    </div>
-    <div class="banner_img">
-    	<img src="">
-    	배너이미지 공간
-    </div>
-    <div class="wordCloud_img">
-    	<img src="">
-    	워드클라우드 공간
-    </div>
+	<h1 class="search_keyword">
+	</h1>
+	<div class="search_result_count">
+	</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
 			<a href="${pageContext.request.contextPath}/" class="all category_link">
 				<span>전체</span>
-			</a>
+			</a>3.0
 			<a href="${pageContext.request.contextPath}/recent?categoryNo=100" class="recent category_link">
 				<span>최신</span>
 			</a>
@@ -119,6 +139,7 @@ display:flex;
 			</a>
 		</div>
 	</nav>
+	
 	<section class="main_section container">
 		<div class="posts row">
 			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">정치</a>
@@ -131,6 +152,22 @@ display:flex;
 		</div>
 		
 	</section>
-	
 </div>
-</html>
+<!-- 태그 모달 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">태그 선택</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">선택</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -33,24 +33,15 @@ $(function(){
 })
 //
 $(function(){
-	
+	/*class토글
 	$('form input[name=category]').click(function() {
 	    $(this).toggleClass('category_selected');
 	});
+	*/
 	
-	//큰카테고리 선택하면 input checked 되도록
-	$("#bigCategory").click(function(){
-	    if($(this).hasClass("bigCategory_selected")) {
-	    	$(this).find("input").prop('checked', false);
-	        $(this).removeClass("bigCategory_selected");
-	    } else {
-	    	$(this).find("input").prop('checked', true);
-	        $(this).addClass("bigCategory_selected");
-	    }
-	});
 	$(".chkAll").click(function(){
 		let b = $(this).is(":checked");
-		$(this).parent().parent().find(".category").prop("checked", b);
+		$("form input[name=category]").prop("checked", b);
 	});
 	$("form .chkAll").click(function(){
 		let cnt = $("form input[name=categoryNo]:checked").length;
@@ -150,26 +141,14 @@ $(function(){
 .search_content{
  margin:5px auto;
 }
-.input-group-text{
-justify-content: center;
-}
-
-.bigCategory_selected{
-	background-color:#80B5FF;
-	color:white;
-}
+.input-group
 </style>
 <div class="container body-container">
+	search화면
 	<form action="${pageContext.request.contextPath}/searchresult"method="post" name="searchForm">
 		<div class="search_content input-group-text">
 			<div class="search_detail_content">
 				<div class="search_detail_row input-group-text">
-					<div class="search_detail_label m-2">
-						search화면
-					</div>
-				</div>
-				<div class="search_detail_row input-group-text">
-					
 					<div class="search_detail_label m-2">
 						키워드 검색
 					</div>
@@ -182,20 +161,28 @@ justify-content: center;
 					<div class="search_detail_label search_category">
 						<c:forEach var="dto" items="${categorylist}" varStatus="status">
 							<c:if test="${dto.categoryNo%100 == 0}">
-							<div class="m-2" id="bigCategory">
-								<input class="chkAll m-2  form-check-input mt-0" type="checkbox" style="display: none;" name="categoryNo" data-categoryName="${dto.categoryName}" value="${dto.categoryNo} ">
-	      						<span class="input-group-text">${dto.categoryName}</span>
+							<div><input class="form-check-input m-2" style="display:inline;" type="checkbox" name="categoryNo" class="chkAll${dto.categoryNo/100} form-check-input mt-0" data-categoryName="${dto.categoryName}" value="${dto.categoryNo} ">
+      						<span class="input-group-text">${dto.categoryName}</span>
 							</div>
-							<input type="hidden" name="categoryName" class="" value="${dto.categoryName}">
+							<input type="hidden" name="categoryName" class="category" value="${dto.categoryName}">
 							</c:if>
 							<c:if test="${dto.categoryNo%100 != 0}">
-							<input class="category m-2 form-check-input mt-0" type="checkbox" name="categoryNo"  data-categoryName="${dto.categoryName}" value="${dto.categoryNo}">
+							<input class="form-check-input m-2" type="checkbox"name="categoryNo"  class="category${(dto.categoryNo-(dto.categoryNo%100))/100} form-check-input mt-0" data-categoryName="${dto.categoryName}" value="${dto.categoryNo}">
       						<span class="input-group-text" style="display:inline;">${dto.categoryName}</span>
 							</c:if>
 						</c:forEach>
 					</div>
 				</div>
 				<div class="search_detail_row input-group-text">
+					<div class="search_detail_label m-2">
+						뉴스 개시일
+					</div>
+					<div>
+						<div>검색시작일&nbsp;&nbsp;<input class="staDate" type="DATE" name="staDate"></div>
+					</div>
+					<div>
+						<div>검색종료일&nbsp;&nbsp;<input class="endDate" type="DATE" name="endDate" ></div>
+					</div>
 					<input type="submit" class="search_submit" value="검색">
 				</div>
 			</div>
