@@ -342,20 +342,29 @@ public class MemberController {
 	}
 	
 	
+	/*
 	//pdf 파일 다운로드 (회원 리스트)
 	@RequestMapping("pdf")
 	public View pdfView(Map<String, Object> model) throws Exception {
-		List<Member> list = ;
+		List<Member> list = service.pdflist();
 		
 		List<String> columnLabels = new ArrayList<String>();
 		List<Object[]> columnValues = new ArrayList<Object[]>();
 		
+		columnLabels.add("권한");
+		columnLabels.add("회원번호");
+		columnLabels.add("이메일");
+		columnLabels.add("이름");
+		columnLabels.add("생년월일");
+		columnLabels.add("총점");
+		columnLabels.add("평균");
 		
 		
 		
 		
 		return new MemberPdfView();
 	}
+	*/
 	
 	
 	

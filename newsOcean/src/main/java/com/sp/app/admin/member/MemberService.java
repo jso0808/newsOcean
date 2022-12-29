@@ -28,6 +28,10 @@ public interface MemberService {
 	public List<Member> mysublist(Map<String, Object> map);
 	
 	
+	//pdf
+	public List<Member> pdflist();
+	
+	
 	//통계
 	//오늘 가입한 회원수 , 오늘 유료 회원수 
 	public int todayCount(Map<String, Object> map);

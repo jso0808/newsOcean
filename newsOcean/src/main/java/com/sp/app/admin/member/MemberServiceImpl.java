@@ -181,5 +181,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public List<Member> pdflist() {
+		List<Member> list = null;
+		try {
+			list = dao.selectList("adminMember.pdflist");
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
+
+
 	
 }
