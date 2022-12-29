@@ -207,6 +207,41 @@
 		});
 	});
 */
+
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+	    	if(jqXHR.status === 403) {
+	    		login();
+	    		return false;
+	    	} else if(jqXHR.status === 402) {
+	    		alert("권한이 없습니다.");
+	    		return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+	    	} else if(jqXHR.status === 410) {
+	    		alert("삭제된 게시물입니다.");
+	    		return false;
+	    	}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+
 // 구독 기간 날짜 계산하기
 function selectSubDate(selectSub) {
 	let today = new Date();
@@ -286,7 +321,9 @@ function requestPay() {
 	var s = today.getSeconds().toString();
 	var m = today.getMilliseconds().toString();
 	var makeMerchanUid = h + min + s + m;
+	
 	console.log("고유번호 시간으로 조합: "+makeMerchanUid);
+	
 	if(selectSub === "") {
 		$(".selectSub").focus();
 	}
@@ -306,9 +343,10 @@ function requestPay() {
 	console.log(selectSub);
 	console.log(price);
 	console.log(email);
+
 	IMP.request_pay({
 	    pg : 'kakaopay',
-	    pay_method : 'card',  //생략가
+	    pay_method : 'card', 
 	    merchant_uid: selectNum+makeMerchanUid, // 고유 주문번호
 	    name : selectSub,
 	    item_name: selectSub,
@@ -328,6 +366,7 @@ function requestPay() {
 			$("input[name=paid_amount]").attr("value", rsp.paid_amount);
 			$("input[name=paid_at]").attr("value", rsp.paid_at);	
 			$("input[name=pg_tid]").attr("value", rsp.pg_tid);
+			
 			requestPaySuccess();
 		} else {
 			alert("fail");
@@ -370,6 +409,9 @@ function requestPaySuccess() {
 		"&paid_amount="+paid_amount+"&paid_at="+paid_at+"&pg_tid="+pg_tid+"&dateSubStart="+dateSubStart+
 		"&dateSubEnd="+dateSubEnd+"&dateFirstMail="+dateFirstMail;
 	
+	ajaxFun(url, "post", query, "html", fn);
+
+	/*
 	$.ajax({
 		type: "post",
 		url: url,
@@ -383,6 +425,7 @@ function requestPaySuccess() {
 			}
 		}
 	});
+	*/
 }
 
 
