@@ -342,7 +342,6 @@ public class MemberController {
 	}
 	
 	
-	/*
 	//pdf 파일 다운로드 (회원 리스트)
 	@RequestMapping("pdf")
 	public View pdfView(Map<String, Object> model) throws Exception {
@@ -356,15 +355,26 @@ public class MemberController {
 		columnLabels.add("이메일");
 		columnLabels.add("이름");
 		columnLabels.add("생년월일");
-		columnLabels.add("총점");
-		columnLabels.add("평균");
+		columnLabels.add("성별");
+		columnLabels.add("가입일");
+		columnLabels.add("최근 방문일");
+		columnLabels.add("정보 변경일");
+		columnLabels.add("계정 상태");
+		columnLabels.add("구독 상태");
 		
+		for(Member dto : list) {
+			columnValues.add(new Object[] { dto.getAuthority(), dto.getMemberNo(), dto.getEmail(),
+					dto.getName(), dto.getBirth(), dto.getGender(), dto.getJoindate(),
+					dto.getRecentdate(), dto.getModifydate(), dto.getEnabled(), dto.getSubtype()});
+		}
 		
-		
+		model.put("filename", "memberlist.pdf");
+		model.put("columnLabels", columnLabels);
+		model.put("columnValues", columnValues);
 		
 		return new MemberPdfView();
 	}
-	*/
+	
 	
 	
 	
