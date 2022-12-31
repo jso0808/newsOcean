@@ -78,8 +78,6 @@
 	padding-bottom: 30px;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-
 .container-card {
   width: 100%;
   height: 100vh;
@@ -162,8 +160,6 @@
   font-size: 16px;
   color: #696969;
 }
-
-
 
 </style>
 
@@ -283,6 +279,7 @@ function requestPay() {
 	
 	// 카카오페이 결제 실행
 	execKakaoPay();
+	
 }
 
 // 카카오페이 결제 API 진행하기
@@ -356,6 +353,9 @@ function execKakaoPay() {
  			
  			const fn = function(data) {
  	    		console.log(data.msg);
+ 	    		// 결제 내역 페이지로 이동
+ 	    		let listUrl = "${pageContext.request.contextPath}/sub/list";
+ 	    		location.replace(listUrl);
  	        }
  	        
  	        ajaxFun(url, "post", query, "json", fn);
@@ -370,69 +370,6 @@ function execKakaoPay() {
 	});
 
 }
-
-
-/*
-function requestPaySuccess() {
-	let memberShip = $("input[name=memberShip]").val();
-	
-	let selectSub = $("input[name=selectSub]").val(); // 구독권 
-	let memberNo = $("input[name=memberNo]").val();
-	let email = $("input[name=email]").val();
-	let price = $("input[name=totalPrice]").val();
-	let imp_uid = $("input[name=imp_uid]").val();
-	let merchant_uid = $("input[name=merchant_uid]").val();
-	let paid_amount = $("input[name=paid_amount]").val();
-	let paid_at = $("input[name=paid_at]").val();
-	let pg_tid = $("input[name=pg_tid]").val();
-	let dateSubStart = $("input[name=dateSubStart]").val();
-	let dateSubEnd = $("input[name=dateSubEnd]").val();
-	let dateFirstMail = $("input[name=dateFirstMail]").val();
-	console.log("requestPaySuccess 내부여요");
-	
-	console.log(selectSub); 
-	console.log(email);
-	console.log(price);
-	console.log(imp_uid); 
-	console.log(merchant_uid);  
-	console.log(paid_amount); 
-	console.log(paid_at);
-	console.log(dateSubStart);
-	console.log(dateSubEnd);
-	console.log(dateFirstMail);
-	console.log(pg_tid); 
-	console.log(memberNo);
-	
-	let url = "${pageContext.request.contextPath}/sub/paySuccess";
-	let query= "memberNo="+memberNo+"&imp_uid="+imp_uid+"&merchant_uid="+merchant_uid+"&selectNum="+selectNum+
-		"&paid_amount="+paid_amount+"&paid_at="+paid_at+"&pg_tid="+pg_tid+"&subStart="+dateSubStart+
-		"&subEnd="+dateSubEnd+"&firstMail="+dateFirstMail;
-	
-	const fn = function(data){
-		console.log('ajax 성공이에요');
-		console.log(data.msg);
-	};
-	
-	ajaxFun(url, "post", query, "html", fn);
-
-	
-	$.ajax({
-		type: "post",
-		url: url,
-		data: query,
-		success: function(data) {
-			let msg = data.msg;
-			if(msg==="true"){
-				alert(msg);
-			} else {
-				alert("ajax 실패 "+msg);
-			}
-		}
-	});
-
-}
-*/
-
 
 </script>
 
@@ -572,6 +509,3 @@ function requestPaySuccess() {
 </div>
 
 
-
-</body>
-</html>

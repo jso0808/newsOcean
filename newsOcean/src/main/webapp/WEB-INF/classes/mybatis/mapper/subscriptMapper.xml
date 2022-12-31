@@ -10,5 +10,17 @@
 			#{subType}, #{paid_amount}, #{memo, jdbcType=VARCHAR}, #{imp_uid}, #{merchant_uid}, 
 			TO_DATE(#{paid_at}, 'YYYY-MM-DD HH24:MI:SS'), #{pg_tid}, TO_DATE(#{firstMail}, 'YYYY-MM-DD'))
 	</insert>
-
+	
+	
+	<select id="listSubPay" parameterType="long" resultType="com.sp.app.sub.Subscript">
+		SELECT subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
+    		TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
+    		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid
+		FROM SUBSCRIPT s
+		JOIN MEMBER m ON m.memberNo = s.memberNo
+		WHERE s.memberNo = #{memberNo}
+	</select>
+	
+	
+	
 </mapper>

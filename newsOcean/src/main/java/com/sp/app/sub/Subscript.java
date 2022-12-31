@@ -14,6 +14,7 @@ public class Subscript {
 	private String merchant_uid; // 주문번호. 내역에서 보여도 됨.
 	private String paid_at; // 결제승인시각
 	private String pg_tid; // PG사 고유 거래번호
+	
 	public long getSubNo() {
 		return SubNo;
 	}

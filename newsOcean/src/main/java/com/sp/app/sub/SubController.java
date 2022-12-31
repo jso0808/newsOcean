@@ -4,10 +4,12 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sp.app.member.SessionInfo;
 
 @Controller("sub.subController")
 @RequestMapping(value = "/sub/*")
@@ -37,7 +41,7 @@ public class SubController {
 		return ".sub.complete";
 	}
 	
-	
+	// AJAX-JSON: 카카오페이 결제 내역 insert
 	@RequestMapping(value = "paySuccess")
 	@ResponseBody
 	public void paySuccess(
@@ -95,6 +99,23 @@ public class SubController {
 		// json 객체를 문자열로 변환
 		out.print(job.toString());
 		
+	}
+	
+	@RequestMapping(value = "list")
+	public String subList(Model model, HttpSession session) {
+		List<Subscript> list = null;
+		
+		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			
+			list =  service.listSubPay(info.getMemberNo());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("list", list);
+		
+		return ".sub.list";
 	}
 	
 	
