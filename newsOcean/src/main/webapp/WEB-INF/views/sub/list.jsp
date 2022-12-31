@@ -125,7 +125,8 @@
 
 <script type="text/javascript">
 $(function() {
-	
+	let today = new Date();
+	let subEnd = "${dto.subEnd}";
 	
 	
 });
