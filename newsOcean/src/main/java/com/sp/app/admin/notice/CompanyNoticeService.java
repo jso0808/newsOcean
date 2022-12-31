@@ -29,5 +29,13 @@ public interface CompanyNoticeService {
 	public CompanyNotice preReadNotice(Map<String, Object> map);
 	public CompanyNotice nextReadNotice(Map<String, Object> map);
 	
+	//댓글 리스트 
+	public List<CompanyNotice> listReply(Map<String, Object> map);
+	public int dataCount_reply(Map<String, Object> map);
+	
+	//댓글 추가
+	public void insertReply(CompanyNotice dto) throws Exception;
+	
+	
 	
 }

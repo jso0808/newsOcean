@@ -215,6 +215,45 @@ public class Member {
 	}
 	
 	
+	private long replyNo;
+	private String content;
+	private String regdate;
+	private long rereplyNo;
+	private long newsNo;
+
+
+	public long getReplyNo() {
+		return replyNo;
+	}
+	public void setReplyNo(long replyNo) {
+		this.replyNo = replyNo;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	public long getRereplyNo() {
+		return rereplyNo;
+	}
+	public void setRereplyNo(long rereplyNo) {
+		this.rereplyNo = rereplyNo;
+	}
+	public long getNewsNo() {
+		return newsNo;
+	}
+	public void setNewsNo(long newsNo) {
+		this.newsNo = newsNo;
+	}
+	
+	
 	
 	
 	

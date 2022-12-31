@@ -48,6 +48,8 @@
 <div class="row" >
 	<div class="" style="margin-top: 10px;">
 		<div class="content-frame-second shadow"></div>
+		<div class="content-frame-reply shadow"></div>
+		
 	</div>
 </div>
 
@@ -202,6 +204,30 @@ function insertForm() {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
+//댓글 등록
+function insertReply(companyNo, page) {
+
+	let con = $("input[name='input__reply']").val();
+	
+	let url = "${pageContext.request.contextPath}/admin/notice/insertReply";
+	let query = "companyNo="+companyNo+"&comreplycontent="+con;
+	
+	console.log(query);
+
+	const fn = function(data){
+		let state = data.state;
+        if(state === "false") {
+            alert("댓글 등록에 실패했습니다. ");
+            return false;
+        }
+        
+        articleBoard(companyNo, page);
+	};
+	
+	ajaxFileFun(url, "get", query, "json", fn);
+}
+
+
 //글 수정폼
 function updateForm(companyNo, pageNo) {
 	let url = "${pageContext.request.contextPath}/admin/notice/update";
@@ -283,8 +309,27 @@ function articleBoard(companyNo, page) {
 		
 	};
 	
+	listReply(1, companyNo);
+	
 	ajaxFun(url, "get", query, "html", fn);
 }
+
+
+//댓글 리스트 
+function listReply(page, companyNo) {
+	let url = "${pageContext.request.contextPath}/admin/notice/listReply";
+	let query = "pageNo="+page+"&companyNo={vo.companyNo}";
+
+	let selector = ".content-frame-reply";
+	
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+
+}
+
 
 //글 삭제
 function deleteOk(companyNo) {

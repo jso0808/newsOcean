@@ -17,6 +17,16 @@
 	
 }
 
+.no__sub {
+	width: 850px;
+	text-align: center;
+	font-family: 'line_font_b';
+	font-size: 16px;
+	color: #595959;
+	font-weight: 600;
+	margin-top: 30px;
+}
+
 .body-container {
 	background: #fff;
 	width: 700px;
@@ -37,10 +47,10 @@
 
 .body-container_list2 {
 	background: #fff;
-	width: 600px;
+	width: 650px;
 	height: 100%;
 	border-radius: 10px;
-	margin-left: 13px;
+	margin-left: 40px;
 	margin-top: 15px;
 	
 }
@@ -378,19 +388,32 @@
 	border-radius: 20px;
 	margin-left: 40px;
 	padding-bottom: 15px;
-	padding-top: 15px;
+	padding-top: -100px;
+	margin-top: -30px;
 	
 }
 
 
 .title__member__det{
-    margin-left: 3px;
+    margin-left: 20px;
     color: #595959;
     font-size: 22px;
     font-family: line_font_b;
     font-weight: 600;
     margin-bottom: 14px;
+    
 }
+
+.title__member__second{
+    margin-left: 3px;
+    color: #595959;
+    font-size: 22px;
+    font-family: line_font_b;
+    font-weight: 600;
+    padding-top: 20px;
+    padding-bottom: -10px;
+}
+
 
 .title__member__second{
     margin-left: 3px;
@@ -464,6 +487,45 @@
 	background: #fff;
 	border-radius: 15px;
 	width: 300px;
+}
+
+
+
+
+.sub__card {
+	width: 305px;
+	background: #fff;
+	margin-top: 25px;
+	height: 80px;
+	border-radius: 7px;
+	font-size: 11px;
+	padding-right:10px;
+	
+	box-shadow: 0 5px 10px -7px rgba(0,0,0,1);
+	border-color: linear-gradient( to right, #004b81, #9999FF );
+	
+}
+
+.sub__card:hover {
+	transform: scale(1.005);
+	transition: .2s;
+}
+
+.td__padd td {
+	padding-left: 10px;
+	font-family:'line_font_b';
+	color: #595959;
+}
+
+.icon__money {
+	font-size: 40px;
+	color: #fff;
+	padding-left: 25px;
+	padding-top: 5px;
+	background: #004b81;
+	padding-right: 20px;
+	border-radius: 7px 0px 0px 7px;
+	
 }
 
 

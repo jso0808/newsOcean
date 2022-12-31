@@ -27,10 +27,15 @@ public interface MemberService {
 	
 	//구독 내역 list
 	public List<Member> mysublist(Map<String, Object> map);
+	public int dataCount_mysub(Map<String, Object> map);
+	
+	
 	//게시글 수
 	public int dataCount_qna(Map<String, Object> map);
 	public List<Member> myqnalist(Map<String, Object> map);
-	
+	//댓글 수
+	public int dataCount_reply(Map<String, Object> map);
+	public List<Member> myreplylist(Map<String, Object> map);
 	
 	
 	//pdf

@@ -110,6 +110,7 @@ $(function(){
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
 					<a href="${pageContext.request.contextPath}/admin/member/main" class="sub_menu--link">회원 조회</a>
+					<a href="${pageContext.request.contextPath}/admin/member/article" class="sub_menu--link" style="display: none;" >회원 상세 조회</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">신고 회원 관리</a>

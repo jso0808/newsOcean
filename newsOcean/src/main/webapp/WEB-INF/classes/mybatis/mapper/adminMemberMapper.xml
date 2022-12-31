@@ -22,8 +22,8 @@
 	<!-- 관리자 계정 : 99 / 일반 유저 : 1 -->
 	<!-- enabled 회원 = 0 -->
 	<select id="listMember" parameterType="map" resultType="com.sp.app.admin.member.Member">
-		SELECT a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
-			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership, NVL(subtype, '0') subtype
+		SELECT distinct a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
 		FROM member m
 		JOIN authority a ON a.memberNo = m.memberNo
 		LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
@@ -44,6 +44,7 @@
 			<if test="keyword != null and keyword!='' ">
 				<include refid="where-list"/>
 			</if>
+			AND membership != 99
 		</where>
 	</select>
 	
@@ -51,11 +52,12 @@
 	<select id="readMember" parameterType="map" resultType="com.sp.app.admin.member.Member">
 		SELECT a.authority, m.memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
 			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership, 
-			NVL(subtype, '0') subtype, NVL(TO_CHAR(substart, 'YYYY-MM-DD'), '2999-01-01') substart, NVL(TO_CHAR(subend, 'YYYY-MM-DD'), '2999-01-01') subend, NVL(pay, '0') pay, NVL(memo, '0') memo
+			NVL(subtype, '0') subtype, NVL(TO_CHAR(substart, 'YYYY-MM-DD'), '2999-01-01') substart, NVL(TO_CHAR(subend, 'YYYY-MM-DD'), '2999-01-01') subend, NVL(memo, '0') memo
 		FROM member m
 		JOIN authority a ON a.memberNo = m.memberNo
 		LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
 		WHERE m.memberNo = #{memberNo}
+		FETCH FIRST 1 ROWS ONLY
 	</select>
 	
 	
@@ -80,24 +82,19 @@
 	
 	<!-- 유료 회원 리스트 -->
 	<select id="listSub" parameterType="map" resultType="com.sp.app.admin.member.Member">
-		SELECT subno, subtype, m.memberNo, email, substart, subend, pay, memo, name, nickName, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate ,
-				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled
-			FROM member m
-			JOIN authority a ON a.memberNo = m.memberNo
-	        JOIN subscript s ON a.memberNo = s.memberNo
-	        ORDER BY subtype DESC
-			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+		select distinct s.memberNo, email, name, nickName, TO_CHAR(joindate,'YYYY-MM-DD') joindate , TO_CHAR(birth, 'YYYY-MM-DD') birth,  NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+                NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled, gender, authority
+            FROM subscript s 
+            join member m ON m.memberNo = s.memberNo
+            join authority a ON a.memberNo = s.memberNo
+            where subend &gt;= sysdate
 	</select>
 	
 	<!-- 유료 회원 수  -->
 	<select id="dataCount_sub" parameterType="map" resultType="Integer">
-		SELECT NVL(COUNT(*), 0) dataCount_sub
-		FROM subscript 
-		<where>
-			<if test="keyword != null and keyword!='' ">
-				<include refid="where-list"/>
-			</if>
-		</where>
+		SELECT NVL(count(DISTINCT memberNo),0) dataCount_sub
+          FROM subscript
+          where subend &gt;= sysdate
 	</select>
 	
 	
@@ -106,13 +103,13 @@
 		SELECT NVL(COUNT(*), 0)
 		FROM subscript s
 		JOIN member m ON m.memberNo = s.memberNo
-		WHERE TO_CHAR(m.joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		WHERE TO_CHAR(substart, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
 
 
 	<!-- 계정 비활성화 회원 조회 ! -->
 	<select id="listEn" resultType="com.sp.app.admin.member.Member">
-		SELECT subno, subtype, m.memberNo, email, substart, subend, pay, memo, name, nickName, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate ,
+		SELECT subno, subtype, m.memberNo, email, substart, subend, memo, name, nickName, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate ,
 				NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, membership, enabled
 			FROM member m
 			JOIN authority a ON a.memberNo = m.memberNo
@@ -134,25 +131,42 @@
 		UPDATE member SET enabled = #{enabled} WHERE memberNo = #{memberNo}
 	</update>
 	
+	
 	<!-- 내 구독 정보 : list 로 반환할거임 -->
 	<select id="mysublist" parameterType="map" resultType="com.sp.app.admin.member.Member">
-		SELECT subno, subtype, TO_CHAR(substart, 'YYYY-MM-DD') substart, TO_CHAR(subend, 'YYYY-MM-DD') subend, memberNo, pay
+		SELECT subno, subtype, TO_CHAR(substart, 'YYYY-MM-DD') substart, TO_CHAR(subend, 'YYYY-MM-DD') subend, memberNo 
+		FROM subscript
+		WHERE memberNo = #{memberNo}
+		ORDER BY subno DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<!-- 내 구독 내역, 카운트 !  -->
+	<select id="dataCount_mysub" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) dataCount_mysub
 		FROM subscript
 		WHERE memberNo = #{memberNo}
 	</select>
 	
+	
+	
 	<!-- pdf 리스트 전용 -->
 	<select id="pdflist" resultType="com.sp.app.admin.member.Member">
-		SELECT  m.memberNo, a.authority, email, name, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
-			NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, NVL(enabled, '0') enabled, NVL(subtype, '0') subtype
-		FROM member m
-		JOIN authority a ON a.memberNo = m.memberNo
-		LEFT OUTER JOIN subscript s ON a.memberNo = s.memberNo
-        WHERE membership = 1
-        order by memberNo ASC
+		select authority, m.memberNo, email, name, TO_CHAR(birth,'YYYY-MM-DD') birth, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate, NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '0000-00-00') recentdate,
+		 	NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '0000-00-00') modifydate, NVL(enabled, '0') enabled, NVL(subtype, '0') subtype
+		from member m
+		left outer join subscript s ON m.memberNo = s.memberNo
+		left outer join authority a ON m.memberNo = a.memberNo
+		where subtype is null and authority = 'ROLE_USER'
+		UNION ALL
+		select distinct authority, m.memberNo, email, name, TO_CHAR(birth,'YYYY-MM-DD') birth, gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate, NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '0000-00-00') recentdate,
+		 	NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '0000-00-00') modifydate, NVL(enabled, '0') enabled, NVL(subtype, '0') subtype
+		from member m
+		left outer join subscript s ON m.memberNo = s.memberNo
+		left outer join authority a ON m.memberNo = a.memberNo
+		where authority = 'ROLE_USER' and (substart &lt;= sysdate and subend &gt;= sysdate)
+		ORDER BY memberNo ASC
 	</select>
-	
-	
 	
 	
 	<!-- 내 qna 게시글 갯수 -->
@@ -168,6 +182,23 @@
 		FROM qna
 		WHERE memberNo = #{memberNo}
 		ORDER BY qnaNo DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	
+	<!-- 댓글 개수 -->
+	<select id="dataCount_reply" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*),0) dataCount
+		FROM ${table} c
+		JOIN member m ON c.memberNo = m.memberNo
+		WHERE c.memberNo = #{memberNo}
+	</select>
+	
+	<select id="myreplylist" parameterType="map" resultType="com.sp.app.admin.member.Member">
+		SELECT replyNo, content, TO_CHAR(regdate,'YYYY-MM-DD') regdate, rereplyNo, newsNo, memberNo
+		FROM newsreply
+		WHERE memberNo = #{memberNo}
+		ORDER BY replyNo DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 

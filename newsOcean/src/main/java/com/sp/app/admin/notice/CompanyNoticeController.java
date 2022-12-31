@@ -103,8 +103,11 @@ public class CompanyNoticeController {
 			dto.setCompanyDate(dto.getCompanyDate().substring(0,10));
 		}
 		
+		
 		//AJAX 메소드 이름 ~ ListPage(1) 
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		
+		System.out.println();
 		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("list", list);
@@ -162,6 +165,35 @@ public class CompanyNoticeController {
 		return model;
 	}
 	
+	
+	//AJAX- JSON
+	@RequestMapping(value = "insertReply")
+	@ResponseBody
+	public Map<String, Object> insertReply(CompanyNotice dto,
+			@RequestParam String comreplycontent,
+			@RequestParam long companyNo,
+			HttpSession session) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String state = "false";
+		
+		try {
+			
+			dto.setMemberNo(info.getMemberNo());
+			dto.setCompanyNo(companyNo);
+			service.insertReply(dto);
+			state = "true";
+			
+		} catch (Exception e) {
+		}
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+		
+
 	// zip 파일 다운로드 - list
 	@RequestMapping(value = "zipdownload")
 	public void zipdownload(@RequestParam long companyNo,
@@ -204,13 +236,15 @@ public class CompanyNoticeController {
 	
 	// ajax - html
 	@RequestMapping(value = "article")
-	public String article(@RequestParam long companyNo,
+	public String article(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			@RequestParam long companyNo,
 			@RequestParam String pageNo,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword, 
 			HttpServletResponse resp,
 			Model model) throws Exception {
 		
+
 		keyword = URLDecoder.decode(keyword, "utf-8");
 		
 		service.updateHitCount(companyNo);
@@ -235,6 +269,44 @@ public class CompanyNoticeController {
 		//파일
 		List<CompanyNotice> listFile = service.listFile(companyNo);
 		
+		
+		//댓글 + 페이징 처리 
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
+		
+		//전체 페이지 수 
+		dataCount = service.dataCount_reply(map);
+		if(dataCount != 0) {
+			total_page = myUtil.pageCount(dataCount, size);
+		}
+		
+		// 전체 페이지수 조정
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		//리스트에 출력할 데이터 가져오기
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		map.put("offset", offset);
+		map.put("size", size);
+		
+		List<CompanyNotice> listReply = service.listReply(map);
+		
+		
+		String paging_re = myUtil.pagingMethod(current_page, total_page, "listPage");
+		
+		
+		model.addAttribute("listReply", listReply);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging_re", paging_re);
+		
+		
 		model.addAttribute("dto", dto);
 		model.addAttribute("listFile", listFile);
 		model.addAttribute("pageNo", pageNo);
@@ -243,6 +315,60 @@ public class CompanyNoticeController {
 		
 		return "admin/notice/article";
 	}
+	
+	
+	
+	// ajax - html
+	@RequestMapping(value = "listReply")
+	public String listReply(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			@RequestParam long companyNo,
+			HttpServletResponse resp,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyNo", companyNo);
+		
+		//댓글 + 페이징 처리 
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
+		
+		//전체 페이지 수 
+		dataCount = service.dataCount_reply(map);
+		if(dataCount != 0) {
+			total_page = myUtil.pageCount(dataCount, size);
+		}
+		
+		// 전체 페이지수 조정
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		//리스트에 출력할 데이터 가져오기
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		map.put("offset", offset);
+		map.put("size", size);
+		
+		List<CompanyNotice> listReply = service.listReply(map);
+		
+		
+		String paging_re = myUtil.pagingMethod(current_page, total_page, "listReply(page, companyNo)");
+		
+		
+		model.addAttribute("listReply", listReply);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging_re", paging_re);
+
+		
+		return "admin/notice/reply";
+	}
+	
+	
 	
 	//파일 읽어서 다운로드
 	@RequestMapping(value = "download")

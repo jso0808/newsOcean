@@ -255,5 +255,51 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 		return dto;
 	}
 
+
+	//댓글
+	@Override
+	public List<CompanyNotice> listReply(Map<String, Object> map) {
+		List<CompanyNotice> list = null;
+		
+		try {
+			list = dao.selectList("adminNotice.listReply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+
+	@Override
+	public int dataCount_reply(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminNotice.dataCount_reply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+
+	@Override
+	public void insertReply(CompanyNotice dto) throws Exception {
+		try {
+			
+			long seq_reply = dao.selectOne("adminNotice.seq_reply");
+			dto.setComreplyNo(seq_reply);
+			
+			dao.insertData("adminNotice.insertReply", dto);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	
 }

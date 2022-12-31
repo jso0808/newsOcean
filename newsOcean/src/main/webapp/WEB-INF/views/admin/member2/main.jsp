@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-member.css" type="text/css">
 
 
+<style type="text/css">
+
+</style>
 
 <div class="body-title">
 	<div class="col" style="display: flex; justify-content: space-between;">
@@ -26,6 +29,8 @@
 </div>
 
 
+
+
 <div class="row">
 	<div class="main__left ">
 		<div class="content-frame-list "></div>
@@ -36,7 +41,29 @@
 </div>
 
 
+<div class="row">
+	<div class=" body-container__arti" >
+		<div class="content-frame-1 "></div>
+	</div>
+	<div class=" body-container2__arti">
+		<div class="content-frame-2 "></div>
+		<div class="content-frame-3 "></div>
+		
+	</div>
+</div>
 
+
+
+<div class="row ">
+<div class="title__member__second__area" style="margin-left: 20px;">  </div> 
+	<div class="body-container_list1 shadow ">
+		<div class="content-frame-qna "></div>
+	</div>
+	<div class="body-container_list2 shadow ">
+		<div class="content-frame-reply "></div>
+	</div>
+	
+</div>
 
 
 
@@ -110,14 +137,12 @@ function ajaxFileFun(url, method, query, dataType, fn) {
 }
 
 
-//0
 $(function(){
 	listPage(1);
 	$("#list_btn1").addClass("member_list_btn1__click");
 	
 });
 
-//0
 //회원 리스트 
 function listPage(page) {
 	let url = "${pageContext.request.contextPath}/admin/member/list";
@@ -141,7 +166,6 @@ function listPage(page) {
 }
 
 
-//0
 //유료 회원 리스트 
 function listSubpage(page) {
 	let url = "${pageContext.request.contextPath}/admin/member/listSub";
@@ -165,7 +189,6 @@ function listSubpage(page) {
 }
 
 
-//0
 //계정 비활성화 회원 리스트 
 function listEnpage(page) {
 	let url = "${pageContext.request.contextPath}/admin/member/listEn";
@@ -188,7 +211,6 @@ function listEnpage(page) {
 }
 
 
-//0
 //리로드
 function reload() {
 	listPage(1);
@@ -198,7 +220,6 @@ function reload() {
 	
 
 }
-
 
 // 클리어~~~~~~~~~~~~~
 function clear_article(){
@@ -220,6 +241,146 @@ function clear_article(){
 	$(selector_5).html("");
 			
 }
+
+//상세보기 페이지 
+function articleMember(memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/article";
+	let query = "memberNo="+memberNo;
+	let selector = ".content-frame-2";
+	let selector2 = ".content-frame-list";
+	let selector_titt = ".title__member__second__area";
+	
+
+	const fn = function(data){
+		$(selector).html(data);
+		$(selector2).html("");
+		$(selector_titt).html("<span class='title__member__second'>회원 활동내역</span>");
+		
+	};
+	
+	articleinfo(memberNo);
+	articlesub(memberNo);
+	listQna(1, memberNo);
+	listReply(1, memberNo);
+	
+	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
+
+//상세보기 페이지 - info
+function articleinfo(memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/article_info";
+	let query = "memberNo="+memberNo;
+	let selector = ".content-frame-1";
+	let selector2 = ".content-frame-second";
+
+	
+	const fn = function(data){
+		$(selector).html(data);
+		$(selector2).html("");
+		
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
+//상세보기 페이지- 구독내역 
+function articlesub(page) {
+	
+	let selector = ".content-frame-3";
+	let selector2 = ".content-frame-second";
+	
+	let url = "${pageContext.request.contextPath}/admin/member/article_sub";
+	let query = "pageNo="+page+"&memberNo=${dto.memberNo}";
+	
+	const fn = function(data){
+		$(selector).html(data);
+		$(selector2).html("");
+		
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
+
+
+
+//상세보기 페이지 - qna 답변 리스트
+function listQna(page, memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/myqna";
+	let query = "pageNo="+page+"&memberNo="+memberNo;
+	let selector = ".content-frame-qna";
+
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+//상세보기 페이지 - reply 답변 리스트
+function listReply(page, memberNo) {
+	let url = "${pageContext.request.contextPath}/admin/member/myreply";
+	let query = "pageNo="+page+"&memberNo="+memberNo;
+	let selector = ".content-frame-reply";
+
+	const fn = function(data){
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+
+//1. 계정 상태 변경
+function updateEnabled(memberNo, enabled) {
+
+	if(! confirm("계정 상태를 변경하시겠습니까?")){
+		return false;
+	}
+	
+	if(enabled == '1'){
+		let url = "${pageContext.request.contextPath}/admin/member/update_en";
+		let query = "memberNo="+memberNo+"&enabled=0";
+	
+		const fn = function(data){
+			let state = data.state;
+	        if(state === "false") {
+	            alert("계정 상태 변경에 실패했습니다. ");
+	            return false;
+	        }
+	        
+	        articleMember(memberNo);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	} else {
+		let url = "${pageContext.request.contextPath}/admin/member/update_en";
+		let query = "memberNo="+memberNo+"&enabled=1";
+	
+		const fn = function(data){
+			let state = data.state;
+	        if(state === "false") {
+	            alert("계정 상태 변경에 실패했습니다. ");
+	            return false;
+	        }
+	        
+	        articleMember(memberNo);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	};
+	
+}
+
+
+
+
 
 
 

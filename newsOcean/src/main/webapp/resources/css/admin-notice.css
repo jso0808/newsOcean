@@ -198,6 +198,7 @@
 
 .hover__st tr:hover {
 	background: #eee;
+	transition: .3s;
 }
 
 
@@ -238,4 +239,46 @@
 	margin-top: 15px;
 
 }
+
+
+
+
+
+
+.reply__area {
+	width: 100%;
+	
+	
+	
+}
+
+.reply__container {
+	margin-top: -20px;
+		
+	
+}
+
+.input__area {
+	width: 85%;
+	height: 60px;
+	border-radius: 10px;
+	border: 1px solid #595959;
+	margin-left: 10px;
+	padding-left: 20px;
+	
+}
+
+.reply__btn {
+	width: 13%;
+	height: 60px;
+	border-radius: 10px;
+	border: none;
+	background: #004b81;
+	font-family: 'line_font_b';
+	color: #fff;
+	margin-left: 5px;
+	
+}
+
+
 

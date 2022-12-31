@@ -120,9 +120,31 @@ public class CompanyNotice {
 	}
 	
 	
+	private long comreplyNo;
+	private String comreplydate;
+	private String comreplycontent;
 	
 	
+	public long getComreplyNo() {
+		return comreplyNo;
+	}
+	public void setComreplyNo(long comreplyNo) {
+		this.comreplyNo = comreplyNo;
+	}
+	public String getComreplydate() {
+		return comreplydate;
+	}
+	public void setComreplydate(String comreplydate) {
+		this.comreplydate = comreplydate;
+	}
+	public String getComreplycontent() {
+		return comreplycontent;
+	}
+	public void setComreplycontent(String comreplycontent) {
+		this.comreplycontent = comreplycontent;
+	}
 	
-	
+
+
 	
 }

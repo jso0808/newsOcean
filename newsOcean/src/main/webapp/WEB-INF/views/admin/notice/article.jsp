@@ -86,11 +86,21 @@
 				    	</c:choose>
 					</td>
 					<td class="text-end">
-						
 					</td>
 				</tr>
+				<tr>
+					
+				</tr>
 			</table>
-
+		</div>
+		
+		<div class="reply__container">
+			<span class="reply__area shadow-sm"><input type="text" class="input__area shadow-sm" name="input__reply"></span>
+			<span><button class="reply__btn btn" onclick="insertReply('${dto.companyNo}', '${pageNo}');">댓글 등록</button></span>
 		</div>
 	</div>
 </div>
+
+
+
+

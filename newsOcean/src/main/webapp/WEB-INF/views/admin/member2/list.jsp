@@ -52,7 +52,7 @@
 </div>
 
 <c:forEach var="dto" items="${list}" varStatus="status">
-	<div class="list_member_design shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/member/article?memberNo=${dto.memberNo}';">
+	<div class="list_member_design shadow-sm" onclick="articleMember('${dto.memberNo}');">
 		<div class="number__design">${dataCount - (pageNo-1) * size - status.index}</div>
 		<span class="">
 				<c:if test="${dto.gender=='F'}">

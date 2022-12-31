@@ -163,10 +163,32 @@
 	</select>
 	
 	
+	<!-- 댓글댓글댓글댓글댓글 -->
+	<select id="listReply" parameterType="map" resultType="com.sp.app.admin.notice.CompanyNotice">
+		SELECT comreplyNo, c.companyNo, comreplydate, m.memberNo, comreplycontent, m.name
+		FROM companyreply c
+		JOIN member m ON m.memberNo = c.memberNo 
+		WHERE companyNo = #{companyNo}
+		
+		ORDER BY c.comreplydate DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
 	
+	<select id="dataCount_reply" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM companyreply
+		WHERE companyNo = #{companyNo}
+	</select>
 	
+	<select id="seq_reply" resultType="Long">
+		SELECT comreplyNo_seq.NEXTVAL FROM dual
+	</select>
 	
-	
+	<!-- 댓글 추가 -->
+	<insert id="insertReply" parameterType="com.sp.app.admin.notice.CompanyNotice">
+		INSERT INTO companyreply(comreplyNo, companyNo, memberNo, comreplycontent, comreplydate) 
+			VALUES(#{comreplyNo}, #{companyNo}, #{memberNo}, #{comreplycontent}, SYSDATE)
+	</insert>
 	
 	
 

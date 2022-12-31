@@ -1,6 +1,7 @@
 package com.sp.app.admin.member;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +35,8 @@ public class MemberController {
 	public String main() throws Exception {
 		return ".admin.member.main";
 	}
+	
+	
 	
 	
 	@RequestMapping(value = "list")
@@ -268,9 +271,17 @@ public class MemberController {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value = "article")
-	public String article(@RequestParam long memberNo,
+	public String article(@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam long memberNo,
 			HttpServletResponse resp,
+			HttpServletRequest req,
 			Model model) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -283,35 +294,76 @@ public class MemberController {
 			return "redirect:/admin/member/main";
 		}
 		
-		List<Member> sublist = service.mysublist(map);
-		
-		
+
+
 		model.addAttribute("dto", dto);
-		model.addAttribute("sublist", sublist);
+		model.addAttribute("pageNo", current_page);
+
+		return ".admin.member.article";
 		
-		
-		return "admin/member/article";
 	}
 	
-	
-	@RequestMapping(value = "article_info")
-	public String article_info(@RequestParam long memberNo,
+
+	//ajax
+	@RequestMapping(value = "sublist")
+	public String sublist(@RequestParam(value = "pageNo" , defaultValue = "1") int current_page,
+			@RequestParam long memberNo,
 			HttpServletResponse resp,
 			Model model) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", memberNo);
 		
+		
+		//해당 정보 넘기기
 		Member dto = service.readMember(map);
 		if(dto == null) {
 			resp.sendError(410);
 			return "redirect:/admin/member/main";
 		}
 		
+		
+		//구독 결제 내역 - 페이징 처리 
+		int size  = 3;
+		int total_page = 0;
+		int dataCount_mysub = 0;
+		
+		dataCount_mysub = service.dataCount_mysub(map);
+		if(dataCount_mysub != 0) {
+			total_page = myUtil.pageCount(dataCount_mysub, size);
+		}
+		
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+		
+		map.put("offset", offset);
+		map.put("size", size);
+		
+		List<Member> sublist = service.mysublist(map);
+		
+		String paging = myUtil.pagingMethod(current_page, total_page, "articlesub");
+		
+		
+		model.addAttribute("dataCount", dataCount_mysub);
+		model.addAttribute("size", size);
+		model.addAttribute("paging", paging);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("total_page", total_page);
+
+		model.addAttribute("sublist", sublist);
 		model.addAttribute("dto", dto);
 		
-		return "admin/member/info";
+		
+		return "admin/member/sub";
 	}
+	
+	
+	
 	
 	
 	//AJAX - HTML : LIST : qna 게시글
@@ -320,7 +372,7 @@ public class MemberController {
 			@RequestParam long memberNo,
 			HttpServletRequest req, Model model) throws Exception {
 		
-		int size = 6;
+		int size = 5;
 		int total_page = 0;
 		int dataCount = 0;
 		
@@ -361,6 +413,57 @@ public class MemberController {
 	}
 	
 	
+	
+	//AJAX - HTML : LIST : reply 게시글
+	@RequestMapping(value = "myreply")
+	public String listReply(@RequestParam(value = "pageNo" , defaultValue = "1") int current_page,
+			@RequestParam long memberNo,
+			HttpServletRequest req, Model model) throws Exception {
+		
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
+		
+		//전체 페이지 수  - qna
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("table", "newsreply");
+		map.put("memberNo", memberNo);
+		
+		dataCount = service.dataCount_reply(map);
+		if(dataCount != 0) {
+			total_page = myUtil.pageCount(dataCount, size);
+		}
+		
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		//리스트
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		map.put("offset", offset);
+		map.put("size", size);
+		
+		List<Member> list = service.myreplylist(map);
+		
+		String paging = myUtil.pagingMethod(current_page, total_page, "listReply");
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		
+		
+		return "admin/member/myreply";
+	}
+	
+	
+	
+	
+	
 	//계정 상태 변경
 	@RequestMapping(value = "update_en", method = RequestMethod.POST)
 	@ResponseBody
@@ -387,6 +490,10 @@ public class MemberController {
 		
 		return model;
 	}
+	
+	
+	
+	
 	
 	
 	//pdf 파일 다운로드 (회원 리스트)

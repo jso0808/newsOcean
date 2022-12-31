@@ -223,5 +223,50 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public int dataCount_mysub(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMember.dataCount_mysub", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+
+
+	@Override
+	public int dataCount_reply(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMember.dataCount_reply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+
+
+	@Override
+	public List<Member> myreplylist(Map<String, Object> map) {
+		List<Member> list = null;
+		
+		try {
+			list = dao.selectList("adminMember.myreplylist", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+
 	
 }
