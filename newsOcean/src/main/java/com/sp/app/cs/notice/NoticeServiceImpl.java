@@ -118,7 +118,6 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void deleteNotice(long noticeNo, String pathname) throws Exception {
 		try {
-
 			// 파일 테이블 내용 지우기
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("field", "noticeNo");

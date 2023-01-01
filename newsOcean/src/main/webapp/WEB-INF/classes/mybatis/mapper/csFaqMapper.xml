@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cs.faq">
+
+	<insert id="insertFaq" parameterType="com.sp.app.cs.faq.Faq">
+		INSERT INTO faq(faqNo, categoryNum, memberNo, faqSubject, faqContent, faqRegdate)
+		VALUES (faq_seq.NEXTVAL, #{categoryNum}, #{memberNo}, #{faqSubject}, #{faqContent}, SYSDATE)
+	</insert>
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+			   ( INSTR(subject, #{keyword}) &gt; 0
+		          OR DBMS_LOB.INSTR(faqContent, #{keyword}) &gt; 0 
+		          OR INSTR(LOWER(category), LOWER(#{keyword})) &gt; 0 )
+			</when>
+			<when test="condition == 'faqRegdate' ">
+			   ( TO_CHAR(faqRegdate, 'YYYYMMDD') = #{keyword}
+		          OR TO_CHAR(faqRegdate, 'YYYY-MM-DD') = #{keyword} )
+			</when>
+			<otherwise>
+			    ( INSTR(${condition}, #{keyword}) &gt; 0 )
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM faq f
+		JOIN member m ON f.memberNo=m.memberNo
+		JOIN faqCategory c ON f.categoryNum = c.categoryNum
+		<where>
+			<if test="categoryNum!=0">
+				( c.categoryNum = #{categoryNum} )
+			</if>
+			<if test="keyword!=null and keyword!='' ">
+				AND <include refid="where-list"/>
+			</if>
+			AND c.enabled = 1
+		</where>
+	</select>
+
+	<select id="listFaq" parameterType="map" resultType="com.sp.app.cs.faq.Faq">
+		SELECT f.faqNo, f.memberNo, nickName, faqSubject, 
+			TO_CHAR(f.faqRegdate, 'YYYY-MM-DD') faqRegdate, faqContent,
+			c.categoryNum, category, orderNo
+		FROM faq f
+		JOIN member m ON f.memberNo=m.memberNo
+		JOIN faqCategory c ON f.categoryNum = c.categoryNum
+		<where>
+			<if test="categoryNum!=0">
+				( c.categoryNum = #{categoryNum} )
+			</if>
+			<if test="keyword!=null and keyword!='' ">
+				AND <include refid="where-list"/>
+			</if>
+			AND c.enabled = 1
+		</where>
+		ORDER BY orderNo, faqNo DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<select id="readFaq" parameterType="Long" resultType="com.sp.app.cs.faq.Faq">
+		SELECT f.faqNo, f.memberNo, nickName, faqSubject, faqContent,
+			 f.faqRegdate,  
+			 f.categoryNum, c.category
+		FROM faq f
+		JOIN member m ON f.memberNo=m.memberNo
+		JOIN faqCategory c ON f.categoryNum = c.categoryNum
+		WHERE f.faqNo = #{faqNo}
+	</select>
+
+	<update id="updateFaq" parameterType="com.sp.app.cs.faq.Faq">
+		UPDATE faq SET categoryNum=#{categoryNum}, faqSubject=#{faqSubject},
+			faqContent=#{faqContent}
+		WHERE faqNo = #{faqNo}
+	</update>
+
+	<delete id="deleteFaq" parameterType="map">
+		DELETE FROM faq WHERE faqNo = #{faqNo}
+	</delete>
+	
+	<!-- 카테고리 -->
+	<insert id="insertCategory" parameterType="com.sp.app.cs.faq.Faq">
+		INSERT INTO faqCategory(categoryNum, category, enabled, orderNo)
+			VALUES (faqCategory_seq.NEXTVAL, #{category}, #{enabled}, #{orderNo})
+	</insert>
+	
+
+	<select id="listCategory" parameterType="map" resultType="com.sp.app.cs.faq.Faq">
+		SELECT categoryNum, category, enabled, orderNo
+		FROM faqCategory
+		<where>
+			<if test="mode=='enabled'">
+				enabled = 1
+			</if>
+		</where>
+		ORDER BY orderNo
+	</select>
+	
+	<update id="updateCategory" parameterType="com.sp.app.cs.faq.Faq">
+		UPDATE faqCategory SET category=#{category}, enabled=#{enabled}, orderNo=#{orderNo}
+		WHERE categoryNum = #{categoryNum}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Long">
+		DELETE FROM faqCategory
+		WHERE categoryNum = #{categoryNum}
+	</delete>
+
+</mapper>

@@ -1,5 +1,6 @@
 package com.sp.app.cs.notice;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
-@Controller("cs.notice.noticeController")
+@Controller("cs.noticeController")
 @RequestMapping("/cs/notice/*")
 public class NoticeController {
 	@Autowired
@@ -125,11 +126,6 @@ public class NoticeController {
 	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String writeForm(Model model, HttpSession session) throws Exception {
 
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info.getMemberShip() < 51) {
-			return "redirect:/cs/notice/list";
-		}
-
 		model.addAttribute("mode", "write");
 
 		return ".cs.notice.write";
@@ -140,14 +136,10 @@ public class NoticeController {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		if (info.getMemberShip() < 51) {
-			return "redirect:/cs/notice/list";
-		}
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads"+ File.separator + "notice";
 
 		try {
-			String root = session.getServletContext().getRealPath("/");
-			String pathname = root + "uploads" + "notice";
-
 			dto.setMemberNo(info.getMemberNo());
 			service.insertNotice(dto, pathname);
 		} catch (Exception e) {
@@ -167,9 +159,9 @@ public class NoticeController {
 
 		String query = "page=" + page;
 		if (keyword.length() != 0) {
-			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+			query += "&condition=" + condition +
+					"&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
-
 
 		Notice dto = service.readNotice(noticeNo);
 		if (dto == null) {
@@ -191,6 +183,7 @@ public class NoticeController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);
+		
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 

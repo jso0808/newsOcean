@@ -8,6 +8,7 @@
 	max-width: 800px;
 }
 </style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
 function searchList() {
