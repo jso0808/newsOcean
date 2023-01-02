@@ -84,11 +84,11 @@ $(function(){
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="통계관리">
 				<i class="menu--icon  fa-fw fa-solid fa-chart-line"></i>
-				<span class="menu--label">통계관리</span>
+				<span class="menu--label">실적관리</span>
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">사이트 전체 통계</a>
+					<a href="${pageContext.request.contextPath}/admin/perform/main" class="sub_menu--link">사이트 전체 통계</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">매출 통계</a>

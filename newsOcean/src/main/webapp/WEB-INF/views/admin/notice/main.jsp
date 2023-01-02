@@ -47,9 +47,10 @@
 <!-- 게시글 본문 테이블  -->
 <div class="row" >
 	<div class="" style="margin-top: 10px;">
-		<div class="content-frame-second shadow"></div>
-		<div class="content-frame-reply shadow"></div>
-		
+		<div class="content-frame-second shadow">
+		</div>
+		<div class="content-frame-reply shadow">
+		</div>
 	</div>
 </div>
 
@@ -140,6 +141,7 @@ function ajaxFileFun(url, method, query, dataType, fn) {
 
 $(function(){
 	listPage(1);
+	clear();
 });
 
 //글 리스트 
@@ -154,6 +156,8 @@ function listPage(page) {
 		$(selector).html(data);
 	};
 	
+	clear();
+	
 	ajaxFun(url, "get", query, "html", fn);
 
 }
@@ -165,11 +169,18 @@ function reloadBoard() {
 	f.keyword.value = "";
 	listPage(1);
 	
+	clear();
+
+}
+
+function clear(){
 	let selector = ".content-frame-second";
 	let selector_title = ".title__content__plus";
+	let selector_reply = ".content-frame-reply";
+	
 	$(selector).html("");
 	$(selector_title).html("");
-	
+	$(selector_reply).html("");
 }
 
 //검색 리스트
@@ -179,10 +190,7 @@ function searchList() {
 	f.condition.value = $("#condition").val();
 	f.keyword.value = $.trim($("#keyword").val());
 	listPage(1);	
-	let selector = ".content-frame-second";
-	let selector_title = ".title__content__plus";
-	$(selector).html("");
-	$(selector_title).html("");
+	clear();
 	
 }
 
@@ -191,13 +199,11 @@ function insertForm() {
 	let url = "${pageContext.request.contextPath}/admin/notice/write";
 	let query = "tmp="+new Date().getTime();
 	let selector = ".content-frame-list";
-	let selector2 = ".content-frame-second";
-	let selector_title = ".title__content__plus";
+	clear();
 	
 	const fn = function(data){
 		$(selector).html(data);
-		$(selector2).html("");
-		$(selector_title).html("");
+		clear();
 		
 	};
 	
@@ -205,14 +211,12 @@ function insertForm() {
 }
 
 //댓글 등록
-function insertReply(companyNo, page) {
+function insertReply(companyNo) {
 
 	let con = $("input[name='input__reply']").val();
 	
 	let url = "${pageContext.request.contextPath}/admin/notice/insertReply";
 	let query = "companyNo="+companyNo+"&comreplycontent="+con;
-	
-	console.log(query);
 
 	const fn = function(data){
 		let state = data.state;
@@ -221,10 +225,46 @@ function insertReply(companyNo, page) {
             return false;
         }
         
-        articleBoard(companyNo, page);
+        articleBoard(companyNo, 1)
+        
+	};
+
+	
+	
+	ajaxFun(url, "get", query, "json", fn);
+}
+
+
+//댓글 리스트 
+function listReply(page, companyNo) {
+	let url = "${pageContext.request.contextPath}/admin/notice/listReply";
+	let query = "pageNo="+page+"&companyNo="+companyNo;
+	
+	let selector = ".content-frame-reply";
+	
+	const fn = function(data){
+		$(selector).html(data);
 	};
 	
-	ajaxFileFun(url, "get", query, "json", fn);
+	ajaxFun(url, "get", query, "html", fn);
+
+}
+
+//댓글 삭제
+function deleteReply(comreplyNo, companyNo) {
+	let url = "${pageContext.request.contextPath}/admin/notice/deleteReply";
+	let query = "comreplyNo="+comreplyNo;
+
+	if( ! confirm("해당 댓글을 삭제하시겠습니까? ")) {
+		return;
+	}
+	
+	const fn = function(data) {
+		articleBoard(companyNo, 1)
+
+	};
+	
+	ajaxFun(url, "get", query, "json", fn);
 }
 
 
@@ -233,13 +273,11 @@ function updateForm(companyNo, pageNo) {
 	let url = "${pageContext.request.contextPath}/admin/notice/update";
 	let query = "companyNo="+companyNo+"&pageNo="+pageNo;
 	let selector = ".content-frame-list";
-	let selector2 = ".content-frame-second";
-	let selector_title = ".title__content__plus";
+	clear();
 	
 	const fn = function(data) {
 		$(selector).html(data);
-		$(selector2).html("");
-		$(selector_title).html("");
+		
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
@@ -315,21 +353,6 @@ function articleBoard(companyNo, page) {
 }
 
 
-//댓글 리스트 
-function listReply(page, companyNo) {
-	let url = "${pageContext.request.contextPath}/admin/notice/listReply";
-	let query = "pageNo="+page+"&companyNo={vo.companyNo}";
-
-	let selector = ".content-frame-reply";
-	
-	const fn = function(data){
-		$(selector).html(data);
-	};
-	
-	ajaxFun(url, "get", query, "html", fn);
-
-}
-
 
 //글 삭제
 function deleteOk(companyNo) {
@@ -343,7 +366,7 @@ function deleteOk(companyNo) {
 	
 	const fn = function(data) {
 		reloadBoard();
-		$(selector).html("<p></p>");
+		$(selector).html("");
 	};
 	
 	ajaxFun(url, "post", query, "json", fn);
@@ -358,6 +381,7 @@ function deleteFile(fileNo) {
 	}, "json");
 }
 
+
 //쓰기 취소, 수정 취소
 function sendCancel() {
 	let selector = ".content-frame-second";	
@@ -366,6 +390,7 @@ function sendCancel() {
 	$(selector).html("<p></p>");
 	
 }
+
 
 
 

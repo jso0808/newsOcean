@@ -301,5 +301,34 @@ public class CompanyNoticeServiceImpl implements CompanyNoticeService {
 		}
 	}
 
+
+	@Override
+	public void deleteReply(long companyNo) throws Exception {
+		try {
+			
+			dao.deleteData("adminNotice.deleteReply", companyNo);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+
+	@Override
+	public void deleteReply__one(long comreplyNo) throws Exception {
+		try {
+			
+			dao.deleteData("adminNotice.deleteReply__one", comreplyNo);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+
 	
 }

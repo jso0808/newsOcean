@@ -32,9 +32,14 @@ public interface CompanyNoticeService {
 	//댓글 리스트 
 	public List<CompanyNotice> listReply(Map<String, Object> map);
 	public int dataCount_reply(Map<String, Object> map);
-	
+
 	//댓글 추가
 	public void insertReply(CompanyNotice dto) throws Exception;
+	//전체 댓글 삭제
+	public void deleteReply(long companyNo) throws Exception;
+	//댓글 하나 삭제
+	public void deleteReply__one(long comreplyNo) throws Exception;
+	
 	
 	
 	

@@ -97,9 +97,16 @@
 
 .content-frame-second {
 	background: #fff;
-	border-radius: 15px;
+	border-radius: 15px 15px 0px 0px;
 	padding-left: 70px;
 	padding-right: 70px;
+}
+
+.content-frame-reply {
+	background: #fff;
+	border-radius: 0px 0px 15px 15px;
+	padding-left: 90px;
+	padding-right: 90px;
 }
 
 .content-frame-list {
@@ -260,17 +267,22 @@
 
 .input__area {
 	width: 85%;
-	height: 60px;
+	height: 70px;
 	border-radius: 10px;
-	border: 1px solid #595959;
+	border: 1px solid #b8b8b8;
 	margin-left: 10px;
 	padding-left: 20px;
 	
 }
 
+.input__area:hover{
+	border: 1px solid #004b81;
+	transition: .5s;
+}
+
 .reply__btn {
 	width: 13%;
-	height: 60px;
+	height: 70px;
 	border-radius: 10px;
 	border: none;
 	background: #004b81;

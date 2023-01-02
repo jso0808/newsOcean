@@ -181,8 +181,13 @@ public class CompanyNoticeController {
 			
 			dto.setMemberNo(info.getMemberNo());
 			dto.setCompanyNo(companyNo);
+			dto.setComreplycontent(comreplycontent);
+			
 			service.insertReply(dto);
 			state = "true";
+			
+			System.out.println("상태~~~~~~");
+
 			
 		} catch (Exception e) {
 		}
@@ -269,43 +274,7 @@ public class CompanyNoticeController {
 		//파일
 		List<CompanyNotice> listFile = service.listFile(companyNo);
 		
-		
-		//댓글 + 페이징 처리 
-		int size = 5;
-		int total_page = 0;
-		int dataCount = 0;
-		
-		//전체 페이지 수 
-		dataCount = service.dataCount_reply(map);
-		if(dataCount != 0) {
-			total_page = myUtil.pageCount(dataCount, size);
-		}
-		
-		// 전체 페이지수 조정
-		if (total_page < current_page) {
-			current_page = total_page;
-		}
-		
-		//리스트에 출력할 데이터 가져오기
-		int offset = (current_page - 1) * size;
-		if(offset < 0) offset = 0;
-
-		map.put("offset", offset);
-		map.put("size", size);
-		
-		List<CompanyNotice> listReply = service.listReply(map);
-		
-		
-		String paging_re = myUtil.pagingMethod(current_page, total_page, "listPage");
-		
-		
-		model.addAttribute("listReply", listReply);
 		model.addAttribute("pageNo", current_page);
-		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("size", size);
-		model.addAttribute("total_page", total_page);
-		model.addAttribute("paging_re", paging_re);
-		
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("listFile", listFile);
@@ -328,43 +297,18 @@ public class CompanyNoticeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("companyNo", companyNo);
 		
-		//댓글 + 페이징 처리 
-		int size = 5;
-		int total_page = 0;
-		int dataCount = 0;
-		
-		//전체 페이지 수 
-		dataCount = service.dataCount_reply(map);
-		if(dataCount != 0) {
-			total_page = myUtil.pageCount(dataCount, size);
-		}
-		
-		// 전체 페이지수 조정
-		if (total_page < current_page) {
-			current_page = total_page;
-		}
 		
 		//리스트에 출력할 데이터 가져오기
-		int offset = (current_page - 1) * size;
-		if(offset < 0) offset = 0;
-
-		map.put("offset", offset);
-		map.put("size", size);
-		
 		List<CompanyNotice> listReply = service.listReply(map);
 		
+		int dataCount = service.dataCount_reply(map);
 		
-		String paging_re = myUtil.pagingMethod(current_page, total_page, "listReply(page, companyNo)");
+		System.out.println(listReply);
 		
-		
+		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("listReply", listReply);
 		model.addAttribute("pageNo", current_page);
-		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("size", size);
-		model.addAttribute("total_page", total_page);
-		model.addAttribute("paging_re", paging_re);
-
-		
+	
 		return "admin/notice/reply";
 	}
 	
@@ -414,6 +358,11 @@ public class CompanyNoticeController {
 			
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root + "uploads" + File.separator + "admin_notice";
+			
+			
+			//댓 지우기
+			service.deleteReply(companyNo);
+			//글 지우기
 			service.deleteNotice(companyNo, pathname);
 			
 			state = "true";
@@ -425,6 +374,7 @@ public class CompanyNoticeController {
 		model.put("state", state);
 		return model;
 	}
+	
 	
 	@RequestMapping(value = "deleteFile", method = RequestMethod.POST)
 	@ResponseBody
@@ -449,6 +399,32 @@ public class CompanyNoticeController {
 		return model;
 	}
 	
+	
+	
+	//댓글삭제
+	// AJAX-JSON
+	@RequestMapping(value = "deleteReply")
+	@ResponseBody
+	public Map<String, Object> deleteReply(@RequestParam long comreplyNo,
+			HttpSession session) throws Exception {
+		
+		String state = "false";
+		
+		try {
+			
+			//댓 지우기
+			service.deleteReply__one(comreplyNo);
+			
+			state = "true";
+
+		} catch (Exception e) {
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+
 	
 	
 	//수정 AJAX - HTML

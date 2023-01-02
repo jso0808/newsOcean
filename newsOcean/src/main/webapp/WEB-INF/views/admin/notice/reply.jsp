@@ -5,54 +5,62 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
+<style>
+.reply__logo {
+	width: 80px;
+	padding-top: -1px;
+}
+
+.reply__toggle__style {
+	color: #004b81;
+	font-size: 20px;
+}
+
+.reply__toggle__style:hover {
+	cursor: pointer;
+	
+}
+
+.reply__con__margin {
+	padding-bottom: 100px;
+}
+
+</style>
+
 
 <div class='reply-info'>
-	<span class='reply-count'>답글 ${dataCount}개</span>
-	<span>[목록, ${pageNo}/${total_page} 페이지]</span>
+	<div class='reply-count'>답글 ${dataCount}개</div>
 </div>
 
 <table class='table table-borderless'>
 	
-	
 	<c:forEach var="vo" items="${listReply}">
-		<tr class='border bg-light'>
+		<tr class='border bg-light shadow '>
 			<td width='50%'>
 				<div class='row reply-writer'>
-					<div class='col-1'><i class='bi bi-person-circle text-muted icon'></i></div>
+					<div class='col-1' style="margin-left: 10px; margin-right: 40px; margin-bottom: 10px; margin-top: 0px;"><img class="reply__logo" src="${pageContext.request.contextPath}/resources/images/admin_img_3.png"></div>
 					<div class='col-auto align-self-center'>
-						<div class='name'>${vo.name}</div>
+						<div class='name' style="font-family: 'line_font_b'; font-size: 17px;">${vo.name}</div>
 						<div class='date'>${vo.comreplydate}</div>
 					</div>
 				</div>
 			</td>
 			<td width='50%' align='right' class='align-middle'>
-				<span class='reply-dropdown'><i class='bi bi-three-dots-vertical'></i></span>
-				<div class="reply-menu">
-					<c:choose>
-						<c:when test="${sessionScope.member.memberNo==vo.memberNo}">
-							<div class='deleteReply reply-menu-item' data-replyNum='${vo.comreplyNo}' data-pageNo='${pageNo}'>삭제</div>
-							<div class='hideReply reply-menu-item'>숨김</div>
-						</c:when>
-						<c:when test="${sessionScope.member.memberNo==vo.memberNo}">
-							<div class='deleteReply reply-menu-item' data-replyNum='${vo.comreplyNo}' data-pageNo='${pageNo}'>삭제</div>
-							<div class='blockReply reply-menu-item'>차단</div>
-						</c:when>
-						<c:otherwise>
-							<div class='notifyReply reply-menu-item'>신고</div>
-							<div class='blockReply reply-menu-item'>차단</div>
-						</c:otherwise>
-					</c:choose>
+				<div class='dropdown'>
+					<i class="bi bi-three-dots-vertical reply__toggle__style" data-bs-toggle="dropdown" aria-expanded="false"></i>
+					<c:if test="${sessionScope.member.memberNo==vo.memberNo}">
+						<ul class="dropdown-menu">
+							<li class="dropdown-item updaprofile__project__detailte__detail update__detail" data-pd_code="${vo.comreplyNo}" onclick="deleteReply('${vo.comreplyNo}', '${vo.companyNo}')">댓글 삭제</li>
+						</ul>
+					</c:if>
+					
 				</div>
 			</td>
 		</tr>
-		<tr>
-			<td colspan='2' valign='top'>${vo.comreplycontent}</td>
+		<tr >
+			<td colspan='2' valign='top' style="padding-top: 20px; padding-bottom: 50px;" >${vo.comreplycontent}</td>
 		</tr>
 	</c:forEach>
 	
-		
 </table>
 
-<div class='page-navigation'>
-	${paging_re}
-</div>	

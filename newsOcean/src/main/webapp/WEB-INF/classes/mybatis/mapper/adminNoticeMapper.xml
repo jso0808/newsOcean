@@ -169,9 +169,7 @@
 		FROM companyreply c
 		JOIN member m ON m.memberNo = c.memberNo 
 		WHERE companyNo = #{companyNo}
-		
 		ORDER BY c.comreplydate DESC
-		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<select id="dataCount_reply" parameterType="map" resultType="Integer">
@@ -189,6 +187,16 @@
 		INSERT INTO companyreply(comreplyNo, companyNo, memberNo, comreplycontent, comreplydate) 
 			VALUES(#{comreplyNo}, #{companyNo}, #{memberNo}, #{comreplycontent}, SYSDATE)
 	</insert>
+	
+	<!-- 글삭제시, 전체 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="Long">
+		DELETE FROM companyreply WHERE companyNo = #{companyNo} 
+	</delete>
+	
+	<!-- 댓글 하나 삭제 -->
+	<delete id="deleteReply__one" parameterType="Long">
+		DELETE FROM companyreply WHERE comreplyNo = #{comreplyNo} 
+	</delete>
 	
 	
 

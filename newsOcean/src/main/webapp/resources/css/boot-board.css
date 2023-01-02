@@ -43,8 +43,11 @@
 .reply-form textarea { width: 100%; height: 75px; resize: none; }
 .reply-form button { padding: 8px 25px; }
 
+
+.icon__size {font-size: 200px;}
+
 .reply .reply-info { padding-top: 25px; padding-bottom: 7px; }
-.reply-info .reply-count { color: #3EA9CD; font-weight: 600; }
+.reply-info .reply-count { color: #004b81; font-weight: 600; padding-bottom: 20px; font-family: 'line_font_b'; font-size: 16px; }
 
 .reply-writer .icon { font-size: 1.6rem; color: #999; }
 .reply-writer .name { font-size: 12px; font-weight: 600; }

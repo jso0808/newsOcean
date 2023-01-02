@@ -94,9 +94,10 @@
 			</table>
 		</div>
 		
-		<div class="reply__container">
-			<span class="reply__area shadow-sm"><input type="text" class="input__area shadow-sm" name="input__reply"></span>
-			<span><button class="reply__btn btn" onclick="insertReply('${dto.companyNo}', '${pageNo}');">댓글 등록</button></span>
+		<div class="reply__container" style="padding-bottom: 20px;">
+			<span class="reply__area shadow-sm "><input type="text" class="input__area shadow-sm" name="input__reply"></span>
+			<span><button class="reply__btn btn shadow-sm" onclick="insertReply('${dto.companyNo}');">댓글 등록</button></span>		
+		
 		</div>
 	</div>
 </div>
