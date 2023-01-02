@@ -1,4 +1,4 @@
-package com.sp.app.mail;
+package com.sp.app.sub.mail;
 
 import java.util.ArrayList;
 import java.util.List;

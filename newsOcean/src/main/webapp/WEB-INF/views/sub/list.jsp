@@ -26,6 +26,10 @@
   display: flex;
 }
 
+.div-subList {
+	height: 100%;
+}
+
 .card {
   width: 450px;
   height: 180px;
@@ -66,6 +70,10 @@
   background-color: #fff;
   width: 40px;
   border-right: 1px solid gray;
+}
+
+.card:hover {
+	background: #4FC4F7
 }
 
 .co-img img {
@@ -113,23 +121,169 @@
 
 .subType {
 	font-size: 20px;
-	padding-bottom: 10px;
+	padding-bottom: 8px;
 }
 
 .btn-card {
 	margin-bottom: 50px;
 }
 
-</style>
+.div-subIng {
 
+}
+
+.div-subEnd {
+
+}
+
+			
+.modal-merchant_uid, .modal-paid_at, .modal-subType, .modal-subStart, 
+	.modal-subEnd, .modal-firstMail {
+	font-size: 17px;
+	border-bottom: 10px;
+}
+
+#subPayInfoModalContent {
+	font-size: 17px;
+}					
+
+.modal-paid_amount {
+	font-size: 25px;
+}
+
+.btnSearch {
+	border-color: gray;
+}
+
+.div-dataCount {
+	font-size: 20px;
+}
+
+.modal-body {
+	margin: 15px;
+}
+
+.modal-footer {
+	display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    align-items: flex-end;
+}
+
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.0/css/all.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
 
 <script type="text/javascript">
-$(function() {
-	let today = new Date();
-	let subEnd = "${dto.subEnd}";
+window.addEventListener("load", function(){
+	let page = ${page};
+	let pageSize = ${size};
+	let dataCount = ${dataCount};
+	let url = "${listUrl}"; 
 	
-	
+	let total_page = pageCount(dataCount, pageSize);
+	let paging = pagingUrl(page, total_page, url);
+
+	document.querySelector(".page-navigation").innerHTML = 
+		dataCount === 0 ? "등록된 게시물이 없습니다." : paging;
 });
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패했습니다.");
+				return false;
+			}
+			
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+// 구독권 결제 상세보기 모달 출력 subInfoModal
+$(function() {
+	
+	$(".card").on("click", function() {
+		
+		let merchant_uid = $(this).find("input[name=merchant_uid]").val(); // 구독번호
+		let imp_uid = $(this).find("input[name=imp_uid]").val(); // 결제번호
+		
+		console.log(merchant_uid);
+		console.log(imp_uid);
+		
+		// 구독권 결제 상세 내용 ajax로 가져오기
+		let url = "${pageContext.request.contextPath}/sub/subPayInfo";
+ 		let query= "imp_uid="+imp_uid;
+ 			
+ 		const fn = function(info) {
+ 			console.log(info);
+ 			console.log(info.firstMail);
+ 			var html_content = '';
+ 			html_content += '<div class="modal-paid_at">구독일: '+info.paid_at+'</div>';
+ 			html_content += '<div class="modal-merchant_uid">구독 번호: '+info.merchant_uid+'</div>';
+
+ 			html_content += '<div class="modal-subType">구독권 종류: '+info.subType+'개월 구독권</div>';
+ 			html_content += '<div class="modal-subStart">구독 시작일: '+info.subStart+'</div>';
+ 			html_content += '<div class="modal-subEnd">구독 종료일: '+info.subEnd+'</div>';
+ 			html_content += '<div class="modal-firstMail">첫 메일 발송일: '+info.firstMail+'</div>';
+			
+ 			$("#subPayInfoModalContent").empty();
+	 	    $("#subPayInfoModalContent").append(html_content);
+	 	    
+	 	    var html_amount = '';
+	 		
+	 	    html_amount += '최종 결제 금액: '+info.paid_amount+'원';
+	 	    
+	 		// 첫 메일 발송일 이전이면 환불 가능
+	 	    if(info.endOrNot===1) {
+	 	    	let html_btnRefund = '';
+	 	    	html_btnRefund += '<button type="button" class="btn btn-secondary btnRefund" id="btnRefund" data-bs-dismiss="modal">환불하기</button>';
+	 	    	// btnRefund
+	 	    	$(".btnRefund").empty();
+		 	    $(".btnRefund").append(html_btnRefund);
+	 	    }
+	 	    
+	 	    $(".modal-paid_amount").empty();
+	 	    $(".modal-paid_amount").append(html_amount);
+	 	    
+		 	// 모달창 출력
+		 	$("#subInfoModal").modal("show");	
+ 	    		
+ 	    }
+ 	        ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+
+
+// 검색 조건 클릭할 때마다 input 값 변경
+$(function() {
+	$("#selectSub").click(function() {
+		let selectSub = $("#selectSub").find("option:selected").val();
+		$("input[name=selectSubType]").attr("value", selectSub);
+		let test = $("input[name=selectSubType]").val();
+	});
+});
+
+// 조건 조회 검색 버튼 클릭
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
 
 
 </script>
@@ -143,16 +297,24 @@ $(function() {
 		
 			<!-- 페이지 타이틀, 최신순 버튼 -->
 			<div class="row div-area1">
-				<div class="col-9">
-					<div>리스트</div>
+				<div class="col-8">
+					<div class="div-dataCount">결제 내역 수: ${dataCount} 건</div>
 				</div>
 				<div class="col-3">
-					<div>
-						<select class="form-select">
-							<option selected="selected" value="seqNew">최신순</option>
-							<option value="seqOld">오래된순</option>
-						</select>
-					</div>
+					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/sub/list" method="post">
+						<div>
+							<select class="form-select" id="selectSub" name="selectSub">
+								<option selected="selected" value="0">모두</option>
+								<option value="1">1개월권</option>
+								<option value="12">12개월권</option>
+							</select>
+						</div>
+						<input type="hidden" name="selectSubType" id="selectSubType" value="">
+						<input type="hidden" name="memberNo" id="memberNo" value="${sessionScope.member.memberNo}">
+					</form>
+				</div>
+				<div class="col-1">
+					<button type="button" class="btn btnSearch" onclick="searchList()"><i class="fa-solid fa-magnifying-glass"></i></button>
 				</div>
 			</div>
 			
@@ -163,65 +325,66 @@ $(function() {
 						<div class="card btn btn-card">
 							<div class="main">
 								<div class="co-img">
-									<img class="img-circle"
-										src="${pageContext.request.contextPath}/resources/images/logo_circle_gray.png"
-										alt="" />
+									<c:if test="${dto.subType == 1}">
+										<img class="img-circle"
+											src="${pageContext.request.contextPath}/resources/images/logo_circle_gray.png"
+											alt="" />
+									</c:if>
+									<c:if test="${dto.subType == 12}">
+										<img class="img-circle"
+											src="${pageContext.request.contextPath}/resources/images/logo_circle.png"
+											alt="" />
+									</c:if>
 								</div>
 								<div class="vertical"></div>
 								<div class="content-card">
-									<div class="subType">1개월 구독권</div>
+									<div class="subType">${dto.subType}개월 구독권</div>
+									<div class="merchant_uid">구독번호: ${dto.merchant_uid}</div>
 									<div class="subDate">
 										${dto.subStart} ~ ${dto.subEnd}
 									</div>
-									<c:if test="${dto.subEnd != 'update'}">
-									
+									<c:if test="${dto.endOrNot == 1}">
+										<div class="div-subIng">구독 중</div>
 									</c:if>
-									<div>구독 중</div>
+									<c:if test="${dto.endOrNot == -1}">
+										<div class="div-subEnd">구독 종료</div>
+									</c:if>
+									<input type="hidden" name="imp_uid" value="${dto.imp_uid}">
+									<input type="hidden" name="merchant_uid" value="${dto.merchant_uid}">
 								</div>
 							</div>
 						</div>
 					</c:forEach>
-					<div class="card btn btn-card">
-						<div class="main">
-							<div class="co-img">
-								<img class="img-circle"
-									src="${pageContext.request.contextPath}/resources/images/logo_circle_gray.png"
-									alt="" />
-							</div>
-							<div class="vertical"></div>
-							<div class="content-card">
-								<div class="subType">1개월 구독권</div>
-								<div class="subDate">
-									2022.11.30 ~ 2022.12.30
-								</div>
-								<div>구독 종료</div>
-							</div>
-						</div>
-					</div>
-					<!-- 
-					<c:forEach var="dto" items="${list}">
-						<div>${sessionScope.member.memberNo}</div>
-						<div>${sessionScope.member.nickName}</div>
-						<div>${dto.subStart}</div>
-						<div>${dto.subEnd}</div>
-						<div>${dto.firstMail}</div>
-						<div>${dto.merchant_uid}</div>
-					</c:forEach>
-					 -->
 				</div>
 				
 			</div>
 		</div>
+		
+		<div class="page-navigation"></div>
+		
+		<!-- 구독 상세보기 모달창 start -->
+		<div class="modal" id="subInfoModal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">결제 상세 내역 </h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					
+					<div class="modal-body">
+						<div id="subPayInfoModalContent"></div>
+					</div>
+					<div class="modal-footer">
+						<div class="modal-paid_amount"></div>
+						<div class="btnRefund"></div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<!-- 구독 상세보기 모달창 end -->
+		
 	</div>
 </div>
-	<!--  
-	<c:forEach var="dto" items="${list}">
-		<h4>${sessionScope.member.memberNo}</h4>
-		<h4>${sessionScope.member.nickName}</h4>
-		<h4>${dto.subStart}</h4>
-		<h4>${dto.subEnd}</h4>
-		<h4>${dto.firstMail}</h4>
-		<h4>${dto.merchant_uid}</h4>
-	
-	</c:forEach>
-	-->
+

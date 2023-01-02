@@ -11,9 +11,11 @@ public class Subscript {
 	private long paid_amount;
 	private String memo;
 	private String imp_uid; // 고유 결제 번호. 환불에 사용. 관리자만 보이게!
-	private String merchant_uid; // 주문번호. 내역에서 보여도 됨.
+	private String merchant_uid; // 주문번호(=구독번호). 내역에서 보여도 됨.
 	private String paid_at; // 결제승인시각
 	private String pg_tid; // PG사 고유 거래번호
+	
+	private int endOrNot; // 구독 종료 여부
 	
 	public long getSubNo() {
 		return SubNo;
@@ -87,7 +89,12 @@ public class Subscript {
 	public void setPg_tid(String pg_tid) {
 		this.pg_tid = pg_tid;
 	}
+	public int getEndOrNot() {
+		return endOrNot;
+	}
+	public void setEndOrNot(int endOrNot) {
+		this.endOrNot = endOrNot;
+	}
 	
-	
-	
+
 }

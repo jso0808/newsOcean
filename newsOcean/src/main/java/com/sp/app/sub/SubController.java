@@ -1,6 +1,9 @@
 package com.sp.app.sub;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,28 +19,34 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.app.common.FileManager;
+import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
 @Controller("sub.subController")
 @RequestMapping(value = "/sub/*")
 public class SubController {
+	
 	@Autowired
 	private SubService service;
+	@Autowired
+	private MyUtil myUtil;
+	@Autowired
+	private FileManager fileManager;
 
 	@RequestMapping(value = "main")
 	public String main(Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
 		
 		return ".sub.main";
 	}
 	
 	@RequestMapping(value = "complete")
 	public String payComplete(Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
 		
 		return ".sub.complete";
 	}
@@ -102,46 +112,98 @@ public class SubController {
 	}
 	
 	@RequestMapping(value = "list")
-	public String subList(Model model, HttpSession session) {
+	public String subList(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(value = "selectSubType" , defaultValue = "0") int selectSub,
+			HttpServletRequest req,
+			Model model, 
+			HttpSession session) throws Exception {
+		System.out.println("*************** " + selectSub + " ***************");
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		
+		// 전체 페이지 수
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("selectSub", selectSub);
+		map.put("memberNo", info.getMemberNo());
+		
+		// 조건별 데이터 카운트 
+		dataCount = service.dataCount(map);
+		if (selectSub == 0) { //X (조건 없을 때)
+			dataCount = service.dataCount(map);
+		} else { // 1개월 or 12개월 구독권만 
+			dataCount = service.dataCountSub(map);
+		}
+		
+		if(dataCount != 0) {
+			total_page = myUtil.pageCount(dataCount, size);
+		}
+		
+		// 자료 삭제 등으로 페이지 수 변화된 경우
+		if(total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		// 리스트에 출력할 데이터 가져오기
+		int offset = (current_page - 1) * size;
+		if(offset < 0) {
+			offset = 0;
+		}
+		
+		map.put("offset", offset);
+		map.put("size", size);
+		
 		List<Subscript> list = null;
 		
-		try {
-			SessionInfo info = (SessionInfo) session.getAttribute("member");
-			
-			list =  service.listSubPay(info.getMemberNo());
-		} catch (Exception e) {
-			e.printStackTrace();
+		// 검색 조건 판별하기
+		if (selectSub == 0) { //X (조건 없을 때)
+			list = service.listSubPay(info.getMemberNo());
+		} else { // 1개월 or 12개월 구독권만 
+			list = service.listSubPaySelectSub(map);
 		}
 		
 		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
 		
 		return ".sub.list";
 	}
 	
-	
-	/**
-	 * 날짜 더하기 함수
-	 * @param strDate 	: 계산할 날짜
-	 * @param year		: 더할 년도 수
-	 * @param month		: 더할 월 수
-	 * @param day		: 더할 일 수
-	 * @return
-	 * @throws Exception
-	 
-	private static String addDate(String strDate, int year, int month, int day) throws Exception {
-		SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
-
-		Calendar cal = Calendar.getInstance();
-
-		Date dt = dtFormat.parse(strDate);
-
-		cal.setTime(dt);
-
-		cal.add(Calendar.YEAR, year);
-		cal.add(Calendar.MONTH, month);
-		cal.add(Calendar.DATE, day);
-
-		return dtFormat.format(cal.getTime());
+	// AJAX - html: 결제내역 상세보기 (modal)
+	@PostMapping(value = "subPayInfo")
+	@ResponseBody
+	public void findBySubPayInfo(String imp_uid, HttpServletResponse resp) throws IOException {
+		Subscript sb = null;
+		
+		try {
+			sb =  service.findBysubPayInfo(imp_uid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("paid_at", sb.getPaid_at());
+		job.put("paid_amount", sb.getPaid_amount());
+		job.put("merchant_uid", sb.getMerchant_uid());
+		job.put("subType", sb.getSubType());
+		job.put("subStart", sb.getSubStart());
+		job.put("subEnd", sb.getSubEnd());
+		job.put("firstMail", sb.getFirstMail());
+		job.put("endOrNot", sb.getEndOrNot());
+		
+		resp.setContentType("text/html; charset=utf-8"); 
+		PrintWriter out = resp.getWriter();
+		// json 객체를 문자열로 변환
+		out.print(job.toString());
 	}
-	*/
+	
+
+	
+	
+	
 }

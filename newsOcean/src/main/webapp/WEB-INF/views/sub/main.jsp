@@ -166,8 +166,6 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script type="text/javascript">
 
-let impChk = 0;
-
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,

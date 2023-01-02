@@ -15,10 +15,54 @@
 	<select id="listSubPay" parameterType="long" resultType="com.sp.app.sub.Subscript">
 		SELECT subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
     		TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
-    		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid
+    		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
+				CASE WHEN subEnd &gt;= sysdate then 1
+		        	WHEN subEnd &lt; sysdate then -1
+		        	ELSE 0 END AS endOrNot
 		FROM SUBSCRIPT s
 		JOIN MEMBER m ON m.memberNo = s.memberNo
 		WHERE s.memberNo = #{memberNo}
+		ORDER BY paid_amount DESC
+	</select>
+	
+	<select id="listSubPaySelectSub" parameterType="map" resultType="com.sp.app.sub.Subscript">
+		SELECT subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
+    		TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
+    		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
+				CASE WHEN subEnd &gt;= sysdate then 1
+		        	WHEN subEnd &lt; sysdate then -1
+		        	ELSE 0 END AS endOrNot
+		FROM SUBSCRIPT s
+		JOIN MEMBER m ON m.memberNo = s.memberNo
+		WHERE s.memberNo = #{memberNo} and subType = #{selectSub}
+		ORDER BY paid_amount DESC
+	</select>
+	
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM subscript s
+		JOIN member m ON m.memberNo = s.memberNo
+		WHERE s.memberNo = #{memberNo}
+	</select>
+	
+	<select id="dataCountSub" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM subscript s
+		JOIN member m ON m.memberNo = s.memberNo
+		WHERE s.memberNo = #{memberNo} and subType = #{selectSub}
+	</select>
+	
+	<select id="findBySubPayInfo" parameterType="String" resultType="com.sp.app.sub.Subscript">
+		SELECT subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
+    		TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
+    		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
+				CASE WHEN subEnd &gt;= sysdate then 1
+		        	WHEN subEnd &lt; sysdate then -1
+		        	ELSE 0 END AS endOrNot
+		FROM SUBSCRIPT s
+		JOIN MEMBER m ON m.memberNo = s.memberNo
+		WHERE imp_uid = #{imp_uid}
 	</select>
 	
 	
