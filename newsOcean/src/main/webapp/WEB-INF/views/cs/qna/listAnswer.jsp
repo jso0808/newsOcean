@@ -25,19 +25,15 @@
 				<div class="reply-menu">
 					<c:choose>
 						<c:when test="${sessionScope.member.memberNo==vo.memberNo}">
-							<div class='deleteQnaAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
+							<div class='deleteQnaAnswer reply-menu-item' data-replyNum='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
 						</c:when>
 						<c:when test="${sessionScope.member.membership > 50}">
-							<div class='deleteQnaAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
+							<div class='deleteQnaAnswer reply-menu-item' data-replyNum='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
 						</c:when>
 					</c:choose>
 				</div>
 			</td>
 		</tr>
-		<tr>
-			<td colspan='2' valign='top' class="${vo.showReply == 0 ? 'text-primary text-opacity-50':''}">${vo.content}</td>
-		</tr>
-
 		<tr>
 			<td>
 				<button type='button' class='btn btn-light btnReplyAnswerLayout' data-qnaAnswer='${vo.qnaAnswer}'>답글 <span id="answerCount${vo.qnaAnswer}">${vo.qnaAReplyCount}</span></button>

@@ -20,7 +20,7 @@
 				<div class='reply-menu'>
 					<c:choose>
 						<c:when test="${sessionScope.member.memberNo==vo.memberNo}">
-							<div class='deleteReplyAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-answer='${vo.answer}'>삭제</div>
+							<div class='deleteReplyAnswer reply-menu-item' data-replyNum='${vo.qnaAnswer}' data-answer='${vo.answer}'>삭제</div>
 						</c:when>
 						<c:when test="${sessionScope.member.memberShip > 50 }">
 							<div class='deleteReplyAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-answer='${vo.answer}'>삭제</div>

@@ -22,22 +22,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
-@Controller("cs.qnaController")
-@RequestMapping(value = "/cs/qna/*")
+@Controller("cs.qna.QnaController")
+@RequestMapping("/cs/qna/*")
 public class QnaController {
 	@Autowired
 	private QnaService service;
-	
 	@Autowired
 	private MyUtil myUtil;
-	
+
 	@RequestMapping(value = "list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			HttpServletRequest req,
 			Model model) throws Exception {
-		
+
 		int size = 10;
 		int total_page = 0;
 		int dataCount = 0;
@@ -82,7 +81,7 @@ public class QnaController {
 
 		return ".cs.qna.list";
 	}
-	
+
 	@GetMapping("write")
 	public String writeForm(Model model) throws Exception {
 
@@ -123,7 +122,7 @@ public class QnaController {
 					"&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
 
-		service.updateHitCount(qnaNo);
+		service.updateQnaHit(qnaNo);
 
 		// 해당 레코드 가져 오기
 		Qna dto = service.readQna(qnaNo);
@@ -141,7 +140,8 @@ public class QnaController {
 
 		Qna preReadDto = service.preReadQna(map);
 		Qna nextReadDto = service.nextReadQna(map);
-		
+
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);
@@ -160,7 +160,7 @@ public class QnaController {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		Qna dto = service.readQna(qnaNo);
-		if (dto == null ||  info.getMemberNo() != dto.getMemberNo()) {
+		if (dto == null || info.getMemberNo() != dto.getMemberNo()) {
 			return "redirect:/cs/qna/list?page=" + page;
 		}
 
@@ -168,7 +168,7 @@ public class QnaController {
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
 
-		return ".cs.qna.write";
+		return ".bbs.write";
 	}
 
 	@PostMapping("update")
@@ -177,16 +177,16 @@ public class QnaController {
 			HttpSession session) throws Exception {
 
 		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "qna";
+		String pathname = root + "uploads" + File.separator + "Qna";
 
 		try {
-		service.updateQna(dto, pathname);
+			service.updateQna(dto, pathname);
 		} catch (Exception e) {
 		}
 
 		return "redirect:/cs/qna/list?page=" + page;
 	}
-	
+
 	@RequestMapping(value = "delete")
 	public String delete(@RequestParam long qnaNo,
 			@RequestParam String page,
@@ -209,125 +209,129 @@ public class QnaController {
 		return "redirect:/cs/qna/list?" + query;
 	}
 
+
 	// 댓글 리스트 : AJAX-TEXT
-		@GetMapping("listAnswer")
-		public String listAnswer(@RequestParam long qnaNo, 
-				@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-				HttpSession session,
-				Model model) throws Exception {
+	@GetMapping("listAnswer")
+	public String listAnswer(@RequestParam long qnaNo, 
+			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			HttpSession session,
+			Model model) throws Exception {
 
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			
-			int size = 5;
-			int total_page = 0;
-			int dataCount = 0;
-
-			Map<String, Object> map = new HashMap<>();
-			map.put("qnaNo", qnaNo);
-			
-			map.put("memberShip", info.getMemberShip());
-			map.put("memberNo", info.getMemberNo());
-
-			dataCount = service.QnaAnswerCount(map);
-			total_page = myUtil.pageCount(dataCount, size);
-			if (current_page > total_page) {
-				current_page = total_page;
-			}
-
-			int offset = (current_page - 1) * size;
-			if(offset < 0) offset = 0;
-
-			map.put("offset", offset);
-			map.put("size", size);
-			
-			List<QnaReply> listAnswer = service.listAnswer(map);
-
-			for (QnaReply dto : listAnswer) {
-				dto.setQnaAContent(dto.getQnaAContent().replaceAll("\n", "<br>"));
-			}
-
-			// AJAX 용 페이징
-			String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
-
-			// 포워딩할 jsp로 넘길 데이터
-			model.addAttribute("listAnswer", listAnswer);
-			model.addAttribute("pageNo", current_page);
-			model.addAttribute("QnaAnswerCount", dataCount);
-			model.addAttribute("total_page", total_page);
-			model.addAttribute("paging", paging);
-
-			return "cs/qna/listAnswer";
-		}
-	
-		// 댓글 및 댓글의 답글 등록 : AJAX-JSON
-		@PostMapping("insertAnswer")
-		@ResponseBody
-		public Map<String, Object> insertAnswer(QnaReply dto, HttpSession session) {
-			SessionInfo info = (SessionInfo) session.getAttribute("member");
-			String state = "true";
-
-			try {
-				dto.setMemberNo(info.getMemberNo());
-				service.insertAnswer(dto);
-			} catch (Exception e) {
-				state = "false";
-			}
-
-			Map<String, Object> model = new HashMap<>();
-			model.put("state", state);
-			return model;
-		}
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
-		// 댓글 및 댓글의 답글 삭제 : AJAX-JSON
-		@PostMapping("deleteQnaAnswer")
-		@ResponseBody
-		public Map<String, Object> deleteQnaAnswer(@RequestParam Map<String, Object> paramMap) {
-			String state = "true";
-			
-			try {
-				service.deleteQnaAnswer(paramMap);
-			} catch (Exception e) {
-				state = "false";
-			}
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
 
-			Map<String, Object> map = new HashMap<>();
-			map.put("state", state);
-			return map;
-		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("qnaNo", qnaNo);
 		
-		// 댓글의 답글 리스트 : AJAX-TEXT
-		@GetMapping("listReply")
-		public String listReply(@RequestParam Map<String, Object> paramMap, 
-				HttpSession session, Model model) throws Exception {
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			
-			paramMap.put("membership", info.getMemberShip());
-			paramMap.put("MemberNo", info.getMemberNo());
-			
-			List<QnaReply> listReply = service.listReply(paramMap);
-			
-			for (QnaReply dto : listReply) {
-				dto.setQnaAContent(dto.getQnaAContent().replaceAll("\n", "<br>"));
-			}
+		map.put("membership", info.getMemberShip());
+		map.put("memberNo", info.getMemberNo());
+		
+		map.put("qnaNo", qnaNo);
 
-			model.addAttribute("listReply", listReply);
-			return "cs/qna/listReply";
+		dataCount = service.replyCount(map);
+		total_page = myUtil.pageCount(dataCount, size);
+		if (current_page > total_page) {
+			current_page = total_page;
 		}
-	
-		// 댓글의 답글 개수 : AJAX-JSON
-		@PostMapping(value = "qnaAReplyCount")
-		@ResponseBody
-		public Map<String, Object> replyCount(@RequestParam Map<String, Object> paramMap,
-				HttpSession session) {
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			
-			paramMap.put("membership", info.getMemberShip());
-			paramMap.put("memberNo", info.getMemberNo());
-			
-			int count = service.qnaAReplyCount(paramMap);
 
-			Map<String, Object> model = new HashMap<>();
-			model.put("count", count);
-			return model;
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		map.put("offset", offset);
+		map.put("size", size);
+		
+		List<QnaReply> listAnswer = service.listAnswer(map);
+
+		for (QnaReply dto : listAnswer) {
+			dto.setQnaAContent(dto.getQnaAContent().replaceAll("\n", "<br>"));
 		}
+
+		// AJAX 용 페이징
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+
+		// 포워딩할 jsp로 넘길 데이터
+		model.addAttribute("listAnswer", listAnswer);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("replyCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+
+		return "cs/qna/listAnswer";
+	}
+
+	// 댓글 및 댓글의 답글 등록 : AJAX-JSON
+	@PostMapping("insertAnswer")
+	@ResponseBody
+	public Map<String, Object> insertAnswer(QnaReply dto, HttpSession session) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String state = "true";
+
+		try {
+			dto.setMemberNo(info.getMemberNo());
+			service.insertAnswer(dto);
+		} catch (Exception e) {
+			state = "false";
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+
+	// 댓글 및 댓글의 답글 삭제 : AJAX-JSON
+	@PostMapping("deleteAnswer")
+	@ResponseBody
+	public Map<String, Object> deleteAnswer(@RequestParam Map<String, Object> paramMap) {
+		String state = "true";
+		
+		try {
+			service.deleteAnswer(paramMap);
+		} catch (Exception e) {
+			state = "false";
+		}
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", state);
+		return map;
+	}
+
+	// 댓글의 답글 리스트 : AJAX-TEXT
+	@GetMapping("listReply")
+	public String listReply(@RequestParam Map<String, Object> paramMap, 
+			HttpSession session, Model model) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		paramMap.put("membership", info.getMemberShip());
+		paramMap.put("memberNo", info.getMemberNo());
+		
+		List<QnaReply> listReply = service.listReply(paramMap);
+		
+		for (QnaReply dto : listReply) {
+			dto.setQnaAContent(dto.getQnaAContent().replaceAll("\n", "<br>"));
+		}
+
+		model.addAttribute("listReply", listReply);
+		return "cs/qna/listReply";
+	}
+
+	// 댓글의 답글 개수 : AJAX-JSON
+	@PostMapping(value = "replyCount")
+	@ResponseBody
+	public Map<String, Object> replyCount(@RequestParam Map<String, Object> paramMap,
+			HttpSession session) {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		paramMap.put("membership", info.getMemberShip());
+		paramMap.put("memberNo", info.getMemberNo());
+		
+		int count = service.replyCount(paramMap);
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("count", count);
+		return model;
+	}
+
 }

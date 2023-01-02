@@ -47,7 +47,7 @@ function searchList() {
 <div class="container">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> QNA 게시판 </h3>
+			<h3><i class="bi bi-app"></i> Qna </h3>
 		</div>
 		
 		<div class="body-main">
@@ -55,9 +55,6 @@ function searchList() {
 	        <div class="row board-list-header">
 	            <div class="col-auto me-auto dataCount">
 	            </div>
-	            <div class="col text-end">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/qna/write';">문의하기</button>
-				</div>
 	            <div class="col-auto">&nbsp;</div>
 	        </div>				
 			
@@ -97,9 +94,33 @@ function searchList() {
 			</table>
 			
 			<div class="page-navigation"></div>
+
 			<div class="row board-list-footer">
-				
-			
+				<div class="col">
+					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/qna/list';">새로고침</button>
+				</div>
+				<div class="col-6 text-center">
+					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/cs/qna/list" method="post">
+						<div class="col-auto p-1">
+							<select name="condition" class="form-select">
+								<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+								<option value="nickName" ${condition=="nickName"?"selected='selected'":""}>작성자</option>
+								<option value="qnaRegdate" ${condition=="qnaRegdate"?"selected='selected'":""}>등록일</option>
+								<option value="qnaSubject" ${condition=="qnaSubject"?"selected='selected'":""}>제목</option>
+								<option value="qnaContent" ${condition=="qnaContent"?"selected='selected'":""}>내용</option>
+							</select>
+						</div>
+						<div class="col-auto p-1">
+							<input type="text" name="keyword" value="${keyword}" class="form-control">
+						</div>
+						<div class="col-auto p-1">
+							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+						</div>
+					</form>
+				</div>
+				<div class="col text-end">
+					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/qna/write';">글올리기</button>
+				</div>
 			</div>
 
 		</div>

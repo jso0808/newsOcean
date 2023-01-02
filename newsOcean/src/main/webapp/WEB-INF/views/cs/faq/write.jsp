@@ -34,14 +34,14 @@ function sendOk() {
 	let str = f.faqSubject.value.trim();
     if(!str) {
         alert("제목을 입력하세요. ");
-        f.subject.focus();
+        f.faqSubject.focus();
         return;
     }
 
-	str = f.content.value.trim();
+	str = f.faqContent.value.trim();
     if(!str) {
         alert("내용을 입력하세요. ");
-        f.content.focus();
+        f.faqContent.focus();
         return;
     }
     
@@ -260,9 +260,6 @@ $(function(){
 											<option value="${vo.categoryNum}" ${dto.categoryNum==vo.categoryNum?"selected='selected'":""}>${vo.category}</option>
 										</c:forEach>
 									</select>
-								</div>
-								<div class="col ps-1">
-									<button class="btn btn-light btnCategoryDialog" type="button">변경</button>
 								</div>
 							</div>
 						</td>
