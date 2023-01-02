@@ -198,7 +198,7 @@ function nickNameCheck() {
 
 </script>
 
-<div class="main-container">
+<div class="main-container" style="margin-bottom: 50px;">
 	<div class="body-container">	
 		<div class="body-title">
 			<h3><i class="bi bi-person-square"></i> ${mode=="member"?"회원가입":"정보수정"} </h3>

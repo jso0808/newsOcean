@@ -38,7 +38,7 @@ function sendLogin() {
 }
 </script>
 
-<div class="container">
+<div class="container" style="margin-bottom: 80px; margin-top: 10px;">
 	<div class="body-container-login">	
 
         <div class="row">

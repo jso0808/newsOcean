@@ -91,10 +91,10 @@
 	
 	<!-- 구독 회원 비율 : 비구독 회원 비율 -->
 	<select id="chart_member" resultType="com.sp.app.admin.perform.Perform">
-		SELECT Count(m.memberNo) dataMember, membership, NVL(subtype, 0) subtype
+		SELECT Count(m.memberNo) dataMember, NVL(subtype, 0) subtype
         FROM member m
         LEFT OUTER JOIN subscript s ON s.memberNo = m.memberNo
-        GROUP BY subtype, membership
+        GROUP BY subtype
 	</select>
 	
 	

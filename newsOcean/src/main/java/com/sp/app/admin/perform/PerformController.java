@@ -176,23 +176,24 @@ public class PerformController {
 		        gg[idx] = chart_sales.get(j).getSum_paid_amount();
 		 
 		}
-		
+	
 		
 		//series
 		List<Map<String, Object>> list2 = new ArrayList<>();
 		Map<String, Object> map2;
 		map2 = new HashMap<>();
 		
-		Map<String, Object> color;
-		color = new HashMap<>();
+		Map<String, Object> itemStyle;
+		itemStyle = new HashMap<>();
 		
-		color.put("color", "#FF4E50 ");
+		itemStyle.put("color", "#EE6666 ");
+		itemStyle.put("borderRadius", 6);
 		
 		map2.put("name", "일 매출 합계");
 		map2.put("type", "bar");
 		map2.put("barWidth", "40%");
 		map2.put("data", gg);
-		map2.put("itemStyle", color);
+		map2.put("itemStyle", itemStyle);
 
 		
 		list2.add(map2);
@@ -223,26 +224,85 @@ public class PerformController {
 		//통계 차트 - 매출 영역 - 7일 전 데이터까지 가져오기
 		List<Perform> chart_member = service.chart_member();
 		
+		//value 맵 저장할 껍데기
+		List<Map<String, Object>> value_list = new ArrayList<>();
+		
+		//7일 데이터 가져오기
+		for(int j=0; j < chart_member.size(); j++) {
+	        int subtype = chart_member.get(j).getSubtype();
+	        int dataMember = chart_member.get(j).getDataMember();
+	        
+	        
+
+	        if(subtype== 12) {
+	        	//안에 map 형태
+	    		Map<String, Object> value1 = new HashMap<>();
+	        	value1.put("name", "12개월 구독중");
+		        value1.put("value", dataMember);
+		        
+		        value_list.add(value1);
+		        
+	        } else if(subtype == 1) {
+	        	//안에 map 형태
+	    		Map<String, Object> value2 = new HashMap<>();
+	    		value2.put("name", "1개월 구독중");
+	    		value2.put("value", dataMember);
+		        
+		        value_list.add(value2);
+	        	
+	        } else {
+	        	//안에 map 형태
+	    		Map<String, Object> value3 = new HashMap<>();
+	    		value3.put("name", "구독 없음");
+	    		value3.put("value", dataMember);
+		        
+		        value_list.add(value3);
+		        
+		        
+		        Map<String, Object> value4 = new HashMap<>();
+	    		value4.put("name", "관리자");
+	    		value4.put("value", 1);
+		        
+		        value_list.add(value4);
+	        	
+	        }
+	               
+		}
+		
 		Map<String, Object> model = new HashMap<>();
 		
 		//series
-		List<Map<String, Object>> list1 = new ArrayList<>();
+		List<Map<String, Object>> list1 = new ArrayList<>(); //큰껍데기
 		Map<String, Object> map1;
 		map1 = new HashMap<>();
 
 		
 		map1.put("name", "구독 타입");
 		map1.put("type", "pie");
-		map1.put("radius", "['40%', '70%']");
-		map1.put("data", "[\r\n" + 
-				"        { value: 1111, name: 'Search Engine' },\r\n" + 
-				"        { value: 735, name: 'Direct' },\r\n" + 
-				"        { value: 580, name: 'Email' },\r\n" + 
-				"        { value: 484, name: 'Union Ads' },\r\n" + 
-				"        { value: 300, name: 'Video Ads' }\r\n" + 
-				"      ]");
+		
+		Map<String, Object> label;
+		label = new HashMap<>();
+		
+		label.put("show", false);
+		map1.put("label", label);
+		
+		
+		Map<String, Object> itemStyle;
+		itemStyle = new HashMap<>();
+		
+		itemStyle.put("borderRadius", 6);
+		
+		map1.put("itemStyle", itemStyle);
+		
+		String[] rr = new String[2];
+		
+		rr[0] = "40%";
+		rr[1] = "70%";
+		
+		map1.put("radius", rr);
+		map1.put("data", value_list);
 
-		list1.add(map1);
+		list1.add(map1);  // 큰 껍데기
 		
 		model.put("series", list1); // 차트를 작성할 연속된 값(시어리즈 값)
 		
@@ -250,5 +310,7 @@ public class PerformController {
 		return model;
 	}
 	
-
+	
+	
+	
 }
