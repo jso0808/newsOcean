@@ -65,18 +65,4 @@
 		WHERE imp_uid = #{imp_uid}
 	</select>
 	
-	<select id="listSubscripter" resultType="com.sp.app.sub.Subscript">
-		SELECT subNo, email, s.memberNo, nickName, TO_CHAR(subStart,'YYYY-MM-DD') subStart,
-		TO_CHAR(subEnd,'YYYY-MM-DD') subEnd
-		FROM subscript s
-		JOIN member m ON m.memberNo = s.memberNo
-		WHERE SYSDATE &gt;= subStart AND SYSDATE &lt;= subEnd
-	</select>
-	
-	<insert id="insertSubMail" parameterType="com.sp.app.sub.mail.Mail">
-		INSERT INTO SUBMAIL(mailNo, subNo, title, content, sendDate) 
-			VALUES(submail_seq.NEXTVAL, #{subNo}, #{subject}, #{content}, SYSDATE)
-	</insert>
-	
-	
 </mapper>

@@ -113,14 +113,12 @@ public class SubController {
 			HttpServletRequest req,
 			Model model, 
 			HttpSession session) throws Exception {
-		System.out.println("*************** " + selectSub + " ***************");
+		
 		int size = 5;
 		int total_page = 0;
 		int dataCount = 0;
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
-		
-		// 전체 페이지 수
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("selectSub", selectSub);
 		map.put("memberNo", info.getMemberNo());
@@ -133,6 +131,7 @@ public class SubController {
 			dataCount = service.dataCountSub(map);
 		}
 		
+		// 전체 페이지 수
 		if(dataCount != 0) {
 			total_page = myUtil.pageCount(dataCount, size);
 		}

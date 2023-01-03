@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mail">
+
+	<select id="listSubscripter" resultType="com.sp.app.sub.Subscript">
+		SELECT subNo, email, s.memberNo, nickName, TO_CHAR(subStart,'YYYY-MM-DD') subStart,
+		TO_CHAR(subEnd,'YYYY-MM-DD') subEnd
+		FROM subscript s
+		JOIN member m ON m.memberNo = s.memberNo
+		WHERE SYSDATE &gt;= subStart AND SYSDATE &lt;= subEnd
+	</select>
+	
+	<select id="sequenceSubMail" resultType="Long">
+		SELECT LAST_NUMBER
+		FROM USER_SEQUENCES
+		WHERE SEQUENCE_NAME='SUBMAIL_SEQ'
+	</select>
+	
+	<insert id="insertSubMail" parameterType="com.sp.app.sub.mail.Mail">
+		INSERT INTO SUBMAIL(mailNo, subNo) 
+			VALUES(#{mailNo}, #{subNo})
+	</insert>
+	
+	<insert id="insertSubMailInfo" parameterType="com.sp.app.sub.mail.Mail">
+		INSERT INTO SUBMAILINFO(mailNo, title, content, sendDate, senderEmail) 
+			VALUES(#{mailNo}, #{subject}, #{content}, SYSDATE, #{senderEmail})
+	</insert>
+	
+
+
+</mapper>

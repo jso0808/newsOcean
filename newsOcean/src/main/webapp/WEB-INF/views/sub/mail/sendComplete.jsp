@@ -29,7 +29,7 @@
 	                </div>
                        
                        <div class="d-grid">
-                           <button type="button" class="btn btn-lg btn-primary" onclick="location.href='${pageContext.request.contextPath}/';">돌아가기 <i class="bi bi-check2"></i> </button>
+                           <button type="button" class="btn btn-lg btn-primary" onclick="location.href='${pageContext.request.contextPath}/sub/mail/listSendMail';">구독 메일 목록으로 <i class="bi bi-check2"></i> </button>
                        </div>
                 </div>
 
