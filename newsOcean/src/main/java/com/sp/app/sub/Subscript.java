@@ -2,7 +2,7 @@ package com.sp.app.sub;
 
 public class Subscript {
 	
-	private long SubNo;
+	private long subNo;
 	private long memberNo;
 	private String subStart;
 	private String subEnd;
@@ -17,11 +17,15 @@ public class Subscript {
 	
 	private int endOrNot; // 구독 종료 여부
 	
+	private String email;
+	private String nickName;
+	
+	
 	public long getSubNo() {
-		return SubNo;
+		return subNo;
 	}
 	public void setSubNo(long subNo) {
-		SubNo = subNo;
+		this.subNo = subNo;
 	}
 	public long getMemberNo() {
 		return memberNo;
@@ -94,6 +98,18 @@ public class Subscript {
 	}
 	public void setEndOrNot(int endOrNot) {
 		this.endOrNot = endOrNot;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 
