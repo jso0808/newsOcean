@@ -10,7 +10,7 @@
 }
 
 .img-logo {
-	max-width: 500px;
+	max-width: 400px;
 	max-height: 250px;
 	border-top: 20px;
 }
