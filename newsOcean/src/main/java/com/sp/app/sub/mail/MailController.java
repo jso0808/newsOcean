@@ -27,7 +27,7 @@ public class MailController {
 		System.out.println(dto.getSenderEmail());
 		System.out.println(dto.getSenderName());
 		System.out.println(dto.getReceiverEmail());
-		System.out.println(dto.getContent());
+		// System.out.println(dto.getContent());
 		
 		boolean b=mailSender.mailSend(dto);
 		

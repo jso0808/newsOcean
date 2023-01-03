@@ -2,8 +2,6 @@ package com.sp.app.sub;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
@@ -36,8 +33,6 @@ public class SubController {
 	private SubService service;
 	@Autowired
 	private MyUtil myUtil;
-	@Autowired
-	private FileManager fileManager;
 
 	@RequestMapping(value = "main")
 	public String main(Model model) {
