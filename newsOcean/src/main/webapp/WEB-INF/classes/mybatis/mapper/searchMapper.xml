@@ -8,9 +8,10 @@
 	</select>
 	
 	<!-- 카테고리 종류-->
-	<select id="categorylist" resultType="com.sp.app.main.Search">
+	<select id="categorylist" resultType="com.sp.app.main.MainCategory">
 		SELECT categoryNo,categoryName from category order by categoryNo
 	</select>
+	
 	
 	<!-- 키워드 SELECT-->
 	<select id="keywordlist" parameterType="com.sp.app.main.Search">
@@ -20,23 +21,44 @@
 	<select id="sectionlist" resultType="com.sp.app.main.MainCategory">
 		select categoryNo, categoryName from category where MOD(categoryNo,100) = 0
 	</select>
+
+	<!--  subsectionlist 특정 카테고리 -->
+	<select id="subsectionlist_category" parameterType="Integer" resultType="com.sp.app.main.MainCategory">
+		select categoryNo, categoryName from category where MOD(categoryNo,100) != 0 and categoryNo (&lt; (round(#{categoryNo},-2))+ 99
+	</select>
+	
 	<!--  subsectionlist -->
 	<select id="subsectionlist" resultType="com.sp.app.main.MainCategory">
 		select categoryNo, categoryName from category where MOD(categoryNo,100) != 0
 	</select>
 	
-	<!--  카테고리별 뉴스 -->
+	<!--  카테고리별 뉴스 뉴스 관련정보-> 몽고db에서 가져오기 -->
 	<select id="categoryNews">
-		
+		select title, categoryNo from news where categoryNo = #{categoryNo}
 	</select>
-	
+
+	<!-- 검색어 자동완성 리스트 -->
+	<select id="wordSearchShow" parameterType="HashMap" resultType="String">
+	      <choose>
+    		<when test="searchType eq 'subject'">
+    			select distinct title
+				from news
+				where title like '%'|| lower(#{searchWord}) ||'%'
+    		</when>
+    		<when test="searchType eq 'searchName'">
+    			select distinct keywordName
+				from keyword
+				where keywordName like '%'|| lower(#{searchWord}) ||'%'
+    		</when>
+    	</choose>   
+    </select>
+    
 	<!--  검색기록 저장 -->
-	<insert id="insertSearchHistory">
+	<insert id="insertSearchHistory" parameterType="com.sp.app.main.Search">
 			INSERT INTO searchHistory(searchNo, memberNo, searchName, categoryNo, searchnowDate)
-				VALUES(search_seq.NEXTVAL,#{memberNo}, #{keyword}, 
-				<foreach collection="list" index='index' item="categoryNo" open='(' close=')' separator=",">
-				#{categoryNo}
-				</foreach>
-				, SYSDATE)
+				VALUES(search_seq.NEXTVAL,#{memberNo}, #{searchName}, #{categoryNo}, SYSDATE)
 	</insert>
+	
+	<!-- 검색 카테고리들중하나라도 해당되는 기사 and 키워드에 맞는 뉴스리스트 및 링크 가져오기-->
+	
 </mapper>

@@ -4,8 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style type="text/css">
 *{margin:0; padding:0;}
-.body-container{
-	margin:0 auto;
+.body-container2{
+	display: flex;
+	flex-direction: column;
 }
 .banner_img{
 	 min-width:98vw;
@@ -77,7 +78,7 @@ display:flex;
 	cursor:pointer;
 }
 </style>
-<div class="container body-container">
+<div class="body-container2">
 	<div class="inner-page">
 		메인 화면 입니다.
     </div>

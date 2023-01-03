@@ -9,51 +9,47 @@
 <!-- 자동완성  -->
 <script>
 $(function(){
+	$("#displayList").hide();
 		//검색어의 길이가 바뀔 때마다 호출
-		
-    function split( val ) {
-      return val.split( /,\s*/ );
-    }
-
-	function extractLast( term ) {
-      return split( term ).pop();
-    }
-		
 	$("#searchName").autocomplete({
 		source: function(request, response){
 			
 			let wordLength = $("#searchName").val().trim().length;
 			if(wordLength == 0) {
-				//$("#displayList").hide();
+				$("#displayList").hide();
 			} else {
 				//서버에서 특정 키워드가져오기
 				$.ajax({
 					url:"${pageContext.request.contextPath}/searchform",
 					type:"get",
-					data:{"searchType": $("#searchType").data('ajaxvalue'),
-						  "searchName": $("#searchName").data('ajaxvalue')},
+					data:{"searchType": $("#searchType").val(),
+						  "searchName": $("#searchName").val() },
 					dataType:"json",
 					success:function(data){
+						console.log("...")
+						console.log(data);
+						
 						if(data.length > 0){
-							var availableTags = [];
-							for(let item of data) {
-								availableTags.push(item.word);
-							}
-							console.log(availableTags)
-							response( $.ui.autocomplete.filter(
-						            availableTags, extractLast( request.term ) ) );
+							// 검색된 데이터가 있는 경우
+							response(
+								$.map(data, function(item){
+									return {
+										label: item+"label",
+										value: item
+									};
+							}));
+							
+							$("#displayList").show();
 						}
 					}
 				});
 			}
+			
 		},
 		select:function(event, ui){
 			console.log(ui.item.label);
 			console.log(ui.item.value);
 		},
-		focus: function() {
-	          return false;
-	    },
 		minLength: 1, 
 		error: function(request, status, error){
                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -85,19 +81,7 @@ $(function(){
 	        $(this).find("span").addClass("bigCategory_selected");
 	    }
 	});
-
-	//작은카테고리 선택하면 input checked 되도록
-	$(".smallCategory").click(function(){
-	    if($(this).hasClass("smallCategory_selected")) {
-	    	$(this).next("input").prop('checked', false);
-	        $(this).removeClass("smallCategory_selected");
-	    } else {
-	    	$(this).next("input").prop('checked', true);
-	        $(this).addClass("smallCategory_selected");
-	    }
-	});
-	/*
-	$(".bigCategory").click(function(){
+	$(".chkAll").click(function(){
 		let b = $(this).is(":checked");
 		$(this).parent().parent().find(".category").prop("checked", b);
 	});
@@ -107,8 +91,6 @@ $(function(){
 		f.action = "${pageContext.request.contextPath}/searchresult";
 		f.submit();
 	});
-	*/
-	
 });
 </script>
 <style>
@@ -123,13 +105,10 @@ $(function(){
 .input-group-text{
 justify-content: center;
 }
-.bigCategory, .smallCategory{
-cursor: pointer;
-}
-.bigCategory_selected, .smallCategory_selected{
+
+.bigCategory_selected{
 	background-color:#80B5FF;
 	color:white;
-	cursor: pointer;
 }
 #displayList{
 style=border: solid 1px gray; 
@@ -141,7 +120,7 @@ border-top: 0px;
 }
 </style>
 <div class="body-container2">
-	<form action="${pageContext.request.contextPath}/searchresult" method="post" name="searchForm">
+	<form action="${pageContext.request.contextPath}/searchresult"method="post" name="searchForm">
 		<div class="search_content input-group-text">
 			<div class="search_detail_content">
 				<div class="search_detail_row input-group-text">
@@ -150,18 +129,18 @@ border-top: 0px;
 					</div>
 				</div>
 				<div class="search_detail_row input-group-text">
+					
 					<div class="search_detail_label m-2">
 						키워드 검색
 					</div>
-					<div class="ui-widget">
-						<select name="searchType" id="searchType">
-							<option data-ajaxvalue="subject" value="제목">제목</option>
-							<option data-ajaxvalue="searchName"  value="키워드">키워드</option>
-						</select>
-						<input type="text" id="searchName" name="searchName" size="100" autocomplete="off" size="50">
-						<label for="searchName" ></label>
+					
+					<select name="searchType" id="searchType">
+						<option value="subject">제목</option>
+						<option value="searchName">키워드</option>
+					</select>
+					<input type="text" id="searchName" name="searchName" size="100" autocomplete="off">
+					<div id="displayList">
 					</div>
-
 				</div>
 				<div class="search_detail_row input-group-text">
 					<div class="m-2">카테고리종류</div>
@@ -175,8 +154,8 @@ border-top: 0px;
 								<input type="hidden" name="categoryName" class="" value="${dto.categoryName}">
 							</c:if>
 							<c:if test="${dto.categoryNo%100 != 0}">
-	      						<span class="input-group-text smallCategory" style="display:inline;">${dto.categoryName}</span>
-								<input class="category m-2 mt-0" type="checkbox" style="display: none;" name="categoryNo"  data-categoryName="${dto.categoryName}" value="${dto.categoryNo}">
+								<input class="category m-2 mt-0" type="checkbox" name="categoryNo"  data-categoryName="${dto.categoryName}" value="${dto.categoryNo}">
+	      						<span class="input-group-text" style="display:inline;">${dto.categoryName}</span>
 							</c:if>
 						</c:forEach>
 					</div>
