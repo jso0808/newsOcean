@@ -48,8 +48,10 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public List<MainCategory> subsectionlist(int categoryNo) {
+	public List<MainCategory> subsectionlist(String categoryNoStr) {
 		List<MainCategory> subsectionlist = null;
+		int categoryNo = Integer.parseInt(categoryNoStr);
+		
 		try {
 			subsectionlist = dao.selectList("search.subsectionlist_category", categoryNo);
 		} catch (Exception e) {

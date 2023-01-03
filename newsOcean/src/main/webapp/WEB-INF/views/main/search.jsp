@@ -30,8 +30,8 @@ $(function(){
 				$.ajax({
 					url:"${pageContext.request.contextPath}/searchform",
 					type:"get",
-					data:{"searchType": $("#searchType").val(),
-						  "searchName": $("#searchName").val()},
+					data:{"searchType": $("#searchType").data('ajaxvalue'),
+						  "searchName": $("#searchName").data('ajaxvalue')},
 					dataType:"json",
 					success:function(data){
 						if(data.length > 0){
@@ -155,8 +155,8 @@ border-top: 0px;
 					</div>
 					<div class="ui-widget">
 						<select name="searchType" id="searchType">
-							<option value="subject">제목</option>
-							<option value="searchName">키워드</option>
+							<option data-ajaxvalue="subject" value="제목">제목</option>
+							<option data-ajaxvalue="searchName"  value="키워드">키워드</option>
 						</select>
 						<input type="text" id="searchName" name="searchName" size="100" autocomplete="off" size="50">
 						<label for="searchName" ></label>

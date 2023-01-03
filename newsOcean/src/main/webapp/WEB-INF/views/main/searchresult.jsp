@@ -8,7 +8,7 @@
 <style type="text/css">
 *{margin:0; padding:0;}
 .body-container{
-	margin:0;
+	margin:0 auto;
 }
 .banner_img{
 	 min-width:98vw;
@@ -88,46 +88,21 @@ margin-left:2.5rem;
 .searchName{
 
 }
-.categoryBox{
-	display: block;
-    min-height: 1px;
-	position: relative;
-    top: 1px;
-    clear: both;
-    float: left;
-    width: 100%;
-    height: 27px;
-    margin: 25px 0 0 0;
-    z-index: 50;
-}
-.smallCategory{
-	float: left;
-    height: 20px;
-    padding: 0 9px 0 12px;
-}
-li{
-	list-style: none;
-	float: left;
-    height: 20px;
-    padding: 0 9px 0 12px;
-}
 </style>
 <script>
 $(function(){
-	let searchType = "${searchType}";
-	let sType ="";
-	if(searchType == "searchName"){
-		sType = '키워드';
-	}else if(searchType== "subject"){
-		sType = '제목';
-	}
-	let searchName = '<span>'+sType+"로 검색한 "+'"${searchName}"'+"의 검색결과입니다"+'</span>';
+	//if(${searchType}=="searchName"))
+	let searchName = '<span class="searchName">'+"${searchType}"+"로 검색한"+
+		"${searchName}"+"의 검색결과입니다"+'</span>';
+	
 	$(".search_searchName").html(searchName);
+	
+	//$(".search_result_count");
 })
 </script>
 <div class="container body-container">
-	<h3 class="search_searchName">
-	</h3>
+	<h1 class="search_searchName">
+	</h1>
 	<div class="search_result_count">
 	</div>
 	<nav class="category" role="category" aria-label="카테고리">
