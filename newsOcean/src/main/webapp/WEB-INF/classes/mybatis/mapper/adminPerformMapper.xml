@@ -97,5 +97,19 @@
         GROUP BY subtype
 	</select>
 	
+	<!-- 오늘 가입한 회원 수 -->
+	<select id="todayCount" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) todayCount
+		FROM member 
+		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+	
+	<!-- 어제 가입자 수 -->
+	<select id="yesterdayCount" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) todayCount
+		FROM member 
+		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE-1, 'YYYY-MM-DD')
+	</select>
+	
 	
 </mapper>

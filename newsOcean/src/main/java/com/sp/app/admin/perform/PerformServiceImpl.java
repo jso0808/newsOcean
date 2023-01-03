@@ -12,6 +12,35 @@ public class PerformServiceImpl implements PerformService {
 
 	@Autowired
 	private CommonDAO dao;
+	
+	@Override
+	public int todayCount() {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminPerform.todayCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	@Override
+	public int yesterdayCount() {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminPerform.yesterdayCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
 		
 	@Override
 	public List<Perform> listSales() {
@@ -182,6 +211,12 @@ public class PerformServiceImpl implements PerformService {
 
 		return list;
 	}
+
+
+
+	
+
+	
 
 	
 

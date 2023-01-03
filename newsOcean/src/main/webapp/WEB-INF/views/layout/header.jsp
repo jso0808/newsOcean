@@ -43,12 +43,15 @@
 	width: 80x;
 	color: #000;
 	border-color: #000;
-	padding-right: 25px;
+	padding-right: 20px;
+	padding-left: 10px;
+	
 }
 
 .div-text {
 	position: relative;
 	z-index: 100;
+	
 }
 
 .container {
@@ -180,10 +183,16 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 				<div class="row div-div-menu">
 					<div class="row">
 						<div class=" div-menu-icon">
-							<a href="${pageContext.request.contextPath}/member/login"><i class="fa-solid fa-user" style="margin-right: 7px;"></i>로그인</a>
-							<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+							<c:if test="${sessionScope.member.memberShip==null}">
+								<a href="${pageContext.request.contextPath}/member/login"><i class="fa-solid fa-user" style="margin-right: 7px;"></i>로그인/회원가입</a>
+							</c:if>
+							<c:if test="${sessionScope.member.memberShip > 0}">
+								<span style="margin-right: 20px; color: #595959; font-size: 14px;">${sessionScope.member.name}님, 안녕하세요! 🌊</span>
+								<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+							</c:if>
+							
 							<c:if test="${sessionScope.member.memberShip > 50}">
-								<a href="${pageContext.request.contextPath}/admin" title="관리자"><i class="fa-solid fa-gear" style="margin-right: 7px;"></i>관리자</a>
+								<a href="${pageContext.request.contextPath}/admin" title="관리자" style="margin-right: 1px;"><i class="fa-solid fa-gear" style="margin-right: 7px;"></i>관리자</a>
 							</c:if>
 						</div>
 					</div>
