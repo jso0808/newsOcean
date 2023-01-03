@@ -10,16 +10,22 @@
 }
 .banner_img{
 	 min-width:98vw;
-	 background-color: #80b5ff;
-	 height: 250px;
-	 margin:10px 0px;
-	 opacity:0.3;
+	 background-color: #fff;
+	 height: 500px;
+	 margin-top:40px;
+	 border-bottom: 2px solid #004b81;
+}
+
+.banner_img_div {
+	width: 600px;
+	display: flex;
+	justify-content: flex-end;
 }
 .wordCloud_img{
 	 min-width:98vw;
-	 background-color: #80b542;
-	 height: 350px;
-	 opacity:0.3;
+	 background-color: #004b81;
+	 height: 200px;
+	 margin-bottom: 50px;
 }
 .category{
 	min-height: 70px;
@@ -62,6 +68,7 @@ display:flex;
 	min-width: 90%;
 	margin:0 auto;
 	padding: 0px 5%;
+	margin-bottom: 100px;
 }
 .posts{
 	display:flex;
@@ -77,14 +84,80 @@ display:flex;
 	position:relative;
 	cursor:pointer;
 }
+
+.img__area {
+	margin-left:-10px;
+	margin-top: -40px;
+	margin-right: 220px;
+}
+
+.img__area:hover {
+	transform: scale(1.03);
+	transition: .5s;
+}
+
+.text__area {
+	font-size: 46px;
+	margin-left: 340px;
+	margin-top:-10px;
+	padding-top: 25px;
+	width: 400px;
+}
+
+.text__area:hover {
+	transform: scale(1.03);
+	transition: .5s;
+}
+
+.text__area__newsocean {
+	font-size: 16px;
+	margin-top: 30px;
+	padding-top: 25px;
+	width: 400px;
+	color: #595959;	
+	font-family: 'line_font_r';
+}
+
+.text__area__newsocean2 {
+	font-size: 16px;
+	width: 400px;
+	color: #595959;	
+	font-family: 'line_font_r';
+}
+
+/*버튼*/
+.text__area__newsocean3 {
+	width: 270px;
+	background: #004b81;
+	border-radius: 12px;
+	font-size: 14px;
+	border: none;
+	color: #fff;
+	height: 40px;
+}
+
 </style>
 <div class="body-container2">
-	<div class="inner-page">
-		메인 화면 입니다.
-    </div>
     <div class="banner_img">
-    	<img src="">
-    	배너이미지 공간
+    	<div class="row">
+    		<div class="col text__area">
+    			<div>거친 파도를</div>
+    			<div>유연하게 헤엄치는</div>
+    			<div style="color: #004b81">서퍼처럼 🌊</div>
+    			<div class="text__area__newsocean">세상을 유연하게.</div>
+    			<div class="text__area__newsocean2">세상에 꼭 필요한 뉴스만 주는 플랫폼</div>
+    			<a href="${pageContext.request.contextPath}/cs/notice/list">
+					<div style="height: 30px;"><button class="text__area__newsocean3">NewsOcean 서핑하기 👀</button></div>
+				</a>
+    			
+    			
+    			
+    			
+    		</div>
+    		<div class="col img__area">
+    			<img style="width: 500px;" src="${pageContext.request.contextPath}/resources/images/main_img_type2.png">
+    		</div>
+    	</div>
     </div>
     <div class="wordCloud_img">
     	<img src="">
