@@ -1,5 +1,7 @@
 package com.sp.app.main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,40 +27,38 @@ public class MainController {
 	private SearchService service;
 	
 	@GetMapping("/recent")
-	public String recent(@PathVariable("categoryNo") String categoryNo2,
-			@RequestParam(name="categoryNo",required=false) String categoryNo,
+	public String recent(@RequestParam(name="categoryNo",required=false) int categoryNo,
 			@RequestParam(required=false) Search search, 
 			HttpSession session,
 			Model model) {
-		
 		List<MainCategory> subsectionlist = service.subsectionlist(categoryNo);
-		model.addAttribute("subsectionlist", subsectionlist);
+		
+		model.addAttribute("categoryNo", categoryNo);
+		model.addAttribute("subsectionlist", subsectionlist);//카테고리명, 카테고리번호
+		
         return ".main.recent";
 	}
 	
 	@GetMapping("/section")
-	public String section(@PathVariable("categoryNo") String categoryNo2,
-			@RequestParam(name="categoryNo",required=false) String categoryNo,
-			@RequestParam(required=false) Search search, 
+	public String section(@RequestParam(name="categoryNo",required=false) int categoryNo,
 			HttpSession session,
 			Model model) {
-		
 		List<MainCategory> subsectionlist = service.subsectionlist(categoryNo);
 		
-		model.addAttribute("subsectionlist", subsectionlist);
-		
+		model.addAttribute("categoryNo", categoryNo);
+		model.addAttribute("subsectionlist", subsectionlist);//카테고리명, 카테고리번호
         return ".main.section";
 	}
 	
 	@GetMapping("/subsection")
-	public String subsection(@PathVariable("categoryNo") String categoryNo2,
-			@RequestParam(name="categoryNo",required=false) String categoryNo,
+	public String subsection(@RequestParam(name="categoryNo",required=false) int categoryNo,
 			HttpSession session,
 			Model model) {
 		
 		List<MainCategory> subsectionlist = service.subsectionlist(categoryNo);
 		
-		model.addAttribute("subsectionlist", subsectionlist);
+		model.addAttribute("categoryNo", categoryNo);
+		model.addAttribute("subsectionlist", subsectionlist);//카테고리명, 카테고리번호
 		
         return ".main.subsection";
 	}
@@ -100,8 +99,8 @@ public class MainController {
 
 	@PostMapping("/searchresult")
 	public String searchresult(@RequestParam(name="searchName",required=false) String searchName,
-			@RequestParam(name="categoryNo",required=false) String categoryNo,//여러개를 넘겨받을때 string으로 받으면 ,로 구분되어 들어온다.
-			@RequestParam String searchType ,
+			@RequestParam(name="categoryNo",required=false) String categoryNoString,//여러개를 넘겨받을때 string으로 받으면 ,로 구분되어 들어온다.
+			@RequestParam String searchType,
 			HttpSession session,
 			Model model) throws Exception {
 		
@@ -111,24 +110,40 @@ public class MainController {
 			long memberNo = info.getMemberNo();
 			
 			search.setMemberNo(memberNo);
-			System.out.println("memberNo:"+memberNo+"searchName:"+searchName+"categoryNo:"+categoryNo);
+			System.out.println("memberNo:"+memberNo+"searchName:"+searchName+"categoryNo:"+categoryNoString);
 			search.setSearchName(searchName); 
-			search.setCategoryNo(categoryNo);//203, 204, 205
-			 
-			model.addAttribute("search", search);
+			search.setCategoryNo(categoryNoString);//203, 204, 205
+
+			service.insertSearchHistory(search);
+			
+			if(categoryNoString.length()>4) {
+				List<Integer> categoryNo = new ArrayList<Integer>();
+				
+				String[] categoryNoArray = categoryNoString.split(",");
+				List<String> categoryNoList = new ArrayList<String>(Arrays.asList(categoryNoArray));
+				for(String s : categoryNoList) {
+					Integer strim = Integer.valueOf(s.trim());
+					categoryNo.add(strim);
+				}
+				System.out.println(categoryNo);
+				model.addAttribute("categoryNo", categoryNo);
+			}else {
+				categoryNoString = categoryNoString.trim();
+				int categoryNo = Integer.parseInt(categoryNoString);
+				model.addAttribute("categoryNo", categoryNo);
+			}
+			
 			model.addAttribute("memberNo", memberNo);
-			model.addAttribute("categoryNo", categoryNo);
 			model.addAttribute("searchName", searchName);
 			model.addAttribute("searchType", searchType);
 			
-			service.insertSearchHistory(search);
 		} catch (Exception e) {
 			model.addAttribute("message", "데이터 등록이 실패했습니다.");
 			e.printStackTrace();
 			return ".main.searchresult";
 		}
-		
 		 return ".main.searchresult";
 	}
+
 	
 }
