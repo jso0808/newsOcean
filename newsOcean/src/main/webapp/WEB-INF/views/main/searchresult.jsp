@@ -1,14 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+ <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script>
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
 
-myModal.addEventListener('shown.bs.modal', function () {
-  myInput.focus()
-})
 </script>
 <style type="text/css">
 *{margin:0; padding:0;}
@@ -87,25 +82,26 @@ display:flex;
 .search_content{
  margin:5px auto;
 }
-.search_keyword{
+.search_searchName{
 margin-left:2.5rem;
 }
-.keyword{
+.searchName{
 
 }
 </style>
 <script>
 $(function(){
-	let keyword = '<span class="keyword">'+${keyword}+"</span>";
-	keyword += '<span class="search_result_h1">'+"의 검색결과입니다"+'</span>';
+	//if(${searchType}=="searchName"))
+	let searchName = '<span class="searchName">'+"${searchType}"+"로 검색한"+
+		"${searchName}"+"의 검색결과입니다"+'</span>';
 	
-	$(".search_keyword").html(keyword);
+	$(".search_searchName").html(searchName);
 	
 	//$(".search_result_count");
 })
 </script>
 <div class="container body-container">
-	<h1 class="search_keyword">
+	<h1 class="search_searchName">
 	</h1>
 	<div class="search_result_count">
 	</div>
@@ -113,7 +109,7 @@ $(function(){
 		<div class="category_inner">
 			<a href="${pageContext.request.contextPath}/" class="all category_link">
 				<span>전체</span>
-			</a>3.0
+			</a>
 			<a href="${pageContext.request.contextPath}/recent?categoryNo=100" class="recent category_link">
 				<span>최신</span>
 			</a>

@@ -1,4 +1,4 @@
-package com.sp.app.mypage.main;
+package com.sp.app.mypage;
 
 public class Bookmark {
 	//북마크 뉴스기사를 분류 보관, 날짜,카테고리별 검색

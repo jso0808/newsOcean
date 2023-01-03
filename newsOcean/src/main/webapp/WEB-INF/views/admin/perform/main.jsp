@@ -132,10 +132,17 @@ $(function(){
 	<div class="today__cnt__container shadow-sm row side__by__side ">
 		<div class="col">
 			<div class="today__cnt__date">${sysdate}</div>
-			<div class="today__cnt__title">오늘 총 조회수</div>
+			<div class="today__cnt__title">오늘 신규 가입</div>
+			<div class="today__member__cnt">${todayCount}</div>
 		</div>
-		<div class="col">
-			<div class="today__member__cnt">${today_hitCount}</div>
+		<div class="col" style="margin-left: 45px;">
+			<c:if test="${member_cha < 0}">
+				<div class="chart__icon__blue"><i class="fa-solid fa-arrow-trend-down"></i></div>
+			</c:if>
+			<c:if test="${member_cha >= 0}">
+				<div class="chart__icon__plus"><i class="fa-solid fa-arrow-trend-up"></i></div>
+			</c:if>
+			<div class="${member_cha < 0 ? 'today__member__percent__minus' : 'today__member__percent__plus'}">${member_cha < 0 ? "▼":"▲"}&nbsp;${member_cha}</div>
 		</div>
 	</div>
 	

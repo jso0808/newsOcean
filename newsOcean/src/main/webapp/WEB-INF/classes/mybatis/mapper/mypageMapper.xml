@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage">
+	<!-- 관심키워드 select  -->
+	<select id="myKeyword">
+		select keywordName from keyword where memberNo = #{memberNo}
+	</select>
+	<!-- 관심키워드 insert  -->
+	<!-- news테이블의 tagNo가 keywordNo로 바껴야할것같다 -->
+	<insert id="mykeywordAdd">
+		INSERT into keyword(keywordNo, keywordName, memberNo)
+		VALUES(keyword_seq.NEXTVAL, #{keywordName}, #{memberNo})
+	</insert>
+	<!-- 구독한 키워드의 기사 select -> 몽고db -->
+	
+	<!-- 회원 이미지, 전화번호, 이메일, 개인정보 select-->
+	<select id="listMypage" parameterType="map" resultType="com.sp.app.mypage.Mypage">
+		SELECT memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
+			FROM member
+			WHERE memberNo = #{memberNo}
+	</select>
+	
+	<!-- 관리자 정보 변경하기  -->
+	<update id="updateMypage" parameterType="com.sp.app.mypage.Mypage">
+		UPDATE member SET birth = #{birth}, name = #{name}, nickName = #{nickName}, modifydate = SYSDATE
+			WHERE memberNo = #{memberNo}
+	</update>
+	
+	<select id="readMypage" parameterType="Long" resultType="com.sp.app.mypage.Mypage">
+		SELECT memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
+			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
+		FROM member
+		WHERE memberNo = #{memberNo}
+	</select>
+	
+	<!-- list ############### -->
+	<!-- 관리자 qna 답변 가져오기 -->
+	<select id="listMyqna" parameterType="map" resultType="com.sp.app.mypage.Mypage">
+		SELECT c.qnaNo, qnaacontent, TO_CHAR(qnaaregdate, 'YYYY-MM-DD') qnaaregdate, m.name
+		FROM qnareply c
+		JOIN member m ON c.memberNo = m.memberNo
+		WHERE memberShip = 99
+			ORDER BY c.qnaNo DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<!-- 관리자 faq 가져오기 -->
+	<select id="listMyfaq" parameterType="map" resultType="com.sp.app.mypage.Mypage">
+		SELECT c.faqNo, faqsubject, TO_CHAR(faqregdate, 'YYYY-MM-DD') faqregdate, m.name
+		FROM faq c
+		JOIN member m ON c.memberNo = m.memberNo
+		WHERE memberShip = 99
+			ORDER BY c.faqNo DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+
+<!-- 회원 이미지, 전화번호, 이메일, 개인정보 수정-->
+<!-- 회원 이미지, 전화번호, 이메일, 개인정보 삭제 -->
+<!-- 회원탈퇴? -->
+<!-- 즐겨찾기한 회원리스트 select -->
+<!-- 즐겨찾기한 회원리스트 insert ? -->
+<!-- 즐겨찾기한 회원리스트 delete -->
+<!-- 작성한 댓글 확인  select -->
+<!-- 북마크한 뉴스기사 분류(bookmarkType(북마크날짜, 카테고리별 검색)  -->
+
+</mapper>

@@ -60,12 +60,12 @@ footer {
       <div class="col-6 col-md-3 mb-3">
         <h5 class="font__b"> Notice</h5>
         <ul class="nav flex-column mt-3">
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">[공지사항] 'NewsOcean' 을 소개합니다. </a></li>
+          <li class="nav-item mb-2"><a href="${pageContext.request.contextPath}/cs/notice/list" class="nav-link p-0 text-muted">[공지사항] 'NewsOcean' 을 소개합니다. </a></li>
         </ul>
       </div>
 
       <div class="col-6 col-md-3 mb-3">
-        <h5>Contact us</h5>
+        <h5>Join us</h5>
         <ul class="nav flex-column mt-3">
           <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">
           <span>합리적인 비용의 제휴 서비스를 찾으시나요 ? 
@@ -78,7 +78,9 @@ footer {
           <h5>매주 간편하게 NewsOcean 받아보기 🌊 </h5>
           <p> ✨ 1년 정기 구독시 10% 추가 할인과 에디터 컬럼 제공! </p>
           <div class="d-flex flex-column flex-sm-row w-100 gap-2 mt-3">
+          	<a href="${pageContext.request.contextPath}/sub/main">
             <button class="btn btn-primary btn__size" style="background-color: #004B81; border: none;" type="button">뉴스오션 'suffer' 되기 🙋‍♂</button>
+          	</a>
           </div>
         </form>
       </div>
@@ -88,14 +90,14 @@ footer {
      	<div class="col-6 col-md-3 mb-3">
         <h5>FAQ</h5>
         <ul class="nav flex-column mt-3">
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">궁금하신 부분은 한 번에 해결하세요.</a></li>
+          <li class="nav-item mb-2"><a href="${pageContext.request.contextPath}/cs/faq/main" class="nav-link p-0 text-muted">궁금하신 부분은 한 번에 해결하세요.</a></li>
         </ul>
       </div>
       
       <div class="col-6 col-md-3 mb-3">
-        <h5>Advertising</h5>
+        <h5>My page</h5>
         <ul class="nav flex-column mt-3">
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">제휴 및 광고문의하기</a></li>
+          <li class="nav-item mb-2"><a href="${pageContext.request.contextPath}/mypage/main" class="nav-link p-0 text-muted">내 정보 확인하기</a></li>
         </ul>
       </div>
      </div>

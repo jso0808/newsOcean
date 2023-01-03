@@ -4,7 +4,13 @@ import java.util.List;
 
 public interface PerformService {
 	
+	//오늘 가입 회원 수
+	public int todayCount();
+	//어제 가입자 수
+	public int yesterdayCount();
+	
 	public List<Perform> listSales();
+	
 	public int toady_sales();
 	public int yesterday_sales();
 	//월 매출
@@ -28,6 +34,7 @@ public interface PerformService {
 	//통계
 	public List<Perform> chart_sales();
 	public List<Perform> chart_member();
+	
 	
 	
 

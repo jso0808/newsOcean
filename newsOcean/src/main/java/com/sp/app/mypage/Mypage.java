@@ -1,4 +1,4 @@
-package com.sp.app.mypage.main;
+package com.sp.app.mypage;
 
 public class Mypage {
 	private long memberNo;

@@ -1,4 +1,4 @@
-package com.sp.app.mypage.main;
+package com.sp.app.mypage;
 
 import java.util.List;
 

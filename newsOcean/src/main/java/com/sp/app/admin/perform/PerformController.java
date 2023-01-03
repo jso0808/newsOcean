@@ -30,6 +30,17 @@ public class PerformController {
 	@RequestMapping(value = "main")
 	public String main(Model model) throws Exception {
 		
+		//오늘 가입 회원
+		int todayCount = 0;
+		int yesterdayCount = 0;
+		
+		todayCount = service.todayCount();
+		yesterdayCount = service.yesterdayCount();
+		
+		int member_cha = todayCount - yesterdayCount;
+		
+		model.addAttribute("todayCount", todayCount);
+		model.addAttribute("member_cha", member_cha);
 		
 		//매출내역
 		List<Perform> listSales = service.listSales();

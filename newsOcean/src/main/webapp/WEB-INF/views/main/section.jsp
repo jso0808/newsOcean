@@ -132,8 +132,8 @@ function sectionClick(){
 		<!-- 뉴스홈 > 정치 -->
 		<h3 class="newsPolitic"><a href="${pageContext.request.contextPath}/section?categoryNo=200" onclick="sectionClick('200');">정치</a></h3>
 		<ul class="mediaSubnavList">
-			<li class="first"><a href="${pageContext.request.contextPath}/recent?categoryNo=201" class="selected" onclick="recentClick('201');">최신뉴스</a></li>
-			<li><a class="" href="${pageContext.request.contextPath}/subsection?categoryNo=202"  onclick="subsectionClick('202');">대통령실</a></li>
+			<li class="first"><a href="${pageContext.request.contextPath}/recent?mid=n0201" class="selected" onclick="recentClick('201');">최신뉴스</a></li>
+			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=202"  onclick="subsectionClick('202');">대통령실</a></li>
 			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=203"  onclick="subsectionClick('203');">국회/정당</a></li>
 			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=204"  onclick="subsectionClick('204');">외교/국방</a></li>
 			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=205"  onclick="subsectionClick('205');">북한</a></li>

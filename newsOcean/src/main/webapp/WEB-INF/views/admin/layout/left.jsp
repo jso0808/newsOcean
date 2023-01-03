@@ -88,7 +88,7 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin/perform/main" class="sub_menu--link">사이트 전체 통계</a>
+					<a href="${pageContext.request.contextPath}/admin/perform/main" class="sub_menu--link">데이터 분석</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">컨텐츠 통계</a>

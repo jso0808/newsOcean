@@ -1,16 +1,14 @@
  package com.sp.app.main;
 
-import java.util.List;
 
 public class Search {
 	private int searchNo;
 	private Long memberNo;
 	private String searchName;
 	//private String tagName;//필요x
-	private List<Integer>categoryNo;
+	private String categoryNo;//203, 204, 205 형태의 string으로 받음
 	private String searchNowdate; //검색하는 현재시간
 	private int pcategoryNo;
-	private String categoryName;
 	private int newsNo;
 	//private int tagNo;//필요x
 	
@@ -85,10 +83,10 @@ public class Search {
 		this.searchName = searchName;
 	}
 
-	public final List<Integer> getCategoryNo() {
+	public final String getCategoryNo() {
 		return categoryNo;
 	}
-	public final void setCategoryNo(List<Integer> categoryNo) {
+	public final void setCategoryNo(String categoryNo) {
 		this.categoryNo = categoryNo;
 	}
 	public final String getSearchNowdate() {
@@ -102,12 +100,6 @@ public class Search {
 	}
 	public final void setPcategoryNo(int pcategoryNo) {
 		this.pcategoryNo = pcategoryNo;
-	}
-	public final String getCategoryName() {
-		return categoryName;
-	}
-	public final void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
 	}
 	public final int getNewsNo() {
 		return newsNo;
