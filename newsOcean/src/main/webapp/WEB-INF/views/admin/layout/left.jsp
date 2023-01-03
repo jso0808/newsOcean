@@ -91,13 +91,13 @@ $(function(){
 					<a href="${pageContext.request.contextPath}/admin/perform/main" class="sub_menu--link">사이트 전체 통계</a>
 				</li>
 				<li class="sub_menu--item">
+					<a href="#" class="sub_menu--link">컨텐츠 통계</a>
+				</li>
+				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">매출 통계</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">실시간 검색어</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">통계 자료 다운로드</a>
 				</li>
 			</ul>
 		</li>

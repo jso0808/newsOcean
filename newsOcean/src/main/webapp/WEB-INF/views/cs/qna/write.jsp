@@ -32,19 +32,17 @@ function sendOk() {
     f.action = "${pageContext.request.contextPath}/cs/qna/${mode}";
     f.submit();
 }
-
-
 </script>
 
 <div class="container">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> QNA </h3>
+			<h3><i class="bi bi-app"></i> Qna </h3>
 		</div>
 		
 		<div class="body-main">
 		
-			<form name="boardForm" method="post">
+			<form name="boardForm" method="post" enctype="multipart/form-data">
 				<table class="table mt-5 write-form">
 					<tr>
 						<td class="table-light col-sm-2" scope="row">제 목</td>
@@ -54,7 +52,7 @@ function sendOk() {
 					</tr>
         
 					<tr>
-						<td class="table-light col-sm-2" scope="row">닉네임</td>
+						<td class="table-light col-sm-2" scope="row">작성자명</td>
  						<td>
 							<p class="form-control-plaintext">${sessionScope.member.nickName}</p>
 						</td>
@@ -66,7 +64,6 @@ function sendOk() {
 							<textarea name="qnaContent" id="qnaContent" class="form-control">${dto.qnaContent}</textarea>
 						</td>
 					</tr>
-					
 				</table>
 				
 				<table class="table table-borderless">
@@ -75,6 +72,10 @@ function sendOk() {
 							<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 							<button type="reset" class="btn btn-light">다시입력</button>
 							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/qna/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+							<c:if test="${mode=='update'}">
+								<input type="hidden" name="qnaNo" value="${dto.qnaNo}">
+								<input type="hidden" name="page" value="${page}">
+							</c:if>
 						</td>
 					</tr>
 				</table>

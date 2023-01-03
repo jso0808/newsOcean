@@ -7,57 +7,73 @@ public class QnaReply {
 	private String nickName;
 	private String qnaAContent;
 	private String qnaARegdate;
-	private String qnaAReply;
+	private String qnaReply;
 	
 	private int qnaAReplyCount;
-	
+
 	public long getQnaAnswer() {
 		return qnaAnswer;
 	}
+
 	public void setQnaAnswer(long qnaAnswer) {
 		this.qnaAnswer = qnaAnswer;
 	}
+
 	public long getQnaNo() {
 		return qnaNo;
 	}
+
 	public void setQnaNo(long qnaNo) {
 		this.qnaNo = qnaNo;
 	}
+
 	public long getMemberNo() {
 		return memberNo;
 	}
+
 	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
+
 	public String getNickName() {
 		return nickName;
 	}
+
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
+
 	public String getQnaAContent() {
 		return qnaAContent;
 	}
+
 	public void setQnaAContent(String qnaAContent) {
 		this.qnaAContent = qnaAContent;
 	}
+
 	public String getQnaARegdate() {
 		return qnaARegdate;
 	}
+
 	public void setQnaARegdate(String qnaARegdate) {
 		this.qnaARegdate = qnaARegdate;
 	}
-	public String getQnaAReply() {
-		return qnaAReply;
+
+	public String getQnaReply() {
+		return qnaReply;
 	}
-	public void setQnaAReply(String qnaAReply) {
-		this.qnaAReply = qnaAReply;
+
+	public void setQnaReply(String qnaReply) {
+		this.qnaReply = qnaReply;
 	}
+
 	public int getQnaAReplyCount() {
 		return qnaAReplyCount;
 	}
+
 	public void setQnaAReplyCount(int qnaAReplyCount) {
 		this.qnaAReplyCount = qnaAReplyCount;
 	}
 
+	
 }

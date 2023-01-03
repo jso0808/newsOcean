@@ -75,15 +75,15 @@ $(function(){
 		let qnaNo = "${dto.qnaNo}";
 		const $tb = $(this).closest("table");
 
-		let content = $tb.find("textarea").val().trim();
-		if(! content) {
+		let qnaContent = $tb.find("textarea").val().trim();
+		if(! qnaContent) {
 			$tb.find("textarea").focus();
 			return false;
 		}
-		content = encodeURIComponent(content);
+		qnaContent = encodeURIComponent(qnaContent);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaAReply=0";
+		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaReply=0";
 		
 		const fn = function(data){
 			$tb.find("textarea").val("");
@@ -133,7 +133,7 @@ $(function(){
 		let page = $(this).attr("data-pageNo");
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
-		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaAReply";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaReply";
 		
 		const fn = function(data){
 			// let state = data.state;
@@ -145,10 +145,10 @@ $(function(){
 });
 
 //댓글별 답글 리스트
-function listReply(QnaAReply) {
+function listReply(QnaReply) {
 	let url = "${pageContext.request.contextPath}/cs/qna/listReply";
-	let query = "qnaAReply=" + qnaAReply;
-	let selector = "#listReply" + qnaAReply;
+	let query = "qnaReply=" + qnaReply;
+	let selector = "#listReply" + qnaReply;
 	
 	const fn = function(data){
 		$(selector).html(data);
@@ -157,13 +157,13 @@ function listReply(QnaAReply) {
 }
 
 //댓글별 답글 개수
-function qnaAReplyCount(QnaAReply) {
+function qnaAReplyCount(QnaReply) {
 	let url = "${pageContext.request.contextPath}/cs/qna/qnaAReplyCount";
-	let query = "qnaAReply=" + qnaAReply;
+	let query = "qnaReply=" + qnaReply;
 	
 	const fn = function(data){
 		let count = data.count;
-		let selector = "#qnaAReplyCount"+qnaAReply;
+		let selector = "#qnaAReplyCount"+qnaReply;
 		$(selector).html(count);
 	};
 	
@@ -202,15 +202,15 @@ $(function(){
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
 		const $td = $(this).closest("td");
 		
-		let content = $td.find("textarea").val().trim();
-		if(! content) {
+		let qnaContent = $td.find("textarea").val().trim();
+		if(! qnaContent) {
 			$td.find("textarea").focus();
 			return false;
 		}
-		content = encodeURIComponent(content);
+		qnaContent = encodeURIComponent(qnaContent);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaAReply=" + qnaAnswer;
+		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaReply=" + qnaAnswer;
 		
 		const fn = function(data){
 			$td.find("textarea").val("");
@@ -237,11 +237,11 @@ $(function(){
 		let qnaAReply = $(this).attr("data-qnaAReply");
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
-		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaAReply";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaReply";
 		
 		const fn = function(data){
-			listReply(qnaAReply);
-			qnaAReplyCount(qnaAReply);
+			listReply(qnaReply);
+			qnaAReplyCount(qnaReply);
 		};
 		
 		ajaxFun(url, "post", query, "json", fn);

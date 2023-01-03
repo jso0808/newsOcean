@@ -9,6 +9,9 @@
 
 
 
+
+
+
 <script >
 $(window).ready(function(){
 	
@@ -110,6 +113,7 @@ $(function(){
 
 });
 
+
 </script>
 
 
@@ -119,7 +123,7 @@ $(function(){
 			<span style="font-family: 'line_font_b';">Performance Review</span>
 		</div>
 		<div class="pb-1">
-			<button type="button" class="print_btn shadow-sm" onclick=""><i class="fa-solid fa-user"></i>&nbsp;&nbsp; 관리자 정보 바로가기 </button>
+			<button type="button" class="print_btn shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/perform/print';"><i class="fa-solid fa-print"></i>&nbsp;&nbsp; 전체화면  print </button>
 			<button type="button" class="reload_btn shadow-sm" onclick="reload();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 		</div>
 	</div>
@@ -276,7 +280,7 @@ $(function(){
 	</div>
 	<div class="sales-1 ">
 		<c:forEach var="dto" items="${listSales}" varStatus="status">
-			<div class="sales_block shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/member/article?memberNo=${dto.memberNo}';">
+			<div class="sales_block shadow-sm">
 				<div style="font-family: 'line_font_b';"> ${dto.paid_at} </div>
 				<span style="font-size: 13px;" >계정 : ${dto.email}</span>
 				<span style="margin-left: 20px; font-family: 'line_font_b'; font-size: 18px;">💵  ${dto.paid_amount}</span>
@@ -285,6 +289,8 @@ $(function(){
 	</div>
 	
 </div>
+
+
 
 
 

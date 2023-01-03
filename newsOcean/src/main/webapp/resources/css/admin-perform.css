@@ -122,3 +122,250 @@
 	
 }
 
+/*main 페이지 디자인 요소 */
+
+
+.chart-1 {
+	background: #fff;
+	width: 800px;
+	margin-left: 40px;
+	border-radius: 20px;
+	height: 300px;
+	padding-top: 30px;
+	padding-left: 40px;
+}
+
+.chart-2 {
+	margin-left: 30px;
+	background: #fff;
+	width: 480px;
+	border-radius: 20px;
+	height: 300px;
+	padding-top: 20px;
+	padding-left: 30px;
+	
+}
+
+
+.sales-1 {
+	margin-left: 30px;
+	background: 	none;
+	width: 320px;
+	height: 300px;
+	overflow: scroll;
+	margin-bottom:20px;
+	padding-bottom:20px;
+	
+	-ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none;
+	
+}
+
+.sales-1::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+/*매출 내역 블록*/
+.sales_block {
+	background: #fff;
+	width: 105%;
+	height: 65px;
+	margin-bottom:15px;
+	border-radius: 7px;
+	font-size: 11px;
+	padding-left: 20px;
+	padding-top: 10px;
+	border-top: 2px solid 		#004b81	;
+	cursor: pointer;
+	color: #595959;
+	margin-left: -5px;
+	
+}
+
+.sales_block:hover {
+	transform: scale(1.01);
+	transition: .5s;
+}
+
+
+
+.more__sales {
+	background: #004b81;
+	margin-left: 10px;
+	border: none;
+	font-size: 12px;
+	color: 	#fff;
+	font-family: 'line_font_b';
+	width: 60px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+
+}
+
+
+
+/*도넛 차트*/
+.pie-chart {
+  position: relative;
+  display:inline-block;
+  width: 67px;
+  height: 67px;
+  border-radius: 50%;
+  transition: 0.3s;
+  margin-top: 10px;
+  margin-left: 5px;
+  border: 2px solid #004b81;
+}
+
+span.center{
+  background: #eee;
+  display : block;
+  position: absolute;
+  top:50%; left:50%;
+  width:40px; height:40px;
+  border-radius: 50%;
+  text-align:center; 
+  line-height: 40px;
+  font-family:'line_font_b';
+  font-size:10px;
+   transform: translate(-50%, -50%);
+}
+
+
+.sales__goals__title {
+	font-family: 'line_font_b';
+	color: #999999;
+	margin-left: 30px;
+	font-size: 12px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+}
+
+.sales__goals__area {
+	width: 1135px;
+    background: #fff;
+    border-radius: 22px;
+    height: 80px;
+    margin-left: 40px;
+    margin-top: 20px;
+    padding-top: 11px;
+    padding-left: 30px;
+}
+
+.sales__goals__area__btn {
+	width: 160px;
+	margin-left: 20px;
+    margin-top: 33px;
+    height: 55px;
+    text-align: center;
+    background: #004b81;
+    border-radius: 15px;
+    vertical-align: middle;
+    padding-top: 17px;
+    font-family: 'line_font_b';
+    font-size: 16px;
+    color: #fff;
+}
+
+.sales__goals__area__btn:hover {
+	width: 160px;
+	margin-left: 20px;
+    margin-top: 33px;
+    height: 55px;
+    text-align: center;
+    background: #fff;
+    border-radius: 15px;
+    vertical-align: middle;
+    padding-top: 17px;
+    font-family: 'line_font_b';
+    font-size: 16px;
+    color: #595959;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+
+
+.sales__icon {
+	font-size: 22px;
+	color: #000;
+	font-family: 'line_font_b';
+	
+}
+
+.new__input {
+	width: 200px;
+	height: 24px;
+	margin-left: 10px;
+	border: 1px solid #595959;
+	border-radius: 5px;
+	padding-left: 7px;
+}
+
+
+/*랭킹 블럭 - 첫번째 영역*/
+.rank-1{
+	border-radius: 20px;
+	margin-left: 33px;
+	background: #fff;
+	width: 300px;
+	height: 300px;
+	overflow: scroll;
+	
+	-ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none;
+	
+}
+
+.rank-1::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+/*제목*/
+.rank1__block {
+ 	color: #fff;
+ 	font-size: 13px;
+ 	background: #004b81;
+ 	padding-top: 15px; 
+ 	padding-bottom: 5px; 
+ 	padding-left: 10px;
+ 	
+ 	
+}
+
+.rank1__block span {
+	font-family: 'line_font_b';
+}
+
+.rank1__block__area {
+	height: 33px;
+	background: #fff;
+	padding-top: 5px;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 7px;
+	margin-top: 5px;
+}
+
+.rank1__block__area:hover {
+	cursor: pointer;
+	background: #eee;
+	transition: 0.3s;
+}
+
+
+.rank1__block__area:nth-child(-n+4) span:first-child {
+	color: #FF0066;
+	font-family: 'line_font_b';	
+}
+
+/*랭킹 내용 영역*/
+.area__con {
+	width: 188px; 
+	margin-left: 7px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	
+}
+

@@ -43,7 +43,7 @@
 	width: 80x;
 	color: #000;
 	border-color: #000;
-	padding-right: 30px;
+	padding-right: 25px;
 }
 
 .div-text {
@@ -96,7 +96,7 @@ a { text-decoration: none; color: #000; }
 a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; }
 
 .div-intro {
-	font-size: 18px;
+	font-size: 15px;
 }
 
 .div-menu a{
@@ -108,11 +108,20 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 }
 
 .div-menu-icon {
-	text-align: right;
 	display: flex;
 	justify-content: flex-end;
-	
 }
+
+/*로그인, 로그아웃*/
+.div-menu-icon a {
+	font-size: 14px;
+	margin-right: 20px;
+}
+
+.div-menu-icon:hover {
+	color: #004b81;
+}
+
 
 .div-div-menu {
 	padding: 0;
@@ -124,7 +133,7 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 }
 
 .bar-sub-btn {
-	padding-top: 30px;
+	padding-top: 25px;
 	background: #80B5FF;
 	padding-right: 47px;
 }
@@ -150,7 +159,7 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 
 <div class="bar-sub-btn">
 	<div class="col div-col-bar1">
-		<button class="btn btn-sub"><div class="div-text">뉴스오션 구독하기</div></button>
+		<button class="btn btn-sub"><div class="div-text">뉴스오션 구독하고 혜택받기 ✨</div></button>
     </div>
 	
 </div>
@@ -159,7 +168,7 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 	<div class="container">
 		<div class="row div-row-bar1">
 			<div class="col div-col-bar1 div-intro">
-				우리가 시간이 없지, 세상이 안 궁금하냐!
+				"우리가 시간이 없지, 세상이 안 궁금하냐!"
 			</div>
 			<div class="col div-col-bar1 div-img-logo">
 				<a class="navbar-brand" href="${pageContext.request.contextPath}/">
@@ -170,24 +179,28 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 			<div class="col div-col-bar1 div-menu">
 				<div class="row div-div-menu">
 					<div class="row">
-						<div class="col div-menu-icon">
-							<a href="로그인"><i class="fa-solid fa-user-large" style="margin-right: 20px;"></i></a>
-							<a href="로그아웃"><i class="fa-solid fa-right-from-bracket"></i></a>
+						<div class=" div-menu-icon">
+							<a href="${pageContext.request.contextPath}/member/login"><i class="fa-solid fa-user" style="margin-right: 7px;"></i>로그인</a>
+							<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+							<c:if test="${sessionScope.member.memberShip > 50}">
+								<a href="${pageContext.request.contextPath}/admin" title="관리자"><i class="fa-solid fa-gear" style="margin-right: 7px;"></i>관리자</a>
+							</c:if>
 						</div>
 					</div>
 					<div class="row div-menu-text">
 						<div class="col p-2">
-							<a href="#" title="구독">구독</a>
+							<a href="#" title="뉴스">최신뉴스</a>
+						</div>
+						<div class="col p-2">
+							<a href="${pageContext.request.contextPath}/sub/main" title="구독">구독</a>
 						</div>
 						<div class="col p-2" style="width: 180px;">
 							<a href="${pageContext.request.contextPath}/mypage/main" title="마이페이지">마이페이지</a>
 						</div>
 						<div class="col p-2">
-							<a href="#" title="고객센터">고객센터</a>
+							<a href="${pageContext.request.contextPath}/cs/qna/list" title="고객센터">고객센터</a>
 						</div>
-						<div class="col p-2">
-							<a href="#" title="관리자">관리자</a>
-						</div>
+						
 					</div>
 				</div>
 			</div>

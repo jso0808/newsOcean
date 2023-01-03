@@ -142,7 +142,6 @@ public class FaqController {
 		if (dto == null) {
 			return "redirect:/cs/faq/main?pageNo=" + pageNo;
 		}
-
 		if (info.getMemberNo() != dto.getMemberNo()) {
 			return "redirect:/cs/faq/main?pageNo=" + pageNo;
 		}
