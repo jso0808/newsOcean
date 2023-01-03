@@ -24,7 +24,9 @@
 
 	<!--  subsectionlist 특정 카테고리 -->
 	<select id="subsectionlist_category" parameterType="Integer" resultType="com.sp.app.main.MainCategory">
-		select categoryNo, categoryName from category where MOD(categoryNo,100) != 0 and categoryNo (&lt; (round(#{categoryNo},-2))+ 99
+		select categoryNo, categoryName from category where MOD(categoryNo,100) != 0 
+		and categoryNo &lt; (round(#{categoryNo},-2)+ 99)
+		and categoryNo &gt; (round(#{categoryNo},-2)-1)
 	</select>
 	
 	<!--  subsectionlist -->
