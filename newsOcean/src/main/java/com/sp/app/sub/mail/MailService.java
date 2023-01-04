@@ -1,12 +1,15 @@
 package com.sp.app.sub.mail;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sp.app.sub.Subscript;
 
 public interface MailService {
 	public List<Mail> listSendMail();
 	public List<Subscript> listSubscripter();
+	
+	public int dataCount(Map<String, Object> map);
 	
 	// 보낸 메일의 상세 내용 가져오기
 	public Mail findByMailInfo(long mailNo);

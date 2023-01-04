@@ -1,6 +1,7 @@
 package com.sp.app.sub.mail;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,19 @@ public class MailServiceImpl implements MailService{
 		
 		try {
 			cnt = dao.selectOne("mail.findBySubMailCount", mailNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public int dataCount(Map<String, Object> map) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.selectOne("mail.dataCount");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

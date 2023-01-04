@@ -16,7 +16,7 @@ public class Mail {
 	private long subNo;
 	private String sendDate;
 	
-	private int cnt; // 메일을 받은 구독자 수 
+	private int cnt; // 해당 메일을 받은 구독자 수
 	
 	// 스프링에서 파일 받기
 	private List<MultipartFile> selectFile; // <input type="file" name="selectFile"
@@ -88,5 +88,5 @@ public class Mail {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	
+
 }

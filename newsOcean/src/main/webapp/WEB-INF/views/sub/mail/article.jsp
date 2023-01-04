@@ -7,27 +7,36 @@
 .body-container {
 	max-width: 800px;
 }
+
+.div-subject {
+	font-size: 25px;
+}
+
+.div-text{
+	font-size: 16px;
+}
+
+.cnt{
+	font-size: 18px;
+	color: red;
+}
+
+.div-content {
+	background-color: #E8DCCA;
+	
+}
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
-/*
-<c:if test="${sessionScope.member.userId==dto.userId||sessionScope.member.membership>50}">
-	function deleteBoard() {
-	    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
-		    let query = "boardNum=${dto.boardNum}&${query}";
-		    let url = "${pageContext.request.contextPath}/board/delete?" + query;
-	    	location.href = url;
-	    }
-	}
-</c:if>
-*/
+
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-subtract"></i> 답변형 게시판 </h3>
+			<h3><i class="fa-solid fa-envelope-open-text"></i> 구독 메일 발신함 </h3>
 		</div>
 		
 		<div class="body-main">
@@ -36,8 +45,7 @@
 				<thead>
 					<tr>
 						<td colspan="2" align="center">
-							<c:if test="${dto.depth!=0 }">[Re] </c:if>
-							${dto.subject}
+							<div class="div-subject">${dto.subject}</div>
 						</td>
 					</tr>
 				</thead>
@@ -45,15 +53,15 @@
 				<tbody>
 					<tr>
 						<td width="50%">
-							이름 : ${dto.userName}
+							 <div class="div-text">작성한 서퍼 : ${dto.senderName}  (${dto.senderEmail})</div>
 						</td>
 						<td align="right">
-							${dto.reg_date} | 조회 ${dto.hitCount}
+							<div class="div-text"> 수신받은 구독자 수 : <span class="cnt">${cnt}</span></div>
 						</td>
 					</tr>
 					
-					<tr>
-						<td colspan="2" valign="top" height="200">
+					<tr class="div-text">
+						<td class="div-content" colspan="2" valign="top" height="200" style="background-color: #E8DCCA; padding-top:40px;">
 							${dto.content}
 						</td>
 					</tr>
@@ -80,7 +88,7 @@
 			<table class="table table-borderless">
 				<tr>
 					<td class="text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/list?${query}';">리스트</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/listSendMail?${query}';">리스트</button>
 					</td>
 				</tr>
 			</table>

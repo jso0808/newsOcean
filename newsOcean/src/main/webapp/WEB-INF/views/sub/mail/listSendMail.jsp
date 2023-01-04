@@ -58,10 +58,16 @@ $(function(){
 	
 	$(".board-list tbody>tr").click(function(){
 		let num = $(this).attr("data-num");
-		let url = "${articleUrl}&num="+num;
+		let url = "${articleUrl}&mailNo="+mailNo;
 		location.href = url;
 	});
 });
+
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
+
 </script>
 
 <div class="">
@@ -78,24 +84,22 @@ $(function(){
 					<table class="table table-hover board-list">
 						<thead class="table-light">
 							<tr>
-								<th class="bw-40">구독자 수</th>
-								<th class="bw-130">제목</th>
-								<th class="bw-80">작성자</th>
-								<th class="bw-80">작성일</th>
-								
+								<th class="bw-30">메일번호</th>
+								<th class="bw-140">제목</th>
+								<th class="bw-60">작성자</th>
+								<th class="bw-60">작성일</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							
-							<tr>
-								<c:forEach var="dto" items="${list}" varStatus="status">
-									<td>${dto.cnt}</td>
-									<td>${dto.subject}</td>
-									<td>${dto.senderEmail}</td>
+							<c:forEach var="dto" items="${list}" varStatus="status">
+								<tr>
+									<td>${dto.mailNo}</td>
+									<td><a href="${articleUrl}&mailNo=${dto.mailNo}" class="text-reset">${dto.subject}</a></td>
+									<td>${dto.senderName}</td>
 									<td>${dto.sendDate}</td>
-								</c:forEach>
-							</tr>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 					
@@ -108,12 +112,11 @@ $(function(){
 							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/listSendMail';">새로고침</button>
 						</div>
 						<div class="col-6 text-center">
-							<form class="row" name="searchForm" action="${pageContext.request.contextPath}/sbbs/list" method="post">
+							<form class="row" name="searchForm" action="${pageContext.request.contextPath}/sub/mail/listSendMail" method="post">
 								<div class="col-auto p-1">
 									<select name="condition" class="form-select">
 										<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-										<option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
-										<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>작성일</option>
+										<option value="senderEmail" ${condition=="senderEmail"?"selected='selected'":""}>작성자 이메일</option>
 										<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 										<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 									</select>
