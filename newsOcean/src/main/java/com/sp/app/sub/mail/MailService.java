@@ -8,6 +8,11 @@ public interface MailService {
 	public List<Mail> listSendMail();
 	public List<Subscript> listSubscripter();
 	
+	// 보낸 메일의 상세 내용 가져오기
+	public Mail findByMailInfo(long mailNo);
+	// 메일을 받은 구독자 수 카운트
+	public int findBySubMailCount(long mailNo);
+	
 	public long sequenceSubMail();
 	public void insertSubMail(Mail mail);
 	public void insertSubMailInfo(Mail mail);

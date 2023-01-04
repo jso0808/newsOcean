@@ -87,11 +87,14 @@ $(function(){
 						</thead>
 
 						<tbody>
+							
 							<tr>
-								<td>${cnt}</td>
-								<td>${dto.subject}</td>
-								<td>${dto.senderEmail}</td>
-								<td>${dto.sendDate}</td>
+								<c:forEach var="dto" items="${list}" varStatus="status">
+									<td>${dto.cnt}</td>
+									<td>${dto.subject}</td>
+									<td>${dto.senderEmail}</td>
+									<td>${dto.sendDate}</td>
+								</c:forEach>
 							</tr>
 						</tbody>
 					</table>

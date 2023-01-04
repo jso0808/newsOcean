@@ -27,6 +27,24 @@
 			VALUES(#{mailNo}, #{subject}, #{content}, SYSDATE, #{senderEmail})
 	</insert>
 	
+	<select id="listSendMail" resultType="com.sp.app.sub.mail.Mail">
+		SELECT mailNo, title, content, sendDate, senderEmail, nickName senderName
+		FROM SUBMAILINFO si
+		JOIN member m ON m.email = si.senderEmail 
+	</select>
+	
+	<select id="findByMailInfo" parameterType="Long" resultType="com.sp.app.sub.mail.Mail">
+		SELECT mailNo, title, content, sendDate, senderEmail
+		FROM SUBMAILINFO
+		WHERE mailNo = #{mailNo}
+	</select>
+	
+	<select id="findBySubMailCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*) cnt
+		FROM SUBMAIL
+		where mailNo = #{mailNo}
+	</select>
+	
 
 
 </mapper>

@@ -19,7 +19,7 @@ public class MailServiceImpl implements MailService{
 		List<Mail> list = null;
 		
 		try {
-			list = dao.selectList("");
+			list = dao.selectList("mail.listSendMail");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,6 +69,31 @@ public class MailServiceImpl implements MailService{
 		}
 		
 		return seq;
+	}
+
+	@Override
+	public Mail findByMailInfo(long mailNo) {
+		Mail mail = null;
+		
+		try {
+			mail = dao.selectOne("mail.findByMailInfo", mailNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mail;
+	}
+
+	@Override
+	public int findBySubMailCount(long mailNo) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.selectOne("mail.findBySubMailCount", mailNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
 	}
 
 	

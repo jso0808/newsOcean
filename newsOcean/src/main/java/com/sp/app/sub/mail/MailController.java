@@ -52,7 +52,6 @@ public class MailController {
 		int size = 5;
 		int total_page = 0;
 		int dataCount = 0;
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -75,16 +74,13 @@ public class MailController {
 		map.put("offset", offset);
 		map.put("size", size);
 		
-		List<Mail> list = null;
+		List<Mail> list = service.listSendMail();
 		
-		/*
-		 * <td>${dto.submailNo}</td>
-			<td>${dto.subject}</td>
-			<td>${dto.senderEmail}</td>
-			<td>${dto.sendDate}</td>
-			<td>${cnt}</td>
-		 * 
-		 */
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
 		
 		return ".sub.mail.listSendMail";
 	}
@@ -143,5 +139,19 @@ public class MailController {
 			return "redirect:/";
 		
 		return ".sub.mail.sendComplete";
+	}
+	
+	@RequestMapping(value="article")
+	public String article(
+			@RequestParam(value="mailNo") long mailNo,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Mail mail = service.findByMailInfo(mailNo);
+		
+		map.put("dto", mail);
+		
+		return ".sub.mail.article";
 	}
 }
