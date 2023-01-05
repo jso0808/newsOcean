@@ -12,7 +12,7 @@ public class Main {
 	
 	private long memberNo;
 	private String name;
-	private String email;
+	private String email; 
 	
 	
 	public long getSubNo() {
