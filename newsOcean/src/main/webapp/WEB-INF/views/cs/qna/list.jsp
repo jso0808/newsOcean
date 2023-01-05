@@ -47,7 +47,7 @@ function searchList() {
 <div class="container">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> Qna </h3>
+			<h3>Qna</h3>
 		</div>
 		
 		<div class="body-main">

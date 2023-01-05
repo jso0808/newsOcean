@@ -108,7 +108,7 @@ function deleteFaq(faqNo, page) {
 <div class="container">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-question-octagon"></i> 자주하는 질문 </h3>
+			<h3>자주하는 질문 </h3>
 		</div>
 		
 	    <div class="alert alert-info" role="alert">
