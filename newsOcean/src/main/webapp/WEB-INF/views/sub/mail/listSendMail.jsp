@@ -116,13 +116,12 @@ function searchList() {
 								<div class="col-auto p-1">
 									<select name="condition" class="form-select">
 										<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-										<option value="senderEmail" ${condition=="senderEmail"?"selected='selected'":""}>작성자 이메일</option>
+										<option value="senderName" ${condition=="senderName"?"selected='selected'":""}>작성자</option>
 										<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 										<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 									</select>
 								</div>
 								<div class="col-auto p-1">
-									<input type="hidden" name="group" value="${group}">
 									<input type="text" name="keyword" value="${keyword}" class="form-control">
 								</div>
 								<div class="col-auto p-1">
@@ -131,7 +130,7 @@ function searchList() {
 							</form>
 						</div>
 						<div class="col text-end">
-							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/send';">메일 작성하기</button>
+							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/send';">메일 작성</button>
 						</div>
 					</div>
 				    

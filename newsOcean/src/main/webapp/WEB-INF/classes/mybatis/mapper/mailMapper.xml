@@ -14,8 +14,8 @@
 		<if test="condition=='content' ">
 			DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
 		</if>
-		<if test="condition=='senderEmail' ">
-			sendEmail=#{senderEmail}
+		<if test="condition=='senderName' ">
+			senderName=#{senderName}
 		</if>
 	</sql>
 
@@ -43,7 +43,7 @@
 			VALUES(#{mailNo}, #{subject}, #{content}, SYSDATE, #{senderEmail})
 	</insert>
 	
-	<select id="listSendMail" resultType="com.sp.app.sub.mail.Mail">
+	<select id="listSendMail" parameterType="map" resultType="com.sp.app.sub.mail.Mail">
 		SELECT mailNo, subject, content, TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate, senderEmail, nickName senderName
 		FROM SUBMAILINFO si
 		JOIN member m ON m.email = si.senderEmail 
@@ -55,9 +55,15 @@
 		ORDER BY mailNo DESC
 	</select>
 	
-	<select id="dataCount" resultType="Integer">
+	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
-		FROM SUBMAILINFO
+		FROM SUBMAILINFO si
+		JOIN member m ON m.email = si.senderEmail 
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
 	</select>
 	
 	<select id="findByMailInfo" parameterType="Long" resultType="com.sp.app.sub.mail.Mail">
@@ -72,6 +78,26 @@
 		SELECT COUNT(*) cnt
 		FROM SUBMAIL
 		where mailNo = #{mailNo}
+	</select>
+	
+	<select id="preFindByMailInfo" parameterType="Long" resultType="com.sp.app.sub.mail.Mail">
+		SELECT mailNo, subject, content, senderEmail, TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate, 
+		    nickname senderName, (select COUNT(*) cnt FROM submail where mailNo = #{mailNo}) cnt
+		FROM subMailInfo si
+		JOIN member m ON m.email = si.senderEmail 
+		WHERE mailNo &lt; #{mailNo}
+		ORDER BY mailNo DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="nextFindByMailInfo" parameterType="Long" resultType="com.sp.app.sub.mail.Mail">
+		SELECT mailNo, subject, content, senderEmail, TO_CHAR(sendDate, 'YYYY-MM-DD') sendDate, 
+		    nickname senderName, (select COUNT(*) cnt FROM submail where mailNo = #{mailNo}) cnt
+		FROM subMailInfo si
+		JOIN member m ON m.email = si.senderEmail 
+		WHERE mailNo &gt; #{mailNo}
+		ORDER BY mailNo ASC
+		FETCH FIRST 1 ROWS ONLY
 	</select>
 	
 

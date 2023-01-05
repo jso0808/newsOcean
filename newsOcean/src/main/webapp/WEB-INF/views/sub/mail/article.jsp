@@ -56,7 +56,7 @@
 							 <div class="div-text">작성한 서퍼 : ${dto.senderName}  (${dto.senderEmail})</div>
 						</td>
 						<td align="right">
-							<div class="div-text"> 수신받은 구독자 수 : <span class="cnt">${cnt}</span></div>
+							<div class="div-text"> 수신한 구독자 수 : <span class="cnt">${dto.cnt}</span></div>
 						</td>
 					</tr>
 					
@@ -69,16 +69,16 @@
 					<tr>
 						<td colspan="2">
 							이전글 :
-							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/board/article?${query}&boardNum=${preReadDto.boardNum}">${preReadDto.subject}</a>
+							<c:if test="${not empty preDto}">
+								<a href="${pageContext.request.contextPath}/sub/mail/article?${query}&mailNo=${preDto.mailNo}">${preDto.subject}</a>
 							</c:if>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							다음글 :
-							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/board/article?${query}&boardNum=${nextReadDto.boardNum}">${nextReadDto.subject}</a>
+							<c:if test="${not empty nextDto}">
+								<a href="${pageContext.request.contextPath}/sub/mail/article?${query}&mailNo=${nextDto.mailNo}">${nextDto.subject}</a>
 							</c:if>
 						</td>
 					</tr>
