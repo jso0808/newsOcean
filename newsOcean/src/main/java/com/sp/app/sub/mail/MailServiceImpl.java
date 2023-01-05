@@ -16,11 +16,11 @@ public class MailServiceImpl implements MailService{
 	private CommonDAO dao;
 	
 	@Override
-	public List<Mail> listSendMail() {
+	public List<Mail> listSendMail(Map<String, Object> map) {
 		List<Mail> list = null;
 		
 		try {
-			list = dao.selectList("mail.listSendMail");
+			list = dao.selectList("mail.listSendMail", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,12 +102,36 @@ public class MailServiceImpl implements MailService{
 		int cnt = 0;
 		
 		try {
-			cnt = dao.selectOne("mail.dataCount");
+			cnt = dao.selectOne("mail.dataCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return cnt;
+	}
+
+	@Override
+	public Mail preFindByMailInfo(long mailNo) {
+		Mail mail = null;
+		
+		try {
+			mail = dao.selectOne("mail.preFindByMailInfo", mailNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mail;
+	}
+
+	@Override
+	public Mail nextFindByMailInfo(long mailNo) {
+		Mail mail = null;
+		
+		try {
+			mail = dao.selectOne("mail.nextFindByMailInfo", mailNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mail;
 	}
 
 	

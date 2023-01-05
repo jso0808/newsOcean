@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="news">
+	
+	<select id="listNews" resultType="com.sp.app.news.News">
+		SELECT newsNo, title, originLink, hitCount, categoryNo, tagNo
+		FROM NEWS
+	</select>
+	
+	<select id="readNews" resultType="com.sp.app.news.News">
+		SELECT newsNo, title, originLink, hitCount, categoryNo, tagNo
+		FROM NEWS
+		WHERE newsNo = #{newsNo}
+	</select>
+	
+	<update id="updateHitCount" parameterType="Long">
+		UPDATE NEWS SET hitCount = hitCount+1 WHERE newsNo = #{newsNo}
+	</update>
+	
+	<delete id="deleteNewsLike" parameterType="com.sp.app.news.News">
+		DELETE FROM newsLike
+		WHERE newsNo = #{newsNo}
+	</delete>
+	
+	<insert id="insertNewsLike" parameterType="com.sp.app.news.News">
+		INSERT INTO newsLike(newsNo, memberNo) 
+			VALUES(#{newsNo}, #{memberNo})
+	</insert>
+	
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM NEWSREPLY nr
+		JOIN NEWS n ON n.newsNo = nr.newsNo
+		WHERE nr.newsNo = #{newsNo}
+	</select>
+	
+	<select id="listReply" parameterType="map" resultType="com.sp.app.news.Reply">
+		SELECT replyNo, content, regDate, newsNo, nr.memberNo, nickName
+		FROM newsReply nr
+		JOIN member m ON m.memberNo = nr.memberNo
+		WHERE newsNo = #{newsNo}
+		ORDER BY replyNo
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<insert id="insertReply" parameterType="com.sp.app.news.Reply">
+		INSERT INTO newsReply(replyNo, content, regDate, newsNo, memberNo)
+    		VALUES(replyno_seq.NEXTVAL, #{content}, sysdate, #{newsNo}, #{memberNo})
+	</insert>
+	
+	<select id="userNewsLiked" parameterType="map" resultType="com.sp.app.news.News">
+		SELECT newsNo, memberNo 
+		FROM newsLike 
+		WHERE newsNo = #{newsNo} AND memberNo = #{memberNo}
+	</select>
+	
+	<select id="newsLikeCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*)
+		FROM newsLike
+		WHERE newsNo = #{newsNo}
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM newsReply
+		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</delete>
+	
+	<select id="complainCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*)
+		FROM complain
+		WHERE replyNo = #{replyNo}
+	</select>
+	
+	<select id="userReplyComplain" parameterType="map" resultType="com.sp.app.news.Complain">
+		SELECT replyNo, memberNo
+		FROM complain
+		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</select>
+	
+	<update id="updateReplyHide" parameterType="Long">
+		UPDATE complain SET showHide = -1 WHERE replyNo=#{replyNo}
+	</update>
+	
+	<insert id="insertReplyComplain" parameterType="com.sp.app.news.Complain">
+		INSERT INTO complain(complainNo, memberNo, complain, complainDate, replyNo) 
+			VALUES(compltainNo_seq.NEXTVAL, #{memberNo}, #{complain}, sysdate, 
+				#{replyNo})
+	</insert>
+	
+</mapper>
