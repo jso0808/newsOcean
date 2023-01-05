@@ -17,9 +17,6 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void insertNotice(Notice dto, String pathname) throws Exception {
 		try {
-			long seq = dao.selectOne("notice.seq");
-			dto.setNoticeNo(seq);
-
 			dao.insertData("cs.notice.insertNotice", dto);
 		} catch (Exception e) {
 			e.printStackTrace();

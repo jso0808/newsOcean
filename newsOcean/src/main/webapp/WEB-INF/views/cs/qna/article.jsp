@@ -75,15 +75,15 @@ $(function(){
 		let qnaNo = "${dto.qnaNo}";
 		const $tb = $(this).closest("table");
 
-		let qnaContent = $tb.find("textarea").val().trim();
-		if(! qnaContent) {
+		let qnaAContent = $tb.find("textarea").val().trim();
+		if(! qnaAContent) {
 			$tb.find("textarea").focus();
 			return false;
 		}
-		qnaContent = encodeURIComponent(qnaContent);
+		qnaAContent = encodeURIComponent(qnaAContent);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaReply=0";
+		let query = "qnaNo=" + qnaNo + "&qnaAContent=" + qnaAContent + "&qnaReply=0";
 		
 		const fn = function(data){
 			$tb.find("textarea").val("");
@@ -133,7 +133,7 @@ $(function(){
 		let page = $(this).attr("data-pageNo");
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
-		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaReply";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaAnswer";
 		
 		const fn = function(data){
 			// let state = data.state;
@@ -144,11 +144,11 @@ $(function(){
 	});
 });
 
-//댓글별 답글 리스트
-function listReply(QnaReply) {
+// 댓글별 답글 리스트
+function listReply(qnaAnswer) {
 	let url = "${pageContext.request.contextPath}/cs/qna/listReply";
-	let query = "qnaReply=" + qnaReply;
-	let selector = "#listReply" + qnaReply;
+	let query = "qnaAnswer=" + qnaAnswer;
+	let selector = "#listReply" + qnaAnswer;
 	
 	const fn = function(data){
 		$(selector).html(data);
@@ -156,14 +156,14 @@ function listReply(QnaReply) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-//댓글별 답글 개수
-function qnaAReplyCount(QnaReply) {
+// 댓글별 답글 개수
+function qnaAReplyCount(qnaAnswer) {
 	let url = "${pageContext.request.contextPath}/cs/qna/qnaAReplyCount";
-	let query = "qnaReply=" + qnaReply;
+	let query = "qnaAnswer=" + qnaAnswer;
 	
 	const fn = function(data){
 		let count = data.count;
-		let selector = "#qnaAReplyCount"+qnaReply;
+		let selector = "#answerCount"+qnaAnswer;
 		$(selector).html(count);
 	};
 	
@@ -186,10 +186,10 @@ $(function(){
 			$trReplyAnswer.show();
             
 			// 답글 리스트
-			listReplyAnswer(replyNum);
+			listReply(qnaAnswer);
 			
 			// 답글 개수
-			countReplyAnswer(replyNum);
+			qnaAReplyCount(qnaAnswer);
 		}
 	});
 	
@@ -202,15 +202,15 @@ $(function(){
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
 		const $td = $(this).closest("td");
 		
-		let qnaContent = $td.find("textarea").val().trim();
-		if(! qnaContent) {
+		let qnaAContent = $td.find("textarea").val().trim();
+		if(! qnaAContent) {
 			$td.find("textarea").focus();
 			return false;
 		}
-		qnaContent = encodeURIComponent(qnaContent);
+		qnaAContent = encodeURIComponent(qnaAContent);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaReply=" + qnaAnswer;
+		let query = "qnaNo=" + qnaNo + "&qnaAContent=" + qnaAContent + "&qnaReply=" + qnaAnswer;
 		
 		const fn = function(data){
 			$td.find("textarea").val("");
@@ -234,10 +234,10 @@ $(function(){
 		}
 		
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
-		let qnaAReply = $(this).attr("data-qnaAReply");
+		let qnaReply = $(this).attr("data-qnaReply");
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
-		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaReply";
+		let query = "qnaAnswer=" + qnaReply + "&mode=qnaReply";
 		
 		const fn = function(data){
 			listReply(qnaReply);

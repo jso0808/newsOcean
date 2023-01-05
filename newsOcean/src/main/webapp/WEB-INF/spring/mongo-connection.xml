@@ -13,7 +13,7 @@
 	<mongo:mongo-client id="mongoClient" host="localhost" port="27017" credentials="id:password@database"/>
 	-->
 	<mongo:mongo-client id="mongoClient" host="localhost" port="27017"/>
-	<mongo:db-factory id="mongoDbFactory" dbname="mydb" mongo-client-ref="mongoClient" />
+	<mongo:db-factory id="mongoDbFactory" dbname="newsocean" mongo-client-ref="mongoClient" />
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
 	</bean>

@@ -112,14 +112,21 @@ function deleteFaq(faqNo, page) {
 		</div>
 		
 	    <div class="alert alert-info" role="alert">
-	        <i class="bi bi-search"></i> 궁금한 문의 사항을 빠르게 검색 할 수 있습니다.
+	        <i class="bi bi-search"></i> 궁금한 문의 사항을 빠르게 확인 할 수 있습니다.
 	    </div>
-	    		
+	    
 		<div class="body-main">
+			<div class="row board-list-header">
+				<div class="col text-end">
+					<c:if test="${sessionScope.member.memberShip>50}">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/faq/write';">글올리기</button>
+					</c:if>
+				</div>
+			</div>
 			
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<ul class="nav nav-pills" id="myTab" role="tablist">
 				<li class="nav-item" role="presentation">
-					<button class="nav-link active" id="tab-0" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="0" aria-selected="true" data-categoryNum="0">모두</button>
+					<button class="nav-link active" id="tab-0" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="0" aria-selected="true" data-categoryNum="0">전체</button>
 				</li>
 				<c:forEach var="dto" items="${listCategory}" varStatus="status">
 					<li class="nav-item" role="presentation">

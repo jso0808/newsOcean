@@ -65,6 +65,4 @@
 		WHERE imp_uid = #{imp_uid}
 	</select>
 	
-	
-	
 </mapper>

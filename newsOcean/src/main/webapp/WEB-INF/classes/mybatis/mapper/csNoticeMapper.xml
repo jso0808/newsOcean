@@ -4,7 +4,7 @@
 <mapper namespace="cs.notice">
 	<insert id="insertNotice" parameterType="com.sp.app.cs.notice.Notice">
 		INSERT INTO notice(noticeNo, memberNo, noticeSubject, noticeContent, notice, noticeRegdate)
-		VALUES(#{noticeNo}, #{memberNo}, #{noticeSubject}, #{noticeContent}, #{notice}, SYSDATE)
+		VALUES(notice_seq.NEXTVAL, #{memberNo}, #{noticeSubject}, #{noticeContent}, #{notice}, SYSDATE)
 	</insert>
 
 	<sql id="where-list">

@@ -138,7 +138,7 @@
 	<select id="answerCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM QnaReply
-		WHERE qnaNo=#{qnaNo} AND answer=0
+		WHERE qnaNo=#{qnaNo} AND qnaReply=0
 	</select>
 
 	<!-- 댓글리스트 -->
@@ -171,7 +171,7 @@
 		SELECT qnaAnswer, qnaNo, r.memberNo, nickName, qnaAContent, qnaARegdate, qnaReply
 		FROM QnaReply r
 		JOIN member m ON r.memberNo = m.memberNo
-		WHERE qnaReply = #{qnaReply}
+		WHERE qnaAnswer = #{qnaAnswer}
 		ORDER BY qnaAnswer DESC
 	</select>
 	
@@ -179,7 +179,7 @@
 	<select id="replyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM QnaReply
-		WHERE qnaReply = #{qnaReply}
+		WHERE qnaAnswer = #{qnaAnswer}
 	</select>
 	
 </mapper>
