@@ -38,31 +38,3 @@
 <div class="page-navigation">
 	${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 </div>
-
-<div class="row py-3">
-	<div class="col">
-		<button type="button" class="btn btn-light" onclick="reloadFaq();">새로고침</button>
-	</div>
-	<div class="col-6 text-center">
-		<form class="row" name="searchForm" method="post">
-			<div class="col-auto p-1">
-				<select name="condition" id="condition" class="form-select">
-					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-					<option value="faqSubject" ${condition=="faqSubject"?"selected='selected'":""}>제목</option>
-					<option value="faqContent" ${condition=="faqContent"?"selected='selected'":""}>내용</option>
-				</select>
-			</div>
-			<div class="col-auto p-1">
-				<input type="text" name="keyword" id="keyword" value="${keyword}" class="form-control">
-			</div>
-			<div class="col-auto p-1">
-				<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-			</div>
-		</form>
-	</div>
-	<div class="col text-end">
-		<c:if test="${sessionScope.member.memberShip>50}">
-			<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/faq/write';">글올리기</button>
-		</c:if>
-	</div>
-</div>

@@ -228,10 +228,8 @@ public class QnaController {
 		
 		map.put("membership", info.getMemberShip());
 		map.put("memberNo", info.getMemberNo());
-		
-		map.put("qnaNo", qnaNo);
 
-		dataCount = service.replyCount(map);
+		dataCount = service.answerCount(map);
 		total_page = myUtil.pageCount(dataCount, size);
 		if (current_page > total_page) {
 			current_page = total_page;
@@ -318,7 +316,7 @@ public class QnaController {
 	}
 
 	// 댓글의 답글 개수 : AJAX-JSON
-	@PostMapping(value = "replyCount")
+	@PostMapping(value = "qnaAReplyCount")
 	@ResponseBody
 	public Map<String, Object> replyCount(@RequestParam Map<String, Object> paramMap,
 			HttpSession session) {

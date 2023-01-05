@@ -42,7 +42,7 @@ function sendOk() {
 		
 		<div class="body-main">
 		
-			<form name="noticeForm" method="post" enctype="multipart/form-data">
+			<form name="noticeForm" method="post">
 				<table class="table mt-5 write-form">
 					<tr>
 						<td class="table-light col-sm-2" scope="row">제 목</td>
