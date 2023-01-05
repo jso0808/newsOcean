@@ -249,7 +249,7 @@ $(function(){
 });
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
 			<h3><i class="bi bi-app"></i> 게시판 </h3>

@@ -240,7 +240,7 @@ $(function(){
 });
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
 			<h3><i class="bi bi-question-octagon"></i> 자주하는 질문 </h3>

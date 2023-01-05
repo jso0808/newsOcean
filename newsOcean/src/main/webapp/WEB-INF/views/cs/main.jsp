@@ -5,9 +5,17 @@
 
 <style type="text/css">
 .body-container {
-	max-width: 800px;
+	margin:0 auto;
+	max-width: 1000px;
 	display: flex;
 	flex-direction: column;
+}
+
+.cardBox{
+	margin:0 auto;
+	vertical-align: middle;
+	display: flex;
+	clearfix : auto;
 }
 
 .card{
@@ -16,6 +24,7 @@
 	float:left;
 	font-size: 1.125rem;
 	text-align: center;
+	margin : 5px;
 	margin-bottom: 50px;
 	margin-top: 50px;
 }
@@ -46,13 +55,13 @@
 }
 </style>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
 			<h3> 고객센터 </h3>
 		</div>
 		
-		<div class="cardBox" class="clearfix">
+		<div class="cardBox">
 			<div class="card">
 				<div>
 					<a href="${pageContext.request.contextPath}/cs/notice/list" class="card-body" title="공지사항">

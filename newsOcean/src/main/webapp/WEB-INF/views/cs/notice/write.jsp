@@ -34,7 +34,7 @@ function sendOk() {
 }
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
 			<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
