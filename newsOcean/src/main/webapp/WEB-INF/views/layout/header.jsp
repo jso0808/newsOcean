@@ -207,7 +207,7 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 							<a href="${pageContext.request.contextPath}/mypage/main" title="마이페이지">마이페이지</a>
 						</div>
 						<div class="col p-2">
-							<a href="${pageContext.request.contextPath}/cs/qna/list" title="고객센터">고객센터</a>
+							<a href="${pageContext.request.contextPath}/cs/main" title="고객센터">고객센터</a>
 						</div>
 						
 					</div>
