@@ -6,6 +6,8 @@
 <style type="text/css">
 .body-container {
 	max-width: 800px;
+	display: flex;
+	flex-direction: column;
 }
 
 .card{

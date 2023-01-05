@@ -6,6 +6,14 @@
 <style type="text/css">
 .body-container {
 	max-width: 800px;
+	display: flex;
+	flex-direction: column;
+}
+
+.body-title {
+	display:flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">

@@ -6,6 +6,8 @@
 <style type="text/css">
 .body-container {
 	max-width: 800px;
+	display: flex;
+	flex-direction: column;
 }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
