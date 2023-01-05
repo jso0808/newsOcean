@@ -32,12 +32,13 @@ function sendOk() {
     f.action = "${pageContext.request.contextPath}/cs/qna/${mode}";
     f.submit();
 }
+
 </script>
 
 <div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> Qna </h3>
+			<h3><i class="bi bi-app"></i> QNA </h3>
 		</div>
 		
 		<div class="body-main">

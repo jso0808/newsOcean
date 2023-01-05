@@ -25,23 +25,23 @@
 				<div class="reply-menu">
 					<c:choose>
 						<c:when test="${sessionScope.member.memberNo==vo.memberNo}">
-							<div class='deleteQnaAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
+							<div class='deleteAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
 						</c:when>
 						<c:when test="${sessionScope.member.memberShip > 50}">
-							<div class='deleteQnaAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
+							<div class='deleteAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
+							<div class='blockAnswer reply-menu-item'>차단</div>
 						</c:when>
 					</c:choose>
 				</div>
 			</td>
 		</tr>
-		
 		<tr>
-			<td colspan='2' valign='top'>${vo.qnaAContent}</td>
+			<td colspan='2' valign='top' class="${vo.showReply == 0 ? 'text-primary text-opacity-50':''}">${vo.getQnaAContent}</td>
 		</tr>
-				
+
 		<tr>
 			<td>
-				<button type='button' class='btn btn-light btnReplyAnswerLayout' data-qnaAnswer='${vo.qnaAnswer}'>답글 <span id="answerCount${vo.qnaAnswer}">${vo.qnaAReplyCount}</span></button>
+				<button type='button' class='btn btn-light btnReplyLayout' data-qnaAnswer='${vo.qnaAnswer}'>답글 <span id="qnaAReplyCount${vo.qnaAnswer}">${vo.qnaAReplyCount}</span></button>
 			</td>
 		</tr>
 	
@@ -53,7 +53,7 @@
 		                <textarea class="form-control m-2"></textarea>
 		            </div>
 					<div class='text-end pe-2 pb-1'>
-						<button type='button' class='btn btn-light btnSendReplyAnswer' data-qnaAnswer='${vo.qnaAnswer}'>답글 등록</button>
+						<button type='button' class='btn btn-light btnSendReply' data-qnaAnswer='${vo.qnaAnswer}'>답글 등록</button>
 		            </div>
 	            </div>
 			</td>

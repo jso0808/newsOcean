@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sp.app.common.dao.CommonDAO;
 
-@Service("cs.qna.QnaService")
+@Service("cs.QnaService")
 public class QnaServiceImpl implements QnaService {
 	@Autowired
 	private CommonDAO dao;
@@ -25,15 +25,15 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public List<Qna> listQna(Map<String, Object> map) {
-		List<Qna> list = null;
+		List<Qna> listQna = null;
 
 		try {
-			list = dao.selectList("cs.qna.listQna", map);
+			listQna = dao.selectList("cs.qna.listQna", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return list;
+		return listQna;
 	}
 
 	@Override
@@ -149,11 +149,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int answerCount(Map<String, Object> map) {
+	public int replyCount(Map<String, Object> map) {
 		int result = 0;
 		
 		try {
-			result = dao.selectOne("cs.qna.answerCount", map);
+			result = dao.selectOne("cs.qna.replyCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -185,11 +185,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int replyCount(Map<String, Object> map) {
+	public int qnaAReplyCount(Map<String, Object> map) {
 		int result = 0;
 		
 		try {
-			result = dao.selectOne("cs.qna.replyCount", map);
+			result = dao.selectOne("cs.qna.qnaAReplyCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

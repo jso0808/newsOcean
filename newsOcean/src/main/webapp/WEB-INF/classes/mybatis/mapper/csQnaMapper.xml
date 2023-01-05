@@ -61,7 +61,7 @@
 		JOIN member m ON b.memberNo=m.memberNo
 		LEFT OUTER JOIN (
 			SELECT qnaNo, COUNT(*) replyCount FROM QnaReply
-			WHERE qnaReply = 0
+			WHERE qnaReply = 0 AND  showReply=1
 			GROUP BY qnaNo
 		) c ON b.qnaNo = c.qnaNo
 		<where>
@@ -120,7 +120,7 @@
 
 	<!-- 수정 -->
 	<update id="updateQna" parameterType="com.sp.app.cs.qna.Qna">
-		UPDATE qna SET qnaSubject=#{qnaSubject}, qnaContent=#{qnaContent},
+		UPDATE qna SET qnaSubject=#{qnaSubject}, qnaContent=#{qnaContent}
 		WHERE qnaNo = #{qnaNo}
 	</update>
       
@@ -131,26 +131,32 @@
       
 	<!-- 댓글 -->
 	<insert id="insertAnswer" parameterType="com.sp.app.cs.qna.QnaReply">
-		INSERT INTO QnaReply(qnaAnswer, qnaNo, memberNo, qnaAContent, qnaReply, qnaARegdate)
-		VALUES (QnaReply_seq.NEXTVAL, #{qnaNo}, #{memberNo}, #{qnaAContent}, #{qnaReply}, SYSDATE)
+		INSERT INTO qnaReply(qnaAnswer, qnaNo, memberNo, qnaAContent, qnaReply, showReply, qnaARegdate)
+		VALUES (QnaReply_seq.NEXTVAL, #{qnaNo}, #{memberNo}, #{qnaAContent}, #{qnaReply}, 1, SYSDATE)
 	</insert>
 
-	<select id="answerCount" parameterType="map" resultType="Integer">
+	<select id="replyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
-		FROM QnaReply
+		FROM qnaReply
 		WHERE qnaNo=#{qnaNo} AND qnaReply=0
+		<if test="memberShip lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND memberNo=#{memberNo} ) )
+		</if>
 	</select>
 
 	<!-- 댓글리스트 -->
 	<select id="listAnswer" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
-		SELECT r.qnaAnswer, r.memberNo, nickName, qnaNo, qnaAContent, r.qnaARegdate, 
+		SELECT r.qnaAnswer, r.memberNo, nickName, qnaNo, qnaAContent, r.qnaARegdate, NVL(showReply, 1) showReply, 
 			   NVL(qnaAReplyCount, 0) qnaAReplyCount
-		FROM QnaReply r
+		FROM qnaReply r
 		JOIN member m ON r.memberNo = m.memberNo
 		LEFT OUTER JOIN (
 			SELECT qnaReply, COUNT(*) qnaAReplyCount
 			FROM QnaReply
 			WHERE qnaReply!=0
+			<if test="memberShip lt 51">
+				AND ( showReply=1 OR ( showReply=0 AND memberNo=#{memberNo} ) )
+			</if>
 			GROUP BY qnaReply
 		) a ON r.qnaAnswer = a.qnaReply
 		WHERE qnaNo=#{qnaNo} AND r.qnaReply=0
@@ -159,7 +165,7 @@
 	</select>
 	
 	<delete id="deleteAnswer" parameterType="map">
-		DELETE FROM QnaReply
+		DELETE FROM qnaReply
 		WHERE qnaAnswer=#{qnaAnswer}
 		<if test="mode=='reply'">
 			OR qnaReply=#{qnaAnswer}
@@ -168,18 +174,23 @@
 	
 	<!-- 댓글의 답글 리스트 -->
 	<select id="listReply" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
-		SELECT qnaAnswer, qnaNo, r.memberNo, nickName, qnaAContent, qnaARegdate, qnaReply
-		FROM QnaReply r
+		SELECT qnaAnswer, qnaNo, r.memberNo, nickName, qnaAContent, qnaARegdate, qnaReply, NVL(showReply, 1) showReply
+		FROM qnaReply r
 		JOIN member m ON r.memberNo = m.memberNo
-		WHERE qnaAnswer = #{qnaAnswer}
+		WHERE qnaReply = #{qnaReply}
+		<if test="memberShip lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND r.memberNo=#{memberNo} ) )
+		</if>
 		ORDER BY qnaAnswer DESC
 	</select>
 	
 	<!-- 댓글의 답글 개수 -->
-	<select id="replyCount" parameterType="map" resultType="Integer">
+	<select id="qnaAReplyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
-		FROM QnaReply
-		WHERE qnaAnswer = #{qnaAnswer}
+		FROM qnaReply
+		WHERE qnaReply = #{qnaReply}
+		<if test="memberShip lt 51">
+			AND ( showReply=1 OR ( showReply=0 AND r.memberNo=#{memberNo} ) )
+		</if>
 	</select>
-	
 </mapper>

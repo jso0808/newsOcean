@@ -20,18 +20,19 @@
 				<div class='reply-menu'>
 					<c:choose>
 						<c:when test="${sessionScope.member.memberNo==vo.memberNo}">
-							<div class='deleteReplyAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-qnaReply='${vo.qnaReply}'>삭제</div>
+							<div class='deleteReply reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-qnaReply='${vo.qnaReply}'>삭제</div>
 						</c:when>
 						<c:when test="${sessionScope.member.memberShip > 50 }">
-							<div class='deleteReplyAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-qnaReply='${vo.qnaReply}'>삭제</div>
+							<div class='deleteReply reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-qnaReply='${vo.qnaReply}'>삭제</div>
+							<div class='blockReply reply-menu-item'>차단</div>
 						</c:when>
 					</c:choose>
 				</div>
 			</div>
 		</div>
-
-		<div class='p-2'>
-			${vo.qnaAContent}
+		
+		<div class='p-2 ${vo.showReply == 0 ? "text-primary text-opacity-50":""}'>
+			${vo.getQnaAContent}
 		</div>
 	</div>
 </c:forEach>
