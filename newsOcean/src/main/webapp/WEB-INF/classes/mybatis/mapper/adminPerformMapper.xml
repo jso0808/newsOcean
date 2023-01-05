@@ -2,114 +2,32 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminPerform">
-	<!-- 매출 내역 블럭 -->
-	<select id="listSales" resultType="com.sp.app.admin.perform.Perform">
-		SELECT subNo, m.memberNo, substart, subend, subtype, paid_amount, paid_at, firstmail, 
-			name, email
-		FROM subscript s
-		JOIN member m ON m.memberNo = s.memberNo
-		ORDER BY paid_at DESC
-	</select>
 	
-	<!-- 오늘 매출 -->
-	<select id="toady_sales" resultType="Integer">
-		SELECT NVL(SUM(paid_amount), 0) paid_amount
-		FROM subscript s
-		WHERE TO_CHAR(paid_at, 'YYYY-MM-DD') = TO_CHAR(sysdate, 'YYYY-MM-DD')
-	</select>
-	
-	<!-- 전일 대출 -->
-	<select id="yesterday_sales" resultType="Integer">
-		SELECT NVL(SUM(paid_amount), 0) paid_amount
-		FROM subscript s
-		WHERE TO_CHAR(paid_at, 'YYYY-MM-DD') = TO_CHAR(sysdate-1, 'YYYY-MM-DD')
-	</select>
-	
-	<!-- 이번달 매출 (1일부터 31일까지) -->
-	<select id="month_sales" resultType="Integer">
-		SELECT  
-		SUM(paid_amount) paid_amount
-		FROM subscript
-		WHERE  TO_CHAR(substart, 'YYYYMMDD') BETWEEN (TO_CHAR(TRUNC(SYSDATE,'MM'),'YYYYMMDD')) AND TO_CHAR((LAST_DAY(SYSDATE)),'YYYYMMDD')
-	</select>
-	
-	<select id="premonth_sales" resultType="Integer">
-		SELECT  
-		SUM(paid_amount) paid_amount
-		FROM subscript
-		WHERE  TO_CHAR(substart, 'YYYYMMDD') BETWEEN (TO_CHAR(TRUNC(ADD_MONTHS(SYSDATE, -1),'MM'),'YYYYMMDD')) AND TO_CHAR((LAST_DAY(ADD_MONTHS(SYSDATE, -1))),'YYYYMMDD')
-	</select>
-	
-	<!-- 연매출 목표 금액 -->
-	<select id="year_target" resultType="Integer">
-	SELECT golamount
-    FROM Sales_goals
-    WHERE TO_CHAR(golsdate, 'YYYY') = TO_CHAR(TRUNC(SYSDATE, 'YYYY'), 'YYYY')
-        AND TO_CHAR(goledate, 'YYYY') = TO_CHAR(TRUNC(SYSDATE, 'YYYY'), 'YYYY')
-	</select>
-	
-	<!-- 올해 전체 매출 -->
-	<select id="year_sales" resultType="Integer">
-	SELECT  
-		SUM(paid_amount) paid_amount
-	FROM subscript
-	WHERE  TO_CHAR(paid_at, 'YYYY') = TO_CHAR(TRUNC(SYSDATE, 'YYYY'), 'YYYY')
-	</select>
-	
-	<!-- 매출 목표 변경 -->
-	<update id="update_sales_goals" parameterType="Integer">
-		UPDATE Sales_goals SET golamount = #{golamount}
-			WHERE TO_CHAR(golsdate, 'YYYY') = TO_CHAR(TRUNC(SYSDATE, 'YYYY'), 'YYYY')
-	</update>
-	
-	
-	
-	
-	<!-- 리스트 랭킹 뉴스  -->
-	<select id="rank_newsHit" resultType="com.sp.app.admin.perform.Perform">
-		SELECT newsNo, title, hitCount, categoryNo FROM news
-	</select>
-	
-	<!-- 리스트 랭킹 - 뉴스 - 좋아요 -->
-	<select id="rank_newsLike" resultType="com.sp.app.admin.perform.Perform">
-		SELECT COUNT(*) dataLike, n.newsNo, title 
-		FROM newsLike l
-		JOIN news n ON n.newsNo =  l.newsNo 
-		GROUP BY title, n.newsNo
-		ORDER BY dataLike DESC
-	</select>
-	
-
-	<!-- 통계 -->
+	<!-- 통계  1 : 연간 세일-->
 	<select id="chart_sales" resultType="com.sp.app.admin.perform.Perform">
 	 SELECT SUM(paid_amount) sum_paid_amount, TO_CHAR(substart, 'YYYY-MM-DD')substart
         FROM subscript
-        WHERE TO_CHAR(substart, 'YYYY-MM-DD') >= TO_CHAR(SYSDATE-7, 'YYYY-MM-DD')
         GROUP BY TO_CHAR(substart, 'YYYY-MM-DD')
-        ORDER BY substart DESC
+        ORDER BY substart ASC
 	</select>
 	
-	<!-- 구독 회원 비율 : 비구독 회원 비율 -->
+	<!-- 통계  1 : 일자별 회원 가입자 -->
 	<select id="chart_member" resultType="com.sp.app.admin.perform.Perform">
-		SELECT Count(m.memberNo) dataMember, NVL(subtype, 0) subtype
-        FROM member m
-        LEFT OUTER JOIN subscript s ON s.memberNo = m.memberNo
-        GROUP BY subtype
+	 SELECT COUNT(memberNo) dataMember, TO_CHAR(joindate, 'YYYY-MM-DD') joindate
+        FROM member
+        GROUP BY TO_CHAR(joindate, 'YYYY-MM-DD')
+        ORDER BY joindate ASC
 	</select>
 	
-	<!-- 오늘 가입한 회원 수 -->
-	<select id="todayCount" resultType="Integer">
-		SELECT NVL(COUNT(*), 0) todayCount
-		FROM member 
-		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	<!-- 회원 리스트 가져오기 -->
+	<select id="list_member" parameterType="map" resultType="com.sp.app.admin.perform.Perform">
 	</select>
 	
-	<!-- 어제 가입자 수 -->
-	<select id="yesterdayCount" resultType="Integer">
-		SELECT NVL(COUNT(*), 0) todayCount
-		FROM member 
-		WHERE TO_CHAR(joindate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE-1, 'YYYY-MM-DD')
+	<!-- 매출 / 올해 매출 조회 -->
+	<select id="year_target" resultType="com.sp.app.admin.perform.Perform">
+		SELECT TO_CHAR(golsdate, 'YYYY') golsdate, golamount, goltype
+		FROM sales_goals
+		WHERE TO_CHAR(golsdate, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
 	</select>
-	
 	
 </mapper>

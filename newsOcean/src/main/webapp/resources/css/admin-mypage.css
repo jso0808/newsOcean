@@ -146,14 +146,15 @@
 	height: 40px;
 	text-align: center;
 	vertical-align: middle;
-	border-radius: 20px;
+	border-radius: 10px;
 	border: none;
 	font-size: 15px;
-	background: #eee;
+	background: #fff;
 	color: #595959;
 	font-family: 'line_font_r';
 	margin-top: 27px;
 	margin-bottom: 20px;
+	margin-right: 10px;
 	
 }
 
@@ -285,8 +286,8 @@
 }
 
 .update__form__design {
-	font-family: line_font_r;
-	background: #eee;
+	font-family: line_font_b;
+	background: #fff;
 	height: 30px;
 	padding-top:6px;
 	padding-left: 10px;
@@ -395,13 +396,13 @@
 	padding-left: 5px;
 	text-align: center;
 	padding-top: 5px;
-	color: #FF0066;
+	color: #000;
 	font-variant: 600;
 	font-family: 'line_font_b';
 }
 
 .admin__list__content__state {
-	background: #fff;
+	background: #004b81;
 	font-size: 13px;
 	padding-left: 5px;
 	text-align: center;
@@ -413,7 +414,7 @@
 	padding-left: 7px;
 	padding-right: 7px;
 	border-radius: 7px;
-	color: #595959;
+	color: #fff;
 	height: 36px;
 	font-family: 'line_font_b';
 	

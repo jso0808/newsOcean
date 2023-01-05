@@ -1,6 +1,7 @@
-package com.sp.app.admin.perform;
+package com.sp.app.admin.main;
 
-public class Perform {
+public class Main {
+	
 	private long subNo;
 	private String substart;
 	private String subend;
@@ -12,71 +13,8 @@ public class Perform {
 	private long memberNo;
 	private String name;
 	private String email;
-	private String joindate;
-	private String authority;
-	private String birth;
-	private String gender;
-	private String recentdate;
-	private String modifydate;
-	private String enabled;
-	private String state_en;
-	private String state_sub;
 	
-
-	public String getAuthority() {
-		return authority;
-	}
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
-	public String getBirth() {
-		return birth;
-	}
-	public void setBirth(String birth) {
-		this.birth = birth;
-	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public String getRecentdate() {
-		return recentdate;
-	}
-	public void setRecentdate(String recentdate) {
-		this.recentdate = recentdate;
-	}
-	public String getModifydate() {
-		return modifydate;
-	}
-	public void setModifydate(String modifydate) {
-		this.modifydate = modifydate;
-	}
-	public String getEnabled() {
-		return enabled;
-	}
-	public void setEnabled(String enabled) {
-		this.enabled = enabled;
-	}
-	public String getState_en() {
-		return state_en;
-	}
-	public void setState_en(String state_en) {
-		this.state_en = state_en;
-	}
-	public String getState_sub() {
-		return state_sub;
-	}
-	public void setState_sub(String state_sub) {
-		this.state_sub = state_sub;
-	}
-	public String getJoindate() {
-		return joindate;
-	}
-	public void setJoindate(String joindate) {
-		this.joindate = joindate;
-	}
+	
 	public long getSubNo() {
 		return subNo;
 	}
@@ -230,9 +168,6 @@ public class Perform {
 	public void setCategoryNo(int categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-	
-	
-	
 	
 	
 	

@@ -77,7 +77,7 @@ $(function(){
 		<li class="menu--item">
 			<a href="${pageContext.request.contextPath}/admin" class="menu--link" title="Home">
 				<i class="menu--icon  fa-fw fa-solid fa-house"></i>
-				<span class="menu--label">Home</span>
+				<span class="menu--label">HOME</span>
 			</a>
 		</li>
 
@@ -88,13 +88,10 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin/perform/main" class="sub_menu--link">데이터 분석</a>
+					<a href="${pageContext.request.contextPath}/admin/perform/main_content" class="sub_menu--link">통계 - 사이트 전체</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">컨텐츠 통계</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">매출 통계</a>
+					<a href="${pageContext.request.contextPath}/admin/perform/main_sales" class="sub_menu--link">통계 - 매출</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="#" class="sub_menu--link">실시간 검색어</a>

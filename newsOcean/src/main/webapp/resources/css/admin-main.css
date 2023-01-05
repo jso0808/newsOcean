@@ -91,21 +91,11 @@
 
 .perform__title2 {
 	color: #595959;
-	font-size: 18px;
+	font-size: 16px;
 	font-family: line_font_b;
 	margin-left: 30px;
 	margin-bottom: 20px;
 	margin-top: 40px;
-}
-
-.perform__title3 {
-	color: #595959;
-	font-size: 18px;
-	font-family: line_font_b;
-	margin-left: 30px;
-	margin-bottom: -10px;
-	margin-top: 40px;
-	
 }
 
 
@@ -137,49 +127,82 @@
 
 .chart-1 {
 	background: #fff;
-	width: 920px;
+	width: 800px;
 	margin-left: 40px;
 	border-radius: 20px;
-	height: 340px;
-	padding-left: -130px;
-	padding-right: -150px;
-	padding-top: 25px;
-	
-}
-
-.chart-1_sales {
-	background: #fff;
-	width: 1300px;
-	margin-left: 40px;
-	border-radius: 20px;
-	height: 340px;
-	padding-left: -130px;
-	padding-right: -150px;
-	padding-top: 25px;
+	height: 300px;
+	padding-top: 30px;
+	padding-left: 40px;
 }
 
 .chart-2 {
+	margin-left: 30px;
 	background: #fff;
-	width: 350px;
-	margin-left: 40px;
+	width: 480px;
 	border-radius: 20px;
-	height: 340px;
-	padding-top: 25px;
+	height: 300px;
+	padding-top: 20px;
+	padding-left: 30px;
 	
 }
 
-.sales__table {
-	background: #fff;
-	width: 1320px;
-	margin-left: 40px;
-	border-radius: 5px;
-	height: 490px;
-	padding-top: 30px;
-	padding-left: 40px;
-	margin-top: 37px;
-	margin-bottom: 40px;
+
+.sales-1 {
+	margin-left: 30px;
+	background: 	none;
+	width: 320px;
+	height: 300px;
+	overflow: scroll;
+	margin-bottom:20px;
+	padding-bottom:20px;
+	
+	-ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none;
 	
 }
+
+.sales-1::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+/*매출 내역 블록*/
+.sales_block {
+	background: #fff;
+	width: 105%;
+	height: 65px;
+	margin-bottom:15px;
+	border-radius: 7px;
+	font-size: 11px;
+	padding-left: 20px;
+	padding-top: 10px;
+	border-top: 2px solid 		#004b81	;
+	cursor: pointer;
+	color: #595959;
+	margin-left: -5px;
+	
+}
+
+.sales_block:hover {
+	transform: scale(1.01);
+	transition: .5s;
+}
+
+
+
+.more__sales {
+	background: #004b81;
+	margin-left: 10px;
+	border: none;
+	font-size: 12px;
+	color: 	#fff;
+	font-family: 'line_font_b';
+	width: 60px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+
+}
+
 
 
 /*도넛 차트*/
@@ -346,131 +369,3 @@ span.center{
 	
 }
 
-.hit__title {
-	font-family: 'line_font_b';	
-	margin-left: 550px;
-	display: inline-block;
-}
-
-/*테이블 출력 리스트*/
-.tb__area {
-	width: 650px; 
-	margin-left: 30px; 
-	margin-top: 30px;
-}
-
-.tb__area2 {
-	width: 650px; 
-	margin-left: 30px; 
-	margin-top: 30px;
-}
-
-/*매출 테이블은 전체사이즈*/
-.tb__area__sales {
-	width: 1320px; 
-	margin-left: 30px; 
-	margin-top: 30px;
-	
-}
-
-
-.tb__border {
-	border: 1px solid #a0a0a0;
-}
-
-.tb__font td {
-	font-size: 11px;
-	background: #fff;
-	border-right: 0.5px solid #C0C0C0;
-}
-
-.tb__font:hover {
-	cursor: pointer;
-	background: #eee;
-	transition: 0.3s;
-}
-
-.tb__font__title th {
-	font-family: 'line_font_b';
-	color: #fff;
-
-}
-
-
-/*인쇄버튼*/
-
-.more__sales {
-	background: #004b81;
-	margin-left: 15px;
-	border: none;
-	font-size: 12px;
-	color: 	#fff;
-	font-family: 'line_font_b';
-	width: 94px;
-	padding-right: 4px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	vertical-align: middle;
-
-}
-
-.more__sales__large {
-	background: #004b81;
-	margin-left: 15px;
-	border: none;
-	font-size: 12px;
-	color: 	#fff;
-	font-family: 'line_font_b';
-	width: 122px;
-	padding-right: 4px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-	vertical-align: middle;
-	
-}
-
-.modal__main__btn {
-	border: none;
-	background: #004b81;
-	border-radius: 4px;
-	width: 100px;
-	height: 30px;
-	color: #fff;
-	font-family: 'line_font_b';
-	font-size: 13px;
-	margin-bottom: 10px;
-	
-}
-
-.modal__main__btn2 {
-	border: none;
-	background: #ffcc44;
-	border-radius: 4px;
-	width: 90px;
-	height: 30px;
-	color: #fff;
-	font-family: 'line_font_b';
-	font-size: 13px;
-	margin-bottom: 10px;
-	margin-right: 8px;
-	
-}
-
-.modal_table_title th {
-	font-family: 'line_font_b';
-	
-}
-
-.new_title {
-	font-family: 'line_font_b';
-	margin-left: 20px;
-}
-
-.new_input {
-	height: 30px;
-	border-radius: 5px;
-	border: 1px solid #595959;
-	padding-left: 7px;
-	margin-left: 10px;
-	
-}
