@@ -1,5 +1,7 @@
 package com.sp.app.sub.mail;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.app.common.MyUtil;
-import com.sp.app.member.SessionInfo;
 import com.sp.app.sub.Subscript;
 
 @Controller("mail.mailController")
@@ -42,19 +43,28 @@ public class MailController {
 		return "sub/mail/guideForm";
 	}
 	
-	@RequestMapping(value="listSendMail", method=RequestMethod.GET)
+	@RequestMapping(value="listSendMail")
 	public String listSendMail(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(value = "size", defaultValue = "5") int size,
 			HttpServletRequest req,
 			Model model, 
 			HttpSession session) throws Exception {
 		
-		int size = 5;
 		int total_page = 0;
 		int dataCount = 0;
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			keyword = URLDecoder.decode(keyword, "UTF-8");
+		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		dataCount = service.dataCount(map);
 		
 		// 전체 페이지 수 카운트
 		if(dataCount != 0) {
@@ -75,16 +85,28 @@ public class MailController {
 		map.put("offset", offset);
 		map.put("size", size);
 		
-		List<Mail> list = null;
+		List<Mail> list = service.listSendMail();
 		
-		/*
-		 * <td>${dto.submailNo}</td>
-			<td>${dto.subject}</td>
-			<td>${dto.senderEmail}</td>
-			<td>${dto.sendDate}</td>
-			<td>${cnt}</td>
-		 * 
-		 */
+		String cp = req.getContextPath();
+		String query = "size="+size;
+		String listUrl = cp + "/sub/mail/listSendMail";
+		String articleUrl = cp + "/sub/mail/article?page="+current_page;
+		
+		if (keyword.length() != 0) {
+			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+		listUrl += "?" + query;
+		articleUrl += "&" + query;
+		
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("size", size);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		model.addAttribute("articleUrl", articleUrl);
 		
 		return ".sub.mail.listSendMail";
 	}
@@ -143,5 +165,19 @@ public class MailController {
 			return "redirect:/";
 		
 		return ".sub.mail.sendComplete";
+	}
+	
+	@RequestMapping(value="article")
+	public String article(
+			@RequestParam(value="mailNo") long mailNo,
+			Model model) throws Exception {
+		
+		Mail mail = service.findByMailInfo(mailNo);
+		int cnt = service.findBySubMailCount(mailNo);
+		
+		model.addAttribute("dto", mail);
+		model.addAttribute("cnt", cnt);
+		
+		return ".sub.mail.article";
 	}
 }
