@@ -1,12 +1,15 @@
 package com.sp.app.news;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -302,8 +305,10 @@ public class NewsController {
 	// AJAX-JSON: 뉴스 댓글 신고하기
 	@RequestMapping(value = "replyComplain")
 	@ResponseBody
-	public Map<String, Object> replyComplain(
+	public void replyComplain(
 			@RequestParam(value = "replyNo") long replyNo,
+			@RequestParam(value = "complain") String complain,
+			HttpServletResponse resp,
 			HttpSession session) throws Exception {
 		
 		// 파라미터로 이용할 map
@@ -312,34 +317,44 @@ public class NewsController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String state = "false";
+		// 신고 처리 여부 메시지를 저장할 변수
+		String msg = "";
 		
-		// 해당 댓글을 이전에 신고한 데이터가 존재하는지 확인
-		paramMap.put("memberNo", info.getMemberNo());
-		paramMap.put("replyNo", replyNo);
-		boolean userReplyComplain = service.userReplyComplain(paramMap);
-		
-		// 신고 내역이 존재하면 return
-		if(userReplyComplain) {
-			model.put("userReplyComplain", userReplyComplain); // true
-			return model;
+		try {
+			// 해당 댓글을 이전에 신고한 데이터가 존재하는지 확인
+			paramMap.put("memberNo", info.getMemberNo());
+			paramMap.put("replyNo", replyNo);
+			boolean userReplyComplain = service.userReplyComplain(paramMap);
+			
+			// 신고 내역이 존재하면
+			if(userReplyComplain) {
+				msg = "이미 신고한 댓글입니다."; 
+			} else { // 신고 내역이 없으면 
+				// 신고 데이터 추가하기
+				paramMap.put("complain", complain);
+				service.insertReplyComplain(paramMap);
+				msg = "신고 처리가 완료되었습니다.";
+			}
+			System.out.println(msg);
+			// 해당 댓글의 신고 건 수가 3회 이상이면 댓글 숨김 처리
+			int complainCount = service.complainCount(replyNo);
+			if(complainCount >= 3) {
+				service.updateReplyHide(replyNo);
+			}
+			state = "true";
+		} catch (Exception e) {
 		}
 		
-		// 신고 데이터 추가하기
-		service.insertReplyComplain(paramMap);
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		job.put("msg", msg);
 		
-		// 해당 댓글의 신고 건 수가 3회 이상이면 댓글 숨김 처리
-		int complainCount = service.complainCount(replyNo);
-		if(complainCount >= 3) {
-			service.updateReplyHide(replyNo);
-		}
+		// 한글 깨짐 방지를 위한 인코딩
+		resp.setContentType("text/html; charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		// json 객체를 문자열로 변환
+		out.print(job.toString());
 		
-		// 
-		state = "true";
-		
-		model.put("userReplyComplain", userReplyComplain); // false
-		model.put("state", state); // true
-		
-		return model;
 	}
 	
 }

@@ -178,7 +178,7 @@ public class NewsServiceImpl implements NewsService{
 		boolean complain = false;
 		
 		try {
-			Reply dto = dao.selectOne("news.userReplyComplain", map);
+			Complain dto = dao.selectOne("news.userReplyComplain", map);
 			// 신고했던 데이터가 존재하면
 			if(dto != null) {
 				complain = true;

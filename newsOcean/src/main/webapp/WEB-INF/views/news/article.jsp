@@ -231,63 +231,48 @@ $(function(){
 	});
 });
 
+// 댓글 신고하기: 신고 버튼 클릭 시 신고 내용 작성 모달(complainModal) 띄우기
 $(function() {
 	$("body").on("click", ".complainReply", function(){
 		let replyNo = $(this).attr("data-replyNo");
 		
-		let msg = "댓글을 신고하시겠습니까 ? ";
-		if(! confirm(msg)) {
-			return false;
-		}
+		// 모달 내부 input 데이터에 replyNo 넣어주기
+		$("#complainReplyNo").attr("value", replyNo);
+		// 신고 내용 작성 모달 show
+		$("#complainModal").modal("show");
 		
-		let url = "${pageContext.request.contextPath}/news/replyComplain";
-		let query = "replyNo=" + replyNo;
-		
-		const fn = function(data){
-			let state = data.state;
-			if(state === "true") {
-				alert("신고 처리가 완료되었습니다.");
-			} else {
-				if(data.userReplyComplain) {
-					alert("이미 신고한 댓글입니다.");
-					return;
-				} else {
-					alert("신고 처리에 실패했습니다.");
-				}
-				
-			}
-		};
-		
-		ajaxFun(url, "post", query, "json", fn);
 	});
 })
 
-// 댓글 신고 replyComplain  "complainModal"
+// 댓글 신고하기: 작성한 신고 내역 보내기
 $(function(){
 	$("body").on("click", ".btnComplainSubmit", function(){
-		let replyNo = $(this).attr("data-replyNo");
+		let replyNo = $("#complainReplyNo").val();
+		let complain = $("#complain").val();
 		
 		let msg = "댓글을 신고하시겠습니까 ? ";
 		if(! confirm(msg)) {
 			return false;
 		}
 		
+		if(! complain) {
+			alert("신고 내용을 작성해주세요.");
+			return;
+		}
+		
 		let url = "${pageContext.request.contextPath}/news/replyComplain";
-		let query = "replyNo=" + replyNo;
+		let query = "replyNo=" + replyNo + "&complain=" + complain;
 		
 		const fn = function(data){
 			let state = data.state;
 			if(state === "true") {
-				alert("신고 처리가 완료되었습니다.");
+				alert(data.msg);
 			} else {
-				if(data.userReplyComplain) {
-					alert("이미 신고한 댓글입니다.");
-					return;
-				} else {
-					alert("신고 처리에 실패했습니다.");
-				}
-				
+				alert("신고 처리에 실패했습니다.");
 			}
+			// 처리 완료 후 모달창 닫기
+			$("#complain").attr("value", "");
+			$("#complainModal").modal("hide");
 		};
 		
 		ajaxFun(url, "post", query, "json", fn);
@@ -419,6 +404,7 @@ $(function(){
 			      </div>
 			      <div class="modal-body">
 			        <input type="text" class="form-control" name="complain" id="complain" placeholder="신고 사유">
+			        <input type="hidden" id="complainReplyNo" value="">
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

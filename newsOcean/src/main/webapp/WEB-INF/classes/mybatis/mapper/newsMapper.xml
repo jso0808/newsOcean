@@ -79,12 +79,12 @@
 	</select>
 	
 	<update id="updateReplyHide" parameterType="Long">
-		UPDATE complain SET showHide = -1 WHERE replyNo=#{replyNo}
+		UPDATE newsReply SET showHide = -1 WHERE replyNo=#{replyNo}
 	</update>
 	
 	<insert id="insertReplyComplain" parameterType="com.sp.app.news.Complain">
 		INSERT INTO complain(complainNo, memberNo, complain, complainDate, replyNo) 
-			VALUES(compltainNo_seq.NEXTVAL, #{memberNo}, #{complain}, sysdate, 
+			VALUES(complainNo_seq.NEXTVAL, #{memberNo}, #{complain}, sysdate, 
 				#{replyNo})
 	</insert>
 	
