@@ -8,6 +8,7 @@ public class QnaReply {
 	private String qnaAContent;
 	private String qnaARegdate;
 	private String qnaReply;
+	private int showReply;
 	
 	private int qnaAReplyCount;
 
@@ -67,6 +68,14 @@ public class QnaReply {
 		this.qnaReply = qnaReply;
 	}
 
+	public int getShowReply() {
+		return showReply;
+	}
+
+	public void setShowReply(int showReply) {
+		this.showReply = showReply;
+	}
+
 	public int getQnaAReplyCount() {
 		return qnaAReplyCount;
 	}
@@ -75,5 +84,5 @@ public class QnaReply {
 		this.qnaAReplyCount = qnaAReplyCount;
 	}
 
-	
+
 }

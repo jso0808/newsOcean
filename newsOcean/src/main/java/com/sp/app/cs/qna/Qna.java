@@ -11,7 +11,6 @@ public class Qna {
 	
 	private int replyCount;
 	
-
 	public long getQnaNo() {
 		return qnaNo;
 	}
@@ -24,15 +23,15 @@ public class Qna {
 	public void setMemberNo(long memberNo) {
 		this.memberNo = memberNo;
 	}
-	public String getQnaSubject() {
-		return qnaSubject;
-	}
 
 	public String getNickName() {
 		return nickName;
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+	public String getQnaSubject() {
+		return qnaSubject;
 	}
 	public void setQnaSubject(String qnaSubject) {
 		this.qnaSubject = qnaSubject;

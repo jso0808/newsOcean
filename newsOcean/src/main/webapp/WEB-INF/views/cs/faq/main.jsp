@@ -4,10 +4,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style type="text/css">
+
 .body-container {
-	max-width: 800px;
+	margin:0 auto;
+	max-width: 1000px;
+	display: flex;
+	flex-direction: column;
+}
+
+</style>
+
+<style>
+@font-face {
+  font-family: 'line_font_b';
+  font-style: normal;
+  font-weight: 800;
+  src: url("${pageContext.request.contextPath}/resources/css/LINESeedKR-Bd.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'line_font_r';
+  font-style: normal;
+  font-weight: 800;
+  src: url("${pageContext.request.contextPath}/resources/css/LINESeedKR-Rg.ttf") format('truetype');
 }
 </style>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 
@@ -105,10 +127,10 @@ function deleteFaq(faqNo, page) {
 }
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-question-octagon"></i> 자주하는 질문 </h3>
+			<h3>자주하는 질문 </h3>
 		</div>
 		
 	    <div class="alert alert-info" role="alert">

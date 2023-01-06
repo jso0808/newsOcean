@@ -3,6 +3,7 @@ package com.sp.app.cs.qna;
 import java.util.List;
 import java.util.Map;
 
+
 public interface QnaService {
 	public void insertQna(Qna dto, String pathname) throws Exception;
 	public List<Qna> listQna(Map<String, Object> map);
@@ -16,12 +17,11 @@ public interface QnaService {
 	
 	public void insertAnswer(QnaReply dto) throws Exception;
 	public List<QnaReply> listAnswer(Map<String, Object> map);
-	public int answerCount(Map<String, Object> map);
+	public int replyCount(Map<String, Object> map);
 	public void deleteAnswer(Map<String, Object> map) throws Exception;
 	
 	public List<QnaReply> listReply(Map<String, Object> map);
-	public int replyCount(Map<String, Object> map);
-	
+	public int qnaAReplyCount(Map<String, Object> map);
 }
 
 

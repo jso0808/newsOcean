@@ -39,23 +39,28 @@ public class MailController {
 	
 	@GetMapping(value="guideForm")
 	public String guideForm(Model model) throws Exception {
-		
 		return "sub/mail/guideForm";
 	}
 	
 	@RequestMapping(value="listSendMail")
 	public String listSendMail(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(value = "condition", defaultValue = "all") String condition,
+			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "size", defaultValue = "5") int size,
 			HttpServletRequest req,
 			Model model, 
 			HttpSession session) throws Exception {
 		
+		System.out.println("*******************");
+		System.out.println(condition);
+		System.out.println(keyword);
+		System.out.println("*******************");
+		
 		int total_page = 0;
 		int dataCount = 0;
 		
+		// GET 방식인 경우
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			keyword = URLDecoder.decode(keyword, "UTF-8");
 		}
@@ -85,7 +90,7 @@ public class MailController {
 		map.put("offset", offset);
 		map.put("size", size);
 		
-		List<Mail> list = service.listSendMail();
+		List<Mail> list = service.listSendMail(map);
 		
 		String cp = req.getContextPath();
 		String query = "size="+size;
@@ -95,8 +100,11 @@ public class MailController {
 		if (keyword.length() != 0) {
 			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
-		listUrl += "?" + query;
-		articleUrl += "&" + query;
+		
+		if (query.length() != 0) {
+			listUrl += "&" + query;
+			articleUrl += "&" + query;
+		}
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 		
@@ -173,10 +181,13 @@ public class MailController {
 			Model model) throws Exception {
 		
 		Mail mail = service.findByMailInfo(mailNo);
-		int cnt = service.findBySubMailCount(mailNo);
+		
+		Mail preMail = service.preFindByMailInfo(mailNo);
+		Mail nextMail = service.nextFindByMailInfo(mailNo);
 		
 		model.addAttribute("dto", mail);
-		model.addAttribute("cnt", cnt);
+		model.addAttribute("preDto", preMail);
+		model.addAttribute("nextDto", nextMail);
 		
 		return ".sub.mail.article";
 	}

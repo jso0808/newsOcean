@@ -69,21 +69,21 @@ function listPage(page) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-// 리플 등록
+// 댓글 등록
 $(function(){
-	$(".btnSendReply").click(function(){
+	$(".btnSendAnswer").click(function(){
 		let qnaNo = "${dto.qnaNo}";
 		const $tb = $(this).closest("table");
 
-		let qnaAContent = $tb.find("textarea").val().trim();
-		if(! qnaAContent) {
+		let qnaContent = $tb.find("textarea").val().trim();
+		if(! qnaContent) {
 			$tb.find("textarea").focus();
 			return false;
 		}
-		qnaAContent = encodeURIComponent(qnaAContent);
+		qnaContent = encodeURIComponent(qnaContent);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaAContent=" + qnaAContent + "&qnaReply=0";
+		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaReply=0";
 		
 		const fn = function(data){
 			$tb.find("textarea").val("");
@@ -124,7 +124,7 @@ $(function(){
 
 // 댓글 삭제
 $(function(){
-	$("body").on("click", ".deleteQnaAnswer", function(){
+	$("body").on("click", ".deleteAnswer", function(){
 		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
 		    return false;
 		}
@@ -132,8 +132,8 @@ $(function(){
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
 		let page = $(this).attr("data-pageNo");
 		
-		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
-		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaAnswer";
+		let url = "${pageContext.request.contextPath}/cs/qna/deleteAnswer";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=answer";
 		
 		const fn = function(data){
 			// let state = data.state;
@@ -145,10 +145,10 @@ $(function(){
 });
 
 // 댓글별 답글 리스트
-function listReply(qnaAnswer) {
+function listReply(qnaReply) {
 	let url = "${pageContext.request.contextPath}/cs/qna/listReply";
-	let query = "qnaAnswer=" + qnaAnswer;
-	let selector = "#listReply" + qnaAnswer;
+	let query = "qnaReply=" + qnaReply;
+	let selector = "#listReply" + qnaReply;
 	
 	const fn = function(data){
 		$(selector).html(data);
@@ -157,22 +157,22 @@ function listReply(qnaAnswer) {
 }
 
 // 댓글별 답글 개수
-function qnaAReplyCount(qnaAnswer) {
-	let url = "${pageContext.request.contextPath}/cs/qna/qnaAReplyCount";
-	let query = "qnaAnswer=" + qnaAnswer;
+function countReply(qnaReply) {
+	let url = "${pageContext.request.contextPath}/cs/qna/countReply";
+	let query = "qnaReply=" + qnaReply;
 	
 	const fn = function(data){
 		let count = data.count;
-		let selector = "#answerCount"+qnaAnswer;
+		let selector = "#qnaAReplyCount"+qnaReply;
 		$(selector).html(count);
 	};
 	
 	ajaxFun(url, "post", query, "json", fn);
 }
 
-//답글 버튼(댓글별 답글 등록폼 및 답글리스트)
+// 답글 버튼(댓글별 답글 등록폼 및 답글리스트)
 $(function(){
-	$("body").on("click", ".btnReplyAnswerLayout", function(){
+	$("body").on("click", ".btnReplyLayout", function(){
 		const $trReplyAnswer = $(this).closest("tr").next();
 		// const $trReplyAnswer = $(this).parent().parent().next();
 		// const $answerList = $trReplyAnswer.children().children().eq(0);
@@ -197,7 +197,7 @@ $(function(){
 
 // 댓글별 답글 등록
 $(function(){
-	$("body").on("click", ".btnSendReplyAnswer", function(){
+	$("body").on("click", ".btnSendReply", function(){
 		let qnaNo = "${dto.qnaNo}";
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
 		const $td = $(this).closest("td");
@@ -228,7 +228,7 @@ $(function(){
 
 // 댓글별 답글 삭제
 $(function(){
-	$("body").on("click", ".deleteQnaAnswer", function(){
+	$("body").on("click", ".deleteReply", function(){
 		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
 		    return false;
 		}
@@ -236,8 +236,8 @@ $(function(){
 		let qnaAnswer = $(this).attr("data-qnaAnswer");
 		let qnaReply = $(this).attr("data-qnaReply");
 		
-		let url = "${pageContext.request.contextPath}/cs/qna/deleteQnaAnswer";
-		let query = "qnaAnswer=" + qnaReply + "&mode=qnaReply";
+		let url = "${pageContext.request.contextPath}/cs/qna/deleteAnswer";
+		let query = "qnaAnswer=" + qnaAnswer + "&mode=qnaReply";
 		
 		const fn = function(data){
 			listReply(qnaReply);
@@ -247,12 +247,13 @@ $(function(){
 		ajaxFun(url, "post", query, "json", fn);
 	});
 });
+
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> 게시판 </h3>
+			<h3><i class="bi bi-app"></i> QNA </h3>
 		</div>
 		
 		<div class="body-main">
@@ -269,7 +270,7 @@ $(function(){
 				<tbody>
 					<tr>
 						<td width="50%">
-							닉네임 : ${dto.nickName}
+							이름 : ${dto.nickName}
 						</td>
 						<td align="right">
 							${dto.qnaRegdate} | 조회 ${dto.qnaHit}
@@ -285,16 +286,16 @@ $(function(){
 					<tr>
 						<td colspan="2">
 							이전글 :
-							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/cs/qna/article?${query}&qnaNo=${preReadDto.qnaNo}">${preReadDto.qnaSubject}</a>
+							<c:if test="${not empty preReadQna}">
+								<a href="${pageContext.request.contextPath}/cs/qna/article?${query}&qnaNo=${preReadQna.qnaNo}">${preReadQna.qnaSubject}</a>
 							</c:if>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							다음글 :
-							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/cs/qna/article?${query}&qnaNo=${nextReadDto.qnaNo}">${nextReadDto.qnaSubject}</a>
+							<c:if test="${not empty nextReadQna}">
+								<a href="${pageContext.request.contextPath}/cs/qna/article?${query}&qnaNo=${nextReadQna.qnaNo}">${nextReadQna.qnaSubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -337,12 +338,12 @@ $(function(){
 					<table class="table table-borderless reply-form">
 						<tr>
 							<td>
-								<textarea class='form-control' name="content"></textarea>
+								<textarea class='form-control' name="qnaAContent"></textarea>
 							</td>
 						</tr>
 						<tr>
 						   <td align='right'>
-						        <button type='button' class='btn btn-light btnSendReply'>댓글 등록</button>
+						        <button type='button' class='btn btn-light btnSendAnswer'>댓글 등록</button>
 						    </td>
 						 </tr>
 					</table>

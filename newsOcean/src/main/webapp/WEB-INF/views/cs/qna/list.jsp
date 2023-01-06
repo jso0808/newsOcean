@@ -44,10 +44,10 @@ function searchList() {
 }
 </script>
 
-<div class="container">
+<div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> Qna </h3>
+			<h3><i class="bi bi-app"></i> QNA </h3>
 		</div>
 		
 		<div class="body-main">
@@ -55,6 +55,9 @@ function searchList() {
 	        <div class="row board-list-header">
 	            <div class="col-auto me-auto dataCount">
 	            </div>
+	            <div class="col text-end">
+					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/qna/write';">질문하기</button>
+				</div>
 	            <div class="col-auto">&nbsp;</div>
 	        </div>				
 			
@@ -118,9 +121,7 @@ function searchList() {
 						</div>
 					</form>
 				</div>
-				<div class="col text-end">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/cs/qna/write';">글올리기</button>
-				</div>
+		
 			</div>
 
 		</div>
