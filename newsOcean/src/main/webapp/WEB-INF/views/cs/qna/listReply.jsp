@@ -32,7 +32,7 @@
 		</div>
 		
 		<div class='p-2 ${vo.showReply == 0 ? "text-primary text-opacity-50":""}'>
-			${vo.getQnaAContent}
+			${vo.qnaAContent}
 		</div>
 	</div>
 </c:forEach>

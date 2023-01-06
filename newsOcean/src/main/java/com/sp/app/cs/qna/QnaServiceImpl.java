@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sp.app.common.dao.CommonDAO;
 
-@Service("cs.QnaService")
+@Service("cs.qna.QnaService")
 public class QnaServiceImpl implements QnaService {
 	@Autowired
 	private CommonDAO dao;
@@ -149,11 +149,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int replyCount(Map<String, Object> map) {
+	public int answerCount(Map<String, Object> map) {
 		int result = 0;
 		
 		try {
-			result = dao.selectOne("cs.qna.replyCount", map);
+			result = dao.selectOne("cs.qna.answerCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

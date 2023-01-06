@@ -7,7 +7,7 @@ public class QnaReply {
 	private String nickName;
 	private String qnaAContent;
 	private String qnaARegdate;
-	private String qnaReply;
+	private long qnaReply;
 	private int showReply;
 	
 	private int qnaAReplyCount;
@@ -60,11 +60,11 @@ public class QnaReply {
 		this.qnaARegdate = qnaARegdate;
 	}
 
-	public String getQnaReply() {
+	public long getQnaReply() {
 		return qnaReply;
 	}
 
-	public void setQnaReply(String qnaReply) {
+	public void setQnaReply(long qnaReply) {
 		this.qnaReply = qnaReply;
 	}
 
@@ -83,6 +83,4 @@ public class QnaReply {
 	public void setQnaAReplyCount(int qnaAReplyCount) {
 		this.qnaAReplyCount = qnaAReplyCount;
 	}
-
-
 }

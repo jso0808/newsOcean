@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class='reply-info'>
-	<span class='reply-count'>댓글 ${replyCount}개</span>
+	<span class='reply-count'>댓글 ${answerCount}개</span>
 	<span>[목록, ${pageNo}/${total_page} 페이지]</span>
 </div>
 
@@ -36,7 +36,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan='2' valign='top' class="${vo.showReply == 0 ? 'text-primary text-opacity-50':''}">${vo.getQnaAContent}</td>
+			<td colspan='2' valign='top' class="${vo.showReply == 0 ? 'text-primary text-opacity-50':''}">${vo.qnaAContent}</td>
 		</tr>
 
 		<tr>

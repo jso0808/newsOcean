@@ -17,7 +17,7 @@ public interface QnaService {
 	
 	public void insertAnswer(QnaReply dto) throws Exception;
 	public List<QnaReply> listAnswer(Map<String, Object> map);
-	public int replyCount(Map<String, Object> map);
+	public int answerCount(Map<String, Object> map);
 	public void deleteAnswer(Map<String, Object> map) throws Exception;
 	
 	public List<QnaReply> listReply(Map<String, Object> map);

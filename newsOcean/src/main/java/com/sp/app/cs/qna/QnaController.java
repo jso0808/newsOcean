@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
-@Controller("cs.QnaController")
+@Controller("cs.qna.QnaController")
 @RequestMapping("/cs/qna/*")
 public class QnaController {
 	@Autowired
@@ -218,7 +218,7 @@ public class QnaController {
 		
 		int size = 5;
 		int total_page = 0;
-		int dataCount = 0;
+		int answerCount = 0;
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("qnaNo", qnaNo);
@@ -228,8 +228,8 @@ public class QnaController {
 		
 		map.put("qnaNo", qnaNo);
 
-		dataCount = service.replyCount(map);
-		total_page = myUtil.pageCount(dataCount, size);
+		answerCount = service.answerCount(map);
+		total_page = myUtil.pageCount(answerCount, size);
 		if (current_page > total_page) {
 			current_page = total_page;
 		}
@@ -252,7 +252,7 @@ public class QnaController {
 		// 포워딩할 jsp로 넘길 데이터
 		model.addAttribute("listAnswer", list);
 		model.addAttribute("pageNo", current_page);
-		model.addAttribute("replyCount", dataCount);
+		model.addAttribute("answerCount", answerCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
 

@@ -135,7 +135,7 @@
 		VALUES (QnaReply_seq.NEXTVAL, #{qnaNo}, #{memberNo}, #{qnaAContent}, #{qnaReply}, 1, SYSDATE)
 	</insert>
 
-	<select id="replyCount" parameterType="map" resultType="Integer">
+	<select id="answerCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM qnaReply
 		WHERE qnaNo=#{qnaNo} AND qnaReply=0

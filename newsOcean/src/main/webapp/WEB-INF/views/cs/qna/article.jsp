@@ -75,15 +75,15 @@ $(function(){
 		let qnaNo = "${dto.qnaNo}";
 		const $tb = $(this).closest("table");
 
-		let qnaContent = $tb.find("textarea").val().trim();
-		if(! qnaContent) {
+		let qnaAContent = $tb.find("textarea").val().trim();
+		if(! qnaAContent) {
 			$tb.find("textarea").focus();
 			return false;
 		}
-		qnaContent = encodeURIComponent(qnaContent);
+		qnaAContent = encodeURIComponent(qnaAContent);
 		
 		let url = "${pageContext.request.contextPath}/cs/qna/insertAnswer";
-		let query = "qnaNo=" + qnaNo + "&qnaContent=" + qnaContent + "&qnaReply=0";
+		let query = "qnaNo=" + qnaNo + "&qnaAContent=" + qnaAContent + "&qnaReply=0";
 		
 		const fn = function(data){
 			$tb.find("textarea").val("");
@@ -145,10 +145,10 @@ $(function(){
 });
 
 // 댓글별 답글 리스트
-function listReply(qnaReply) {
+function listReply(qnaAnswer) {
 	let url = "${pageContext.request.contextPath}/cs/qna/listReply";
-	let query = "qnaReply=" + qnaReply;
-	let selector = "#listReply" + qnaReply;
+	let query = "qnaReply=" + qnaAnswer;
+	let selector = "#listReply" + qnaAnswer;
 	
 	const fn = function(data){
 		$(selector).html(data);
@@ -157,13 +157,13 @@ function listReply(qnaReply) {
 }
 
 // 댓글별 답글 개수
-function countReply(qnaReply) {
-	let url = "${pageContext.request.contextPath}/cs/qna/countReply";
-	let query = "qnaReply=" + qnaReply;
+function qnaAReplyCount(qnaAnswer) {
+	let url = "${pageContext.request.contextPath}/cs/qna/qnaAReplyCount";
+	let query = "qnaReply=" + qnaAnswer;
 	
 	const fn = function(data){
 		let count = data.count;
-		let selector = "#qnaAReplyCount"+qnaReply;
+		let selector = "#qnaAReplyCount"+qnaAnswer;
 		$(selector).html(count);
 	};
 	
