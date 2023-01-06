@@ -1,15 +1,21 @@
 package com.sp.app.admin.main;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 //컬렉션 이름 - 정민
 @Document(collection = "realtime")
 public class Realtime {
-	@Id 
+
 	private String num;
 	private String keyword;
+	private String link;
 	
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
 	public String getNum() {
 		return num;
 	}

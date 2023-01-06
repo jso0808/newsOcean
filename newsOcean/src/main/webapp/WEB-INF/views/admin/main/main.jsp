@@ -229,7 +229,8 @@ $(function(){
 
 <!-- 본문 순위 rank / 1.조회수 순위 2.좋아요 순위 3.인기검색어 -->
 <div class="perform__title2" style="display: flex; justify-content:space-between;"> 
-	<span style="font-family: 'line_font_b'; margin-left: 10px;">금주 컨텐츠 랭킹</span>
+	<span style="font-family: 'line_font_b'; margin-left: 5px;">금주 컨텐츠 랭킹</span>
+	<span style="font-family: 'line_font_b'; margin-left: 120px; display: inline-block; margin-right: -330px;">실시간 인기 검색어 (네이트 뉴스)</span>
 	<span style="font-family: 'line_font_b'; margin-right: 230px;" >매출 내역<button class="more__sales" onclick="location.href='${pageContext.request.contextPath}/admin/perform/main_sales';">+ 더보기</button></span>
 	
 </div>
@@ -276,7 +277,7 @@ $(function(){
 		<c:forEach var="realtime" items="${realtime_rank}" varStatus="status">
 			<div class="rank1__block__area row">
 				<span class=" area__rank" style="width: 15px; margin-left: 20px; ">${realtime.num}</span>
-				<span class=" area__con" >${realtime.keyword}</span>
+				<span class=" area__con2" onclick="window.open('${realtime.link}', 'window_name', 'width=430, height=500, location=no, status=no, scrollbars=yes')">${realtime.keyword}</span>
 			</div>
 		</c:forEach>
 

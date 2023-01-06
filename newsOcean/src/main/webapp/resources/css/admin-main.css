@@ -369,3 +369,11 @@ span.center{
 	
 }
 
+.area__con2 {
+	width: 228px; 
+	margin-left: 7px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	
+}
