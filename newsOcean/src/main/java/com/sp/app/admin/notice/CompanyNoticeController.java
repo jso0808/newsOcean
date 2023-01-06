@@ -38,7 +38,7 @@ public class CompanyNoticeController {
 	
 	@RequestMapping(value = "main")
 	public String main() throws Exception {
-		return ".admin.notice.main";
+		return ".admin.notice.main"; 
 	}
 	
 	//AJAX - HTML
