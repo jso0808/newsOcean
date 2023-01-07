@@ -134,7 +134,7 @@ public class MailController {
 		int cnt = 0;
 		
 		// 시퀀스 현재값 가져오기
-		seq = service.sequenceSubMail();
+		seq = service.sequenceSubMail() + 1;
 		dto.setMailNo(seq);
 		
 		// 메일번호에 대한 메일 상세 정보 저장하기

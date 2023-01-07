@@ -20,7 +20,7 @@
 	</sql>
 
 	<select id="listSubscripter" resultType="com.sp.app.sub.Subscript">
-		SELECT subNo, email, s.memberNo, nickName, TO_CHAR(subStart,'YYYY-MM-DD') subStart, nickName 
+		SELECT subNo, email, s.memberNo, nickName, TO_CHAR(subStart,'YYYY-MM-DD') subStart, nickName,
 		TO_CHAR(subEnd,'YYYY-MM-DD') subEnd
 		FROM subscript s
 		JOIN member m ON m.memberNo = s.memberNo
