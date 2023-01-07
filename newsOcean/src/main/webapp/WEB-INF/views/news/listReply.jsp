@@ -42,19 +42,11 @@
 			<td class="td-content" colspan='2' valign='top'>${vo.content}</td>
 		</tr>
 	
-	    <tr class='reply-answer'>
-	        <td colspan='2'>
-	        	<div class='border rounded'>
-		            <div id='listReplyAnswer${vo.replyNo}' class='answer-list'></div>
-		            <div>
-		                <textarea class="form-control m-2"></textarea>
-		            </div>
-					<div class='text-end pe-2 pb-1'>
-						<button type='button' class='btn btn-light btnSendReplyAnswer' data-replyNo='${vo.replyNo}'>답글 등록</button>
-		            </div>
-	            </div>
+	    <tr>
+			<td align='right'>
+				<button type='button' class='btn btn-light btnSendReplyLike' data-replyNo='${vo.replyNo}' data-replyLike='1' title="좋아요"><i class="bi bi-hand-thumbs-up"></i> <span>${vo.likeCount}</span></button>
 			</td>
-	    </tr>
+		</tr>
 	</c:forEach>
 </table>
 

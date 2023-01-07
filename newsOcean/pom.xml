@@ -215,11 +215,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${org.springframework-version}</version>
-			<scope>test</scope>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>5.3.10</version>
+		    <scope>test</scope>
 		</dependency>
+
 		
 		<!-- ORACLE -->
 		<dependency>
@@ -402,6 +403,8 @@
 		    <version>2.5.2.RELEASE</version>
 		</dependency>
 		
+		<!-- 테스트 코드 -->
+
 		
 	</dependencies>
     <build>

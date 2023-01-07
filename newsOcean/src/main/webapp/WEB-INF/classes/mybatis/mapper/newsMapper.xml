@@ -36,9 +36,13 @@
 	</select>
 	
 	<select id="listReply" parameterType="map" resultType="com.sp.app.news.Reply">
-		SELECT replyNo, content, regDate, newsNo, nr.memberNo, nickName
+		SELECT nr.replyNo, content, regDate, newsNo, nr.memberNo, nickName, NVL(likeCount,0) likeCount
 		FROM newsReply nr
 		JOIN member m ON m.memberNo = nr.memberNo
+		LEFT OUTER JOIN (
+		    SELECT replyNo, COUNT(*) likeCount
+		    FROM newsReplyLike GROUP BY replyNo
+		) nrl ON nr.replyNo = nrl.replyNo
 		WHERE newsNo = #{newsNo}
 		ORDER BY replyNo
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
