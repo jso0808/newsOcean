@@ -15,7 +15,6 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 
 public class LoginFailureHandler implements AuthenticationFailureHandler{
@@ -28,7 +27,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
-		String userId = request.getParameter("userId");
+		String email = request.getParameter("userId");
 		
 		String s = "아이디 또는 패스워드가 일치하지 않습니다.";
 		
@@ -37,32 +36,20 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 				// 패스워드가 일치하지 않는 경우
 				
 				// 실패 회수 누적
-				service.updateFailureCount(userId);
-				int count = service.checkFailureCount(userId);
+				service.updateFailureCount(email);
+				int count = service.checkFailureCount(email);
 				
 				if(count >= 5) {
 					// 계정 비활성화
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("enabled", 0);
-					map.put("userId", userId);
+					map.put("email", email);
 					service.updateMemberEnabled(map);
 					
-					
-					// 계정 비활성화 상태 저장
-					Member dto = new Member();
-					/*
-					dto.user(userId);
-					dto.setRegisterId(userId);
-					dto.setStateCode(1);
-					dto.setMemo("패스워드 5회 이상 실패!!!");
-					*/
-					service.insertMemberState(dto);
 				}
 			} else if(exception instanceof InternalAuthenticationServiceException) {
 				// 존재하지 않는 아이디
-				
 			} else if(exception instanceof DisabledException) {
-				// 인증 거부 : enabled=0
 				s = "계정이 비활성화 되었습니다. 관리자에게 문의하세요.";
 			}
 		} catch (Exception e) {

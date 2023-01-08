@@ -7,12 +7,9 @@ public interface MemberService {
 	public void insertMember(Member dto) throws Exception;
 	
 	public void updateLastLogin(String email) throws Exception;
-	public void updateMember(Member dto) throws Exception;
 	
 	public Member readMember(String email);
 	public Member readNickNameMember(String nickName);
-	
-	public void deleteMember(Map<String, Object> map) throws Exception;
 	
 	public void generatePwd(Member dto) throws Exception;
 	

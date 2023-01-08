@@ -22,26 +22,8 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private MailSender mailSender;
-	
-	
-	
-	// 로그인
-	/*
-	@Override
-	public Member loginMember(String userEmail) {
-		Member dto = null;
-		
-		try {
-			dto = dao.selectOne("member.loginMember", userEmail);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return dto;
-	}
-	*/
-	
-	// 회원 가입 및 권한 insert 
+
+
 	@Override
 	public void insertMember(Member dto) throws Exception {
 		try {
@@ -70,19 +52,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void updateLastLogin(String userEmail) throws Exception {
+	public void updateLastLogin(String email) throws Exception {
 		try {
-			dao.updateData("member.updateLastLogin", userEmail);
+			dao.updateData("member.updateLastLogin", email);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-	}
-
-	@Override
-	public void updateMember(Member dto) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -111,11 +87,6 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		return dto;
-	}
-
-	@Override
-	public void deleteMember(Map<String, Object> map) throws Exception {
-		
 	}
 
 	@Override
@@ -154,8 +125,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public boolean isPasswordCheck(String userEmail, String userPwd) {
-		Member dto = readMember(userEmail);
+	public boolean isPasswordCheck(String email, String userPwd) {
+		Member dto = readMember(email);
 		
 		if(dto == null) {
 			return false;
@@ -182,38 +153,58 @@ public class MemberServiceImpl implements MemberService{
 			
 			throw e;
 		}
-		
+	}
+
+	@Override
+	public int checkFailureCount(String email) {
+		int cnt = 0;
+		try {
+			cnt = dao.selectOne("member.checkFailureCount", email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public void updateFailureCount(String email) throws Exception {
+		try {
+			dao.updateData("member.updateFailureCount", email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 
 	@Override
-	public int checkFailureCount(String userEmail) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void updateFailureCount(String userEmail) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateFailureCountReset(String userEmail) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateFailureCountReset(String email) throws Exception {
+		try {
+			dao.updateData("member.updateFailureCountReset", email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public void updateMemberEnabled(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.updateData("member.updateMemberEnabled", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public void insertMemberState(Member dto) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.insertData("member.insertMemberState", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }

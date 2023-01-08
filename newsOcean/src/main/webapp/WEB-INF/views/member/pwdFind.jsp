@@ -7,6 +7,9 @@
 .body-container {
 	max-width: 800px;
 }
+.container {
+	display: contents;
+}
 </style>
 
 <script type="text/javascript">
@@ -35,7 +38,7 @@ function sendOk() {
                         <h3 class="text-center fw-bold">패스워드 찾기</h3>
                         
 		                <div class="d-grid">
-							<p class="form-control-plaintext text-center">이메일을 입력 하세요.</p>
+							<p class="form-control-plaintext text-center">이메일을 입력하세요.</p>
 		                </div>
                         
                         <div class="d-grid">

@@ -55,5 +55,25 @@
 		UPDATE member SET pwd=#{pwd}, modifyDate=sysdate
 		WHERE email = #{email}
 	</update>
+	
+	<select id="checkFailureCount" parameterType="String" resultType="Integer">
+		SELECT NVL(wrongCnt, 0) wrongCnt
+		FROM member
+		WHERE email = #{email}
+	</select>
+	
+	<update id="updateFailureCount" parameterType="String">
+		UPDATE member SET wrongCnt = wrongCnt + 1
+		WHERE email = #{email}
+	</update>
+	
+	<update id="updateFailureCountReset" parameterType="String">
+		UPDATE member SET wrongCnt = 0
+		WHERE email = #{email}
+	</update>
+	
+	<update id="updateMemberEnabled" parameterType="map">
+		UPDATE member SET enabled=#{enabled} WHERE email = #{email}
+	</update>
 
 </mapper>

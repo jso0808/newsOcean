@@ -32,9 +32,6 @@ public class MemberController {
 		return ".member.member";
 	}
 	
-	/*
-	 *  - Redirect 후 즉시 사라짐. 서버로 다시 Submit해도 저장 안됨.
-	 */
 	@PostMapping(value = "member")
 	public String memberSubmit(Member dto, final RedirectAttributes reAttr,
 			Model model) {
@@ -134,27 +131,6 @@ public class MemberController {
 			}
 			model.addAttribute("msg", "패스워드가 일치하지 않습니다.");
 			return ".member.pwd";
-		}
-		
-		if(mode.equals("dropout")) {
-			// 회원 탈퇴
-			/*
-			 * Map<String, Object> map = new HashMap<>();
-			 * map.put("memberIdx", info.getMemberIdx());
-			 * map.put("userId", info.getUserId());
-			 */
-			
-			// 세션 정보 삭제하기
-			session.removeAttribute("member");
-			session.invalidate();
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append(dto.getNickName() + "오셔너의 탈퇴 처리가 정상적으로 처리되었습니다. <br>");
-			
-			reAttr.addFlashAttribute("title", "회원 탈퇴");
-			reAttr.addFlashAttribute("msg", sb.toString());
-			
-			return "redirect:/member/complete";
 		}
 		
 		// 회원 정보 수정 폼
