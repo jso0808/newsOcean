@@ -95,26 +95,3 @@ textarea:focus, input:focus { outline: none; }
 	text-align: center;
 }
 
-/* AJAX loading */
-.loader {
-  border: 17px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 17px solid blue;
-  border-right: 17px solid green;
-  border-bottom: 17px solid red;
-  border-left: 17px solid pink;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
