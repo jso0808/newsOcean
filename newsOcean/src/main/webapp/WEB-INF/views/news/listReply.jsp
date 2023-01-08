@@ -13,7 +13,8 @@
 		<tr class='border bg-light'>
 			<td width='50%'>
 				<div class='row reply-writer'>
-					<div class='col-1'><i class='bi bi-person-circle text-muted icon'></i></div>
+					<div class='col-1'><i class='bi bi-person-circle text-muted icon' id="replyUserIcon" data-memberNo="${vo.memberNo}"></i></div>
+					
 					<div class='col-auto align-self-center'>
 						<div class='nickName'>${vo.nickName}</div>
 						<div class='date'>${vo.regDate}</div>
@@ -35,6 +36,13 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<div align='right'>
+					<div class="divReplyLikeCount">
+						<button type='button' class='btn btn-light btnSendReplyLike' data-replyNo='${vo.replyNo}' data-replyLike='1' title="좋아요"><i class="${vo.userReplyLiked==1 ? 'fa-solid':'fa-regular'} fa-heart"></i> 
+							<span id="likeCountReply">${vo.likeCount}</span>
+						</button>
+					</div>
+				</div>
 			</td>
 		</tr>
 		
@@ -42,11 +50,6 @@
 			<td class="td-content" colspan='2' valign='top'>${vo.content}</td>
 		</tr>
 	
-	    <tr>
-			<td align='right'>
-				<button type='button' class='btn btn-light btnSendReplyLike' data-replyNo='${vo.replyNo}' data-replyLike='1' title="좋아요"><i class="bi bi-hand-thumbs-up"></i> <span>${vo.likeCount}</span></button>
-			</td>
-		</tr>
 	</c:forEach>
 </table>
 

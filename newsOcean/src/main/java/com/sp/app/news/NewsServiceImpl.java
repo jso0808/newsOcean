@@ -134,20 +134,31 @@ public class NewsServiceImpl implements NewsService{
 
 	@Override
 	public void insertReplyLike(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.insertData("news.insertReplyLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void deleteReplyLike(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.insertData("news.deleteReplyLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public int replyLikeCount(long replyNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int cnt = 0;
+		try {
+			cnt = dao.selectOne("news.replyLikeCount", replyNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
 	}
 
 	@Override
@@ -157,7 +168,6 @@ public class NewsServiceImpl implements NewsService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override

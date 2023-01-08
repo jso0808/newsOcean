@@ -1,12 +1,15 @@
 package com.sp.app.member;
 
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sp.app.common.dao.CommonDAO;
+import com.sp.app.sub.mail.Mail;
+import com.sp.app.sub.mail.MailSender;
 
 @Service("member.memberService")
 public class MemberServiceImpl implements MemberService{
@@ -16,6 +19,11 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrytp;
+	
+	@Autowired
+	private MailSender mailSender;
+	
+	
 	
 	// 로그인
 	/*
@@ -107,14 +115,42 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void deleteMember(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void generatePwd(Member dto) throws Exception {
-		// TODO Auto-generated method stub
-		
+		// 10 자리 임시 패스워드 생성
+		StringBuilder sb = new StringBuilder();
+		Random rd = new Random();
+		String s = "!@#$%^&*~-+ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+		for (int i = 0; i < 10; i++) {
+			int n = rd.nextInt(s.length());
+			sb.append(s.substring(n, n + 1));
+		}
+
+		String result;
+		result = dto.getNickName() + "님의 새로 발급된 임시 패스워드는 <b>" 
+				+ sb.toString() + "</b> 입니다.<br>"
+				+ "로그인 후 반드시 패스워드를 변경 하시기 바랍니다.";
+
+		Mail mail = new Mail();
+		mail.setReceiverEmail(dto.getEmail());
+
+		mail.setSenderEmail("thdus_17@naver.com");
+		mail.setSenderName("NewsOcean");
+		mail.setSubject("임시 패스워드 발급");
+		mail.setContent(result);
+
+		boolean b = mailSender.mailSend(mail);
+
+		if (b) {
+			dto.setPwd(sb.toString());
+			updatePwd(dto);
+		} else {
+			throw new Exception("이메일 전송 중 오류가 발생했습니다.");
+		}
+
 	}
 
 	@Override
@@ -130,7 +166,23 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void updatePwd(Member dto) throws Exception {
-		// TODO Auto-generated method stub
+			try {
+			
+			if(isPasswordCheck(dto.getEmail(), dto.getPwd())) {
+				throw new RuntimeException("패스워드가 기존 패스워드와 일치합니다.");
+			}
+			
+			String encPassword = bcrytp.encode(dto.getPwd());
+			dto.setPwd(encPassword);
+			
+			dao.updateData("member.updateMember", dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			throw e;
+		}
+		
 		
 	}
 

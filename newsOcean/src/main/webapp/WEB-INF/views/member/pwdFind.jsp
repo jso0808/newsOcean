@@ -13,10 +13,10 @@
 function sendOk() {
 	const f = document.pwdForm;
 
-	let str = f.userId.value.trim();
+	let str = f.email.value.trim();
 	if(!str) {
-		alert("아이디를 입력하세요. ");
-		f.userId.focus();
+		alert("이메일을 입력하세요. ");
+		f.email.focus();
 		return;
 	}
 
@@ -35,11 +35,11 @@ function sendOk() {
                         <h3 class="text-center fw-bold">패스워드 찾기</h3>
                         
 		                <div class="d-grid">
-							<p class="form-control-plaintext text-center">회원 아이디를 입력 하세요.</p>
+							<p class="form-control-plaintext text-center">이메일을 입력 하세요.</p>
 		                </div>
                         
                         <div class="d-grid">
-                            <input type="text" name="userId" class="form-control form-control-lg" placeholder="아이디">
+                            <input type="text" name="email" class="form-control form-control-lg" placeholder="newsocean@naver.com">
                         </div>
                         <div class="d-grid">
                             <button type="button" class="btn btn-lg btn-primary" onclick="sendOk();">확인 <i class="bi bi-check2"></i> </button>

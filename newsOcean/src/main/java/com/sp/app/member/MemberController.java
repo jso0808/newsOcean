@@ -120,7 +120,7 @@ public class MemberController {
 		Member dto = service.readMember(info.getEmail());
 		if(dto == null) {
 			session.invalidate();
-			return "redirect:/;";
+			return "redirect:/";
 		}
 		
 		// 패스워드 검사
@@ -164,6 +164,45 @@ public class MemberController {
 		return ".member.member";
 	}
 	
+	// 패스워드 찾기
+	@RequestMapping(value = "pwdFind", method = RequestMethod.GET)
+	public String pwdFindForm(HttpSession session) throws Exception {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if (info != null) {
+			return "redirect:/";
+		}
+		
+		return ".member.pwdFind";
+	}
+	
+	@RequestMapping(value = "pwdFind", method = RequestMethod.POST)
+	public String pwdFindSubmit(@RequestParam String email,
+			RedirectAttributes reAttr,
+			Model model) throws Exception {
+		
+		Member dto = service.readMember(email);
+		if(dto == null || dto.getEmail() == null || dto.getEnabled() == 0) {
+			model.addAttribute("message", "등록된 이메일이 아닙니다.");
+			return ".member.pwdFind";
+		}
+		
+		try {
+			service.generatePwd(dto);
+		} catch (Exception e) {
+			model.addAttribute("message", "이메일 전송이 실패했습니다.");
+			return ".member.pwdFind";
+		}
+		
+		StringBuilder sb=new StringBuilder();
+		sb.append("회원님의 이메일로 임시패스워드를 전송했습니다. 💌<br>");
+		sb.append("로그인 후 패스워드를 변경해주세요! <br>");
+		
+		reAttr.addFlashAttribute("title", "임시 패스워드 발급");
+		reAttr.addFlashAttribute("msg", sb.toString());
+		
+		return "redirect:/member/complete";
+	}
+
 	// AJAX - JSON : 회원가입 이메일 중복 체크 
 	@RequestMapping(value = "emailCheck", method = RequestMethod.POST)
 	@ResponseBody

@@ -50,5 +50,10 @@
 		FROM member
 		WHERE nickName = #{nickName}
 	</select>
+	
+	<update id="updateMember" parameterType="com.sp.app.member.Member">
+		UPDATE member SET pwd=#{pwd}, modifyDate=sysdate
+		WHERE email = #{email}
+	</update>
 
 </mapper>

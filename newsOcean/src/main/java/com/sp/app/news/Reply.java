@@ -11,7 +11,9 @@ public class Reply {
 	private long newsNo;
 	
 	private int likeCount;
+	private int userReplyLiked;
 	private int complainCount;
+	private int bookMarkNum;
 
 	public long getMemberNo() {
 		return memberNo;
@@ -76,6 +78,21 @@ public class Reply {
 	public void setComplainCount(int complainCount) {
 		this.complainCount = complainCount;
 	}
-	
+
+	public int getUserReplyLiked() {
+		return userReplyLiked;
+	}
+
+	public void setUserReplyLiked(int userReplyLiked) {
+		this.userReplyLiked = userReplyLiked;
+	}
+
+	public int getBookMarkNum() {
+		return bookMarkNum;
+	}
+
+	public void setBookMarkNum(int bookMarkNum) {
+		this.bookMarkNum = bookMarkNum;
+	}
 
 }

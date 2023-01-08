@@ -156,6 +156,7 @@ public class NewsController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
+		model.put("userReplyLiked", userLiked);
 		model.put("newsLikeCount", newsLikeCount);
 		
 		return model;
@@ -199,6 +200,7 @@ public class NewsController {
 		if(listReply != null) {
 			for(Reply dto : listReply) {
 				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+				System.out.println(dto.getUserReplyLiked());
 			}
 		}
 		
@@ -266,13 +268,13 @@ public class NewsController {
 	@RequestMapping(value = "insertReplyLike")
 	@ResponseBody
 	public Map<String, Object> insertReplyLike(
-			@RequestParam(value = "ReplyNo") long replyNo,
-			@RequestParam boolean userLiked,
+			@RequestParam(value = "replyNo") long replyNo,
+			@RequestParam boolean userReplyLiked,
 			HttpSession session) {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String state = "true";
-		int replyLikeCount = 0;
+		int likeCount = 0;
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("replyNo", replyNo);
@@ -280,7 +282,7 @@ public class NewsController {
 		
 		try {
 			// 이미 댓글에 좋아요 한 상태이면 (1)
-			if(userLiked) { 
+			if(userReplyLiked) { 
 				// 댓글 좋아요 데이터 삭제
 				service.deleteReplyLike(paramMap);
 			} else { 
@@ -293,11 +295,11 @@ public class NewsController {
 			state = "false";
 		}
 		
-		replyLikeCount = service.replyLikeCount(replyNo);
+		likeCount = service.replyLikeCount(replyNo);
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
-		model.put("replyLikeCount", replyLikeCount);
+		model.put("likeCount", likeCount);
 		
 		return model;
 	}
@@ -348,11 +350,10 @@ public class NewsController {
 		JSONObject job = new JSONObject();
 		job.put("state", state);
 		job.put("msg", msg);
-		
-		// 한글 깨짐 방지를 위한 인코딩
+	
 		resp.setContentType("text/html; charset=utf-8");
 		PrintWriter out = resp.getWriter();
-		// json 객체를 문자열로 변환
+		
 		out.print(job.toString());
 		
 	}

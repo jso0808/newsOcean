@@ -36,13 +36,21 @@
 	</select>
 	
 	<select id="listReply" parameterType="map" resultType="com.sp.app.news.Reply">
-		SELECT nr.replyNo, content, regDate, newsNo, nr.memberNo, nickName, NVL(likeCount,0) likeCount
+		SELECT nr.replyNo, content, regDate, newsNo, nr.memberNo, nickName, NVL(likeCount,0) likeCount,
+			NVL(userReplyLiked,0) userReplyLiked, profile
 		FROM newsReply nr
 		JOIN member m ON m.memberNo = nr.memberNo
 		LEFT OUTER JOIN (
 		    SELECT replyNo, COUNT(*) likeCount
 		    FROM newsReplyLike GROUP BY replyNo
 		) nrl ON nr.replyNo = nrl.replyNo
+		LEFT OUTER JOIN (
+		    SELECT replyNo, COUNT(*) userReplyLiked
+		    FROM newsReplyLike nrlRe
+            JOIN member m ON m.memberNo = nrlRe.memberNo
+            WHERE m.memberNo = #{memberNo}
+            GROUP BY replyNo
+		) nrl2 ON nr.replyNo = nrl2.replyNo
 		WHERE newsNo = #{newsNo}
 		ORDER BY replyNo
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
@@ -92,4 +100,27 @@
 				#{replyNo})
 	</insert>
 	
+	<select id="replyLikeCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*)
+		FROM newsReplyLike
+		WHERE replyNo = #{replyNo}
+	</select>
+
+	<select id="userReplyLike" resultType="Integer">
+		SELECT COUNT(*)
+		FROM newsReplyLike
+		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</select>
+	
+	<insert id="insertReplyLike" parameterType="map">
+		INSERT INTO newsReplyLike(replyNo, memberNo)
+			VALUES(#{replyNo}, #{memberNo})
+	</insert>
+	
+	<delete id="deleteReplyLike" parameterType="map">
+		DELETE FROM newsReplyLike
+		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</delete>
+
+
 </mapper>

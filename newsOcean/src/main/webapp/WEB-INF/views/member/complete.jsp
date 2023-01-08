@@ -18,13 +18,11 @@
         <div class="row justify-content-md-center mt-5">
             <div class="col-md-8">
                 <div class="border border-primary mt-5 p-4">
-                       <h4 class="text-center fw-bold">회원 가입 성공</h4>
+                       <h4 class="text-center fw-bold">${title} 성공</h4>
                        
 	                <div class="d-grid pt-3">
 						<p class="alert border bg-light text-center lh-base fs-6" >
-							반갑습니다 오셔너🌊 <br>
-							메인 화면에서 로그인 해주세요.
-							
+							${msg}
 						</p>
 	                </div>
                        

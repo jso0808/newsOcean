@@ -13,15 +13,26 @@
 	justify-content: center;
 }
 
+.divReplyLikeCount {
+	display: flex;
+	align-items: flex-end;
+    justify-content: flex-end;
+}
+
+
 .btnSendNewsLike {
 	width: 50px;
 }
 
-.td-content{
-
+.bookMark {
+	display: flex;
+    justify-content: flex-end;
 }
+
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <script type="text/javascript">
 <c:if test="${sessionScope.member.memberShip>50}">
@@ -194,36 +205,43 @@ $(function(){
 	});
 });
 
-// 댓글 좋아요 / 싫어요
+// 댓글 좋아요 / 좋아요 취소
 $(function(){
-	// 댓글 좋아요 / 싫어요 등록
 	$("body").on("click", ".btnSendReplyLike", function(){
+		const $i = $(this).find("i");
+		const $span = $(this).find("span");
+		let userReplyLiked = $i.hasClass("fa-solid fa-heart");
+		
 		let replyNo = $(this).attr("data-replyNo");
 		let replyLike = $(this).attr("data-replyLike");
-		const $btn = $(this);
 		
-		let msg;
-		if(replyLike === "1") {
-			msg = "뉴스에 공감하십니까 ?";
-		}
+		console.log(replyNo);
+		console.log(replyLike);
 		
+		let msg = userReplyLiked ? "댓글 공감을 취소하시겠습니까 ? " : "댓글에 공감하시겠습니까 ? ";
+	
 		if(! confirm(msg)) {
 			return false;
 		}
 		
 		let url = "${pageContext.request.contextPath}/news/insertReplyLike";
-		let query = "replyNo=" + replyNo + "&replyLike=" + replyLike;
+		let query = "replyNo=" + replyNo + "&userReplyLiked=" + userReplyLiked;
 		
 		const fn = function(data){
 			let state = data.state;
 			if(state === "true") {
-				let likeCount = data.likeCount;
+				if( userReplyLiked ) {  // fa-solid fa-heart    fa-regular fa-heart
+					$i.removeClass("fa-solid fa-heart").addClass("fa-regular fa-heart");
+				} else {
+					$i.removeClass("fa-regular fa-heart").addClass("fa-solid fa-heart");
+				}
 				
-				$btn.parent("td").children().eq(0).find("span").html(likeCount);
+				let likeCount = data.likeCount;
+				$span.text(likeCount);
 			} else if(state === "liked") {
-				alert("게시물 공감 여부는 한번만 가능합니다. !!!");
+				alert('댓글 공감을 취소했습니다.');
 			} else {
-				alert("게시물 공감 여부 처리가 실패했습니다. !!!");
+				alerr('댓글 공감을 등록했습니다.')
 			}
 		};
 		
@@ -279,16 +297,58 @@ $(function(){
 	});
 });
 
+// 댓글 작성 유저 클릭
+$(function() {
+	$("#replyUserIcon").on("click", function() {
+		
+	});
+});
+
+// 뉴스글 북마크 클릭
+$(function() {
+	$("#replyUserIcon").on("click", function() {
+		
+	});
+});
+
+
+
+function shareTwitter() {
+    var sendText = "newsocean";
+    var sendUrl = "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}"; 
+    window.open("https://twitter.com/intent/tweet?url=" + sendUrl);
+}
+
+function shareKakao() {
+	  // 사용할 앱의 JavaScript 키 설정
+	  Kakao.init('키');
+	 
+	  // 카카오링크 버튼 생성
+	  Kakao.Link.createDefaultButton({
+	    container: '#btnKakao', // 카카오공유버튼ID
+	    objectType: 'feed',
+	    content: {
+	      title: "NewsOcean", // 보여질 제목
+	      description: "거친 파도를 유연하게 헤엄치는 서퍼처럼", // 보여질 설명
+	      imageUrl: "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}", // 콘텐츠 URL
+	      link: {
+	         mobileWebUrl: "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}",
+	         webUrl: "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}"
+	      }
+	    }
+	  });
+}
+
 </script>
 
 <div class="">
+	
 	<div class="body-container">	
 		<div class="body-title">
 			<h3><i class="bi bi-app"></i> ${dto.title} </h3>
 		</div>
 		
 		<div class="body-main">
-
 			<table class="table mb-0">
 				<thead>
 					<tr>
@@ -315,7 +375,8 @@ $(function(){
 					
 					<tr>
 						<td colspan="2" valign="top" height="200" style="border-bottom: none;">
-							📌 뉴스 내용 부분
+							<div class="btn bookMark"><i class="${dto.bookMarkNum ==1 ? 'fa-solid':'fa-regular'} fa-heart"></i></div>
+							<div>📌 뉴스 내용 부분</div>
 						</td>
 					</tr>
 					
@@ -349,6 +410,13 @@ $(function(){
 			
 			<table class="table table-borderless mb-2">
 				<tr>
+					<td>
+						<img class="img-logo btn" id="btnTwitter"
+							src="${pageContext.request.contextPath}/resources/images/icon-twitter.png" onclick="shareTwitter();">
+						<img class="img-logo btn" id="btnKakao"
+							src="${pageContext.request.contextPath}/resources/images/icon-kakao.png" onclick="shareKakao();">
+					</td>
+				
 					<td width="50%">
 						<c:choose>
 							<c:when test="${sessionScope.member.memberShip > 50}">
@@ -362,6 +430,9 @@ $(function(){
 				    		</c:when>
 				    	</c:choose>
 					</td>
+					
+					
+					
 					<td class="text-end">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/news/list?${query}';">리스트</button>
 					</td>
