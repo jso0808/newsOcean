@@ -72,6 +72,7 @@ public class NewsController {
 		// 조회수 +1 업데이트
 		service.updateHitCount(news.getNewsNo());
 		// 뉴스글 내용 가져오기
+		news.setMemberNo(info.getMemberNo());
 		News dto = service.readNews(news);
 		if(dto == null) {
 			return "redirect:/";
@@ -126,7 +127,7 @@ public class NewsController {
 	@ResponseBody
 	public Map<String, Object> insertNewsLike(
 			@RequestParam(value = "newsNo") long newsNo,
-			@RequestParam boolean userLiked,
+			@RequestParam boolean userNewsLiked,
 			HttpSession session) {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -139,7 +140,7 @@ public class NewsController {
 		
 		try {
 			// 이미 좋아요 한 상태이면 (1)
-			if(userLiked) { 
+			if(userNewsLiked) { 
 				// 좋아요 데이터 삭제
 				service.deleteNewsLike(paramMap);
 			} else { 
@@ -156,7 +157,7 @@ public class NewsController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
-		model.put("userReplyLiked", userLiked);
+		model.put("userNewsLiked", userNewsLiked);
 		model.put("newsLikeCount", newsLikeCount);
 		
 		return model;
@@ -315,8 +316,6 @@ public class NewsController {
 		
 		// 파라미터로 이용할 map
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		// JSP로 보낼 model로 이용할 map
-		Map<String, Object> model = new HashMap<String, Object>();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String state = "false";
 		// 신고 처리 여부 메시지를 저장할 변수
@@ -356,6 +355,42 @@ public class NewsController {
 		
 		out.print(job.toString());
 		
+	}
+	
+	@RequestMapping(value = "insertBookMark")
+	@ResponseBody
+	public Map<String, Object> insertBookMark(
+			@RequestParam(value = "newsNo") long newsNo,
+			@RequestParam boolean bookMarked,
+			HttpSession session) {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String state = "true";
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("newsNo", newsNo);
+		paramMap.put("memberNo", info.getMemberNo());
+		paramMap.put("bookMarkName", "북마크");
+		
+		try {
+			if(bookMarked) { 
+				// 해당 뉴스 북마크 데이터 삭제
+				service.deleteBookMark(paramMap);
+			} else { 
+				// 북마크 데이터 추가
+				service.insertBookMark(paramMap);
+			}
+		} catch (DuplicateKeyException e) {
+			state = "liked";
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
 	}
 	
 }

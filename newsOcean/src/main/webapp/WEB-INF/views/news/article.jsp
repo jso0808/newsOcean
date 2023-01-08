@@ -29,6 +29,11 @@
     justify-content: flex-end;
 }
 
+.btnBookMark {
+	display: flex;
+	justify-content: flex-end;
+}
+
 
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
@@ -81,8 +86,8 @@ function ajaxFun(url, method, query, dataType, fn) {
 $(function(){
 	$(".btnSendNewsLike").click(function(){
 		const $i = $(this).find("i");
-		let userLiked = $i.hasClass("fa-solid fa-heart");
-		let msg = userLiked ? "게시글 공감을 취소하시겠습니까 ? " : "게시글에 공감하십니까 ? ";
+		let userNewsLiked = $i.hasClass("fa-solid fa-heart");
+		let msg = userNewsLiked ? "게시글 공감을 취소하시겠습니까 ? " : "게시글에 공감하십니까 ? ";
 		
 		if(! confirm( msg )) {
 			return false;
@@ -90,12 +95,12 @@ $(function(){
 		
 		let url = "${pageContext.request.contextPath}/news/insertNewsLike";
 		let newsNo = "${dto.newsNo}";
-		let query = "newsNo="+newsNo+"&userLiked="+userLiked;
+		let query = "newsNo="+newsNo+"&userNewsLiked="+userNewsLiked;
 		
 		const fn = function(data){
 			let state = data.state;
 			if(state === "true") {
-				if( userLiked ) {  // fa-solid fa-heart    fa-regular fa-heart
+				if( userNewsLiked ) {  // fa-solid fa-heart    fa-regular fa-heart
 					$i.removeClass("fa-solid fa-heart").addClass("fa-regular fa-heart");
 				} else {
 					$i.removeClass("fa-regular fa-heart").addClass("fa-solid fa-heart");
@@ -306,8 +311,36 @@ $(function() {
 
 // 뉴스글 북마크 클릭
 $(function() {
-	$("#replyUserIcon").on("click", function() {
+	$(".btnBookMark").on("click", function() {
+		const $i = $(this).find("i");
+		let bookMarked = $i.hasClass("fa-solid fa-bookmark");
+		let msg = bookMarked ? "북마크를 취소하시겠습니까 ? " : "북마크 하시겠습니까 ? ";
+		let newsNo = "${dto.newsNo}";
 		
+		if(! confirm(msg)) {
+			return false;
+		}
+		
+		let url = "${pageContext.request.contextPath}/news/insertBookMark";
+		let query = "newsNo=" + newsNo + "&bookMarked=" + bookMarked;
+		
+		const fn = function(data){
+			let state = data.state;
+			if(state === "true") {
+				if( bookMarked ) {  
+					$i.removeClass("fa-solid fa-bookmark").addClass("fa-regular fa-bookmark");
+				} else {
+					$i.removeClass("fa-regular fa-bookmark").addClass("fa-solid fa-bookmark");
+				}
+				
+			} else if(state === "bookMarked") {
+				alert('북마크를 삭제했습니다.');
+			} else {
+				alerr('북마크를 추가했습니다.')
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
 	});
 });
 
@@ -375,15 +408,14 @@ function shareKakao() {
 					
 					<tr>
 						<td colspan="2" valign="top" height="200" style="border-bottom: none;">
-							<div class="btn bookMark"><i class="${dto.bookMarkNum ==1 ? 'fa-solid':'fa-regular'} fa-heart"></i></div>
+							<div class="btn btnBookMark"><i class="${dto.bookMarkNum==1 ? 'fa-solid':'fa-regular'} fa-bookmark fa-2x"></i></div>
 							<div>📌 뉴스 내용 부분</div>
 						</td>
 					</tr>
 					
 					<tr>
 						<td colspan="2" class="text-center p-3">
-							<div class="divNewsLikeCount">
-								<span id="newsLikeCount">${newsLikeCount}</span>
+							<div class="divNewsLike">
 								<button type='button' class='btn btn-light btnSendNewsLike' title="좋아요"><i class="${userNewsLiked ? 'fa-solid':'fa-regular'} fa-heart"></i></button>      
 							</div>
 						</td>

@@ -24,6 +24,9 @@ public interface NewsService {
 	public int newsLikeCount(long newsNo);
 	// 해당 뉴스글의 좋아요 여부 확인
 	public boolean userNewsLiked(Map<String, Object> map);
+	// 뉴스글 북마크
+	public void insertBookMark(Map<String, Object> map) throws Exception;
+	public void deleteBookMark(Map<String, Object> map) throws Exception;
 	
 	// 댓글
 	public void insertReply(Reply dto) throws Exception;

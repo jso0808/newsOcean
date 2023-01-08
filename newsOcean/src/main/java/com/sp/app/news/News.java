@@ -1,13 +1,17 @@
 package com.sp.app.news;
 
 public class News {
+	
+	private long memberNo;
+	
 	private long newsNo;
 	private String title;
 	private String originLink;
 	private int hitCount;
 	private long categoryNo;
-	private long tagNo; 
-	//newsNo, title, originLink, hitCount, categoryNo, tagNo
+	private int bookMarked;
+	private long bookMarkNum;
+
 	
 	// 몽고DB
 	// 위 변수에 합칠지 고민
@@ -50,12 +54,6 @@ public class News {
 	}
 	public void setCategoryNo(long categoryNo) {
 		this.categoryNo = categoryNo;
-	}
-	public long getTagNo() {
-		return tagNo;
-	}
-	public void setTagNo(long tagNo) {
-		this.tagNo = tagNo;
 	}
 	public long getCrawlNo() {
 		return crawlNo;
@@ -110,6 +108,24 @@ public class News {
 	}
 	public void setsCategory(String sCategory) {
 		this.sCategory = sCategory;
+	}
+	public int getBookMarked() {
+		return bookMarked;
+	}
+	public void setBookMarked(int bookMarked) {
+		this.bookMarked = bookMarked;
+	}
+	public long getMemberNo() {
+		return memberNo;
+	}
+	public void setMemberNo(long memberNo) {
+		this.memberNo = memberNo;
+	}
+	public long getBookMarkNum() {
+		return bookMarkNum;
+	}
+	public void setBookMarkNum(long bookMarkNum) {
+		this.bookMarkNum = bookMarkNum;
 	}
 	
 }

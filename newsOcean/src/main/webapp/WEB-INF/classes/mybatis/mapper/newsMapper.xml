@@ -4,14 +4,22 @@
 <mapper namespace="news">
 	
 	<select id="listNews" resultType="com.sp.app.news.News">
-		SELECT newsNo, title, originLink, hitCount, categoryNo, tagNo
+		SELECT newsNo, title, originLink, hitCount, categoryNo
 		FROM NEWS
 	</select>
 	
 	<select id="readNews" resultType="com.sp.app.news.News">
-		SELECT newsNo, title, originLink, hitCount, categoryNo, tagNo
-		FROM NEWS
-		WHERE newsNo = #{newsNo}
+		SELECT n.newsNo, title, originLink, hitCount, categoryNo, NVL(bookMarked, 0) bookMarked
+		FROM NEWS n
+		LEFT OUTER JOIN(
+		    SELECT newsNo, COUNT(*) bookMarked
+		    FROM bookmark bm
+		    JOIN member m ON m.memberNo = bm.memberNo
+		    WHERE m.memberNo = #{memberNo}
+		    GROUP BY newsNo
+		) bm ON bm.newsNo = n.newsNo
+		WHERE n.newsNo = #{newsNo}
+		ORDER BY newsNo
 	</select>
 	
 	<update id="updateHitCount" parameterType="Long">
@@ -120,6 +128,16 @@
 	<delete id="deleteReplyLike" parameterType="map">
 		DELETE FROM newsReplyLike
 		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</delete>
+	
+	<insert id="insertBookMark" parameterType="map">
+		INSERT INTO bookmark(bookMarkNum, newsNo, memberNo, bookMarkName)
+			VALUES(bookMark_seq.NEXTVAL, #{newsNo}, #{memberNo}, #{bookMarkName})
+	</insert>
+	
+	<delete id="deleteBookMark" parameterType="map">
+		DELETE bookMark
+		WHERE newsNo = #{newsNo} and memberNo = #{memberNo}
 	</delete>
 
 

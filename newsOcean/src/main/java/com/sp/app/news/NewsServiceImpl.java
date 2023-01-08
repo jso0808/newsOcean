@@ -218,4 +218,22 @@ public class NewsServiceImpl implements NewsService{
 		}
 	}
 
+	@Override
+	public void insertBookMark(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("news.insertBookMark", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteBookMark(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("news.deleteBookMark", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
