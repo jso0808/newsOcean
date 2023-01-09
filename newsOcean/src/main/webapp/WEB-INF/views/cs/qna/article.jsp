@@ -253,7 +253,7 @@ $(function(){
 <div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-app"></i> QNA </h3>
+			<h3>QNA</h3>
 		</div>
 		
 		<div class="body-main">
@@ -330,25 +330,28 @@ $(function(){
 			</table>
 			
 			<div class="reply">
-				<form name="replyForm" method="post">
-					<div class='form-header'>
-						<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
-					</div>
-					
-					<table class="table table-borderless reply-form">
-						<tr>
-							<td>
-								<textarea class='form-control' name="qnaAContent"></textarea>
-							</td>
-						</tr>
-						<tr>
-						   <td align='right'>
-						        <button type='button' class='btn btn-light btnSendAnswer'>댓글 등록</button>
-						    </td>
-						 </tr>
-					</table>
-				</form>
-				
+				<c:if test="${sessionScope.member.memberShip>50}">
+					<form name="replyForm" method="post">
+						<div class='form-header'>
+							<span class="bold">답변</span>
+						</div>
+						
+						<table class="table table-borderless reply-form">
+							<tr>
+								<td>
+									<textarea class='form-control' name="qnaAContent"></textarea>
+								</td>
+							</tr>
+							<tr>
+							
+								   <td align='right'>
+								        <button type='button' class='btn btn-light btnSendAnswer'>답변 등록</button>
+								    </td>
+								
+							 </tr>
+						</table>
+					</form>
+				</c:if>
 				<div id="listAnswer"></div>
 			</div>
 
