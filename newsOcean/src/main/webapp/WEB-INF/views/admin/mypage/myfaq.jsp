@@ -25,7 +25,7 @@
 			<tr>
 				<td>${dto.faqNo}</td>
 				<td class="left">
-					<a href="#">${dto.faqsubject}</a>
+					<a href="${pageContext.request.contextPath}/cs/faq/main">${dto.faqsubject}</a>
 				</td>
 				<td>${dto.name} </td>
 				<td>${dto.faqregdate}</td>

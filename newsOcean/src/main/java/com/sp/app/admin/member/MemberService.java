@@ -29,6 +29,9 @@ public interface MemberService {
 	public List<Member> mysublist(Map<String, Object> map);
 	public int dataCount_mysub(Map<String, Object> map);
 	
+	//신고 내역 list
+	public List<Member> complainlist(Map<String, Object> map);
+	
 	
 	//게시글 수
 	public int dataCount_qna(Map<String, Object> map);

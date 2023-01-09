@@ -71,41 +71,41 @@
 		
 		</table>
 	</div>
-	<div class="body-container2__arti">
-		<table class="table__con shadow-sm tt_bold" >
+	<div class="body-container2__arti" >
+		<table class="table__con shadow-sm tt_bold"  >
 			<tr class="">
-				<td class="text-center">회원번호</td>
-				<td class="wp-35 ps-5 member__no">${dto.memberNo}</td>
-				<td class="wp-15 text-center ">아이디</td>
-				<td class="wp-35 ps-5">${dto.email}</td>
+				<td class="ps-3 text-center">회원번호</td>
+				<td class="ps-5 member__no">${dto.memberNo}</td>
+				<td class=" text-center " >아이디</td>
+				<td class=" ps-5">${dto.email}</td>
 			</tr>
 			<tr>
-				<td class="text-center ">이 름</td>
+				<td class="ps-3 text-center ">이 름</td>
 				<td class="ps-5">${dto.name}</td>
 				<td class="text-center ">생년월일</td>
 				<td class="ps-5">${dto.birth}</td>
 			</tr>
 			<tr>
-				<td class="text-center ">닉네임</td>
+				<td class="ps-3 text-center ">닉네임</td>
 				<td class="ps-5">${dto.nickname}</td>
 				<td class="text-center ">성별</td>
 				<td class="ps-5">${dto.gender}</td>
 			</tr>
 			<tr>
-				<td class="text-center ">회원가입일</td>
+				<td class="ps-3 text-center ">회원가입일</td>
 				<td class="ps-5">${dto.joindate}</td>
 				<td class="text-center ">최근로그인</td>
 				<td class="ps-5">${dto.recentdate}</td>
 			</tr>
 			
 			<tr >
-				<td class="text-center ">계정상태</td>
+				<td class="ps-3 text-center ">계정상태</td>
 				<td class="ps-5">
 					${dto.enabled==1? "<span class='state__en__yes';>활성화</span>":"<span class='state__en__no';>계정 잠금</span>"}
 				</td>
-				<td class="text-center ">구독내역 출력</td>
+				<td class="text-center ">계정신고 이력</td>
 				<td class="ps-5">
-					<span class="btn btn-update" onclick="" style="cursor: pointer;"><i class="fa-solid fa-file-powerpoint"></i>&nbsp;&nbsp; PDF 다운로드</span>
+					<span class="btn btn-update" onclick="complainModal()" style="cursor: pointer;">⛔ &nbsp;&nbsp; 신고 이력 조회</span>
 					<input type="hidden" value="${dto.enabled}" name="enabled" id="enabled">
 				</td>
 			</tr>
@@ -165,6 +165,48 @@
 
 
 
+<!-- 신고 내역 조회 모달!! -->
+<div class="modal" tabindex="-1" id="complainModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-family: 'line_font_b';">⛔ 회원 신고내역 조회 </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table text-center">
+        	<thead >
+        		<tr class="modal_table_title">
+        			<th>신고번호</th>
+        			<th>댓글내용</th>
+                	<th>신고일자</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        		<c:forEach items="${complainlist}" var="com">
+	        		<tr class="modal__hover">
+	        			<td>${com.complainNo}</td>
+	        			<td><a href="#">${com.content}</a></td>
+	        			<td>${com.complaindate}</td>
+	        		</tr>
+        		</c:forEach>
+        	</tbody>
+        </table>
+        <div class="updateForm">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <script type="text/javascript">
 
 function ajaxFun(url, method, query, dataType, fn) {
@@ -208,6 +250,7 @@ $(function(){
 });
 
 
+
 //1.계정 상태 변경
 //1. 계정 상태 변경
 function updateEnabled(memberNo, enabled) {
@@ -249,6 +292,13 @@ function updateEnabled(memberNo, enabled) {
 		ajaxFun(url, "post", query, "json", fn);
 		
 	};
+	
+}
+
+
+//모달 
+function complainModal() {
+	$("#complainModal").modal('show');
 	
 }
 

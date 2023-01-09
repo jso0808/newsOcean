@@ -268,5 +268,20 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public List<Member> complainlist(Map<String, Object> map) {
+		List<Member> list = null;
+		
+		try {
+			list = dao.selectList("adminMember.complainlist", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+
 	
 }

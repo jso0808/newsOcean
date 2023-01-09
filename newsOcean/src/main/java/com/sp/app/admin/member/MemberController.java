@@ -293,8 +293,10 @@ public class MemberController {
 			return "redirect:/admin/member/main";
 		}
 		
-
-
+		//신고 내역 조회
+		List<Member> complainlist = service.complainlist(map);
+		
+		model.addAttribute("complainlist", complainlist);
 		model.addAttribute("dto", dto);
 		model.addAttribute("pageNo", current_page);
 

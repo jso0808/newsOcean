@@ -195,13 +195,22 @@
 	</select>
 	
 	<select id="myreplylist" parameterType="map" resultType="com.sp.app.admin.member.Member">
-		SELECT replyNo, content, TO_CHAR(regdate,'YYYY-MM-DD') regdate, rereplyNo, newsNo, memberNo
+		SELECT replyNo, content, TO_CHAR(regdate,'YYYY-MM-DD') regdate, newsNo, memberNo
 		FROM newsreply
 		WHERE memberNo = #{memberNo}
 		ORDER BY replyNo DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 
+
+	<!-- 신고 내역 가져오기  -->
+	<select id="complainlist" parameterType="map" resultType="com.sp.app.admin.member.Member">
+		SELECT complainNo, complaindate, c.replyNo , r.content , r.memberNo , r.newsNo
+		FROM  complain c
+		JOIN newsreply r ON c.replyNo = r.replyNo
+		WHERE r.memberNo = #{memberNo}
+		ORDER BY complaindate DESC
+	</select>
 	
 	
 

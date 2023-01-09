@@ -119,5 +119,21 @@ public class MypageServiceImpl implements MypageService {
 
 
 
+	@Override
+	public int findNickname(Mypage dto) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMypage.findNickname", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+
+
+
 
 }
