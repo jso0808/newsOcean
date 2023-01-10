@@ -2,59 +2,127 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypage">
-	<!-- 관심키워드 select  -->
-	<select id="myKeyword">
-		select keywordName from keyword where memberNo = #{memberNo}
+<!-- 나의 키워드 구독 리스트, 구독리스트 추가 -->
+	<select id="readMyKeyword" parameterType="map" resultType="com.sp.app.mypage.Keyword">
+		select keywordName, keywordNo from keyword where memberNo = #{memberNo} 
 	</select>
-	<!-- 관심키워드 insert  -->
-	<!-- news테이블의 tagNo가 keywordNo로 바껴야할것같다 -->
-	<insert id="mykeywordAdd">
-		INSERT into keyword(keywordNo, keywordName, memberNo)
-		VALUES(keyword_seq.NEXTVAL, #{keywordName}, #{memberNo})
+	<insert id="insertMyKeyword" parameterType="map">
+	    INSERT INTO keyword(keywordName, keywordNo, memberNo) VALUES 
+	    (#{keywordName}, keyword_seq.NEXTVAL, #{memberNo})
 	</insert>
-	<!-- 구독한 키워드의 기사 select -> 몽고db -->
-	
-	<!-- 회원 이미지, 전화번호, 이메일, 개인정보 select-->
-	<select id="listMypage" parameterType="map" resultType="com.sp.app.mypage.Mypage">
-		SELECT memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
-			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
-			FROM member
-			WHERE memberNo = #{memberNo}
-	</select>
-	
-	<!-- 관리자 정보 변경하기  -->
-	<update id="updateMypage" parameterType="com.sp.app.mypage.Mypage">
-		UPDATE member SET birth = #{birth}, name = #{name}, nickName = #{nickName}, modifydate = SYSDATE
-			WHERE memberNo = #{memberNo}
+	<!--
+	<insert id="insertMyKeyword" parameterType="map">
+	    INSERT INTO keyword(keywordName, keywordNo,memberNo) VALUES 
+	    <foreach collection="keywordName" item="item" separator=",">
+	    (#{item.keywordName}, keyword_seq.NEXTVAL, #{memberNo})
+	    </foreach>
+	</insert>
+	  -->
+	<update id="updateMyKeyword" parameterType="map">
+		UPDATE keyword k JOIN authority a ON k.memberNo = a.memberNo
+			SET keywordNo = #{keywordNo}
+			WHERE a.memberNo = #{memberNo}
 	</update>
 	
-	<select id="readMypage" parameterType="Long" resultType="com.sp.app.mypage.Mypage">
-		SELECT memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
-			NVL(wrongcnt, 0) wrongcnt , NVL(TO_CHAR(modifydate, 'YYYY-MM-DD'), '2999-01-01') modifydate, enabled, membership
-		FROM member
+	<delete id="deleteMyKeyword" parameterType="map">
+		delete from keyword  WHERE memberNo = #{memberNo} and 
+			keywordName = #{keywordName}  
+	</delete>
+<!-- 나의 회원정보 리스트(memberNo, email, pwd, name, nickname, birth, gender, -->	
+	<select id="readMyInfo" parameterType="String"  resultType="com.sp.app.member.Member">
+		SELECT m.memberNo, email, name, nickName, pwd, TO_CHAR(birth, 'YYYY-MM-DD') birth, 
+			gender, modifyDate, recentDate, profile, authority, enabled, memberShip
+		FROM member m
+		JOIN Authority a ON m.memberNo = a.memberNo
+		WHERE email = #{email}
+	</select>
+	
+	<update id="updateMyInfo" parameterType="com.sp.app.member.Member">
+		UPDATE member m JOIN authority a ON a.memberNo = m.memberNo
+		SET m.email = #{email}, m.name= #{name}, 
+		m.nickName= #{nickName}, m.birth = TO_DATE(#{birth},'YYYY-MM-DD')
+	</update>
+	
+	<update id="updateMyInfoPwd" parameterType="com.sp.app.member.Member">
+		UPDATE member m JOIN authority a ON a.memberNo = m.memberNo
+		SET m.email = #{email}, m.pwd= #{pwd}, m.name= #{name}, 
+		m.nickName= #{nickName}, m.birth = TO_DATE(#{birth},'YYYY-MM-DD')
+	</update>
+	<delete id="deleteMyInfo" parameterType="com.sp.app.member.Member">
+		DELETE FROM member 
+		where memberNo = #{memberNo}
+	</delete>
+<!-- 즐겨찾는 회원 리스트, 수정  -->
+	<select id="readBMember" parameterType="map"  resultType="com.sp.app.member.Member">
+		SELECT memberNo, memberNo2 FROM memberactivities
+		WHERE a.memberNo = #{memberNo} 
+	</select>
+	
+	<insert id="insertBMember" parameterType="map">
+		INSERT INTO memberactivities(memberNo, memberNo2) 
+		VALUES(#{memberNo}, #{memberNo2})
+	</insert>
+	
+	<update id="deleteBMember" parameterType="map">
+		DELETE FROM memberactivities where memberNo=#{memberNo} and memberNo2 = #{memberNo2}
+	</update>
+	
+<!-- 나의 댓글 리스트, 수정  -->
+	<select id="readMyQnaReply" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
+		SELECT r.qnaAnswer, r.memberNo, nickName, q.qnaNo, qnaAContent, r.qnaARegdate, q.qnaContent,
+			   qnaSubject, NVL(qnaAReplyCount, 0) qnaAReplyCount
+		FROM QnaReply r
+		JOIN member m ON r.memberNo = m.memberNo
+		LEFT OUTER JOIN (
+			SELECT qnaReply, COUNT(*) qnaAReplyCount
+			FROM QnaReply
+			WHERE qnaReply!=0
+			GROUP BY qnaReply
+		) a ON r.qnaAnswer = a.qnaReply
+        JOIN qna q on q.qnaNo = r.qnaNo
+		WHERE r.memberNo =#{memberNo}
+		ORDER BY r.qnaAnswer DESC
+	</select>
+	
+	<delete id="deleteMyQnaReply" parameterType="map">
+		DELETE FROM qnaReply
+		WHERE qnaAnswer= #{qnaAnswer} AND memberNo = #{memberNo}
+	</delete>
+<!--뉴스글 댓글 -->
+	<select id="listReply" parameterType="map" resultType="com.sp.app.news.Reply">
+		SELECT nr.replyNo, content, regDate, newsNo, nr.memberNo, nickName, NVL(likeCount,0) likeCount,
+			NVL(userReplyLiked,0) userReplyLiked, profile
+		FROM newsReply nr
+		JOIN member m ON m.memberNo = nr.memberNo
+		LEFT OUTER JOIN (
+		    SELECT replyNo, COUNT(*) likeCount
+		    FROM newsReplyLike GROUP BY replyNo
+		) nrl ON nr.replyNo = nrl.replyNo
+		LEFT OUTER JOIN (
+		    SELECT replyNo, COUNT(*) userReplyLiked
+		    FROM newsReplyLike nrlRe
+            JOIN member m ON m.memberNo = nrlRe.memberNo
+            GROUP BY replyNo
+		) nrl2 ON nr.replyNo = nrl2.replyNo
+		WHERE nr.memberNo = #{memberNo}
+		ORDER BY replyNo
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM newsReply
+		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</delete>
+<!-- 나의 북마크  -->
+	<select id="readMyBookmark" parameterType="Long"  resultType="com.sp.app.mypage.Bookmark">
+		SELECT bookmarkNum, newsNo, memberNo, bookmarkName FROM Bookmark
 		WHERE memberNo = #{memberNo}
 	</select>
-	
-	<!-- list ############### -->
-	<!-- 관리자 qna 답변 가져오기 -->
-	<select id="listMyqna" parameterType="map" resultType="com.sp.app.mypage.Mypage">
-		SELECT c.qnaNo, qnaacontent, TO_CHAR(qnaaregdate, 'YYYY-MM-DD') qnaaregdate, m.name
-		FROM qnareply c
-		JOIN member m ON c.memberNo = m.memberNo
-		WHERE memberShip = 99
-			ORDER BY c.qnaNo DESC
-			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
-	</select>
-	
-	<!-- 관리자 faq 가져오기 -->
-	<select id="listMyfaq" parameterType="map" resultType="com.sp.app.mypage.Mypage">
-		SELECT c.faqNo, faqsubject, TO_CHAR(faqregdate, 'YYYY-MM-DD') faqregdate, m.name
-		FROM faq c
-		JOIN member m ON c.memberNo = m.memberNo
-		WHERE memberShip = 99
-			ORDER BY c.faqNo DESC
-			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
-	</select>
+
+	<update id="deleteMyBookmark" parameterType="map">
+		DELETE FROM bookMark
+		WHERE bookmarkNum = #{bookmarkNum} and memberNo = #{memberNo}		
+	</update>
+
 
 <!-- 회원 이미지, 전화번호, 이메일, 개인정보 수정-->
 <!-- 회원 이미지, 전화번호, 이메일, 개인정보 삭제 -->

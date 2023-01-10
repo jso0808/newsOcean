@@ -21,92 +21,91 @@ public class Search {
 	private String staDate;
 	private String endDate;
 	private String keyword;
-	
-	public final String getKeyword() {
-		return keyword;
-	}
-	public final void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-	public final String getStaDate() {
-		return staDate;
-	}
-	public final void setStaDate(String staDate) {
-		this.staDate = staDate;
-	}
-	public final String getEndDate() {
-		return endDate;
-	}
-	public final void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-	public final String getAuthority() {
-		return authority;
-	}
-	public final void setAuthority(String authority) {
-		this.authority = authority;
-	}
-	public final String getNewsName() {
-		return newsName;
-	}
-	public final void setNewsName(String newsName) {
-		this.newsName = newsName;
-	}
-	public final String getTitle() {
-		return title;
-	}
-	public final void setTitle(String title) {
-		this.title = title;
-	}
-	public final String getSearchDate() {
-		return searchDate;
-	}
-	public final void setSearchDate(String searchDate) {
-		this.searchDate = searchDate;
-	}
-	public final int getSearchNo() {
+	public int getSearchNo() {
 		return searchNo;
 	}
-	public final void setSearchNo(int searchNo) {
+	public void setSearchNo(int searchNo) {
 		this.searchNo = searchNo;
 	}
-	public final Long getMemberNo() {
+	public Long getMemberNo() {
 		return memberNo;
 	}
-	public final void setMemberNo(Long memberNo) {
+	public void setMemberNo(Long memberNo) {
 		this.memberNo = memberNo;
 	}
-	public final String getSearchName() {
+	public String getSearchName() {
 		return searchName;
 	}
-	public final void setSearchName(String searchName) {
+	public void setSearchName(String searchName) {
 		this.searchName = searchName;
 	}
-
-	public final String getCategoryNo() {
+	public String getCategoryNo() {
 		return categoryNo;
 	}
-	public final void setCategoryNo(String categoryNo) {
+	public void setCategoryNo(String categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-	public final String getSearchNowdate() {
+	public String getSearchNowdate() {
 		return searchNowdate;
 	}
-	public final void setSearchNowdate(String searchNowdate) {
+	public void setSearchNowdate(String searchNowdate) {
 		this.searchNowdate = searchNowdate;
 	}
-	public final int getPcategoryNo() {
+	public int getPcategoryNo() {
 		return pcategoryNo;
 	}
-	public final void setPcategoryNo(int pcategoryNo) {
+	public void setPcategoryNo(int pcategoryNo) {
 		this.pcategoryNo = pcategoryNo;
 	}
-	public final int getNewsNo() {
+	public int getNewsNo() {
 		return newsNo;
 	}
-	public final void setNewsNo(int newsNo) {
+	public void setNewsNo(int newsNo) {
 		this.newsNo = newsNo;
 	}
+	public String getAuthority() {
+		return authority;
+	}
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+	public String getNewsName() {
+		return newsName;
+	}
+	public void setNewsName(String newsName) {
+		this.newsName = newsName;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getSearchDate() {
+		return searchDate;
+	}
+	public void setSearchDate(String searchDate) {
+		this.searchDate = searchDate;
+	}
+	public String getStaDate() {
+		return staDate;
+	}
+	public void setStaDate(String staDate) {
+		this.staDate = staDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
 	
 	
 }

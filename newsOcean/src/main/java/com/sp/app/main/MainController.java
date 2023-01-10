@@ -27,7 +27,7 @@ public class MainController {
 	private SearchService service;
 	
 	@GetMapping("/recent")
-	public String recent(@RequestParam(name="categoryNo",required=false) int categoryNo,
+	public String recent(@RequestParam int categoryNo,
 			@RequestParam(required=false) Search search, 
 			HttpSession session,
 			Model model) {
@@ -40,7 +40,7 @@ public class MainController {
 	}
 	
 	@GetMapping("/section")
-	public String section(@RequestParam(name="categoryNo",required=false) int categoryNo,
+	public String section(@RequestParam int categoryNo,
 			HttpSession session,
 			Model model) {
 		List<MainCategory> subsectionlist = service.subsectionlist(categoryNo);
@@ -51,7 +51,7 @@ public class MainController {
 	}
 	
 	@GetMapping("/subsection")
-	public String subsection(@RequestParam(name="categoryNo",required=false) int categoryNo,
+	public String subsection(@RequestParam int categoryNo,
 			HttpSession session,
 			Model model) {
 		
@@ -110,28 +110,30 @@ public class MainController {
 			long memberNo = info.getMemberNo();
 			
 			search.setMemberNo(memberNo);
-			System.out.println("memberNo:"+memberNo+"searchName:"+searchName+"categoryNo:"+categoryNoString);
-			search.setSearchName(searchName); 
-			search.setCategoryNo(categoryNoString);//203, 204, 205
-
-			service.insertSearchHistory(search);
-			
-			if(categoryNoString.length()>4) {
-				List<Integer> categoryNo = new ArrayList<Integer>();
-				
-				String[] categoryNoArray = categoryNoString.split(",");
-				List<String> categoryNoList = new ArrayList<String>(Arrays.asList(categoryNoArray));
-				for(String s : categoryNoList) {
-					Integer strim = Integer.valueOf(s.trim());
-					categoryNo.add(strim);
-				}
-				System.out.println(categoryNo);
-				model.addAttribute("categoryNo", categoryNo);
-			}else {
-				categoryNoString = categoryNoString.trim();
-				int categoryNo = Integer.parseInt(categoryNoString);
-				model.addAttribute("categoryNo", categoryNo);
+			if(searchName!=null) {
+				search.setSearchName(searchName); 
 			}
+			if(categoryNoString!=null) {
+				search.setCategoryNo(categoryNoString);//203, 204, 205
+				if(categoryNoString.length()>4) {
+					List<Integer> categoryNo = new ArrayList<Integer>();
+					
+					String[] categoryNoArray = categoryNoString.split(",");
+					List<String> categoryNoList = new ArrayList<String>(Arrays.asList(categoryNoArray));
+					for(String s : categoryNoList) {
+						Integer strim = Integer.valueOf(s.trim());
+						categoryNo.add(strim);
+					}
+					System.out.println(categoryNo);
+					model.addAttribute("categoryNo", categoryNo);
+				}else {
+					categoryNoString = categoryNoString.trim();
+					int categoryNo = Integer.parseInt(categoryNoString);
+					model.addAttribute("categoryNo", categoryNo);
+				}
+			}
+			
+			service.insertSearchHistory(search);
 			
 			model.addAttribute("memberNo", memberNo);
 			model.addAttribute("searchName", searchName);

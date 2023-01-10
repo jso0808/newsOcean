@@ -1,0 +1,32 @@
+.body-container {
+	max-width: 1000px;
+}
+.body-main{
+min-height:600px;
+display:flex;
+align-items: flex-start;
+}
+.keyworditem{
+	min-width:100px;
+	min-height:50px;
+	font-size: 25px;
+}
+input{
+min-width:810px;
+}
+#submit_btnbox{
+margin:3px;
+display:flex;
+justify-content:flex-end;
+}
+.container{
+	display:block;
+}
+
+.main-container {
+	display: flex;
+}
+
+.help-block {
+	color: red;
+}
