@@ -13,6 +13,9 @@ public interface MypageService {
 	//다른 관리자 계정정보
 	public List<Mypage> listAdmin(Map<String, Object> map);
 	
+	//닉네임 유효성 검사
+	public int findNickname(Mypage dto);
+	
 	public Mypage readMypage(long memberNo);
 	public int dataCount(Map<String, Object> map);
 

@@ -129,6 +129,38 @@ public class MypageController {
 		return model;
 	}
 	
+	//유효성 검사
+	@RequestMapping(value = "findNickname")
+	@ResponseBody
+	public Map<String, Object> findNickname(@RequestParam String nickName) throws Exception {
+		
+		int result = 0;
+		String state = "false";
+		
+		try {
+			
+			Mypage dto = new Mypage();
+			dto.setNickName(nickName);
+			result = service.findNickname(dto);
+			
+			
+			if (result == 0) {
+				state = "true";
+			} else {
+				state = "false";
+			}
+			
+		} catch (Exception e) {
+		}
+		
+		System.out.println(state);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
 	
 	//AJAX - HTML : LIST : qna 게시글
 	@RequestMapping(value = "myqna")

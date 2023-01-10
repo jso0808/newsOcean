@@ -304,22 +304,23 @@ public class PerformController {
 			HttpServletRequest req,
 			Model model) throws Exception {
 		
-		int size = 30;
-		int total_page = 0;
-		int dataCount = 0;
 		
 		//전체 페이지 수 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("year", year);
 		
-
-		
-		List<Perform> list = null;
-		
-		
+		List<Perform> list = service.listDaily_sales();
 		
 		model.addAttribute("list", list);
 		
+		
+		Perform dto = null;
+		dto = service.year_target();
+		
+		int year_target = dto.getGolamount();
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("year_target", year_target);
 		
 		return "/admin/perform/list_sales";
 	}

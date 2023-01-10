@@ -214,9 +214,77 @@ function updateForm(memberNo){
 	
 	const fn = function(data) {
 		$(selector).html(data);
+		$(".findNickname").hide();
+		$(".nofindNickname").hide();
+		
 	};
 	
 	ajaxFun(url, "get", query, "html", fn);
+	
+}
+
+//닉네임 유효성 검사
+function findNickname(){
+	
+	$(".nofindNickname").hide();
+	$(".findNickname").hide();
+	
+	let nickName = $(".myp__input_name").val();
+	let url = "${pageContext.request.contextPath}/admin/mypage/findNickname";
+	let query = "nickName="+nickName;
+	
+	const fn = function(data) {
+		let state = data.state;
+		
+
+		if(state=="false"){
+			$(".findNickname").show();
+			$("#NicknameOk").val(state);
+		} else {
+			$(".nofindNickname").show();
+			$("#NicknameOk").val(state);
+		}
+		
+		
+	};
+	
+	ajaxFun(url, "post", query, "json", fn);
+	
+}
+
+
+//정보 수정
+function sendOk(){
+	const f = document.mypageForm;
+	let str;
+	
+	if($("#NicknameOk").val()=='false'){
+		alert("중복 닉네임은 등록이 안됩니다.")
+		$(".myp__input_name").focus();
+	} else if ($("#NicknameOk").val()==''){
+		alert("닉네임 중복 확인을 해주세요.")
+		$(".myp__input_name").focus();
+		return;
+	}
+	
+	let url ="${pageContext.request.contextPath}/admin/mypage/update";
+	let query = new FormData(f); // IE는 10이상에서만 가능
+	
+
+	const fn = function(data){
+		let state = data.state;
+        if(state === "false") {
+            alert("개인정보 수정에 실패했습니다. ");
+            return false;
+        }
+        alert("정보 수정 완료되었습니다.")
+        
+    	listPage(1);
+    	listInfo(1);
+    	
+	};
+	
+	ajaxFileFun(url, "post", query, "json", fn);
 	
 }
 
@@ -237,30 +305,7 @@ function sendCancel(){
 	$(selector).html("");
 }
 
-//정보 수정
-function sendOk(){
-	const f = document.mypageForm;
-	let str;
-	
-	let url ="${pageContext.request.contextPath}/admin/mypage/update";
-	let query = new FormData(f); // IE는 10이상에서만 가능
-	
 
-	const fn = function(data){
-		let state = data.state;
-        if(state === "false") {
-            alert("개인정보 수정에 실패했습니다. ");
-            return false;
-        }
-        
-    	listPage(1);
-    	listInfo(1);
-    	
-	};
-	
-	ajaxFileFun(url, "post", query, "json", fn);
-	
-}
 
 function loginchange(){
 	if(! confirm("로그아웃 후 해당 계정으로 로그인하시겠습니까? ")){

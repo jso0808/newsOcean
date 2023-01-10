@@ -58,6 +58,21 @@ public class PerformServiceImpl implements PerformService {
 		return dto;
 	}
 
+
+	@Override
+	public List<Perform> listDaily_sales() {
+		List<Perform> list = null;
+		
+		try {
+			list = dao.selectList("adminPerform.listDaily_sales");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
 	
 
 }

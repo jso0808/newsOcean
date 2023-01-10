@@ -14,7 +14,7 @@
 	<thead class="">
 		<tr class="admin__tr__design">
 			<th class="bw-60">번호</th>
-			<th>댓글 내용</th>
+			<th class="left">댓글 내용</th>
 			<th class="bw-100">뉴스번호</th>
 			<th class="bw-100">작성일</th>
 		</tr>

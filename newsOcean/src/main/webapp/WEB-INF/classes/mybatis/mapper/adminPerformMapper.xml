@@ -30,4 +30,17 @@
 		WHERE TO_CHAR(golsdate, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
 	</select>
 	
+	<!-- 일자별 매출 가져오기  -->
+	<select id="listDaily_sales" resultType="com.sp.app.admin.perform.Perform">
+		SELECT substart, SUM(paid_amount) paid_amount, month, year
+		FROM (SELECT TO_CHAR(substart, 'YYYY-MM-DD')substart , paid_amount,
+		    SUM(paid_amount) OVER(PARTITION BY TO_CHAR(substart, 'YYYY-MM-DD')) AS day,
+		    SUM(paid_amount) OVER(PARTITION BY TO_CHAR(substart, 'YYYY-MM')) AS month,
+		    SUM(paid_amount) OVER(PARTITION BY TO_CHAR(substart, 'YYYY')) AS year
+		FROM subscript
+		ORDER BY substart DESC) ss 
+		GROUP BY substart, day, month, year
+		ORDER BY substart DESC
+	</select>
+	
 </mapper>

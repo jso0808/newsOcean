@@ -11,5 +11,8 @@ public interface PerformService {
 	//올해 목표
 	public Perform year_target();
 	
+	//일자별 매출 내역 
+	public List<Perform> listDaily_sales();
+	
 	
 }

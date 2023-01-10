@@ -255,6 +255,28 @@ public class Member {
 	
 	
 	
+	//신고내역
+	private long complainNo;
+	private String complaindate;
+
+
+	public long getComplainNo() {
+		return complainNo;
+	}
+	public void setComplainNo(long complainNo) {
+		this.complainNo = complainNo;
+	}
+	public String getComplaindate() {
+		return complaindate;
+	}
+	public void setComplaindate(String complaindate) {
+		this.complaindate = complaindate;
+	}
+	
+	
+	
+	
+	
 	
 	
 }

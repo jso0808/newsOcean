@@ -149,7 +149,7 @@
 	border-radius: 10px;
 	border: none;
 	font-size: 15px;
-	background: #fff;
+	background: #eee;
 	color: #595959;
 	font-family: 'line_font_r';
 	margin-top: 27px;
@@ -219,6 +219,7 @@
 	width: 110px;
 	border: 1px solid #595959;
 	padding: 7px;
+	font-size: 12px;
 }
 
 .myp__input_name {
@@ -227,6 +228,9 @@
 	border-radius: 5px;
 	border: 1px solid #595959;
 	padding: 7px;
+	margin-left: 20px;
+	margin-right: -30px;
+	font-size: 12px;
 }
 
 .myp__input_name:focus, .myp__input:focus {

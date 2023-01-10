@@ -25,7 +25,7 @@
 			<tr>
 				<td>${dto.qnaNo}</td>
 				<td class="left">
-					<a href="#">${dto.qnasubject}</a>
+					<a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=1">${dto.qnasubject}</a>
 				</td>
 				<td>${dto.qnacontent} </td>
 				<td>${dto.qnaregdate}</td>

@@ -11,9 +11,14 @@
 	
 	<!-- 관리자 정보 변경하기  -->
 	<update id="updateMypage" parameterType="com.sp.app.admin.mypage.Mypage">
-		UPDATE member SET birth = #{birth} , name = #{name}, nickName = #{nickName}, modifydate = SYSDATE
+		UPDATE member SET birth = #{birth} , nickName = #{nickName}, modifydate = SYSDATE
 			WHERE memberNo = #{memberNo}
 	</update>
+	
+	<!-- 닉네임 유효성 검사 -->
+	<select id="findNickname" parameterType="com.sp.app.admin.mypage.Mypage" resultType="Integer">
+		SELECT COUNT(memberNo) FROM member WHERE nickName= #{nickName}
+	</select>
 	
 	<select id="readMypage" parameterType="Long" resultType="com.sp.app.admin.mypage.Mypage">
 		SELECT memberNo, email, pwd, name, nickName, TO_CHAR(birth, 'YYYY-MM-DD') birth , gender, TO_CHAR(joindate,'YYYY-MM-DD') joindate , NVL(TO_CHAR(recentdate, 'YYYY-MM-DD'), '2999-01-01') recentdate,
