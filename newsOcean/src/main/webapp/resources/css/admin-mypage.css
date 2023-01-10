@@ -425,8 +425,9 @@
 }
 
 .admin__list__content__state:hover {
-	opacity: 90%;
+	opacity: 80%;
 	transition: .5s;
+	background: red;
 }
 
 

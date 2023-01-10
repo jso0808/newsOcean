@@ -131,9 +131,40 @@ public class MypageServiceImpl implements MypageService {
 		
 		return result;
 	}
-	
 
 
+
+
+	@Override
+	public int count_Admin() {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMypage.count_Admin");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+
+
+
+
+	@Override
+	public void updateAdmin(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("adminMypage.updateAdmin_1", map);
+			dao.updateData("adminMypage.updateAdmin_2", map);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
 
 
 }

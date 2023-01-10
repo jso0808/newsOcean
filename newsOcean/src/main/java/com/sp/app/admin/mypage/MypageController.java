@@ -142,7 +142,7 @@ public class MypageController {
 			Mypage dto = new Mypage();
 			dto.setNickName(nickName);
 			result = service.findNickname(dto);
-			
+		
 			
 			if (result == 0) {
 				state = "true";
@@ -154,6 +154,39 @@ public class MypageController {
 		}
 		
 		System.out.println(state);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	//관리자 권한 취소하기 
+	@RequestMapping(value = "updateAdmin")
+	@ResponseBody
+	public Map<String, Object> updateAdmin(@RequestParam String memberNo) throws Exception {
+		
+		int dataCount = 0;
+		String state = "false";
+		
+		try {
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberNo", memberNo);
+			
+			dataCount = service.count_Admin();
+			
+			
+			if(dataCount < 3) {
+				state = "false";
+			} else {
+				service.updateAdmin(map);
+				state = "true";
+			}
+			
+		} catch (Exception e) {
+		}
+		
 		
 		Map<String, Object> model = new HashMap<>();
 		model.put("state", state);
