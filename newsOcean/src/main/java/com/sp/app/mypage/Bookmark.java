@@ -6,30 +6,36 @@ public class Bookmark {
 	private int newsNo;
 	private int tabNum;//??
 	private int memberNo;
-	
-	public final int getBookmarkNum() {
+	private String bookmarkName;
+	public int getBookmarkNum() {
 		return bookmarkNum;
 	}
-	public final void setBookmarkNum(int bookmarkNum) {
+	public void setBookmarkNum(int bookmarkNum) {
 		this.bookmarkNum = bookmarkNum;
 	}
-	public final int getNewsNo() {
+	public int getNewsNo() {
 		return newsNo;
 	}
-	public final void setNewsNo(int newsNo) {
+	public void setNewsNo(int newsNo) {
 		this.newsNo = newsNo;
 	}
-	public final int getTabNum() {
+	public int getTabNum() {
 		return tabNum;
 	}
-	public final void setTabNum(int tabNum) {
+	public void setTabNum(int tabNum) {
 		this.tabNum = tabNum;
 	}
-	public final int getMemberNo() {
+	public int getMemberNo() {
 		return memberNo;
 	}
-	public final void setMemberNo(int memberNo) {
+	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
+	}
+	public String getBookmarkName() {
+		return bookmarkName;
+	}
+	public void setBookmarkName(String bookmarkName) {
+		this.bookmarkName = bookmarkName;
 	}
 	
 }

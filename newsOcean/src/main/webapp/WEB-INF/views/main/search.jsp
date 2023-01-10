@@ -132,7 +132,7 @@ cursor: pointer;
 	cursor: pointer;
 }
 #displayList{
-style=border: solid 1px gray; 
+border: solid 1px gray; 
 height: 100px; 
 overflow: auto; 
 margin-left: 77px; 

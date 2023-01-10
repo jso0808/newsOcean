@@ -110,10 +110,6 @@ function sectionClick(){
 }
 </script>
 <div class="container body-container">
-	<h1 class="search_keyword">
-	</h1>
-	<div class="search_result_count">
-	</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
 			<a href="${pageContext.request.contextPath}/" class="all category_link">

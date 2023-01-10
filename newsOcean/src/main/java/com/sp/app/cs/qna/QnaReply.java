@@ -9,8 +9,26 @@ public class QnaReply {
 	private String qnaARegdate;
 	private long qnaReply;
 	private int showReply;
-	
+	private String qnaContent;
+	private String qnaSubject;
 	private int qnaAReplyCount;
+
+	
+	public String getQnaContent() {
+		return qnaContent;
+	}
+
+	public void setQnaContent(String qnaContent) {
+		this.qnaContent = qnaContent;
+	}
+
+	public String getQnaSubject() {
+		return qnaSubject;
+	}
+
+	public void setQnaSubject(String qnaSubject) {
+		this.qnaSubject = qnaSubject;
+	}
 
 	public long getQnaAnswer() {
 		return qnaAnswer;

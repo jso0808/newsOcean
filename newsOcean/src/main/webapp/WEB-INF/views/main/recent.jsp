@@ -73,6 +73,30 @@ display:flex;
 .search_content{
  margin:5px auto;
 }
+
+.categoryBox{
+	display: block;
+    min-height: 1px;
+	position: relative;
+    top: 1px;
+    clear: both;
+    float: left;
+    width: 100%;
+    height: 27px;
+    margin: 25px 0 0 0;
+    z-index: 50;
+}
+.smallCategory{
+	float: left;
+    height: 20px;
+    padding: 0 9px 0 12px;
+}
+li{
+	list-style: none;
+	float: left;
+    height: 20px;
+    padding: 0 9px 0 12px;
+}
 </style>
 <script>
 $(function(){
@@ -94,10 +118,6 @@ function sectionClick(){
 }
 </script>
 <div class="container body-container">
-	<h1 class="search_keyword">
-	</h1>
-	<div class="search_result_count">
-	</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
 			<a href="${pageContext.request.contextPath}/" class="all category_link">
@@ -128,19 +148,43 @@ function sectionClick(){
 			</a>
 		</div>
 	</nav>
-	<div id="mediaSubnav" class="f_clear">
-		<!-- 뉴스홈 > 정치 -->
-		<h3 class="newsPolitic"><a href="${pageContext.request.contextPath}/section?categoryNo=200" onclick="sectionClick('200');">정치</a></h3>
-		<ul class="mediaSubnavList">
-			<li class="first"><a href="${pageContext.request.contextPath}/recent?categoryNo=201" class="selected" onclick="recentClick('201');">최신뉴스</a></li>
-			<li><a class="" href="${pageContext.request.contextPath}/subsection?categoryNo=202"  onclick="subsectionClick('202');">대통령실</a></li>
-			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=203"  onclick="subsectionClick('203');">국회/정당</a></li>
-			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=204"  onclick="subsectionClick('204');">외교/국방</a></li>
-			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=205"  onclick="subsectionClick('205');">북한</a></li>
-			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=206"  onclick="subsectionClick('206');">행정</a></li>
-			<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=207"  onclick="subsectionClick('207');">정치 일반</a></li>
-		</ul>
-	</div>
+	<ul class="categoryBox">
+		<c:choose>
+			<c:when test="${categoryNo eq 200}">
+				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+200}"  onclick="">${dto.categoryName}</a></li>
+				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
+				<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
+				</c:forEach>
+			</c:when>
+			<c:when test="${categoryNo eq 300}">
+				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+300}"  onclick="">${dto.categoryName}</a></li>
+				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
+					<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
+				</c:forEach>
+			</c:when>
+			<c:when test="${categoryNo eq 400}">
+				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+400}"  onclick="">${dto.categoryName}</a></li>
+				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
+				<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
+				</c:forEach>
+			</c:when>
+			<c:when test="${categoryNo eq 500}">
+			<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+500}"  onclick="">${dto.categoryName}</a></li>
+				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
+					<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
+				</c:forEach>
+			</c:when>
+			<c:when test="${categoryNo eq 600}">
+				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+600}"  onclick="">${dto.categoryName}</a></li>
+				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
+					<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+			
+			</c:otherwise>
+		</c:choose>
+	</ul>
 	<section class="main_section container">
 		<div class="posts row">
 			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">정치</a>
@@ -153,6 +197,7 @@ function sectionClick(){
 		</div>
 	</section>
 </div>
+
 
 <script>
 
