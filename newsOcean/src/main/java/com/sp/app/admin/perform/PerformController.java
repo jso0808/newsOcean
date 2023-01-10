@@ -276,18 +276,15 @@ public class PerformController {
 			HttpServletRequest req,
 			Model model) throws Exception {
 		
-		int size = 30;
-		int total_page = 0;
-		int dataCount = 0;
-		
 		//전체 페이지 수 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("year", year);
 		
+		List<Perform> list = service.listDaily_member();
+		
+		model.addAttribute("list", list);
 		
 		
-		
-		List<Perform> list = null;
 		
 		
 		

@@ -43,4 +43,21 @@
 		ORDER BY substart DESC
 	</select>
 	
+	<!-- 일자별 가입자수 가져오기 -->
+	<select id="listDaily_member" resultType="com.sp.app.admin.perform.Perform">
+		SELECT joindate, COUNT(memberNo) dataMember , month, year
+		FROM (SELECT TO_CHAR(joindate, 'YYYY-MM-DD') joindate , memberNo,
+		    COUNT(memberNo) OVER(PARTITION BY TO_CHAR(joindate, 'YYYY-MM-DD')) AS day,
+		    COUNT(memberNo) OVER(PARTITION BY TO_CHAR(joindate, 'YYYY-MM')) AS month,
+		    COUNT(memberNo) OVER(PARTITION BY TO_CHAR(joindate, 'YYYY')) AS year
+		FROM member
+		ORDER BY joindate DESC) ss 
+		GROUP BY joindate, day, month, year
+		ORDER BY joindate DESC
+	</select>
+	
+	
+	
+	
+	
 </mapper>

@@ -23,7 +23,7 @@
 				<td class="" ><fmt:formatNumber value="${dto.month}" pattern="#,##0" /></td>
 				<td class="" ><fmt:formatNumber value="${dto.year}" pattern="#,##0" /></td>
 				<td style="color: blue; font-family: 'line_font_b';"><fmt:formatNumber value="${year_target}" pattern="#,##0" />원</td>
-				<td><fmt:formatNumber value="${100.0 - ((year_target - dto.year) / year_target) * 100.0 }" pattern=".0" />%</td>
+				<td  style="font-family: 'line_font_b';"><fmt:formatNumber value="${100.0 - ((year_target - dto.year) / year_target) * 100.0 }" pattern=".0" />%</td>
 			</tr>
 		</c:forEach>
 	</tbody>

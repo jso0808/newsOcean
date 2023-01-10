@@ -73,6 +73,21 @@ public class PerformServiceImpl implements PerformService {
 		return list;
 	}
 
+
+	@Override
+	public List<Perform> listDaily_member() {
+		List<Perform> list = null;
+		
+		try {
+			list = dao.selectList("adminPerform.listDaily_member");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
 	
 
 }

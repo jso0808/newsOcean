@@ -13,6 +13,7 @@ public interface PerformService {
 	
 	//일자별 매출 내역 
 	public List<Perform> listDaily_sales();
-	
+	//일자별 가입 내역
+	public List<Perform> listDaily_member();
 	
 }

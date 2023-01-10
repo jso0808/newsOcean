@@ -54,7 +54,7 @@ $(function(){
 			<span style="font-family: 'line_font_b';">Sales Data</span>
 		</div>
 		<div class="pb-1">
-			<button type="button" class="print_btn shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/mypage/main';"><i class="fa-solid fa-print"></i>&nbsp;&nbsp; 화면 프린트하기 </button>
+			<button type="button" class="print_btn shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/mypage/main';"><i class="fa-solid fa-file-excel"></i>&nbsp;&nbsp; EXCEL 파일 다운로드 </button>
 			<button type="button" class="reload_btn shadow-sm" onclick="reload();"><i class="fa-solid fa-repeat"></i>&nbsp;&nbsp;새로고침</button>
 		</div>
 	</div>
