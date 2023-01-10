@@ -15,7 +15,7 @@
 				<div class='row reply-writer'>
 					<div class='col-1'><i class='bi bi-person-circle text-muted icon'></i></div>
 					<div class='col-auto align-self-center'>
-						<div class='name'>${vo.nickName}</div>
+						<div class='name'>관리자</div>
 						<div class='date'>${vo.qnaARegdate}</div>
 					</div>
 				</div>
