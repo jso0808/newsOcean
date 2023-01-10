@@ -34,7 +34,7 @@ public class MypageController {
 	}
 	
 	//메인 리스트 
-	@RequestMapping(value = "list")
+	@RequestMapping(value = "list") 
 	public String list(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
 			HttpSession session, Model model) throws Exception {
 		
