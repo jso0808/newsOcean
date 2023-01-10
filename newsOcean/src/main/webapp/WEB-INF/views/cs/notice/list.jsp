@@ -11,6 +11,11 @@
 	display: flex;
 	flex-direction: column;
 }
+.noticebanner_div {
+	width: 600px;
+	display: flex;
+	justify-content: flex-end;
+}
 
 </style>
 
@@ -34,8 +39,17 @@
 
 <div class="">
 	<div class="body-container">	
+		<div class="noticebanner">
+	    	<div class="row">
+		    		<div class="col text__area">
+		    			<h3>공지사항</h3>
+		    			<div>뉴스오션 소식을 전해드리는 공간이에요.</div>
+		    			<div>뉴스오션 공지사항을 이곳에 모아 두었어요.</div>
+		    		</div>
+	    	</div>
+		</div>
+		
 		<div class="body-title">
-			<h3>공지사항 </h3>
 		</div>
 		
 		<div class="body-main">

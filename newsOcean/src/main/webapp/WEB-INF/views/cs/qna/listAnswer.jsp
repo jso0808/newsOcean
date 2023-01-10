@@ -29,7 +29,6 @@
 						</c:when>
 						<c:when test="${sessionScope.member.memberShip > 50}">
 							<div class='deleteAnswer reply-menu-item' data-qnaAnswer='${vo.qnaAnswer}' data-pageNo='${pageNo}'>삭제</div>
-							<div class='blockAnswer reply-menu-item'>차단</div>
 						</c:when>
 					</c:choose>
 				</div>

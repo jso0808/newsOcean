@@ -7,6 +7,11 @@
 .body-container {
 	max-width: 800px;
 }
+.qnabanner_div {
+	width: 600px;
+	display: flex;
+	justify-content: flex-end;
+}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
@@ -45,9 +50,18 @@ function searchList() {
 </script>
 
 <div class="">
-	<div class="body-container">	
+	<div class="body-container">
+		<div class="qnabanner">
+	    	<div class="row">
+		    		<div class="col text__area">
+		    			<h3>QNA</h3>
+		    			<div>뉴스오션에게 궁금하신게 있으신가요?</div>
+		    			<div>이곳에서 물어봐주세요.</div>
+		    		</div>
+	    	</div>
+		</div>
+	
 		<div class="body-title">
-			<h3>QNA</h3>
 		</div>
 		
 		<div class="body-main">
@@ -86,7 +100,7 @@ function searchList() {
 									</c:if>									
 								</c:url>
 								<a href="${url}" class="text-reset">${dto.qnaSubject}</a>
-								<c:if test="${dto.replyCount!=0}">(${dto.replyCount})</c:if>
+								<c:if test="${dto.replyCount!=0}">(답변완료)</c:if>
 							</td>
 							<td>${dto.nickName}</td>
 							<td>${dto.qnaRegdate}</td>
