@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sp.app.cs.qna.QnaReply;
 import com.sp.app.member.Member;
+import com.sp.app.news.News;
 import com.sp.app.news.Reply;
 
 
@@ -39,6 +40,7 @@ public interface MypageService {
 	//public void updateMyBookmark(Map<String, Object> map) throws Exception;
 	public void deleteMyBookmark(Map<String, Object> map) throws Exception;
 	
+	public News readNews(News news);
 	//광고신청 ? 
 	
 }

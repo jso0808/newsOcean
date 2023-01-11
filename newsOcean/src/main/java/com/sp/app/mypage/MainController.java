@@ -31,8 +31,7 @@ public class MainController {
 	
 	@Autowired
 	private MemberService mservice;
-	@Autowired
-	private NewsService nservice;
+	
 	
 	@RequestMapping(value = "main")
 	public String main(Model model) {
@@ -122,7 +121,7 @@ public class MainController {
 			News news = new News();
 			news.setMemberNo(memberNo);
 			//news.setNewsNo(newsNo);
-			nservice.readNews(news);
+			service.readNews(news);
 		}
 		for(QnaReply s : QnaReplylist) {
 			System.out.println(s.getQnaAContent());

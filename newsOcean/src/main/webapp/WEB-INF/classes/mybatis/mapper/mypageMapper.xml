@@ -123,7 +123,19 @@
 		WHERE bookmarkNum = #{bookmarkNum} and memberNo = #{memberNo}		
 	</update>
 
-
+	<select id="readNews" resultType="com.sp.app.news.News">
+		SELECT n.newsNo, title, originLink, hitCount, categoryNo, NVL(bookMarked, 0) bookMarked
+		FROM NEWS n
+		LEFT OUTER JOIN(
+		    SELECT newsNo, COUNT(*) bookMarked
+		    FROM bookmark bm
+		    JOIN member m ON m.memberNo = bm.memberNo
+		    WHERE m.memberNo = #{memberNo}
+		    GROUP BY newsNo
+		) bm ON bm.newsNo = n.newsNo
+		WHERE n.newsNo = #{newsNo}
+		ORDER BY newsNo
+	</select>
 <!-- 회원 이미지, 전화번호, 이메일, 개인정보 수정-->
 <!-- 회원 이미지, 전화번호, 이메일, 개인정보 삭제 -->
 <!-- 회원탈퇴? -->

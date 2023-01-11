@@ -1,6 +1,5 @@
 package com.sp.app.mypage;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sp.app.common.dao.CommonDAO;
 import com.sp.app.cs.qna.QnaReply;
 import com.sp.app.member.Member;
+import com.sp.app.news.News;
 import com.sp.app.news.Reply;
 
 @Service("mypage.mypageService")
@@ -208,6 +208,18 @@ public class MypageServiceImpl implements MypageService {
 		}
 	}
 
+	@Override
+	public News readNews(News news) {
+		News dto = null;
+		
+		try {
+			dto = dao.selectOne("news.readNews", news);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
 
 
 
