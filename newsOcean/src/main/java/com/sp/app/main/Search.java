@@ -5,7 +5,6 @@ public class Search {
 	private int searchNo;
 	private Long memberNo;
 	private String searchName;
-	private String searchType;
 	//private String tagName;//필요x
 	private String categoryNo;//203, 204, 205 형태의 string으로 받음
 	private String searchNowdate; //검색하는 현재시간
@@ -22,13 +21,6 @@ public class Search {
 	private String staDate;
 	private String endDate;
 	private String keyword;
-	
-	public String getSearchType() {
-		return searchType;
-	}
-	public void setSearchType(String searchType) {
-		this.searchType = searchType;
-	}
 	public int getSearchNo() {
 		return searchNo;
 	}
