@@ -41,6 +41,7 @@ public class MainMongoOperations {
 	}
 	//카테고리번호에 해당하는 뉴스리스트
 	public List<News> categoryNews(int categoryNo) {
+		
 		List<News> list = null;
 		
 		try {
@@ -52,7 +53,7 @@ public class MainMongoOperations {
 			//query.addCriteria(Criteria.where("category").is(categoryNo));
 			//query.with(Sort.by(Sort.Direction.DESC, "tot"));
 			list = mongo.find(query, News.class);
-			System.out.println(list);
+			System.out.println(list.size());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
