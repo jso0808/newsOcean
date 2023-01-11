@@ -1,5 +1,7 @@
 package com.sp.app.news;
 
+import org.bson.types.ObjectId;
+
 public class News {
 	
 	private long memberNo;
@@ -14,14 +16,13 @@ public class News {
 
 	
 	// 몽고DB
-	// 위 변수에 합칠지 고민
-	private long crawlNo; // id컬럼일지 고민
+	private ObjectId crawlNo;
 	private String crawlUrl;
 	private String crawlPress; // 언론사
 	private String crawlDate;
 	private String crawlTitle;
 	private String crawlContent;
-	private String crawlReport; // 기자 연락처
+	private String crawlSummary;
 	private String bCategory; // 대분류
 	private String sCategory; // 소분류
 	
@@ -55,12 +56,6 @@ public class News {
 	public void setCategoryNo(long categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-	public long getCrawlNo() {
-		return crawlNo;
-	}
-	public void setCrawlNo(long crawlNo) {
-		this.crawlNo = crawlNo;
-	}
 	public String getCrawlUrl() {
 		return crawlUrl;
 	}
@@ -91,12 +86,6 @@ public class News {
 	public void setCrawlContent(String crawlContent) {
 		this.crawlContent = crawlContent;
 	}
-	public String getCrawlReport() {
-		return crawlReport;
-	}
-	public void setCrawlReport(String crawlReport) {
-		this.crawlReport = crawlReport;
-	}
 	public String getbCategory() {
 		return bCategory;
 	}
@@ -126,6 +115,18 @@ public class News {
 	}
 	public void setBookMarkNum(long bookMarkNum) {
 		this.bookMarkNum = bookMarkNum;
+	}
+	public ObjectId getCrawlNo() {
+		return crawlNo;
+	}
+	public void setCrawlNo(ObjectId crawlNo) {
+		this.crawlNo = crawlNo;
+	}
+	public String getCrawlSummary() {
+		return crawlSummary;
+	}
+	public void setCrawlSummary(String crawlSummary) {
+		this.crawlSummary = crawlSummary;
 	}
 	
 }

@@ -275,8 +275,16 @@ function requestPay() {
 		return;
 	}
 	
+	// 현재 구독중인지 검사
+	nowSubscripting();
+	
 	// 카카오페이 결제 실행
 	execKakaoPay();
+	
+}
+
+// 현재 구독중인 구독권이 있는지 검사
+function nowSubscripting() {
 	
 }
 

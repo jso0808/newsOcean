@@ -8,15 +8,9 @@ public interface NewsService {
 	// 테스트용 뉴스글 리스트
 	public List<News> listNews();
 	
-	// 테스트용 뉴스글. NewsMongoOperations << 몽고DB 구현해야함
+	// 테스트용 뉴스글.
 	public News readNews(News news);
 	public void updateHitCount(long newsNo);
-	/*
-	public News preReadNews(News news);
-	public News nextReadNews(News news);
-	public void updateNews(News news);
-	public void deleteNews(long newsNo, String memeberNo, String memberShip);
-	*/
 	
 	// 뉴스글 좋아요
 	public void insertNewsLike(Map<String, Object> map) throws Exception;
@@ -37,8 +31,7 @@ public interface NewsService {
 	public void deleteReplyLike(Map<String, Object>map) throws Exception;
 	public int replyLikeCount(long replyNo);
 	// 댓글 숨기기
-	public void updateReplyHide(long replyNo);
-	
+	public void updateReplyShowHide(Map<String, Object> map);
 	// 댓글 신고
 	public void insertReplyComplain(Map<String, Object> map) throws Exception;
 	// 댓글의 신고 건 수 확인

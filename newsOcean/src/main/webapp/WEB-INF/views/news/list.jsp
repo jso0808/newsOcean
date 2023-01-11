@@ -16,6 +16,7 @@
 	position: relative;
 	min-width: 200px;
 }
+
 .table .ellipsis span {
 	overflow: hidden;
 	white-space: nowrap;
@@ -25,10 +26,13 @@
 	right: 9px;
 	cursor: pointer;
 }
+
 .table .ellipsis:before {
 	content: '';
 	display: inline-block;
 }
+
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 

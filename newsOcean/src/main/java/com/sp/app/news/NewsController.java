@@ -50,7 +50,7 @@ public class NewsController {
 	@RequestMapping(value = "article")
 	public String article( 
 			News news,
-			@RequestParam(value = "newsNo") long newsNo,
+			@RequestParam(value = "crawlNo") long crawlNo,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			HttpSession session,
@@ -58,16 +58,6 @@ public class NewsController {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		int newsLikeCount = 0;
-		
-		// 검색 페이지에서 넘어올 때 사용하는지 확인
-		/* 
-		keyword = URLDecoder.decode(keyword, "utf-8");
-		String query = "page=" + page;
-		if (keyword.length() != 0) {
-			query += "&condition=" + condition + 
-					"&keyword=" + URLEncoder.encode(keyword, "UTF-8");
-		}
-		*/
 		
 		// 조회수 +1 업데이트
 		service.updateHitCount(news.getNewsNo());
@@ -78,34 +68,25 @@ public class NewsController {
 			return "redirect:/";
 		}
 		
-		// 몽고DB 요약내용컬럼 보고 아래 코드 판단
-		// dto.setContent(myUtil.htmlSymbols(dto.getContent()));
+		dto.setCrawlContent(dto.getCrawlContent().replaceAll("\n", "<br>"));
+		dto.setCrawlSummary(dto.getCrawlSummary().replace("\n", "<br>"));
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", condition);
 		map.put("keyword", keyword);
-		map.put("newsNo", newsNo);
-		
-		// 몽고DB : 이전기사, 다음기사
-		//News preReadDto = service.preReadNews(news);
-		//News nextReadDto = service.nextReadNews(news);
+		map.put("newsNo", crawlNo);
 		
 		map.put("memberNo", info.getMemberNo());
 		// 뉴스글 좋아요 여부 가져오기
 		boolean userNewsLiked = service.userNewsLiked(map);
 		
 		// 뉴스글의 좋아요 개수 가져오기
-		newsLikeCount = service.newsLikeCount(newsNo);
+		newsLikeCount = service.newsLikeCount(crawlNo);
 		
 		model.addAttribute("dto", dto);
-		// model.addAttribute("preReadDto", preReadDto);
-		// model.addAttribute("nextReadDto", nextReadDto);
 		model.addAttribute("userNewsLiked", userNewsLiked);
 		model.addAttribute("newsLikeCount", newsLikeCount);
-		
-		// model.addAttribute("page", page);
-		// model.addAttribute("query", query);
-		
+
 		return ".news.article";
 	}
 	
@@ -240,6 +221,7 @@ public class NewsController {
 		return model;
 	}
 	
+	
 	// AJAX-JSON: 뉴스글의 댓글 삭제하기
 	@RequestMapping(value = "deleteReply")
 	@ResponseBody
@@ -305,6 +287,30 @@ public class NewsController {
 		return model;
 	}
 	
+	// AJAX1-JSON: 뉴스 댓글 숨김/해제 처리하기
+	@RequestMapping(value = "replyShowHide")
+	@ResponseBody
+	public Map<String, Object> replyShowHide(
+			@RequestParam Map<String, Object> paramMap,
+			HttpSession session) {
+		String state = "true";
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		try {
+			paramMap.put("memberNo", info.getMemberNo());
+			service.updateReplyShowHide(paramMap);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	
 	// AJAX-JSON: 뉴스 댓글 신고하기
 	@RequestMapping(value = "replyComplain")
 	@ResponseBody
@@ -340,7 +346,8 @@ public class NewsController {
 			// 해당 댓글의 신고 건 수가 3회 이상이면 댓글 숨김 처리
 			int complainCount = service.complainCount(replyNo);
 			if(complainCount >= 3) {
-				service.updateReplyHide(replyNo);
+				paramMap.put("showHide", -1);
+				service.updateReplyShowHide(paramMap);
 			}
 			state = "true";
 		} catch (Exception e) {
@@ -357,6 +364,7 @@ public class NewsController {
 		
 	}
 	
+	// AJAX-JSON: 북마크 추가/삭제
 	@RequestMapping(value = "insertBookMark")
 	@ResponseBody
 	public Map<String, Object> insertBookMark(
