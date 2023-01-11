@@ -13,7 +13,6 @@
 	 background-color: #fff;
 	 height: 500px;
 	 margin-top:40px;
-	 border-bottom: 2px solid #004b81;
 }
 
 .banner_img_div {
@@ -22,10 +21,11 @@
 	justify-content: flex-end;
 }
 .wordCloud_img{
-	 min-width:98vw;
-	 background-color: #004b81;
-	 height: 200px;
-	 margin-bottom: 50px;
+	 min-width:1200px;
+	 margin: auto;
+	 height: 400px;
+	 margin-bottom: 30px;
+	 margin-top: 50px;
 }
 .category{
 	min-height: 70px;
@@ -160,8 +160,7 @@ display:flex;
     	</div>
     </div>
     <div class="wordCloud_img">
-    	<img src="">
-    	워드클라우드 공간
+    	<img class="word_img_size" src="${pageContext.request.contextPath}/resources/images/rating.png">
     </div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
