@@ -1,7 +1,6 @@
 package com.sp.app.admin.perform;
 
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,18 +16,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
 
-import com.sp.app.common.MyUtil;
 
 @Controller("admin.perform.performController")
 @RequestMapping("/admin/perform/*")
 public class PerformController {
 	@Autowired
 	private PerformService service;
-	@Autowired
-	private MyUtil myUtil;
-	
-	
+
 	@RequestMapping(value = "main_content")
 	public String main_content(Model model) throws Exception {
 		
@@ -283,15 +279,43 @@ public class PerformController {
 		List<Perform> list = service.listDaily_member();
 		
 		model.addAttribute("list", list);
-		
-		
-		
-		
-		
-		model.addAttribute("list", list);
-		
-		
+
 		return "/admin/perform/list_member";
+	}
+	
+	//엑셀 다운로드 - excel_sales (매출)
+	@RequestMapping("excel_member")
+	public View excel_member(Map<String, Object> model) throws Exception {
+		List<Perform> list = service.listDaily_member();
+		
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		String sysdate = sdf.format(date);
+		
+		String sheetName = "가입자 통계_"+sysdate;
+		List<String> columnLabels = new ArrayList<String>();
+		List<Object[]> columnValues = new ArrayList<Object[]>();
+		
+		columnLabels.add("가입일");
+		columnLabels.add("가입자 수");
+		columnLabels.add("월간 가입자 수");
+		columnLabels.add("연간 가입자 수");
+		
+		for(Perform dto : list) {
+			columnValues.add(new Object[] { dto.getJoindate(), dto.getDataMember(),
+								dto.getMonth(), dto.getYear()});
+		}
+		
+		model.put("filename", "report_member.xlsx");
+		model.put("sheetName", sheetName);
+		model.put("columnLabels", columnLabels);
+		model.put("columnValues", columnValues);
+		
+		String member = "member";
+		model.put("member", member);
+		
+		
+		return new MyExcelView();
 	}
 	
 	
@@ -321,17 +345,53 @@ public class PerformController {
 		
 		return "/admin/perform/list_sales";
 	}
+	
+	
+	
+	//엑셀 다운로드 - excel_sales (매출)
+	@RequestMapping("excel_sales")
+	public View excel_sales(Map<String, Object> model) throws Exception {
+		List<Perform> list = service.listDaily_sales();
 		
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		String sysdate = sdf.format(date);
+		
+		String sheetName = "매출 통계_"+sysdate;
+		List<String> columnLabels = new ArrayList<String>();
+		List<Object[]> columnValues = new ArrayList<Object[]>();
+		
+		columnLabels.add("일자");
+		columnLabels.add("일별 매출 합계");
+		columnLabels.add("월간 매출 합계");
+		columnLabels.add("연간 매출 합계");
+		columnLabels.add("연 매출 목표");
+		
+		
+		Perform dto_year = service.year_target();
+		
+		int year_target = dto_year.getGolamount();
+		
+		for(Perform dto : list) {
+			columnValues.add(new Object[] { dto.getSubstart(), dto.getPaid_amount(),
+					dto.getMonth(), dto.getYear(), year_target});
+		}
+		
+		model.put("filename", "report_sales.xlsx");
+		model.put("sheetName", sheetName);
+		model.put("columnLabels", columnLabels);
+		model.put("columnValues", columnValues);
+		
+		return new MyExcelView();
+	}
+		
+	
 	
 	@RequestMapping(value = "list_hitcount")
 	public String list_hitcount(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "") String year,
 			HttpServletRequest req,
 			Model model) throws Exception {
-		
-		int size = 30;
-		int total_page = 0;
-		int dataCount = 0;
 		
 		//전체 페이지 수 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -348,6 +408,18 @@ public class PerformController {
 		
 		return "/admin/perform/list_hitcount";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

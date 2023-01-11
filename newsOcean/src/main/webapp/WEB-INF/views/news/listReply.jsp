@@ -10,6 +10,7 @@
 
 <table class='table table-borderless'>
 	<c:forEach var="vo" items="${listReply}">
+	<c:if test="">  </c:if>
 		<tr class='border bg-light'>
 			<td width='50%'>
 				<div class='row reply-writer'>
@@ -29,6 +30,7 @@
 							<div class='deleteReply reply-menu-item' data-replyNo='${vo.replyNo}' data-pageNo='${pageNo}'>삭제</div>
 						</c:when>
 						<c:when test="${sessionScope.member.memberShip > 50}">
+							<div class='replyShowHide reply-menu-item' data-replyNo='${vo.replyNo}' data-showHide='${vo.showHide}' data-pageNo='${pageNo}'>숨김</div>
 							<div class='deleteReply reply-menu-item reply-menu-item' data-replyNo='${vo.replyNo}' data-pageNo='${pageNo}'>삭제(관리자용)</div>
 						</c:when>
 						<c:otherwise>

@@ -188,6 +188,7 @@ $(function(){
 	});
 });
 
+
 // 댓글 삭제
 $(function(){
 	$("body").on("click", ".deleteReply", function(){
@@ -253,6 +254,50 @@ $(function(){
 		ajaxFun(url, "post", query, "json", fn);
 	});
 });
+
+// 댓글 숨김/해제 기능
+$(function(){
+	$("body").on("click", ".replyShowHide", function(){
+		let $menu = $(this);
+		
+		let replyNo = $(this).attr("data-replyNo");
+		let showHide = $(this).attr("data-showHide");
+		
+		let msg = "댓글을 숨김 하시겠습니까 ? ";
+		if(showHide === "0") {
+			msg = "댓글 숨김을 해제 하시겠습니까 ? ";
+		}
+		if(! confirm(msg)) {
+			return false;
+		}
+		
+		showHide = showHide === "0" ? "-1" : "0";
+		
+		let url = "${pageContext.request.contextPath}/news/replyShowHide";
+		let query = "replyNo=" + replyNo + "&showHide="+showHide;
+		
+		const fn = function(data){
+			if(data.state === "true") {
+				let $item = $menu.closest("tr").next("tr").find("td"); // 내용
+
+				console.log($item);
+				if(showHide === "0") {
+					$item.removeClass("text-primary").removeClass("text-opacity-50");
+					$menu.attr("data-showHide", "0");
+					$menu.html("숨김");
+				} else {
+					$item.addClass("text-primary").addClass("text-opacity-50");
+					$menu.attr("data-showHide", "-1");
+					$menu.html("표시");
+				}
+			}
+			
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
 
 // 댓글 신고하기: 신고 버튼 클릭 시 신고 내용 작성 모달(complainModal) 띄우기
 $(function() {

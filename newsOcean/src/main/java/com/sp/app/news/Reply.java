@@ -13,6 +13,7 @@ public class Reply {
 	private int likeCount;
 	private int userReplyLiked;
 	private int complainCount;
+	private int showHide;
 	
 	public long getMemberNo() {
 		return memberNo;
@@ -84,6 +85,14 @@ public class Reply {
 
 	public void setUserReplyLiked(int userReplyLiked) {
 		this.userReplyLiked = userReplyLiked;
+	}
+
+	public int getShowHide() {
+		return showHide;
+	}
+
+	public void setShowHide(int showHide) {
+		this.showHide = showHide;
 	}
 
 }

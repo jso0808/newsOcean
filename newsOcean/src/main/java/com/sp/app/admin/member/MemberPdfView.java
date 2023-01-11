@@ -1,6 +1,8 @@
 package com.sp.app.admin.member;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +35,7 @@ public class MemberPdfView extends AbstractPdfView {
 		response.setContentType("application/pdf");
 		response.setHeader("Content-disposition", "attachment; filename="+filename);
 		
+		
 		//글꼴!
 		BaseFont baseFont = BaseFont.createFont("c:\\windows\\fonts\\malgun.ttf",
 				BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
@@ -42,11 +45,27 @@ public class MemberPdfView extends AbstractPdfView {
 		
 		font.setSize(16);
 		font.setStyle(Font.BOLD);
-		
+
 		//문장 표현
 		Paragraph p = new Paragraph("뉴스오션 회원 리스트", font);
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(p);
+		
+		
+		Font font_date = new Font(baseFont);
+		
+		font_date.setSize(9);
+		font_date.setStyle(Font.BOLD);
+		
+		
+		//오늘날짜 - 다운 일자 
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		String sysdate = sdf.format(date);
+		
+		Paragraph p_date = new Paragraph(sysdate, font_date);
+		p_date.setAlignment(Paragraph.ALIGN_RIGHT);
+		document.add(p_date);
 		
 		
 		Font font_title = new Font(baseFont);

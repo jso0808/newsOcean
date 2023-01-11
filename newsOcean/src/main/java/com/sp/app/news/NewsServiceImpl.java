@@ -201,9 +201,9 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	@Override
-	public void updateReplyHide(long replyNo) {
+	public void updateReplyShowHide(Map<String, Object> map) {
 		try {
-			dao.updateData("news.updateReplyHide", replyNo);
+			dao.updateData("news.updateReplyHide", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -235,5 +235,7 @@ public class NewsServiceImpl implements NewsService{
 			e.printStackTrace();
 		}
 	}
+
+	
 
 }

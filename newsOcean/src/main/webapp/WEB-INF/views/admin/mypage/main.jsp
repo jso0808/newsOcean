@@ -175,6 +175,39 @@ function listad(page) {
 
 }
 
+//admin_update
+function updateAdmin() {
+	
+	if(! confirm("해당 계정을 관리자 계정에서 삭제하시겠습니까?")){
+		return false;
+	}
+	
+	if(! confirm("정말 삭제하시겠습니까?")){
+		return false;
+	}
+	
+	let memberNo = $("#admin_memberNo").val();
+
+	let url = "${pageContext.request.contextPath}/admin/mypage/updateAdmin";
+	let query = "memberNo="+memberNo;
+	
+	const fn = function(data) {
+		let state = data.state;
+
+		if(state=="false"){
+			alert("관리자 계정은 2개 이상 존재 해야합니다.")
+		} else {
+			alert("해당 계정이 관리자 계정에서 삭제 되었습니다.")
+		}
+		
+		listad(1);
+		
+	};
+	
+	ajaxFun(url, "post", query, "json", fn);
+	
+	
+}
 
 
 //qna 답변 리스트

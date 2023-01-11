@@ -41,16 +41,20 @@
 		FROM NEWSREPLY nr
 		JOIN NEWS n ON n.newsNo = nr.newsNo
 		WHERE nr.newsNo = #{newsNo}
+		<if test="memberShip lt 51">
+			AND ( showHide=0 OR ( showHide=-1 AND memberNo=#{memberNo} ) )
+		</if>
 	</select>
 	
 	<select id="listReply" parameterType="map" resultType="com.sp.app.news.Reply">
 		SELECT nr.replyNo, content, regDate, newsNo, nr.memberNo, nickName, NVL(likeCount,0) likeCount,
-			NVL(userReplyLiked,0) userReplyLiked, profile
+			NVL(userReplyLiked,0) userReplyLiked, nr.showHide
 		FROM newsReply nr
 		JOIN member m ON m.memberNo = nr.memberNo
 		LEFT OUTER JOIN (
 		    SELECT replyNo, COUNT(*) likeCount
-		    FROM newsReplyLike GROUP BY replyNo
+		    FROM newsReplyLike 
+		    GROUP BY replyNo
 		) nrl ON nr.replyNo = nrl.replyNo
 		LEFT OUTER JOIN (
 		    SELECT replyNo, COUNT(*) userReplyLiked
@@ -60,9 +64,17 @@
             GROUP BY replyNo
 		) nrl2 ON nr.replyNo = nrl2.replyNo
 		WHERE newsNo = #{newsNo}
+		<if test="memberShip lt 51">
+			AND (showHide=0 OR (showHide=-1 AND m.memberNo = #{memberNo}))
+		</if>
 		ORDER BY replyNo
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
+	
+	<update id="updateReplyHide">
+		UPDATE newsReply SET showHide = #{showHide}
+		WHERE replyNo = #{replyNo}
+	</update>
 	
 	<insert id="insertReply" parameterType="com.sp.app.news.Reply">
 		INSERT INTO newsReply(replyNo, content, regDate, newsNo, memberNo)
@@ -81,15 +93,20 @@
 		WHERE newsNo = #{newsNo}
 	</select>
 	
+	<update id="updateReply" parameterType="map">
+		UPDATE newsReply SET replyNo=#{replyNo}, content=#{content}, regDate=sysdate, memberNo=#{memberNo}
+		WHERE newsNo = #{newsNo} 
+	</update>
+	
 	<delete id="deleteReply" parameterType="map">
 		DELETE FROM newsReply
 		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
 	</delete>
 	
 	<select id="complainCount" parameterType="Long" resultType="Integer">
-		SELECT COUNT(*)
-		FROM complain
-		WHERE replyNo = #{replyNo}
+	SELECT COUNT(*)
+	FROM complain
+	WHERE replyNo = #{replyNo}
 	</select>
 	
 	<select id="userReplyComplain" parameterType="map" resultType="com.sp.app.news.Complain">
@@ -97,10 +114,6 @@
 		FROM complain
 		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
 	</select>
-	
-	<update id="updateReplyHide" parameterType="Long">
-		UPDATE newsReply SET showHide = -1 WHERE replyNo=#{replyNo}
-	</update>
 	
 	<insert id="insertReplyComplain" parameterType="com.sp.app.news.Complain">
 		INSERT INTO complain(complainNo, memberNo, complain, complainDate, replyNo) 

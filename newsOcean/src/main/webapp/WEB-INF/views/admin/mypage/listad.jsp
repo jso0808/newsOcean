@@ -21,7 +21,8 @@
 				<td class="admin__list__content">${dto.name} </td>
 				<td class="admin__list__content2">${dto.recentdate}</td>
 				<td class="admin__list__content2">${dto.modifydate}</td>
-				<td class="admin__list__content__state " onclick="" style="cursor: pointer;">${dto.membership=='99' ? "관리자" : ""}</td>
+				<input type="hidden" id="admin_memberNo" value="${dto.memberNo}">
+				<td class="admin__list__content__state " onclick="updateAdmin();" style="cursor: pointer;">관리자 삭제</td>
 			</tr>
 		</c:forEach>
 	</tbody>
