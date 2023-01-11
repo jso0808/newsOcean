@@ -179,13 +179,9 @@ function sectionClick(){
 	</ul>
 	<section class="main_section container">
 		<div class="posts row">
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">정치</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">경제</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/section?categoryNo=500">IT/과학</a>
+			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
+			<a class="card col-md-3 col-lg-4"  href="">${dto.crawlTitle}:${dto.crawlUrl}</a>
+			</c:forEach>
 		</div>
 	</section>
 </div>
