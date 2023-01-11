@@ -185,7 +185,7 @@ display:flex;
     </div>
     
     <div style="margin: auto; ">
-    	<img style="width: 160px; margin-top: 70px; margin-bottom: 40px; " src="${pageContext.request.contextPath}/resources/images/wave__.gif">
+    	<img style="width: 160px; margin-top: 10px; margin-bottom: 10px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif">
     </div>
     
     <div class="wordCloud_intro">☁️ 뉴스 인기 키워드</div>
