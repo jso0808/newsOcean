@@ -77,6 +77,22 @@
 	</update>
 	
 	
+	<!-- 관리자 찾기 -->
+	<select id="findEmail" parameterType="map" resultType="com.sp.app.admin.mypage.Mypage">
+		SELECT memberNo, email, name, TO_CHAR(birth, 'YYYY-MM-DD') birth, membership
+		FROM member 
+		WHERE email = #{email} AND membership != 99
+	</select>
+	
+	<!-- 관리자 권한 추가하기 (변경) 1 -->
+	<update id="addAdmin_1" parameterType="map">
+		UPDATE authority SET authority = 'ROLE_ADMIN' WHERE memberNo = #{memberNo}
+	</update>
+	<update id="addAdmin_2" parameterType="map">
+		UPDATE member SET membership = 99 WHERE memberNo = #{memberNo}
+	</update>
+	
+	
 	<!-- 관리자 수 카운트 : 1 이하는 절대 삭제 불가  -->
 	<select id="count_Admin" resultType="Integer">
 		SELECT COUNT(memberNo) dataCount

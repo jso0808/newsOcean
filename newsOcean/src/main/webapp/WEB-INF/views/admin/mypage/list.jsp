@@ -37,7 +37,7 @@
 		</tr>
 		<tr>
 			<td>
-				<button class="btn-mypage2">비밀번호 변경하기</button>
+				<button class="btn-mypage2" onclick="addAdminModal()">다른 계정 추가하기</button>
 			</td>
 		</tr>
 		</c:forEach>

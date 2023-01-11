@@ -28,5 +28,10 @@ public interface MypageService {
 	public int count_Admin(); //관리자 수
 	public void updateAdmin(Map<String, Object> map) throws Exception; //권한변경(취소)
 
+	//추가변경
+	public void addAdmin(Map<String, Object> map) throws Exception; //권한변경(취소)
+	
+	//회원 검색
+	public Mypage findEmail(Map<String, Object> map);
 	
 }

@@ -158,12 +158,40 @@ public class MypageServiceImpl implements MypageService {
 			dao.updateData("adminMypage.updateAdmin_1", map);
 			dao.updateData("adminMypage.updateAdmin_2", map);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+
+	@Override
+	public void addAdmin(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("adminMypage.addAdmin_1", map);
+			dao.updateData("adminMypage.addAdmin_2", map);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
+	}
+
+
+	@Override
+	public Mypage findEmail(Map<String, Object> map) {
+		Mypage dto = null;
+		
+		try {
+			
+			dto = dao.selectOne("adminMypage.findEmail", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 
 

@@ -54,6 +54,33 @@
 
 
 
+
+
+<!-- 관리자 계정 모달 -->
+<div class="modal" tabindex="-1" id="addAdminModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-family: 'line_font_b';">👨‍💻 관리자 계정 추가 </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 20px;"> * 새로 추가할 관리자 계정 아이디를 입력하세요.</div>
+			<span>계정 아이디 : &nbsp;<input type="text" class="searchEmail" id="searchEmail"><button type="button" class="modal__btn btn" onclick="findEmail()">검색</button></span>
+      
+      	<hr>
+      	<div class="find_content" style="margin-left: 6px;">
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <script type="text/javascript">
 
 function ajaxFun(url, method, query, dataType, fn) {
@@ -206,6 +233,71 @@ function updateAdmin() {
 	
 	ajaxFun(url, "post", query, "json", fn);
 	
+}
+
+function addAdminModal() {
+	$("#addAdminModal").modal('show');
+	
+}
+
+function findEmail() {
+	let email = $("#searchEmail").val();
+	
+	if( ! email){
+		alert("이메일을 정확하게 입력하세요.");
+		return false;
+	}
+	
+	let url = "${pageContext.request.contextPath}/admin/mypage/findEmail";
+	let query = "email="+email;
+	
+	
+	let selector = ".find_content";
+	
+	const fn = function(data) {
+		let mail = data.mail;
+		let name = data.name;
+		let birth = data.birth;
+		let memberNo = data.memberNo;
+		
+		if(mail == null) {
+			alert("이미 관리자 계정이거나 계정이 없습니다.");
+		} else {
+			$(selector).html("<span> 계정 아이디 : " + mail +" / 이름 : " + name + " / 생년월일 : "+ birth + "<input type='hidden' name='mm' value='" + memberNo + "'><button type='button' class='modal__btn btn' onclick='addAdmin()'>등록</button> </span>");
+		}
+		
+	};
+	
+	ajaxFun(url, "post", query, "json", fn);
+	
+	
+}
+
+function addAdmin() {
+	let memberNo = $("input[name='mm']").val();
+
+	let url = "${pageContext.request.contextPath}/admin/mypage/addAdmin";
+	let query = "memberNo="+memberNo;
+	
+	const fn = function(data) {
+		let state = data.state;
+
+		if(state=="false"){
+			alert("관리자 계정 추가를 실패했습니다.")
+		} else {
+			alert("해당 계정이 관리자로 추가되었습니다!")
+		}
+		
+		let selector = ".find_content";
+		
+		$(selector).html("");
+		$("#searchEmail").val("");
+		$("#addAdminModal").modal('hide');
+		listad(1);
+		
+	};
+	
+	ajaxFun(url, "post", query, "json", fn);
 	
 }
 

@@ -161,6 +161,70 @@ public class MypageController {
 		return model;
 	}
 	
+	//이메일 찾기 
+	@RequestMapping(value = "findEmail")
+	@ResponseBody
+	public Map<String, Object> findEmail(@RequestParam String email) throws Exception {
+
+		Mypage dto = null;
+		String mail = null;
+		String birth = null;
+		String name = null;
+		long memberNo = 0;
+		
+		try {
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("email", email);
+		
+			dto = service.findEmail(map);
+			
+			
+			mail = dto.getEmail();
+			name = dto.getName();
+			birth = dto.getBirth();
+			memberNo = dto.getMemberNo();
+			
+						
+		} catch (Exception e) {
+		}
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("mail", mail);
+		model.put("name", name);
+		model.put("birth", birth);
+		model.put("memberNo", memberNo);
+		
+		
+		return model;
+	}
+	
+	//관리자 권한 취소하기 
+	@RequestMapping(value = "addAdmin")
+	@ResponseBody
+	public Map<String, Object> addAdmin(@RequestParam String memberNo) throws Exception {
+		
+		String state = "false";
+		
+		try {
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberNo", memberNo);
+			
+			service.addAdmin(map);
+			state = "true";
+			
+		} catch (Exception e) {
+		}
+		
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	
 	//관리자 권한 취소하기 
 	@RequestMapping(value = "updateAdmin")
 	@ResponseBody

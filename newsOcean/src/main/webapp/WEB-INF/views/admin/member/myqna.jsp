@@ -14,8 +14,8 @@
 	<thead class="">
 		<tr class="admin__tr__design">
 			<th class="bw-60">번호</th>
-			<th>제목</th>
-			<th class="bw-100">내용</th>
+			<th class="bw-100"> QNA 제목</th>
+			<th class=""> QNA 내용</th>
 			<th class="bw-100">작성일</th>
 		</tr>
 	</thead>
