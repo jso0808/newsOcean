@@ -32,8 +32,29 @@
 .btnBookMark {
 	display: flex;
 	justify-content: flex-end;
+	padding-bottom: 50px;
+    padding-top: 20px;
 }
 
+.crawlSummary {
+	padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.textTitle {
+	font-size: 25px;
+	padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.textPress, .textDate {
+	color: #808080;
+}
+
+.textHitCount {
+ 	color: #FF7F00;
+}
 
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
@@ -140,6 +161,12 @@ $(function(){
 	$(".btnSendReply").click(function(){
 		let newsNo = "${dto.newsNo}";
 		const $tb = $(this).closest("table");
+		
+		let msg = "댓글을 등록하시겠습니까 ? ";
+		
+		if(! confirm(msg)) {
+			return false;
+		}
 
 		let content = $tb.find("textarea").val().trim();
 		if(! content) {
@@ -422,21 +449,18 @@ function shareKakao() {
 <div class="">
 	
 	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-app"></i> ${dto.title} </h3>
-		</div>
 		
 		<div class="body-main">
 			<table class="table mb-0">
 				<thead>
 					<tr>
 						<td colspan="2" align="center">
-							📌카테고리명 ${dto.categoryNo}			
+							${dto.categoryName}			
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							${dto.title}
+							<div class="textTitle">${dtoOrigin.crawlTitle}</div>
 						</td>
 					</tr>
 				</thead>
@@ -444,17 +468,17 @@ function shareKakao() {
 				<tbody>
 					<tr>
 						<td width="50%">
-							📌언론사 
+							<div class="textPress">언론사:&nbsp;${dtoOrigin.crawlPress}</div>
 						</td>
 						<td align="right">
-							📌업로드일 | 조회 ${dto.hitCount}
+							<span class="textDate">업로드일: ${dtoOrigin.crawlDate}&nbsp; &nbsp;|&nbsp;&nbsp;조회: <span class="textHitCount">${dto.hitCount}</span></span>
 						</td>
 					</tr>
 					
 					<tr>
 						<td colspan="2" valign="top" height="200" style="border-bottom: none;">
 							<div class="btn btnBookMark"><i class="${dto.bookMarkNum==1 ? 'fa-solid':'fa-regular'} fa-bookmark fa-2x"></i></div>
-							<div>📌 뉴스 내용 부분</div>
+							<div class="crawlSummary">${dtoOrigin.crawlSummary}</div>
 						</td>
 					</tr>
 					
@@ -466,22 +490,6 @@ function shareKakao() {
 						</td>
 					</tr>
 					
-					<tr>
-						<td colspan="2">
-							이전 기사 : 📌
-							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/news/article?${query}&newsNo=${preNewsDto.newsNo}">${preNewsDto.subject}</a>
-							</c:if>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							다음 기사 : 📌
-							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/news/article?${query}&newsNo=${nextNewsDto.newsNo}">${nextNewsDto.subject}</a>
-							</c:if>
-						</td>
-					</tr>
 				</tbody>
 			</table>
 			
@@ -507,8 +515,6 @@ function shareKakao() {
 				    		</c:when>
 				    	</c:choose>
 					</td>
-					
-					
 					
 					<td class="text-end">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/news/list?${query}';">리스트</button>
@@ -537,7 +543,8 @@ function shareKakao() {
 						 </tr>
 					</table>
 					<input type="hidden" name="newsNo" id="newsNo" value="${dto.newsNo}">
-				</form>
+					<input type="hidden" name="crawlUrl" id="crawlUrl" value="${dtoOrigin.crawlUrl}">
+			</form>
 				
 				<div id="listReply"></div>
 			</div>

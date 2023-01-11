@@ -21,7 +21,6 @@ public class NewsServiceImpl implements NewsService{
 	public List<News> listNews() {
 		List<News> list = null;
 		try {
-			// NewsMongoOperations << 구현해야함
 			list = newsMongo.listNews();
 			
 		} catch (Exception e) {
@@ -32,18 +31,30 @@ public class NewsServiceImpl implements NewsService{
 
 	// 몽고DB - 뉴스글 내용 가져오기
 	@Override
-	public News readNews(String originLink) {
-		News dto = null;
+	public NewsOriginal readNewsOrigin(String crawlUrl) {
+		NewsOriginal dto = null;
 		
 		try {
-			// dto = dao.selectOne("news.readNews", news);
-			dto = newsMongo.readNews(originLink);
+			dto = newsMongo.readNews(crawlUrl);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return dto;
 	}
+	
+	@Override
+	public News readNews(Map<String, Object> map) {
+		News dto = null;
+		
+		try {
+			dto = dao.selectOne("news.readNews", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
 
 	@Override
 	public void insertNewsLike(Map<String, Object> map) throws Exception {
@@ -132,6 +143,15 @@ public class NewsServiceImpl implements NewsService{
 	public void deleteReply(Map<String, Object> map) {
 		try {
 			dao.deleteData("news.deleteReply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void beforeDeleteReply(Map<String, Object> map) {
+		try {
+			dao.deleteData("news.beforeDeleteReply", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -252,11 +272,11 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	@Override
-	public int readNewsNoFromUrl(String originLink) {
-		int newsNo = 0;
+	public long readNewsNoFromUrl(String originLink) {
+		long newsNo = 0;
 		
 		try {
-			dao.selectOne("news.readNewsNoFromUrl", originLink);
+			newsNo = dao.selectOne("news.readNewsNoFromUrl", originLink);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -265,5 +285,6 @@ public class NewsServiceImpl implements NewsService{
 	}
 
 	
+
 
 }

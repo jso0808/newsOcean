@@ -31,13 +31,13 @@ public class NewsMongoOperations {
 	}
 	
 	// 뉴스글 select where 원문링크
-	public News readNews(String originLink) {
-		News dto = null;
+	public NewsOriginal readNews(String originLink) {
+		NewsOriginal dto = null;
 		
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("crawlUrl").is(originLink));
-			dto = mongo.findOne(query, News.class);
+			dto = mongo.findOne(query, NewsOriginal.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

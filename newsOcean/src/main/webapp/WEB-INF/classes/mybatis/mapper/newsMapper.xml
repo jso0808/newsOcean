@@ -8,8 +8,9 @@
 		FROM NEWS
 	</select>
 	
-	<select id="readNews" resultType="com.sp.app.news.News">
-		SELECT n.newsNo, title, originLink, hitCount, categoryNo, NVL(bookMarked, 0) bookMarked
+	<select id="readNews" parameterType="map" resultType="com.sp.app.news.News">
+		SELECT n.newsNo, title, originLink, hitCount, n.categoryNo, categoryName
+			,NVL(bookMarked, 0) bookMarked
 		FROM NEWS n
 		LEFT OUTER JOIN(
 		    SELECT newsNo, COUNT(*) bookMarked
@@ -18,14 +19,15 @@
 		    WHERE m.memberNo = #{memberNo}
 		    GROUP BY newsNo
 		) bm ON bm.newsNo = n.newsNo
-		WHERE n.newsNo = #{newsNo}
+		LEFT OUTER JOIN category c ON c.categoryNo = n.categoryNo
+		WHERE originLink = #{originLink}
 		ORDER BY newsNo
 	</select>
 	
 	<select id="readNewsNoFromUrl" parameterType="String" resultType="Long">
 		SELECT newsNo
 		FROM NEWS
-		FROM originLink = #{originLink}
+		WHERE originLink = #{originLink}
 	</select>
 	
 	<update id="updateHitCount" parameterType="Long">
@@ -34,12 +36,13 @@
 	
 	<delete id="deleteNewsLike" parameterType="com.sp.app.news.News">
 		DELETE FROM newsLike
-		WHERE newsNo = #{newsNo}
+		WHERE newsNo = #{newsNo} 
 	</delete>
 	
 	<insert id="insertNewsLike" parameterType="com.sp.app.news.News">
 		INSERT INTO newsLike(newsNo, memberNo) 
 			VALUES(#{newsNo}, #{memberNo})
+		
 	</insert>
 	
 	<select id="replyCount" parameterType="map" resultType="Integer">
@@ -107,6 +110,11 @@
 	<delete id="deleteReply" parameterType="map">
 		DELETE FROM newsReply
 		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+	</delete>
+	
+	<delete id="beforeDeleteReply" parameterType="map">
+		DELETE FROM newsReplyLike
+		WHERE replyNo = #{replyNo}
 	</delete>
 	
 	<select id="complainCount" parameterType="Long" resultType="Integer">

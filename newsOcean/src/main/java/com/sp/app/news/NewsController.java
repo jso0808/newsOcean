@@ -47,59 +47,53 @@ public class NewsController {
 		return ".news.list";
 	}
 	
+	// ${pageContext.request.contextPath}/news/article?originLink=${dto.crawlUrl}
 	@RequestMapping(value = "article")
 	public String article( 
 			News news,
-			@RequestParam(value = "originLink") String originLink,
+			@RequestParam(value = "crawlUrl") String crawlUrl,
 			HttpSession session,
 			Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		int newsLikeCount = 0;
 		
-		// url의 newsNo 컬럼 가져오기
-		long newsNo = service.readNewsNoFromUrl(originLink);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
+		// url의 newsNo 컬럼 가져오기
+		long newsNo = service.readNewsNoFromUrl(crawlUrl);
+		System.out.println(crawlUrl);
 		// 조회수 +1 업데이트
 		service.updateHitCount(newsNo);
 		
-		// 뉴스글 내용 가져오기
-		News dto = service.readNews(originLink);
-		if(dto == null) {
+		// 원본 뉴스글 내용 가져오기
+		NewsOriginal dtoOrigin = service.readNewsOrigin(crawlUrl);
+		// 뉴스글 내용  가져오기
+		paramMap.put("memberNo", info.getMemberNo());
+		paramMap.put("originLink", crawlUrl);
+		News dto = service.readNews(paramMap);
+		
+		if(dtoOrigin == null) {
 			return "redirect:/";
 		}
 		
-		dto.setCrawlContent(dto.getCrawlContent().replaceAll("\n", "<br>"));
-		dto.setCrawlSummary(dto.getCrawlSummary().replace("\n", "<br>"));
+		dtoOrigin.setCrawlContent(dtoOrigin.getCrawlContent().replaceAll("\n", "<br><br>"));
+		dtoOrigin.setCrawlSummary(dtoOrigin.getCrawlSummary().replace("\n", "<br><br>"));
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("newsNo", newsNo);
-		map.put("memberNo", info.getMemberNo());
+		paramMap.put("newsNo", newsNo);
 		
 		// 뉴스글 좋아요 여부 가져오기
-		boolean userNewsLiked = service.userNewsLiked(map);
+		boolean userNewsLiked = service.userNewsLiked(paramMap);
 		
 		// 뉴스글의 좋아요 개수 가져오기
 		newsLikeCount = service.newsLikeCount(newsNo);
 		
+		model.addAttribute("dtoOrigin", dtoOrigin);
 		model.addAttribute("dto", dto);
 		model.addAttribute("userNewsLiked", userNewsLiked);
 		model.addAttribute("newsLikeCount", newsLikeCount);
 
 		return ".news.article";
-	}
-	
-	@RequestMapping(value = "delete")
-	public String delete() {
-		// 몽고DB에서 delete
-		return ".news.list";
-	}
-	
-	@RequestMapping(value = "update")
-	public String update() {
-		// 몽고DB
-		// 해당 뉴스글 존재하는지 확인 후 update
-		return ".news.list";
 	}
 	
 	// AJAX-JSON: 뉴스글 좋아요 추가/삭제
@@ -235,7 +229,10 @@ public class NewsController {
 			paramMap.put("replyNo", replyNo);
 			paramMap.put("memberNo", info.getMemberNo());
 			
+			// 자식 테이블 데이터 먼저 삭제
+			service.beforeDeleteReply(paramMap);
 			service.deleteReply(paramMap);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

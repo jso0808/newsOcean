@@ -9,12 +9,13 @@ public interface NewsService {
 	public List<News> listNews();
 	
 	// 뉴스글 가져오기
-	public News readNews(String originLink); // 몽고DB
+	public NewsOriginal readNewsOrigin(String originLink); // 몽고DB
+	public News readNews(Map<String, Object> map);
 	public void updateHitCount(long newsNo);
 	public void deleteNews(String originLink); // 몽고DB
 	
 	// 몽고DB - 오라클DB 데이터 일치 시키기
-	public int readNewsNoFromUrl(String originLink);
+	public long readNewsNoFromUrl(String originLink);
 	
 	// 뉴스글 좋아요
 	public void insertNewsLike(Map<String, Object> map) throws Exception;
@@ -31,6 +32,7 @@ public interface NewsService {
 	public List<Reply> listReply(Map<String, Object> map);
 	public int replyCount(Map<String, Object> map);
 	public void deleteReply(Map<String, Object> map);
+	public void beforeDeleteReply(Map<String, Object> map);
 	public void insertReplyLike(Map<String, Object> map) throws Exception;
 	public void deleteReplyLike(Map<String, Object>map) throws Exception;
 	public int replyLikeCount(long replyNo);
