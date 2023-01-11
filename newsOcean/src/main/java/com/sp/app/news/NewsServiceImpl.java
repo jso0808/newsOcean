@@ -14,12 +14,15 @@ public class NewsServiceImpl implements NewsService{
 	@Autowired
 	private CommonDAO dao;
 	
+	@Autowired
+	private NewsMongoOperations newsMongo;
+	
 	@Override
 	public List<News> listNews() {
 		List<News> list = null;
 		try {
 			// NewsMongoOperations << 구현해야함
-			list = dao.selectList("news.listNews");
+			list = newsMongo.listNews();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -27,12 +30,14 @@ public class NewsServiceImpl implements NewsService{
 		return list;
 	}
 
+	// 몽고DB - 뉴스글 내용 가져오기
 	@Override
-	public News readNews(News news) {
+	public News readNews(String originLink) {
 		News dto = null;
 		
 		try {
-			dto = dao.selectOne("news.readNews", news);
+			// dto = dao.selectOne("news.readNews", news);
+			dto = newsMongo.readNews(originLink);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -234,6 +239,29 @@ public class NewsServiceImpl implements NewsService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void deleteNews(String originLink) {
+		try {
+			newsMongo.deleteNews(originLink);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public int readNewsNoFromUrl(String originLink) {
+		int newsNo = 0;
+		
+		try {
+			dao.selectOne("news.readNewsNoFromUrl", originLink);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return newsNo;
 	}
 
 	

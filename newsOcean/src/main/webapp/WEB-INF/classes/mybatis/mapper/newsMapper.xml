@@ -22,6 +22,12 @@
 		ORDER BY newsNo
 	</select>
 	
+	<select id="readNewsNoFromUrl" parameterType="String" resultType="Long">
+		SELECT newsNo
+		FROM NEWS
+		FROM originLink = #{originLink}
+	</select>
+	
 	<update id="updateHitCount" parameterType="Long">
 		UPDATE NEWS SET hitCount = hitCount+1 WHERE newsNo = #{newsNo}
 	</update>

@@ -2,7 +2,6 @@ package com.sp.app.news;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -12,18 +11,9 @@ import org.springframework.stereotype.Service;
 
 @Service("news.newsMongoOperations")
 public class NewsMongoOperations {
+	
 	@Autowired
-	// private MongoTemplate mongo;
 	private MongoOperations mongo;
-	
-	
-	/*
-	public News preReadNews(News news);
-	public News nextReadNews(News news);
-	public void updateNews(News news);
-	public void deleteNews(long newsNo, String memeberNo, String memberShip);
-	*/
-	
 	
 	// 뉴스글 list (메인 연결 전 테스트용(
 	public List<News> listNews() {
@@ -40,13 +30,13 @@ public class NewsMongoOperations {
 		return list;
 	}
 	
-	// 뉴스글 select where 뉴스글번호
-	public News readNews(ObjectId crawlNo) {
+	// 뉴스글 select where 원문링크
+	public News readNews(String originLink) {
 		News dto = null;
 		
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("_id").is(crawlNo));
+			query.addCriteria(Criteria.where("crawlUrl").is(originLink));
 			dto = mongo.findOne(query, News.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,10 +46,10 @@ public class NewsMongoOperations {
 	}
 	
 	// 뉴스글 삭제
-	public void deleteNews(ObjectId crawlNo) throws Exception {
+	public void deleteNews(String originLink) throws Exception {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("_id").is(crawlNo));
+			query.addCriteria(Criteria.where("crawlUrl").is(originLink));
 			
 			News dto = mongo.findOne(query, News.class);
 			mongo.remove(dto);

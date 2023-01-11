@@ -8,9 +8,13 @@ public interface NewsService {
 	// 테스트용 뉴스글 리스트
 	public List<News> listNews();
 	
-	// 테스트용 뉴스글.
-	public News readNews(News news);
+	// 뉴스글 가져오기
+	public News readNews(String originLink); // 몽고DB
 	public void updateHitCount(long newsNo);
+	public void deleteNews(String originLink); // 몽고DB
+	
+	// 몽고DB - 오라클DB 데이터 일치 시키기
+	public int readNewsNoFromUrl(String originLink);
 	
 	// 뉴스글 좋아요
 	public void insertNewsLike(Map<String, Object> map) throws Exception;

@@ -50,20 +50,21 @@ public class NewsController {
 	@RequestMapping(value = "article")
 	public String article( 
 			News news,
-			@RequestParam(value = "crawlNo") long crawlNo,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(value = "originLink") String originLink,
 			HttpSession session,
 			Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		int newsLikeCount = 0;
 		
+		// url의 newsNo 컬럼 가져오기
+		long newsNo = service.readNewsNoFromUrl(originLink);
+		
 		// 조회수 +1 업데이트
-		service.updateHitCount(news.getNewsNo());
+		service.updateHitCount(newsNo);
+		
 		// 뉴스글 내용 가져오기
-		news.setMemberNo(info.getMemberNo());
-		News dto = service.readNews(news);
+		News dto = service.readNews(originLink);
 		if(dto == null) {
 			return "redirect:/";
 		}
@@ -72,16 +73,14 @@ public class NewsController {
 		dto.setCrawlSummary(dto.getCrawlSummary().replace("\n", "<br>"));
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
-		map.put("newsNo", crawlNo);
-		
+		map.put("newsNo", newsNo);
 		map.put("memberNo", info.getMemberNo());
+		
 		// 뉴스글 좋아요 여부 가져오기
 		boolean userNewsLiked = service.userNewsLiked(map);
 		
 		// 뉴스글의 좋아요 개수 가져오기
-		newsLikeCount = service.newsLikeCount(crawlNo);
+		newsLikeCount = service.newsLikeCount(newsNo);
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("userNewsLiked", userNewsLiked);
@@ -147,7 +146,7 @@ public class NewsController {
 	// AJAX-TEXT: 뉴스글 댓글 리스트 가져오기
 	@RequestMapping(value = "listReply")
 	public String listReply(
-			@RequestParam(value = "newsNo") long newsNo,
+			@RequestParam(value = "newsNo") String newsNo,
 			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
 			HttpSession session,
 			Model model) throws Exception {
@@ -368,7 +367,7 @@ public class NewsController {
 	@RequestMapping(value = "insertBookMark")
 	@ResponseBody
 	public Map<String, Object> insertBookMark(
-			@RequestParam(value = "newsNo") long newsNo,
+			@RequestParam(value = "newsNo") String newsNo,
 			@RequestParam boolean bookMarked,
 			HttpSession session) {
 		

@@ -43,6 +43,10 @@
 		<!-- 관리자 페이지 -->
 		<intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		
+		<!-- 구독 페이지 -->
+		<intercept-url pattern="/sub/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+		
 		<!-- 구독 메일 페이지 -->
 		<intercept-url pattern="/sub/mail/**" access="hasRole('ROLE_ADMIN')"/>
 		
