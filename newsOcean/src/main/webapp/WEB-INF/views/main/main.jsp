@@ -23,10 +23,16 @@
 .wordCloud_img{
 	 min-width:1200px;
 	 margin: auto;
-	 height: 400px;
+	 height: 340px;
 	 margin-bottom: 30px;
 	 margin-top: 50px;
 }
+
+.wordCloud_img:hover {
+	transform: scale(1.04);
+	transition: .5s;
+}
+
 .category{
 	min-height: 70px;
 	display:flex;
@@ -136,6 +142,24 @@ display:flex;
 	height: 40px;
 }
 
+.wordCloud_intro {
+	font-family: 'line_font_b';
+	font-size: 27px;
+	width: 330px;
+	margin: auto;
+	text-align: center;
+	padding-right: 20px;
+	margin-bottom: -20px;
+	margin-top: 110px;
+}
+
+.main__line {
+	font-family: 'line_font_b';
+	font-size: 50px;
+	color: #eee;
+	margin: auto;
+}
+
 </style>
 <div class="body-container2">
     <div class="banner_img">
@@ -159,9 +183,19 @@ display:flex;
     		</div>
     	</div>
     </div>
-    <div class="wordCloud_img">
-    	<img class="word_img_size" src="${pageContext.request.contextPath}/resources/images/rating.png">
+    
+    <div style="margin: auto; ">
+    	<img style="width: 160px; margin-top: 70px; margin-bottom: 40px; " src="${pageContext.request.contextPath}/resources/images/wave__.gif">
     </div>
+    
+    <div class="wordCloud_intro">☁️ 뉴스 인기 키워드</div>
+    <div class="main__line">──────</div>
+    
+    <div class="wordCloud_img">
+    	<img src="${pageContext.request.contextPath}/resources/images/rating.png">
+    </div>
+    <div class="wordCloud_intro">📰 뉴스 카테고리</div>
+    <div class="main__line">──────</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
 			<a href="${pageContext.request.contextPath}/" class="all category_link">
