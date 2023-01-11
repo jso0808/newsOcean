@@ -184,7 +184,7 @@ function sectionClick(){
 	<section class="main_section container">
 		<div class="posts row">
 			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?originLink=${dto.crawlUrl}">${dto.crawlTitle}:${dto.crawlNo}</a>
+			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">${dto.crawlTitle}:${dto.crawlNo}</a>
 			</c:forEach>
 		</div>
 	</section>
