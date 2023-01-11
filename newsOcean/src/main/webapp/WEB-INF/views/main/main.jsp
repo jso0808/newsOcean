@@ -183,18 +183,15 @@ display:flex;
     		</div>
     	</div>
     </div>
+   
     
-    <div style="margin: auto; ">
-    	<img style="width: 160px; margin-top: 10px; margin-bottom: 10px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif">
-    </div>
-    
-    <div class="wordCloud_intro">☁️ 뉴스 인기 키워드</div>
+    <div class="wordCloud_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 인기 키워드</div>
     <div class="main__line">──────</div>
     
     <div class="wordCloud_img">
     	<img src="${pageContext.request.contextPath}/resources/images/rating.png">
     </div>
-    <div class="wordCloud_intro">📰 뉴스 카테고리</div>
+    <div class="wordCloud_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 카테고리</div>
     <div class="main__line">──────</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
