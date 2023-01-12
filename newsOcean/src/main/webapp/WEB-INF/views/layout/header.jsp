@@ -78,8 +78,8 @@
 .btn-sub:before { 
 	content: ""; 
 	position: absolute; 
-	width: 300px; 
-	height: 250px; 
+	width: 400px; 
+	height: 350px; 
 	border-radius: 100px; 
 	background-color: #0097e6; 
 	top: 45px; left: 50%; 
