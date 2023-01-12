@@ -170,6 +170,20 @@
     align-items: flex-end;
 }
 
+.dataCount {
+	font-size: 27px;
+	color: #033EAB;
+}
+
+.div-content-list {
+	padding-bottom: 7px;
+}
+
+.modal-btnRefund {
+	display: flex;
+    justify-content: flex-end;
+}
+
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.0/css/all.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
@@ -185,7 +199,7 @@ window.addEventListener("load", function(){
 	let paging = pagingUrl(page, total_page, url);
 
 	document.querySelector(".page-navigation").innerHTML = 
-		dataCount === 0 ? "등록된 게시물이 없습니다." : paging;
+		dataCount === 0 ? "결제한 구독권이 없습니다." : paging;
 });
 
 function ajaxFun(url, method, query, dataType, fn) {
@@ -222,40 +236,39 @@ $(function() {
 		let merchant_uid = $(this).find("input[name=merchant_uid]").val(); // 구독번호
 		let imp_uid = $(this).find("input[name=imp_uid]").val(); // 결제번호
 		
-		console.log(merchant_uid);
-		console.log(imp_uid);
-		
 		// 구독권 결제 상세 내용 ajax로 가져오기
 		let url = "${pageContext.request.contextPath}/sub/subPayInfo";
  		let query= "imp_uid="+imp_uid;
  			
  		const fn = function(info) {
- 			console.log(info);
- 			console.log(info.firstMail);
+ 			
+ 			info.paid_amount = (info.paid_amount).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+ 			
  			var html_content = '';
- 			html_content += '<div class="modal-paid_at">구독일: '+info.paid_at+'</div>';
- 			html_content += '<div class="modal-merchant_uid">구독 번호: '+info.merchant_uid+'</div>';
+ 			html_content += '<div class="modal-paid_at div-content-list">구독일: '+info.paid_at+'</div>';
+ 			html_content += '<div class="modal-merchant_uid div-content-list merchant_uid">구독 번호: '+info.merchant_uid+'</div>';
 
- 			html_content += '<div class="modal-subType">구독권 종류: '+info.subType+'개월 구독권</div>';
- 			html_content += '<div class="modal-subStart">구독 시작일: '+info.subStart+'</div>';
- 			html_content += '<div class="modal-subEnd">구독 종료일: '+info.subEnd+'</div>';
- 			html_content += '<div class="modal-firstMail">첫 메일 발송일: '+info.firstMail+'</div>';
-			
- 			$("#subPayInfoModalContent").empty();
-	 	    $("#subPayInfoModalContent").append(html_content);
-	 	    
+ 			html_content += '<div class="modal-subType div-content-list">구독권 종류: '+info.subType+'개월 구독권</div>';
+ 			html_content += '<div class="modal-subStart div-content-list">구독 시작일: '+info.subStart+'</div>';
+ 			html_content += '<div class="modal-subEnd div-content-list">구독 종료일: '+info.subEnd+'</div>';
+ 			html_content += '<div class="modal-firstMail div-content-list">첫 메일 발송일: '+info.firstMail+'</div>';
+ 			html_content += '<input type="hidden" class="modal-input-subNo" value="'+info.subNo+'">';
+ 			html_content += '<input type="hidden" class="modal-input-paid_amount" value="'+info.paid_amount+'">';
+ 		     
 	 	    var html_amount = '';
-	 		
-	 	    html_amount += '최종 결제 금액: '+info.paid_amount+'원';
+	 	    html_amount += '<div class="modal-paid_amount div-content-list" value="'+info.paid_amount+'"> 최종 결제 금액: '+info.paid_amount+'원</div>';
 	 	    
-	 		// 첫 메일 발송일 이전이면 환불 가능
-	 	    if(info.endOrNot===1) {
+	 		// 오늘날짜까 첫 메일 발송일 이전이면 환불 가능
+	 	    if(info.refundOrNot === 1) {
 	 	    	let html_btnRefund = '';
-	 	    	html_btnRefund += '<button type="button" class="btn btn-secondary btnRefund" id="btnRefund" data-bs-dismiss="modal">환불하기</button>';
-	 	    	// btnRefund
-	 	    	$(".btnRefund").empty();
-		 	    $(".btnRefund").append(html_btnRefund);
+	 	    	html_btnRefund += '<button type="button" class="btn btn-secondary btnRefund" name="btnRefund" id="btnRefund" data-bs-dismiss="modal">환불하기</button>';
+	 	    
+	 	    	$(".modal-btnRefund").empty();
+		 	    $(".modal-btnRefund").append(html_btnRefund);
 	 	    }
+	 		
+	 	   	$("#subPayInfoModalContent").empty();
+	 	    $("#subPayInfoModalContent").append(html_content);
 	 	    
 	 	    $(".modal-paid_amount").empty();
 	 	    $(".modal-paid_amount").append(html_amount);
@@ -267,7 +280,6 @@ $(function() {
  	        ajaxFun(url, "post", query, "json", fn);
 	});
 });
-
 
 
 // 검색 조건 클릭할 때마다 input 값 변경
@@ -285,6 +297,36 @@ function searchList() {
 	f.submit();
 }
 
+// 환불 버튼 클릭 btnRefund
+$(function() {
+	$(document).on("click", ".btnRefund", function() {
+		// insertSubRefund
+		
+		let subNo = $(".modal-input-subNo").val(); // 결제번호
+		let paid_amount = $(".modal-input-paid_amount").val();
+		paid_amount = paid_amount.replace(",","");
+		
+		console.log(subNo);
+		console.log(paid_amount);
+		
+		// 구독권 결제 상세 내용 ajax로 가져오기
+		let url = "${pageContext.request.contextPath}/sub/insertSubRefund";
+ 		let query= "subNo="+subNo+"&paid_amount="+paid_amount;
+ 			
+ 		const fn = function(data) {
+ 			
+ 			if(data.state === "true") {
+ 				
+ 			} else {
+ 				alert("환불 처리에 실패했습니다.");
+ 			}
+ 	    		
+ 	    }
+ 	    ajaxFun(url, "post", query, "json", fn);
+		
+	});
+	
+})
 
 </script>
 
@@ -298,7 +340,7 @@ function searchList() {
 			<!-- 페이지 타이틀, 최신순 버튼 -->
 			<div class="row div-area1">
 				<div class="col-8">
-					<div class="div-dataCount">결제 내역 수: ${dataCount} 건</div>
+					<div class="div-dataCount">결제 내역 수:<span class="dataCount">&nbsp;&nbsp;${dataCount}&nbsp;</span> 건</div>
 				</div>
 				<div class="col-3">
 					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/sub/list" method="post">
@@ -367,24 +409,24 @@ function searchList() {
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">결제 상세 내역 </h5>
+						<h5 class="modal-title">결제 상세 내역</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					
+
 					<div class="modal-body">
 						<div id="subPayInfoModalContent"></div>
-					</div>
-					<div class="modal-footer">
 						<div class="modal-paid_amount"></div>
-						<div class="btnRefund"></div>
+						<div class="modal-btnRefund"></div>
 					</div>
+					
 				</div>
-				
+				<div class="modal-footer">
+				</div>
 			</div>
 		</div>
 		<!-- 구독 상세보기 모달창 end -->
-		
+	
 	</div>
 </div>
 

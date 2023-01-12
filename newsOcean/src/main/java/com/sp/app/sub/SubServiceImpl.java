@@ -15,7 +15,7 @@ public class SubServiceImpl implements SubService {
 	private CommonDAO dao;
 
 	@Override
-	public void insertSubPay(Subscript sb) {
+	public void insertSubPay(Subscript sb) throws Exception {
 		try {
 			dao.insertData("subscript.insertSubPay", sb);
 		} catch (Exception e) {
@@ -88,9 +88,26 @@ public class SubServiceImpl implements SubService {
 		return result;
 	}
 
+	@Override
+	public int findBySubIng(long memberNo) {
+		int ing = 0;
+		try {
+			ing = dao.selectOne("subscript.findBySubIng", memberNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return ing;
+	}
 
-	
-	
-	
+	@Override
+	public void insertSubRefund(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("subscript.insertSubRefund", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 }

@@ -16,10 +16,10 @@ public class Subscript {
 	private String pg_tid; // PG사 고유 거래번호
 	
 	private int endOrNot; // 구독 종료 여부
+	private int refundOrNot; // 환불 가능 여부
 	
 	private String email;
 	private String nickName;
-	
 	
 	public long getSubNo() {
 		return subNo;
@@ -110,6 +110,12 @@ public class Subscript {
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+	public int getRefundOrNot() {
+		return refundOrNot;
+	}
+	public void setRefundOrNot(int refundOrNot) {
+		this.refundOrNot = refundOrNot;
 	}
 	
 

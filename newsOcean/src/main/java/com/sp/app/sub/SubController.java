@@ -181,6 +181,7 @@ public class SubController {
 		}
 		
 		JSONObject job = new JSONObject();
+		job.put("subNo", sb.getSubNo());
 		job.put("paid_at", sb.getPaid_at());
 		job.put("paid_amount", sb.getPaid_amount());
 		job.put("merchant_uid", sb.getMerchant_uid());
@@ -189,6 +190,7 @@ public class SubController {
 		job.put("subEnd", sb.getSubEnd());
 		job.put("firstMail", sb.getFirstMail());
 		job.put("endOrNot", sb.getEndOrNot());
+		job.put("refundOrNot", sb.getRefundOrNot());
 		
 		resp.setContentType("text/html; charset=utf-8"); 
 		PrintWriter out = resp.getWriter();
@@ -196,8 +198,51 @@ public class SubController {
 		out.print(job.toString());
 	}
 	
-
+	// AJAX - JSON: 이미 구독중인지 확인
+	@PostMapping(value = "findBySubIng")
+	@ResponseBody
+	public Map<String, Object> findBySubIng(HttpSession session) {
+		String state = "false";
+		int ing = 0;
+		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			
+			ing = service.findBySubIng(info.getMemberNo());
+			System.out.println(ing);
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		model.put("ing", ing);
+		
+		return model;
+	}
 	
+	// AJAX - JSON: 환불 처리하기
+	@PostMapping(value = "insertSubRefund")
+	@ResponseBody
+	public Map<String, Object> insertSubRefund(
+			@RequestParam(value = "subNo") long subNo,
+			@RequestParam(value = "paid_amount") long refundPay) {
+		String state = "false";
+		try {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("subNo", subNo);
+			paramMap.put("refundPay", refundPay);
+			service.insertSubRefund(paramMap);
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
+	}
 	
 	
 }
