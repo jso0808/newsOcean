@@ -271,8 +271,7 @@ $(function(){
 	<div class="rank-1 shadow-sm">
 		<div class="rank1__block row" >
 			<span class="col" >순위</span>
-			<span class="col" style="margin-left: 40px;">내용</span>
-			<span class="col" style="margin-left: 40px;">조회수</span>
+			<span class="col" style="margin-left: 10px;">내용</span>
 		</div>
 		<c:forEach var="realtime" items="${realtime_rank}" varStatus="status">
 			<div class="rank1__block__area row">
