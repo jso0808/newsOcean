@@ -229,7 +229,7 @@ display:flex;
 			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
 				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
 					<span>${dto.crawlTitle}</span>
-					<span>${dto.}</span>
+					<span></span>
 				</a>
 			</c:forEach>
 		</div>
