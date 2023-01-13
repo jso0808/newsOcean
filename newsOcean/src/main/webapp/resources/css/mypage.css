@@ -1,5 +1,7 @@
 .body-container {
 	max-width: 1000px;
+	display: flex;
+    flex-direction: column;
 }
 .body-main{
 min-height:600px;

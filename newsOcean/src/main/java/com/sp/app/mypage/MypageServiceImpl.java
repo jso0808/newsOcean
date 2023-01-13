@@ -10,7 +10,6 @@ import com.sp.app.common.dao.CommonDAO;
 import com.sp.app.cs.qna.QnaReply;
 import com.sp.app.member.Member;
 import com.sp.app.news.News;
-import com.sp.app.news.Reply;
 
 @Service("mypage.mypageService")
 public class MypageServiceImpl implements MypageService {
@@ -101,37 +100,6 @@ public class MypageServiceImpl implements MypageService {
 	public void deleteMyInfo(Member dto) throws Exception{;
 		try {
 			dao.deleteData("mypage.deleteMyInfo", dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-	
-//즐겨찾는 회원 리스트, 수정	
-	@Override
-	public List<Member> readBMember(Map<String, Object> map) {
-		List<Member> list = null;
-		
-		try {
-			list = dao.selectList("mypage.readBMember", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-	@Override
-	public void insertBMember(Map<String, Object> map) throws Exception {
-		try {
-			dao.insertData("mypage.insertBMember", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-	@Override
-	public void deleteBMember(Map<String, Object> map) throws Exception {
-		try {
-			dao.deleteData("mypage.deleteBMember", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

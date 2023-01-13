@@ -2,7 +2,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/jquery/css/jquery-ui.min.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/js/jquery-ui.min.js"></script>
 
@@ -10,7 +9,6 @@
 <script>
 $(function(){
 		//검색어의 길이가 바뀔 때마다 호출
-		
     function split( val ) {
       return val.split( /,\s*/ );
     }
@@ -54,7 +52,7 @@ $(function(){
 		focus: function() {
 	          return false;
 	    },
-		minLength: 1, 
+		minLength: 2, 
 		error: function(request, status, error){
                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
         }
@@ -113,6 +111,7 @@ $(function(){
 </script>
 <style>
 *{margin:0; padding:0;}
+*{margin:0; padding:0;}
 .container2{
 	display: flex;
     justify-content: center
@@ -132,7 +131,7 @@ cursor: pointer;
 	cursor: pointer;
 }
 #displayList{
-border: solid 1px gray; 
+style=border: solid 1px gray; 
 height: 100px; 
 overflow: auto; 
 margin-left: 77px; 
@@ -141,7 +140,7 @@ border-top: 0px;
 }
 </style>
 <div class="body-container2">
-	<form action="${pageContext.request.contextPath}/searchresult" method="post" name="searchForm">
+	<form action="${pageContext.request.contextPath}/searchresult" method="get" name="searchForm">
 		<div class="search_content input-group-text">
 			<div class="search_detail_content">
 				<div class="search_detail_row input-group-text">
@@ -156,7 +155,7 @@ border-top: 0px;
 					<div class="ui-widget">
 						<select name="searchType" id="searchType">
 							<option value="subject">제목</option>
-							<option value="searchName">키워드</option>
+							<option value="keyword">키워드</option>
 						</select>
 						<input type="text" id="searchName" name="searchName" size="100" autocomplete="off" size="50">
 						<label for="searchName" ></label>
@@ -175,7 +174,7 @@ border-top: 0px;
 								<input type="hidden" name="categoryName" class="" value="${dto.categoryName}">
 							</c:if>
 							<c:if test="${dto.categoryNo%100 != 0}">
-	      						<span class="input-group-text smallCategory" style="display:inline;">${dto.categoryName}</span>
+	      						<span class="input-group-text smallCategory" style="display:inline-block;">${dto.categoryName}</span>
 								<input class="category m-2 mt-0" type="checkbox" style="display: none;" name="categoryNo"  data-categoryName="${dto.categoryName}" value="${dto.categoryNo}">
 							</c:if>
 						</c:forEach>

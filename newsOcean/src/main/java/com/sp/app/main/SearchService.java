@@ -10,5 +10,5 @@ public interface SearchService {
 	public List<MainCategory> subsectionlist();
 	public void insertSearchHistory(Search search) throws Exception;
 	public List<String> wordSearchShow(Map<String, Object> map);
-	
+	public MainCategory categoryName(int categoryNo);
 }

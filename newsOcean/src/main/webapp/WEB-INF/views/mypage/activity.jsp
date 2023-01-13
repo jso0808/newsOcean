@@ -35,6 +35,29 @@ span{
     align-items: center;
 	font-size: 20px;
 }
+.save-newsReply{
+	width:100%;
+	word-break: break-all;
+    word-wrap: normal;
+}
+.save-qnaReply{
+	display: flex;
+	flex-direction:column;
+}
+.words{
+display:flex;
+flex-wrap: wrap;	
+}
+#newsReplyitem{
+	width:41px;
+}
+.activity-title{
+}
+.activity-content{
+}
+.qnaReplyList{
+
+}
 </style>
 <script>
 $(function(){
@@ -158,10 +181,10 @@ $(function(){
 				<div id="newsReplyList" class="input-group-text  flex-wrap">
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<div style="display: inline-block;" class="save-newsReply">
-							<div  style="display:flex; justify-content: space-between;" class="badge bg-light text-dark m-2 activity-tag" style="font-size:1.5rem;">
-								<span>뉴스제목 : ${dto.Content}</span>
+							<div  style="display:flex; justify-content: space-between;" class="badge bg-light text-dark m-2 activity-tag activity-title" style="font-size:1.5rem;">
+								<span>뉴스제목 : ${dto.title}</span>
 							</div>
-							<div  style="display:flex; justify-content: space-between;"  class="badge bg-light text-dark m-2 activity-tag" style="font-size:1.5rem;">
+							<div  style="display:flex; justify-content: space-between;"  class="badge bg-light text-dark m-2 activity-tag activity-content" style="font-size:1.5rem;">
 								<span>뉴스댓글 : ${dto.content}</span>
 								<button id="newsReplyitem"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
 							</div>
@@ -191,7 +214,7 @@ $(function(){
 								<span>QNA질문 : ${dto.qnaContent}</span>
 							</div>
 							<div  style="display:flex; justify-content: space-between;" class="badge bg-light text-dark m-2 activity-tag" style="font-size:1.5rem;">
-								<span>QNA질문의 답변 : ${dto.qnaAContent}</span>
+								<span class="words">QNA질문의 답변 : ${dto.qnaAContent}</span>
 							</div>
 							<input type="hidden" name="qnaNo" value="${dto.qnaNo}">
 							<input type="hidden" name="qnaAContent" value="${dto.qnaAContent}">

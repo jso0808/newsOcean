@@ -10,6 +10,7 @@ public class MainCategory {
 	private int newsNo;
 	private String newsName;
 	private String title;
+	
 	public final int getCategoryNo() {
 		return categoryNo;
 	}

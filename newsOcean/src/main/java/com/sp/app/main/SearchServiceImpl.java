@@ -25,6 +25,18 @@ public class SearchServiceImpl implements SearchService{
 
 		return list;
 	}
+	@Override
+	public MainCategory categoryName(int categoryNo) {
+		MainCategory category = null;
+
+		try {
+			category = dao.selectOne("search.categoryName", categoryNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return category;
+	}
 	
 	@Override
 	public void insertSearchHistory(Search search) throws Exception {

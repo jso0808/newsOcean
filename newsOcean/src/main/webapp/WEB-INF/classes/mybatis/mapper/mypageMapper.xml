@@ -52,21 +52,7 @@
 		DELETE FROM member 
 		where memberNo = #{memberNo}
 	</delete>
-<!-- 즐겨찾는 회원 리스트, 수정  -->
-	<select id="readBMember" parameterType="map"  resultType="com.sp.app.member.Member">
-		SELECT memberNo, memberNo2 FROM memberactivities
-		WHERE a.memberNo = #{memberNo} 
-	</select>
-	
-	<insert id="insertBMember" parameterType="map">
-		INSERT INTO memberactivities(memberNo, memberNo2) 
-		VALUES(#{memberNo}, #{memberNo2})
-	</insert>
-	
-	<update id="deleteBMember" parameterType="map">
-		DELETE FROM memberactivities where memberNo=#{memberNo} and memberNo2 = #{memberNo2}
-	</update>
-	
+
 <!-- 나의 댓글 리스트, 수정  -->
 	<select id="readMyQnaReply" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
 		SELECT r.qnaAnswer, r.memberNo, nickName, q.qnaNo, qnaAContent, r.qnaARegdate, q.qnaContent,
@@ -89,8 +75,8 @@
 		WHERE qnaAnswer= #{qnaAnswer} AND memberNo = #{memberNo}
 	</delete>
 <!--뉴스글 댓글 -->
-	<select id="listReply" parameterType="map" resultType="com.sp.app.news.Reply">
-		SELECT nr.replyNo, content, regDate, newsNo, nr.memberNo, nickName, NVL(likeCount,0) likeCount,
+	<select id="listReply" parameterType="map" resultType="com.sp.app.mypage.Reply">
+		SELECT nr.replyNo, content, regDate,nr.newsNo, news.title, nr.memberNo, nickName, NVL(likeCount,0) likeCount,
 			NVL(userReplyLiked,0) userReplyLiked, profile
 		FROM newsReply nr
 		JOIN member m ON m.memberNo = nr.memberNo
@@ -104,6 +90,7 @@
             JOIN member m ON m.memberNo = nrlRe.memberNo
             GROUP BY replyNo
 		) nrl2 ON nr.replyNo = nrl2.replyNo
+        JOIN news on nr.newsNo = news.newsNo
 		WHERE nr.memberNo = #{memberNo}
 		ORDER BY replyNo
 	</select>

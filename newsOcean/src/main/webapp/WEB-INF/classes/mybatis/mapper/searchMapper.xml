@@ -6,7 +6,10 @@
 	<select id="bigcategorylist" parameterType="com.sp.app.main.Search">
 		SELECT categoryNo, pcategoryNo, categoryName from category WHERE pcategoryNo is null
 	</select>
-	
+	<!-- 카테고리번호에 맞는 카테고리 이름 -->
+	<select id="categoryName" parameterType="Integer" resultType="com.sp.app.main.MainCategory">
+		SELECT categoryNo, pcategoryNo, categoryName from category WHERE categoryNo =#{categoryNo}
+	</select>
 	<!-- 카테고리 종류-->
 	<select id="categorylist" resultType="com.sp.app.main.MainCategory">
 		SELECT categoryNo,categoryName from category order by categoryNo

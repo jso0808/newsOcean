@@ -2,101 +2,9 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sections.css" type="text/css">
 
 <style type="text/css">
-*{margin:0; padding:0;}
-.body-container{
-	margin:0 auto;
-}
-.banner_img{
-	 min-width:98vw;
-	 background-color: #80b5ff;
-	 height: 250px;
-	 margin:10px 0px;
-	 opacity:0.3;
-}
-.category{
-	min-height: 70px;
-	display:flex;
-    justify-content: center;
-    align-items: center;
-}
-.category_inner{
-display:flex;
-}
-.category_link{
-	display: flex;
-	width:100px;
-	min-height:70px;
-    display: flex;
-    justify-content: center;
-    margin: 0 1rem;
-    box-sizing: border-box;
-    font-size: 1.125rem;
-    color: #051619;
-    cursor: pointer;
-}
-.category_link span{
-	display: flex;
-	width:100px;
-	min-height:70px;
-    justify-content: center;
-    align-items:center;
-}
-
-.search_icon{
-	display:flex;
-	justify-content: center;
-	align-items:center;
-	font-size: 30px;
-}
-.main_section{
-	display:flex;
-	min-width: 90%;
-	margin:0 auto;
-	padding: 0px 5%;
-}
-.posts{
-	display:flex;
-	position:relative;
-	flex-wrap:wrap;
-}
-.card{
-	min-height: 300px;
-	min-width:300px;
-	display:block;
-	border:1px solid black;
-	box-sizing:border-box;
-	position:relative;
-	cursor:pointer;
-}
-.search_content{
- margin:5px auto;
-}
-
-.categoryBox{
-	display: block;
-    min-height: 1px;
-	position: relative;
-    top: 1px;
-    clear: both;
-    float: left;
-    width: 100%;
-    height: 27px;
-    margin: 25px 0 0 0;
-    z-index: 50;
-}
-.smallCategory{
-	float: left;
-    height: 20px;
-    padding: 0 9px 0 12px;
-}
-li{
-	list-style: none;
-	float: left;
-    height: 20px;
-    padding: 0 9px 0 12px;
-}
 </style>
 <script>
 function subsectionClick(){
@@ -108,6 +16,24 @@ function recentClick(){
 function sectionClick(){
 	
 }
+</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
+<script type="text/javascript">
+window.addEventListener("load", function(){
+	let page = ${page};
+	let pageSize = ${size};
+	let dataCount = ${dataCount};
+	let url = "${listUrl}"; 
+	
+	let total_page = pageCount(dataCount, pageSize);
+	let paging = pagingUrl(page, total_page, url);
+	
+	document.querySelector(".dataCount").innerHTML = dataCount+"개 ("
+			+page+"/"+total_page+"페이지)";
+
+	document.querySelector(".page-navigation").innerHTML = 
+		dataCount === 0 ? "등록된 게시물이 없습니다." : paging;
+});
 </script>
 <div class="container body-container">
 	<nav class="category" role="category" aria-label="카테고리">
@@ -185,9 +111,11 @@ function sectionClick(){
 		</div>
 	</section>
 </div>
-
+<div class="page-navigation">${paging}</div>
+<form action="${pageContext.request.contextPath}/section">
+	<input type="hidden" name="categoryNo" value="${categoryNo}">
+</form>
 <script>
-
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,

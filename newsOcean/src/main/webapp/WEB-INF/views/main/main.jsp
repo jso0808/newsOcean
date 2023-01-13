@@ -6,7 +6,7 @@
 *{margin:0; padding:0;}
 .body-container2{
 	display: flex;
-	flex-direction: column;
+    flex-direction: column;
 }
 .banner_img{
 	 min-width:98vw;
@@ -80,15 +80,18 @@ display:flex;
 	display:flex;
 	position:relative;
 	flex-wrap:wrap;
+	justify-content: center;
 }
 .card{
-	min-height: 300px;
-	min-width:300px;
+	height: 150px;
+	width:300px;
 	display:block;
 	border:1px solid black;
 	box-sizing:border-box;
 	position:relative;
 	cursor:pointer;
+	font-size:18px;
+	padding:15px;
 }
 
 .img__area {
@@ -171,7 +174,7 @@ display:flex;
     			<div class="text__area__newsocean">세상을 유연하게.</div>
     			<div class="text__area__newsocean2">세상에 꼭 필요한 뉴스만 주는 플랫폼</div>
     			<a href="${pageContext.request.contextPath}/cs/notice/list">
-					<div style="height: 30px;"><button class="text__area__newsocean3">NewsOcean 서핑하기 👀</button></div>
+					<span style="height: 30px; display:block;"><button class="text__area__newsocean3">NewsOcean 서핑하기 👀</button></span>
 				</a>
     			
     			
@@ -225,16 +228,14 @@ display:flex;
 	</nav>
 	<section class="main_section container">
 		<div class="posts row">
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">정치</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">경제</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
+			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
+				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
+					<span>${dto.crawlTitle}</span>
+					<span>${dto.}</span>
+				</a>
+			</c:forEach>
 		</div>
-		
 	</section>
-	
 </div>
+<div class="page-navigation">${paging}</div>
 </html>

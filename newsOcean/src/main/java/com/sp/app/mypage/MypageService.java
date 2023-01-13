@@ -6,7 +6,6 @@ import java.util.Map;
 import com.sp.app.cs.qna.QnaReply;
 import com.sp.app.member.Member;
 import com.sp.app.news.News;
-import com.sp.app.news.Reply;
 
 
 public interface MypageService {
@@ -25,13 +24,9 @@ public interface MypageService {
 	 - 정보삭제? 
 	 - 아니면 따로저장, 세션삭제, 30일후 삭제
 	 */
-	//즐겨찾는 회원 리스트, 수정
-	public List<Member> readBMember(Map<String, Object> map);
-	public void insertBMember(Map<String, Object> map) throws Exception;
-	//public void updateBMember(Map<String, Object> map) throws Exception;
-	public void deleteBMember(Map<String, Object> map) throws Exception;
+	
 	//나의 댓글 리스트
-	public List<Reply> readMyReply(Map<String, Object> map);
+	public List<Reply> readMyReply(Map<String, Object> 	map);
 	public void deleteMyReply(Map<String, Object> map) throws Exception;
 	public List<QnaReply> readMyQnaReply(Map<String, Object> map);
 	public void deleteMyQnaReply(Map<String, Object> map) throws Exception;

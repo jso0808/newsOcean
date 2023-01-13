@@ -4,7 +4,6 @@ public class Bookmark {
 	//북마크 뉴스기사를 분류 보관, 날짜,카테고리별 검색
 	private int bookmarkNum;
 	private int newsNo;
-	private int tabNum;//??
 	private int memberNo;
 	private String bookmarkName;
 	public int getBookmarkNum() {
@@ -18,12 +17,6 @@ public class Bookmark {
 	}
 	public void setNewsNo(int newsNo) {
 		this.newsNo = newsNo;
-	}
-	public int getTabNum() {
-		return tabNum;
-	}
-	public void setTabNum(int tabNum) {
-		this.tabNum = tabNum;
 	}
 	public int getMemberNo() {
 		return memberNo;

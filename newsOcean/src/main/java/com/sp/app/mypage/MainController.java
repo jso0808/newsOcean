@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.cs.qna.QnaReply;
+import com.sp.app.main.MainMongoOperations;
+import com.sp.app.main.SearchService;
 import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
 import com.sp.app.news.News;
-import com.sp.app.news.NewsService;
-import com.sp.app.news.Reply;
 
 @Controller("mypage.mainController")
 @RequestMapping(value = "/mypage/*")
@@ -33,9 +34,11 @@ public class MainController {
 	private MemberService mservice;
 	
 	
+	
 	@RequestMapping(value = "main")
-	public String main(Model model) {
-		
+	public String main(Model model, HttpSession session) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		return ".mypage.main";
 	}
 	
@@ -43,10 +46,10 @@ public class MainController {
 	public String keyword(HttpSession session,
 			@RequestParam(name="keywordName", required=false) List<String> keywordName,
 			Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			SessionInfo info = (SessionInfo) session.getAttribute("member");
-			
 			map.put("memberNo", info.getMemberNo());
 			List<Keyword> keywordList = service.readMyKeyword(map);
 			
@@ -64,6 +67,7 @@ public class MainController {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			if(info == null) return ".member.login";
 			System.out.println("멤버번호:  "+ info.getMemberNo());
 			map.put("keywordName", keywordName);
 			map.put("memberNo", info.getMemberNo());
@@ -81,11 +85,11 @@ public class MainController {
 	public String addkeyword(HttpSession session,
 			@RequestParam(name="keywordName", required=false) String keywordName,
 			Model model) {
- 
+		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
-			
+			if(info == null) return ".member.login";
 			if(keywordName!=null) {
 				Map<String, Object> map2 = new HashMap<String, Object>();
 				map2.put("keywordName", keywordName);
@@ -110,6 +114,7 @@ public class MainController {
 	public String activityForm(Model model,HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		long memberNo = info.getMemberNo();
 		map.put("memberNo", memberNo);
 		List<Reply> list = service.readMyReply(map);
@@ -139,6 +144,7 @@ public class MainController {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			if(info == null) return ".member.login";
 			long memberNo = info.getMemberNo();
 			map.put("memberNo", memberNo);
 			map.put("qnaAnswer", qnaAnswer);
@@ -154,6 +160,7 @@ public class MainController {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			if(info == null) return ".member.login";
 			long memberNo = info.getMemberNo();
 			map.put("memberNo", memberNo);
 			map.put("qnaNo", qnaNo);
@@ -163,16 +170,12 @@ public class MainController {
 		}
 		return ".mypage.activity";
 	}
-	@RequestMapping("bmember")
-	public String bmember(Model model,HttpSession session) {
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		Member dto = mservice.readMember(info.getEmail());
-		return ".mypage.bmember";
-	}
+	
 	
 	@GetMapping("bookmark")
 	public String bookmarkForm(Model model, HttpSession session) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		List<Bookmark> bookmark = service.readMyBookmark(info.getMemberNo());
 		model.addAttribute("bookmarkList", bookmark);
 		for(Bookmark s : bookmark) {
@@ -185,6 +188,7 @@ public class MainController {
 	public String bookmarkSubmit(@RequestParam String bookmarkName,
 			Model model,HttpSession session) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		Long memberNo = info.getMemberNo();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("bookmarkName", bookmarkName);
@@ -206,6 +210,7 @@ public class MainController {
 	public String deleteBookmark(@RequestParam long bookmarkNum,
 			Model model, HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		Map<String, Object> map = new  HashMap<String, Object>();
 		
 		long memberNo = info.getMemberNo();
@@ -223,6 +228,7 @@ public class MainController {
 			Model model) {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		
 		Member dto = mservice.readMember(info.getEmail());
 		
@@ -255,7 +261,7 @@ public class MainController {
 			HttpSession session,
 			Model model){
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
+		if(info == null) return ".member.login";
 		Member dto = service.readMyInfo(info.getEmail());
 		
 		dto.setPwd(null);
@@ -299,6 +305,7 @@ public class MainController {
 			Model model) {
 	
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
 		Member dto = mservice.readMember(info.getEmail());
 		try {
 			service.deleteMyInfo(dto);

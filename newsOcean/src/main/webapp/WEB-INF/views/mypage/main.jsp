@@ -34,9 +34,6 @@
 				<a href="${pageContext.request.contextPath}/mypage/info" title="회원정보수정">회원정보수정</a>
 			</div>
 			<div class="col p-2">
-				<a href="${pageContext.request.contextPath}/mypage/bmember" title="즐겨찾는회원">즐겨찾는회원</a>
-			</div>
-			<div class="col p-2">
 				<a href="${pageContext.request.contextPath}/mypage/activity" title="나의 댓글">나의 댓글</a>
 			</div>
 			<div class="col p-2">

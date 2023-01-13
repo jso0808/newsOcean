@@ -2,6 +2,8 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sections.css" type="text/css">
+
 <script>
 
 </script>
@@ -112,8 +114,10 @@ li{
     padding: 0 9px 0 12px;
 }
 </style>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
 <script>
 $(function(){
+	alert("${dataCount}");
 	let searchType = "${searchType}";
 	let sType ="";
 	if(searchType == "searchName"){
@@ -121,10 +125,32 @@ $(function(){
 	}else if(searchType== "subject"){
 		sType = '제목';
 	}
+	if("${searchName}"==""){
+		return;
+	}
 	let searchName = '<span>'+sType+"로 검색한 "+'"${searchName}"'+"의 검색결과입니다"+'</span>';
 	$(".search_searchName").html(searchName);
 })
+
 </script>
+<script type="text/javascript">
+window.addEventListener("load", function(){
+	let page = ${page};
+	let pageSize = ${size};
+	let dataCount = ${dataCount};
+	let url = "${listUrl}"; 
+	
+	let total_page = pageCount(dataCount, pageSize);
+	let paging = pagingUrl(page, total_page, url);
+	
+	document.querySelector(".dataCount").innerHTML = dataCount+"개 ("
+			+page+"/"+total_page+"페이지)";
+
+	document.querySelector(".page-navigation").innerHTML = 
+		dataCount === 0 ? "등록된 게시물이 없습니다." : paging;
+});
+</script>
+
 <div class="container body-container">
 	<h3 class="search_searchName">
 	</h3>
@@ -163,32 +189,17 @@ $(function(){
 	
 	<section class="main_section container">
 		<div class="posts row">
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">정치</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">경제</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/">IT/과학</a>
+			<c:forEach var="dto" items="${list}" varStatus="status">
+				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">${dto.crawlTitle}:${dto.crawlUrl}</a>
+			</c:forEach>
 		</div>
-		
 	</section>
 </div>
-<!-- 태그 모달 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">태그 선택</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">선택</button>
-      </div>
-    </div>
-  </div>
+<div class="page-navigation">
+		${paging}
 </div>
+<form action="${pageContext.request.contextPath}/searchresult">
+	<input type="hidden" name="categoryNo" value="${categoryNo}">
+	<input type="hidden" name="searchName" value="${searchName}">
+	<input type="hidden" name="searchType" value="${searchType}">
+</form>
