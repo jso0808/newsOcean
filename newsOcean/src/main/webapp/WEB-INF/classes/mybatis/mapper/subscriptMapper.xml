@@ -13,16 +13,20 @@
 	
 	
 	<select id="listSubPay" parameterType="long" resultType="com.sp.app.sub.Subscript">
-		SELECT subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
-    		TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
-    		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
-				CASE WHEN subEnd &gt;= sysdate then 1
-		        	WHEN subEnd &lt; sysdate then -1
-		        	ELSE 0 END AS endOrNot
+		SELECT s.subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
+		    TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
+		    merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
+		        CASE WHEN subEnd &gt;= sysdate then 1
+		        WHEN subEnd &lt; sysdate then -1
+		        ELSE 0 END AS endOrNot, NVL(refundOrNot,0) refundOrNot
 		FROM SUBSCRIPT s
 		JOIN MEMBER m ON m.memberNo = s.memberNo
+		LEFT OUTER JOIN ( 
+		    SELECT subNo, COUNT(*) refundOrNot
+		    FROM subRefund 
+		    GROUP BY subNo) sr ON sr.subNo = s.subNo
 		WHERE s.memberNo = #{memberNo}
-		ORDER BY paid_amount DESC
+		ORDER BY sr.subNo DESC
 	</select>
 	
 	<select id="listSubPaySelectSub" parameterType="map" resultType="com.sp.app.sub.Subscript">
@@ -31,11 +35,15 @@
     		merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
 				CASE WHEN subEnd &gt;= sysdate then 1
 		        	WHEN subEnd &lt; sysdate then -1
-		        	ELSE 0 END AS endOrNot
+		        	ELSE 0 END AS endOrNot, refundOrNot
 		FROM SUBSCRIPT s
 		JOIN MEMBER m ON m.memberNo = s.memberNo
+		LEFT OUTER JOIN ( 
+		    SELECT subNo, COUNT(*) refundOrNot
+		    FROM subRefund 
+		    GROUP BY subNo) sr ON sr.subNo = s.subNo
 		WHERE s.memberNo = #{memberNo} and subType = #{selectSub}
-		ORDER BY paid_amount DESC
+		ORDER BY sr.subNo DESC
 	</select>
 	
 	<!-- 글개수 -->
@@ -53,11 +61,18 @@
 		WHERE s.memberNo = #{memberNo} and subType = #{selectSub}
 	</select>
 	
-	<select id="findBySubIng" parameterType="Long" resultType="Integer">
-		SELECT COUNT(*)
+	<select id="findBySubIng" parameterType="Long" resultType="Long">
+		SELECT subNo
 		FROM subscript s
 		LEFT OUTER JOIN member m ON m.memberNo = s.memberNo
 		WHERE subEnd &gt; sysdate AND s.memberNo = #{memberNo}
+		GROUP BY subNo
+	</select>
+	
+	<select id="findBySubRefund" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM subRefund 
+		WHERE subNo = #{subNo}
 	</select>
 	
 	<select id="findBySubPayInfo" parameterType="String" resultType="com.sp.app.sub.Subscript">
@@ -69,7 +84,7 @@
 		        	ELSE 0 END AS endOrNot,
 		        CASE WHEN firstMail &gt; sysdate then 1
 		        	WHEN firstMail &lt;= sysdate then -1
-		        	ELSE 0 END AS refundOrNot    
+		        	ELSE 0 END AS firstMailOrNot    
 		FROM SUBSCRIPT s
 		JOIN MEMBER m ON m.memberNo = s.memberNo
 		WHERE imp_uid = #{imp_uid}

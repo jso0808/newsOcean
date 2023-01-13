@@ -201,7 +201,13 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 							<a href="#" title="뉴스">최신뉴스</a>
 						</div>
 						<div class="col p-2">
-							<a href="${pageContext.request.contextPath}/sub/main" title="구독">구독</a>
+							<a href="${pageContext.request.contextPath}/sub/main" title="구독" data-bs-toggle="dropdown" aria-expanded="false">구독</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item"
+									href="${pageContext.request.contextPath}/sub/main">구독권</a></li>
+								<li><a class="dropdown-item"
+									href="${pageContext.request.contextPath}/sub/list">구독내역</a></li>
+							</ul>
 						</div>
 						<div class="col p-2" style="width: 180px;">
 							<a href="${pageContext.request.contextPath}/mypage/main" title="마이페이지">마이페이지</a>

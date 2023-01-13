@@ -53,15 +53,15 @@ public class SubServiceImpl implements SubService {
 	
 	@Override
 	public Subscript findBysubPayInfo(String imp_uid) {
-		Subscript sb = null;
+		Subscript s = null;
 		
 		try {
-			sb = dao.selectOne("subscript.findBySubPayInfo", imp_uid);
+			s = dao.selectOne("subscript.findBySubPayInfo", imp_uid);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return sb;
+		return s;
 	}
 
 	@Override
@@ -89,15 +89,15 @@ public class SubServiceImpl implements SubService {
 	}
 
 	@Override
-	public int findBySubIng(long memberNo) {
-		int ing = 0;
+	public Subscript findBySubIng(long memberNo) {
+		Subscript s = null;
 		try {
-			ing = dao.selectOne("subscript.findBySubIng", memberNo);
+			s = dao.selectOne("subscript.findBySubIng", memberNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return ing;
+		return s;
 	}
 
 	@Override
@@ -108,6 +108,17 @@ public class SubServiceImpl implements SubService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	@Override
+	public int findBySubRefund(long subNo) {
+		int result = 0;
+		try {
+			result = dao.selectOne("subscript.findBySubRefund", subNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

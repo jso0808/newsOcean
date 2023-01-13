@@ -184,6 +184,10 @@
     justify-content: flex-end;
 }
 
+.div-subRefund {
+	
+}
+
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.0/css/all.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
@@ -235,7 +239,8 @@ $(function() {
 		
 		let merchant_uid = $(this).find("input[name=merchant_uid]").val(); // 구독번호
 		let imp_uid = $(this).find("input[name=imp_uid]").val(); // 결제번호
-		
+		let refundOrNot = $(this).find("input[name=refundOrNot]").val(); // 환불
+	
 		// 구독권 결제 상세 내용 ajax로 가져오기
 		let url = "${pageContext.request.contextPath}/sub/subPayInfo";
  		let query= "imp_uid="+imp_uid;
@@ -258,8 +263,10 @@ $(function() {
 	 	    var html_amount = '';
 	 	    html_amount += '<div class="modal-paid_amount div-content-list" value="'+info.paid_amount+'"> 최종 결제 금액: '+info.paid_amount+'원</div>';
 	 	    
+	 	    console.log(refundOrNot);
+	 	    
 	 		// 오늘날짜까 첫 메일 발송일 이전이면 환불 가능
-	 	    if(info.refundOrNot === 1) {
+	 	    if(info.firstMailOrNot === 1 && refundOrNot === 0) {
 	 	    	let html_btnRefund = '';
 	 	    	html_btnRefund += '<button type="button" class="btn btn-secondary btnRefund" name="btnRefund" id="btnRefund" data-bs-dismiss="modal">환불하기</button>';
 	 	    
@@ -385,14 +392,19 @@ $(function() {
 									<div class="subDate">
 										${dto.subStart} ~ ${dto.subEnd}
 									</div>
-									<c:if test="${dto.endOrNot == 1}">
+									<c:if test="${dto.refundOrNot == 1}">
+										<div class="div-subRefund">환불</div>
+									</c:if>
+									<c:if test="${dto.endOrNot == 1 && dto.refundOrNot == 0}">
 										<div class="div-subIng">구독 중</div>
 									</c:if>
-									<c:if test="${dto.endOrNot == -1}">
+									<c:if test="${dto.endOrNot == -1 && dto.refundOrNot == 0}">
 										<div class="div-subEnd">구독 종료</div>
 									</c:if>
+									
 									<input type="hidden" name="imp_uid" value="${dto.imp_uid}">
 									<input type="hidden" name="merchant_uid" value="${dto.merchant_uid}">
+									<input type="hidden" name="refundOrNot" value="${dto.refundOrNot}"> 
 								</div>
 							</div>
 						</div>

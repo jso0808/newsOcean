@@ -190,7 +190,7 @@ public class SubController {
 		job.put("subEnd", sb.getSubEnd());
 		job.put("firstMail", sb.getFirstMail());
 		job.put("endOrNot", sb.getEndOrNot());
-		job.put("refundOrNot", sb.getRefundOrNot());
+		job.put("firstMailOrNot", sb.getFirstMailOrNot());
 		
 		resp.setContentType("text/html; charset=utf-8"); 
 		PrintWriter out = resp.getWriter();
@@ -203,12 +203,25 @@ public class SubController {
 	@ResponseBody
 	public Map<String, Object> findBySubIng(HttpSession session) {
 		String state = "false";
+		Subscript sb = null;
+		int refundOrNot = 0;
 		int ing = 0;
 		try {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			
-			ing = service.findBySubIng(info.getMemberNo());
-			System.out.println(ing);
+			/*
+			 * 로직 다시 생각하기.
+			 * 구독권이 있고, 환불이 아닌 것
+			 * 구독권이 있고, 환불인 것
+			 *  -> 서비스단에서, 두 변수를 if문로 판단. 새 변수 x에 저장하고, x를 return?
+			 */
+			
+			sb = service.findBySubIng(info.getMemberNo());
+			if(sb!=null) {
+				refundOrNot = service.findBySubRefund(sb.getSubNo());
+			} else {
+				ing = 0;
+			}
 			state = "true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -217,6 +230,7 @@ public class SubController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);
 		model.put("ing", ing);
+		model.put("refundOrNot", refundOrNot);
 		
 		return model;
 	}

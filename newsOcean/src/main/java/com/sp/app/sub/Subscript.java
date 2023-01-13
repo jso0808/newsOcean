@@ -17,6 +17,7 @@ public class Subscript {
 	
 	private int endOrNot; // 구독 종료 여부
 	private int refundOrNot; // 환불 가능 여부
+	private int firstMailOrNot; // 첫 메일 발송 여부
 	
 	private String email;
 	private String nickName;
@@ -116,6 +117,12 @@ public class Subscript {
 	}
 	public void setRefundOrNot(int refundOrNot) {
 		this.refundOrNot = refundOrNot;
+	}
+	public int getFirstMailOrNot() {
+		return firstMailOrNot;
+	}
+	public void setFirstMailOrNot(int firstMailOrNot) {
+		this.firstMailOrNot = firstMailOrNot;
 	}
 	
 
