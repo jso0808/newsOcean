@@ -167,7 +167,7 @@ display:flex;
 <div class="body-container2">
     <div class="banner_img">
     	<div class="row">
-    		<div class="col text__area">
+    		<div class="col text__area"> 
     			<div>거친 파도를</div>
     			<div>유연하게 헤엄치는</div>
     			<div style="color: #004b81">서퍼처럼 🌊</div>
