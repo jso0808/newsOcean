@@ -177,12 +177,10 @@ display:flex;
 					<span style="height: 30px; display:block;"><button class="text__area__newsocean3">NewsOcean 서핑하기 👀</button></span>
 				</a>
     			
-    			
-    			
-    			
+
     		</div>
     		<div class="col img__area">
-    			<img style="width: 500px;" src="${pageContext.request.contextPath}/resources/images/main_img_type2.png">
+    			<img style="width: 430px;" src="${pageContext.request.contextPath}/resources/images/main_img_type2.png">
     		</div>
     	</div>
     </div>
