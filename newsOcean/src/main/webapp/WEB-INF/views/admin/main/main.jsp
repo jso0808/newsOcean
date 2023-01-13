@@ -280,9 +280,8 @@ $(function(){
 			</div>
 		</c:forEach>
 
-	
-	<!-- 회원 구독 내역 -->
 	</div>
+	<!-- 회원 구독 내역 -->
 	<div class="sales-1 ">
 		<c:forEach var="dto" items="${listSales}" varStatus="status">
 			<div class="sales_block shadow-sm" onclick="location.href='${pageContext.request.contextPath}/admin/member/article?memberNo=${dto.memberNo}';">

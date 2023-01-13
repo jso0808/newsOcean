@@ -11,21 +11,21 @@
 .banner_img{
 	 min-width:98vw;
 	 background-color: #fff;
-	 height: 500px;
-	 margin-top:40px;
+	 height: 350px;
+	 margin-top:10px;
 }
 
 .banner_img_div {
-	width: 600px;
+	width: 500px;
 	display: flex;
 	justify-content: flex-end;
 }
+
 .wordCloud_img{
-	 min-width:1200px;
 	 margin: auto;
 	 height: 340px;
-	 margin-bottom: 30px;
-	 margin-top: 50px;
+	 margin-bottom: 10px;
+	 margin-top: 20px;
 }
 
 .wordCloud_img:hover {
@@ -106,7 +106,7 @@ display:flex;
 }
 
 .text__area {
-	font-size: 46px;
+	font-size: 40px;
 	margin-left: 340px;
 	margin-top:-10px;
 	padding-top: 25px;
@@ -120,7 +120,7 @@ display:flex;
 
 .text__area__newsocean {
 	font-size: 16px;
-	margin-top: 30px;
+	margin-top: 25px;
 	padding-top: 25px;
 	width: 400px;
 	color: #595959;	
@@ -156,11 +156,47 @@ display:flex;
 	margin-top: 110px;
 }
 
-.main__line {
+.main_title_intro {
+	font-family: 'line_font_b';
+	font-size: 27px;
+	width: 330px;
+	margin-left: 300px;
+	padding-right: 20px;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.main__line_first {
 	font-family: 'line_font_b';
 	font-size: 50px;
 	color: #eee;
 	margin: auto;
+}
+
+.main__line {
+	font-family: 'line_font_b';
+	font-size: 50px;
+	color: #eee;
+	margin-left: 300px;
+	margin-top: -15px;
+}
+
+.pick_news_container {
+	width: 1000px;
+	margin: auto;
+	padding-left: 40px;
+	border-radius: 5px;
+}
+
+.pick_news_span:hover {
+	cursor: pointer;
+	background: #eee;
+	transition: .5s;
+}
+
+.pick_news_span {
+	height: 30px;
+	vertical-align: middle;
 }
 
 </style>
@@ -177,23 +213,36 @@ display:flex;
 					<span style="height: 30px; display:block;"><button class="text__area__newsocean3">NewsOcean 서핑하기 👀</button></span>
 				</a>
     			
-
     		</div>
     		<div class="col img__area">
-    			<img style="width: 430px;" src="${pageContext.request.contextPath}/resources/images/main_img_type2.png">
+    			<img style="width: 360px; margin-top: 50px;" src="${pageContext.request.contextPath}/resources/images/main_img_type2.png">
     		</div>
     	</div>
     </div>
-   
+   <div class="main__line_first" style="margin-top: 70px;">────────────────────</div>
+   <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 관심 키워드 추천 뉴스 </div>
+	   <div class="row" style="margin-bottom: 40px;">
+	   			<div class="pick_news_container shadow">
+					<div class=" row" >
+						<span class="col-1 text-center" >키워드</span>
+						<span class="col-7 text-center" style="margin-left: 10px;">뉴스 제목</span>
+						<span class="col-2 text-right" style="margin-left: 10px;">업로드 일자</span>
+					</div>
+					<div class="pick_news_span row">
+						<span class=" col-1 text-center" >키워드</span>
+						<span class=" col-7 text-center" >제목</span>
+						<span class=" col-2 text-right" >업로드 일자</span>
+					</div>
+				</div>
+	   	</div>
     
-    <div class="wordCloud_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 인기 키워드</div>
-    <div class="main__line">──────</div>
+    
+    <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 인기 키워드</div>
     
     <div class="wordCloud_img">
-    	<img src="${pageContext.request.contextPath}/resources/images/rating.png">
+    	<img style="margin: auto;" src="${pageContext.request.contextPath}/resources/images/rating.png">
     </div>
-    <div class="wordCloud_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 카테고리</div>
-    <div class="main__line">──────</div>
+    <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 카테고리</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
 			<a href="${pageContext.request.contextPath}/" class="all category_link">
@@ -237,3 +286,10 @@ display:flex;
 </div>
 <div class="page-navigation">${paging}</div>
 </html>
+
+
+
+<script>
+
+
+</script>
