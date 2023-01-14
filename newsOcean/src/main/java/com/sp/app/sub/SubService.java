@@ -14,7 +14,7 @@ public interface SubService {
 	public List<Subscript> listSubPaySelectSub(Map<String, Object> map);
 	
 	public Subscript findBysubPayInfo(String imp_uid);
-	public Subscript findBySubIng(long memberNo);
+	public int findBySubIng(long memberNo);
 	public int findBySubRefund(long subNo);
 	
 	public void insertSubRefund(Map<String, Object> map) throws Exception;

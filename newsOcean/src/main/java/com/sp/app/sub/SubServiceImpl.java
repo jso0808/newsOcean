@@ -89,15 +89,28 @@ public class SubServiceImpl implements SubService {
 	}
 
 	@Override
-	public Subscript findBySubIng(long memberNo) {
-		Subscript s = null;
+	public int findBySubIng(long memberNo) {
+		int refundOrNot = 0;
+		Long subNo = null;
+		int ing = 0;
 		try {
-			s = dao.selectOne("subscript.findBySubIng", memberNo);
+			subNo = dao.selectOne("subscript.findBySubIng", memberNo);
+			if(subNo != null) {
+				refundOrNot = dao.selectOne("subscript.findBySubRefund", subNo);
+			}
+			
+			// 구독중X(ing=0): 구독권이 있으나 환불된 경우, 구독권 없는 경우 
+			// 구독중O(ing=1): 구독권 있으나 환불데이터 없는 경우, 구독권 있는 경우
+			if(subNo == null || (subNo!=null&&refundOrNot==1)) {
+				ing = 0;
+			} else if(subNo!=null || (subNo!=null&&refundOrNot==0)) {
+				ing = 1;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return s;
+		return ing;
 	}
 
 	@Override
