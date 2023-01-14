@@ -22,12 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
+import com.sp.app.mypage.Keyword;
+import com.sp.app.mypage.MypageService;
 
 
 @Controller("main.mainController")
 public class MainController {
 	@Autowired
 	private SearchService service;
+	@Autowired
+	private MypageService mpservice;
 	@Autowired
 	private MainMongoOperations mainMongo;
 	@Autowired
@@ -38,6 +42,17 @@ public class MainController {
 	public String main(HttpSession session,
 			HttpServletRequest req,
 			Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) return ".member.login";
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberNo", info.getMemberNo());
+			List<Keyword> keywordList = mpservice.readMyKeyword(map);
+			
+			model.addAttribute("keywordList", keywordList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		//카테고리별 뉴스 1개씩 가져온 리스트
 		List<com.sp.app.main.News> subCategoryNews = mainMongo.AllNews();
 		
@@ -45,46 +60,96 @@ public class MainController {
         return ".mainLayout";
         
 	}
+	//101->201, 102->301 카테고리번호변경
+	public static int cChange(int categoryNo) {
+		int cChange;
+		cChange = (categoryNo%10+1)*100+1;
+		return cChange;
+	}
 	@GetMapping("/recent")
 	public String recent(@RequestParam int categoryNo,
 			HttpSession session,
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			HttpServletRequest req,
 			Model model) {
-		int size = 9;
+		int size = 12;	
 		int total_page = 0;
 		int dataCount = 0;
-
+		List<MainCategory> subsectionlist = new ArrayList<MainCategory>();
+		
 		// 전체 페이지 수
-		dataCount = (int) mainMongo.dataCount(categoryNo);
-		System.out.println("dataCount:"+dataCount);
-		if (dataCount != 0) {
-			total_page = myUtil.pageCount(dataCount, size);
-		}
+		
 		
 		// 다른 사람이 자료를 삭제하여 전체 페이지수가 변화 된 경우
+		
+		List<News> subCategoryNews = new ArrayList<News>();
+		//최신뉴스전체리스트=100, 최신뉴스 각카테고리 201, 301, 401,501, 601
+		//<!-- 100번대면 최신뉴스대카테고리,(최신뉴스 소카테고리) 201,301,401,501,601은 나머지 -->
+		
+		try {
+			if(categoryNo==100) {
+				dataCount = (int) mainMongo.dataCount();
+				if (dataCount != 0) {
+					total_page = myUtil.pageCount(dataCount, size);
+				}
+				subCategoryNews = mainMongo.recentlist(current_page, size);
+			}else if(categoryNo<200) {
+				//101->
+				int categoryNo2=cChange(categoryNo);
+				dataCount = (int) mainMongo.dataCount(categoryNo2);
+				if (dataCount != 0) {
+					total_page = myUtil.pageCount(dataCount, size);
+				}
+				String cChangeStr=Integer.toString(categoryNo2);
+				subCategoryNews = mainMongo.recentlist(cChangeStr, current_page, size);
+			}else if(categoryNo%100 == 1) {
+				//최신뉴스소카테고리
+				dataCount = (int) mainMongo.dataCount(categoryNo);
+				if (dataCount != 0) {
+					total_page = myUtil.pageCount(dataCount, size);
+				}
+				String categoryNoStr = Integer.toString(categoryNo);
+				subCategoryNews = mainMongo.recentlist(categoryNoStr,current_page, size);
+			}else {
+				Exception e = new Exception("적절하지 않은 카테고리번호");
+				throw e;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(current_page > total_page) {
 			current_page = total_page;
 		}
-		
-		//카테고리번호에 해당하는 뉴스리스트
-		List<News> subCategoryNews = mainMongo.categoryNews(categoryNo, current_page, size);
-		List<MainCategory> subsectionlist = service.subsectionlist(categoryNo);
 		String cp = req.getContextPath();
-		String listUrl = cp + "/recent";
+		String listUrl = cp + "/recent?"+"categoryNo="+categoryNo;;
 		String paging = myUtil.pagingUrl(current_page, total_page, listUrl);
-		
+		//최신카테고리 의 소카테고리 리스트에 전체추가
+		if(categoryNo<200) {
+			subsectionlist = service.sectionlist();
+			MainCategory mc = new MainCategory();
+			mc.setCategoryNo(100);
+			mc.setCategoryName("전체");
+			subsectionlist.add(0,mc);
+		}else {
+			//categoryNo >200이상이면
+			subsectionlist = service.subsectionlist(categoryNo);
+		}
+		for(MainCategory n:subsectionlist) {
+			System.out.println(n.getCategoryName());
+			System.out.println(n.getCategoryNo());
+		}
 		//페이징
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("size", size);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		//subcategory nav목록
+		model.addAttribute("subsectionlist", subsectionlist);
+		model.addAttribute("categoryNo", categoryNo);
 		
 		model.addAttribute("subCategoryNews", subCategoryNews);
-		model.addAttribute("categoryNo", categoryNo);
-		model.addAttribute("subsectionlist", subsectionlist);//카테고리명, 카테고리번호
-        return ".main.section";
+        return ".main.recent";
 	}
 	
 	@GetMapping("/section")
@@ -93,7 +158,7 @@ public class MainController {
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			HttpServletRequest req,
 			Model model) {
-		int size = 9;
+		int size = 12;
 		int total_page = 0;
 		int dataCount = 0;
 
@@ -135,7 +200,7 @@ public class MainController {
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			HttpServletRequest req,
 			Model model) {
-		int size = 9;
+		int size = 12;
 		int total_page = 0;
 		int dataCount = 0;
 
@@ -236,7 +301,7 @@ public class MainController {
 			HttpServletRequest req,
 			HttpSession session,
 			Model model) throws Exception {
-		int size = 10;
+		int size = 12;
 		int total_page = 0;
 		int count=0;
 		

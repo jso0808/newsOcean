@@ -6,6 +6,22 @@ public class Bookmark {
 	private int newsNo;
 	private int memberNo;
 	private String bookmarkName;
+	private String originLink;
+	private String title;
+	
+	
+	public final String getTitle() {
+		return title;
+	}
+	public final void setTitle(String title) {
+		this.title = title;
+	}
+	public final String getOriginLink() {
+		return originLink;
+	}
+	public final void setOriginLink(String originLink) {
+		this.originLink = originLink;
+	}
 	public int getBookmarkNum() {
 		return bookmarkNum;
 	}

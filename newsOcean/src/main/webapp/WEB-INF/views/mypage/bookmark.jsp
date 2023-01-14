@@ -5,20 +5,33 @@
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 
 <style type="text/css">
+#bookmarkList{
+display: flex;
+flex-direction: column;
 
+}
+.save-bookmark{
+display: flex;
+flex-direction: column;
+padding: 5px; 
+}
+#bookmarkitem{
+width: 900px;
+}
 </style>
 <script>
 $(function(){
-	$(document).on("click", "#bookmarkitem", function(){
-		if($(this).parent(".save-bookmark") != null){//db에 있는 keywordname
+	$(document).on("click", "#bookmarkdelete", function(){
+		if($(this).parent().parent(".save-bookmark") != null){//db에 있는 keywordname
 			if(confirm("삭제하시겠습니까?")){
-				deleteBookmark($(this).next());
+				deleteBookmark($(this).next("bookmarkNum"));
 			}else{
 				return;
 			}
 		}
-		$(this).next("input[type='hidden']").remove();
-		$(this).remove();
+		$(this).parent().parent().remove();
+		$(this).next("input[name='bookmarkNum']").remove();
+		$(this).next("input[name='bookmarkName']").remove();
 	});
 })
 function deleteBookmark(tag) {
@@ -73,17 +86,16 @@ function ajaxFun(url, method, query, dataType, fn) {
 		</div>
 		<div class="body-main input-group-text">
 			<form action="${pageContext.request.contextPath}/mypage/bookmark">
-				<div id="submit_btnbox">
-				<button type="submit" id="submit_btn" class="btn btn-outline-primary">저장</button>				
-				</div>
-				<div class='addMyBookmarkList input-group-text'>
-				</div>
-				<div id="bookmarkList" class="input-group-text">
+				<div id="bookmarkList"  class="input-group-text">
 					<c:forEach var="dto" items="${bookmarkList}" varStatus="status">
-						<div style="display: inline-block;" class="save-bookmark"><!--db저장된 키워드-->
-							<span id="bookmarkitem" name="bookmarkName" class="badge bg-light text-dark" style="font-size:1.5rem;">${dto.bookmarkName}</span>
-							<input type="hidden" name="bookmarkNum" value="${dto.bookmarkNum}">
-							<input type="hidden" name="bookmarkName" value="${dto.bookmarkName}">
+						<div class="save-bookmark" onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originLink}" ><!--db저장된 키워드-->
+							<div name="title" onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.title}" class="badge bg-light text-dark" style="font-size:1.5rem;">${dto.title}</div>
+							<div class="d-flex">
+								<div id="bookmarkitem" name="bookmarkName" onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originLink}" class="badge bg-light text-dark" style="font-size:1.5rem;">${dto.bookmarkName}</div>
+								<button id="bookmarkdelete"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
+								<input type="hidden" name="bookmarkNum" value="${dto.bookmarkNum}">
+								<input type="hidden" name="bookmarkName" value="${dto.bookmarkName}">
+							</div>
 						</div>
 					</c:forEach>
 				</div>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+	<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -100,10 +100,11 @@ $(function(){
 		</div>
 		<div class="body-main input-group-text">
 			<form name ="keywordForm" action="${pageContext.request.contextPath}/mypage/keyword" method="post">
-				<div class='addMyKeywordList input-group-text'>
+				'<div class='addMyKeywordList input-group-text'>
 					<input type='text' id="addMykeyword_input">
 					<button class='btn btn-light' type="button" id='addMyKeyword_btn'>나의 키워드 추가</button>
 				</div>
+				<c:if test="${not empty keywordList}">
 				<div id="keywordList" class="input-group-text">
 					<c:forEach var="dto" items="${keywordList}" varStatus="status">
 						<div style="display: inline-block;" class="save-keyword"><!--db저장된 키워드-->
@@ -111,6 +112,7 @@ $(function(){
 						</div>
 					</c:forEach>
 				</div>
+				</c:if>
 			</form>
 		</div>
 	</div>

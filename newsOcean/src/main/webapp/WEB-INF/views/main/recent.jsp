@@ -29,9 +29,6 @@ function sectionClick(){
 <div class="container body-container">
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
-			<a href="${pageContext.request.contextPath}/" class="all category_link">
-				<span>전체</span>
-			</a>
 			<a href="${pageContext.request.contextPath}/recent?categoryNo=100" class="recent category_link">
 				<span>최신</span>
 			</a>
@@ -58,52 +55,27 @@ function sectionClick(){
 		</div>
 	</nav>
 	<ul class="categoryBox">
-		<c:choose>
-			<c:when test="${categoryNo eq 200}">
-				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+200}"  onclick="">${dto.categoryName}</a></li>
-				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
-				<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
-				</c:forEach>
-			</c:when>
-			<c:when test="${categoryNo eq 300}">
-				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+300}"  onclick="">${dto.categoryName}</a></li>
-				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
-					<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
-				</c:forEach>
-			</c:when>
-			<c:when test="${categoryNo eq 400}">
-				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+400}"  onclick="">${dto.categoryName}</a></li>
-				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
-				<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
-				</c:forEach>
-			</c:when>
-			<c:when test="${categoryNo eq 500}">
-			<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+500}"  onclick="">${dto.categoryName}</a></li>
-				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
-					<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
-				</c:forEach>
-			</c:when>
-			<c:when test="${categoryNo eq 600}">
-				<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${status.count+600}"  onclick="">${dto.categoryName}</a></li>
-				<c:forEach var="dto" items="${subsectionlist}" begin="1" varStatus="status">
-					<li><a href="${pageContext.request.contextPath}/subsection?categoryNo=${dto.categoryNo}"  onclick="">${dto.categoryName}</a></li>
-				</c:forEach>
-			</c:when>
-			<c:otherwise>
-			
-			</c:otherwise>
-		</c:choose>
+			<!-- 100번대면 최신뉴스대카테고리, 201,301,401,501,601은 나머지 -->
+		<c:forEach var="dto" items="${subsectionlist}" varStatus="status">
+			<fmt:parseNumber value="${dto.categoryNo/100+99}" var="caNo" type="number" integerOnly="true"/>
+			<li><a href="${pageContext.request.contextPath}/recent?categoryNo=${caNo}"   onclick="">${dto.categoryName}</a></li>
+		</c:forEach>
 	</ul>
 	<section class="main_section container">
 		<div class="posts row">
 			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
-			<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">${dto.crawlTitle}:${dto.crawlNo}</a>
+				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
+					<span>${dto.crawlTitle}</span>
+					<div style="opacity: 0.5;">${dto.crawlDate}&nbsp;&nbsp;&nbsp;${dto.crawlPress}</div>
+				</a>
 			</c:forEach>
 		</div>
 	</section>
 </div>
 <div class="page-navigation">${paging}</div>
-
+<form action="${pageContext.request.contextPath}/section">
+	<input type="hidden" name="categoryNo" value="${categoryNo}">
+</form>
 
 <script>
 

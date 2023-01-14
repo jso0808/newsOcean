@@ -184,28 +184,6 @@ public class MainController {
 		return ".mypage.bookmark";
 	}
 	
-	@PostMapping("bookmark")
-	public String bookmarkSubmit(@RequestParam String bookmarkName,
-			Model model,HttpSession session) {
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if(info == null) return ".member.login";
-		Long memberNo = info.getMemberNo();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("bookmarkName", bookmarkName);
-		map.put("memberNo", memberNo);
-		try {
-			service.deleteMyBookmark(map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		List<Bookmark> bookmark  = service.readMyBookmark(info.getMemberNo());
-		
-		model.addAttribute("bookmarkList", bookmark);
-		
-		return ".mypage.bookmark";
-	}
-	
-	
 	@RequestMapping(value = "deleteBookmark")
 	public String deleteBookmark(@RequestParam long bookmarkNum,
 			Model model, HttpSession session) throws Exception {

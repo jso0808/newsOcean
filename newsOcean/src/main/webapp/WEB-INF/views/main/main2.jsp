@@ -88,6 +88,15 @@ display:flex;
     <div class="wordCloud_img">
     	<img src="">
     	워드클라우드 공간
+    	
+    	<c:forEach var="dto" items="${keywordList}" varStatus="status">
+			<div style="display: inline-block;" class="save-keyword">
+				<span class="col-1 text-center" >${dto.keywordName}</span>
+				<span class="col-7 text-center" style="margin-left: 10px;">${dto.title}</span>
+				<span class="col-2 text-right" style="margin-left: 10px;">${dto. })</span>
+				<span class="col text-center">${dto.keywordName}</span>
+			</div>
+		</c:forEach>
     </div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">

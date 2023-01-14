@@ -117,7 +117,6 @@ li{
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
 <script>
 $(function(){
-	alert("${dataCount}");
 	let searchType = "${searchType}";
 	let sType ="";
 	if(searchType == "searchName"){
@@ -158,9 +157,6 @@ window.addEventListener("load", function(){
 	</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
-			<a href="${pageContext.request.contextPath}/" class="all category_link">
-				<span>전체</span>
-			</a>
 			<a href="${pageContext.request.contextPath}/recent?categoryNo=100" class="recent category_link">
 				<span>최신</span>
 			</a>

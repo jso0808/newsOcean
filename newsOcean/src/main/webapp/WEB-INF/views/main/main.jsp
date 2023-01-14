@@ -83,8 +83,9 @@ display:flex;
 	justify-content: center;
 }
 .card{
-	height: 150px;
-	width:300px;
+	min-height: 150px;
+	min-width:300px;
+	max-width:350px;
 	display:block;
 	border:1px solid black;
 	box-sizing:border-box;
@@ -228,11 +229,17 @@ display:flex;
 						<span class="col-7 text-center" style="margin-left: 10px;">뉴스 제목</span>
 						<span class="col-2 text-right" style="margin-left: 10px;">업로드 일자</span>
 					</div>
-					<div class="pick_news_span row">
-						<span class=" col-1 text-center" >키워드</span>
-						<span class=" col-7 text-center" >제목</span>
-						<span class=" col-2 text-right" >업로드 일자</span>
+					<div class=" row" >	
+						<span class="col-1 text-center" >키워드</span>
+						<span class="col-7 text-center" style="margin-left: 10px;">뉴스 제목</span>
+						<span class="col-2 text-right" style="margin-left: 10px;">업로드 일자</span>
+							
 					</div>
+					<c:if test="${empty keywordList}">
+						<div class="pick_news_span row">
+							<span class="col text-center" >마이페이지-키워드에서 키워드를 추가해주세요</span>
+						</div>
+					</c:if>
 				</div>
 	   	</div>
     
@@ -245,9 +252,6 @@ display:flex;
     <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 카테고리</div>
 	<nav class="category" role="category" aria-label="카테고리">
 		<div class="category_inner">
-			<a href="${pageContext.request.contextPath}/" class="all category_link">
-				<span>전체</span>
-			</a>
 			<a href="${pageContext.request.contextPath}/recent?categoryNo=100" class="recent category_link">
 				<span>최신</span>
 			</a>
@@ -278,7 +282,7 @@ display:flex;
 			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
 				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
 					<span>${dto.crawlTitle}</span>
-					<span></span>
+					<div style="opacity: 0.5;">${dto.crawlDate}&nbsp;&nbsp;&nbsp;${dto.crawlPress}</div>
 				</a>
 			</c:forEach>
 		</div>

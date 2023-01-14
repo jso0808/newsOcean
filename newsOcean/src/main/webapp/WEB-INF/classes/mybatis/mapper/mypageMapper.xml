@@ -101,8 +101,9 @@
 	</delete>
 <!-- 나의 북마크  -->
 	<select id="readMyBookmark" parameterType="Long"  resultType="com.sp.app.mypage.Bookmark">
-		SELECT bookmarkNum, newsNo, memberNo, bookmarkName FROM Bookmark
-		WHERE memberNo = #{memberNo}
+		SELECT bookmarkNum, n.newsNo, n.originLink,n.title,  memberNo, bookmarkName FROM Bookmark bm
+			JOIN  news n ON bm.newsNo = n.newsNo
+			WHERE memberNo = #{memberNo}
 	</select>
 
 	<update id="deleteMyBookmark" parameterType="map">

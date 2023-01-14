@@ -33,13 +33,11 @@ public class MainMongoOperations {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return result;
 	}
 	//전체페이지 뉴스하나(각 카테고리별로 뉴스1개씩 가져오기)
 	public List<News> AllNews() {
 		List<News> list = new ArrayList<News>();
-		News news = new News();
 		try {
 			for(int i=200;i<=612;i++) {
 				Query query = new Query();
@@ -72,14 +70,11 @@ public class MainMongoOperations {
 	}
 	//카테고리번호에 해당하는 뉴스리스트
 	public List<News> categoryNews(int categoryNo,int page,int size) {
-		
 		List<News> list = null;
 		
 		try {
 			page = page >= 1 ? (page - 1) : 0;
 			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
-			
-			// list = mongo.findAll(News.class);
 			String categoryNo2 = Integer.toString(categoryNo);
 			System.out.println(categoryNo2);
 			Query query = new Query();
@@ -92,24 +87,33 @@ public class MainMongoOperations {
 		}
 		return list;
 	}
-	//최신카테고리 뉴스리스트
-	public List<News> recentlist(int categoryNo,int page,int size) {
+	//최신카테고리의 전체 뉴스리스트
+	public List<News> recentlist(int page,int size) {
 		List<News> list = null;
-		
+
 		try {
 			page = page >= 1 ? (page - 1) : 0;
 			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
-			
-			// list = mongo.findAll(News.class);
-			String categoryNo2 = Integer.toString(categoryNo);
-			System.out.println(categoryNo2);
 			Query query = new Query();
 			query.with(pageable);
-			query.addCriteria(Criteria.where("category").is(categoryNo2));
-			//query.addCriteria(Criteria.where("category").is(categoryNo));
-			//query.with(Sort.by(Sort.Direction.DESC, "tot"));
 			list = mongo.find(query, News.class);
-			System.out.println(list.size());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	//최신카테고리의 카테고리번호별 뉴스리스트
+	public List<News> recentlist(String categoryNoStr, int page,int size) {
+		List<News> list = null;
+
+		try {
+			page = page >= 1 ? (page - 1) : 0;
+			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
+			Query query = new Query();
+			query.addCriteria(Criteria.where("category").is(categoryNoStr));
+			query.with(pageable);
+			list = mongo.find(query, News.class);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -161,7 +165,6 @@ public class MainMongoOperations {
 			page = page >= 1 ? (page - 1) : 0;
 			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
 			
-			// list = mongo.findAll(News.class);
 			if(searchType.equals("subject")) {	
 				//BasicQuery query = new BasicQuery("{kor : {$gte : 80}}");
 				// {$and : [{'crawlTitle': { $regex: '박용진'}},{'category' : {$in : ['200', '201']} }]}
