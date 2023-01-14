@@ -22,11 +22,11 @@
 }
 
 .wordCloud_img{
-	 margin: auto;
 	 height: 340px;
 	 margin-bottom: 10px;
 	 margin-top: 20px;
-	 width: 100%
+	 width: 2000px;
+	 margin-left: 360px;
 }
 
 .wordCloud_img:hover {
@@ -218,7 +218,7 @@ display:flex;
 .keyword__list__st {
 	display:inline-block;
 	color: #fff;
-	border-radius: 7px;
+	border-radius: 7px 7px 0px 0px;
 	background: #004b81;
 	width: 100px;
 	height: 30px;
