@@ -6,6 +6,8 @@
 		SELECT pickNo, memberNo, pickTitle, pickDate, pickLink, keyword
 		FROM news_pick
 		WHERE memberNo = #{memberNo}
+		ORDER BY keyword DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<!-- 전체 기사 갯수 - 페이징 처리 때문에  -->

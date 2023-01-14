@@ -198,8 +198,9 @@ display:flex;
 
 .pick_news_span {
 	height: 30px;
-	vertical-align: middle;
 	padding-top: 5px;
+	font-size: 13px;
+	font-family: 'line_font_r';
 }
 
 .pick_news_a_tag:hover {
@@ -209,8 +210,8 @@ display:flex;
 
 .keyword__list__container {
 	font-family: 'line_font_b';
-	font-size: 15px;
-	width: 330px;
+	font-size: 13px;
+	width: 100%;
 	margin-left: 347px;
 	margin-bottom: 20px;
 }
@@ -223,11 +224,36 @@ display:flex;
 	width: 100px;
 	height: 30px;
 	text-align: center;
-	padding-top: 4px;
+	padding-top: 7px;
 	margin-right: 4px;
-	
-	
+	margin-top: 7px;
 
+}
+
+.keyword__list__st__click{
+	display:inline-block;
+	color: #000;
+	border-radius: 7px 7px 0px 0px;
+	background: #eee;
+	width: 100px;
+	height: 30px;
+	text-align: center;
+	padding-top: 7px;
+	margin-right: 4px;
+	margin-top: 7px;
+}
+
+
+.keyword__list__st:hover {
+	cursor: pointer;
+	opacity: 90%;
+	transition: .5s;
+}
+
+.pick_news_title {
+	font-size: 14px;
+	padding-top: 6px;
+	padding-bottom: 6px;
 }
 
 </style>
@@ -252,34 +278,10 @@ display:flex;
     </div>
    <div class="main__line_first" style="margin-top: 70px;">────────────────────</div>
    
-   <c:if test="${not empty keywordList}">
-   <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 관심 키워드 추천 뉴스 </div>
-   		<div class="keyword__list__container">
-   			<c:forEach items="${keywordList}" var="kk">
-   				<span class="keyword__list__st shadow-sm">${kk.keywordName}</span>
-   			</c:forEach>
-   			
-   		</div>
-	   <div class="row" style="margin-bottom: 40px;">
-	   			<div class="pick_news_container shadow">
-					<div class=" row" >
-						<span class="col-1 text-center" >키워드</span>
-						<span class="col-7 text-center" style="margin-left: 10px;">뉴스 제목</span>
-						<span class="col-2 text-right" style="margin-left: 10px;">업로드 일자</span>
-					</div>
-					<c:forEach items="${pick_news}" var="pick">
-						<div class="pick_news_span row" >	
-							<a href="#" class="pick_news_a_tag">
-								<span class="col-1 text-center" >${pick.keyword}</span>
-								<span class="col-7 text-center" style="margin-left: 10px;">${pick.pickTitle}</span>
-								<span class="col-2 text-right" style="margin-left: 10px;">${pick.pickDate}</span>
-							</a>
-						</div>
-					</c:forEach>
-				</div>
-			
-		</div>
-	</c:if>	
+   
+   <div class="news__pick__area">
+   
+   </div>	
 </div>
     
     
@@ -368,9 +370,26 @@ function ajaxFun(url, method, query, dataType, fn) {
 
 
 $(function(){
-	//pick_news();
+	
+	if(${sessionScope.member.memberNo} != null){
+		news_pick(1);
+	}
 
 });
+
+function news_pick(page){
+	let url = "${pageContext.request.contextPath}/news_pick";
+	let query = "pageNo="+page;
+	let selector = ".news__pick__area";
+	
+	const fn = function(data){
+		$(selector).html(data);
+		
+	};
+	
+	ajaxFun(url, "get", query, "html", fn);
+
+}
 
 
 

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +42,8 @@ public class MainController {
 	
 	
 	@GetMapping("/")
-	public String main(HttpSession session,
+	public String main(@RequestParam(value = "page", defaultValue = "1") int current_page,
+			HttpSession session,
 			HttpServletRequest req,
 			Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -53,15 +55,6 @@ public class MainController {
 			
 			model.addAttribute("keywordList", keywordList);
 			
-			
-			List<Picknews> pick_news = pickservice.pick_news(map);
-			
-			System.out.println(pick_news);
-			System.out.println("gkgkgkgkgk");
-			
-			model.addAttribute("pick_news", pick_news);
-
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,6 +65,68 @@ public class MainController {
         return ".mainLayout";
         
 	}
+	
+	
+	@RequestMapping(value = "news_pick")
+	public String news_pick(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			HttpSession session,
+			HttpServletRequest req,
+			Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		try {
+			
+			main(current_page, session, req, model);
+			
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberNo", info.getMemberNo());
+			
+			List<Keyword> keywordList = mpservice.readMyKeyword(map);
+			
+			model.addAttribute("keywordList", keywordList);
+			
+			//뉴스 페이징 처리
+			int size = 10; // 한 화면에 보여주는 게시물 수
+			int total_page = 0;
+			int dataCount = 0;
+
+			dataCount = pickservice.total_dataCount_pick_news(map);
+			if (dataCount != 0) {
+				total_page = myUtil.pageCount(dataCount, size);
+			}
+			
+			if (total_page < current_page) {
+				current_page = total_page;
+			}
+			
+			int offset = (current_page - 1) * size;
+			if(offset < 0) offset = 0;
+			
+			map.put("offset", offset);
+			map.put("size", size);
+			
+			List<Picknews> pick_news = pickservice.pick_news(map);
+			
+			String paging = myUtil.paging(current_page, total_page, "news_pick");
+				
+			model.addAttribute("pick_news", pick_news);
+			model.addAttribute("paging", paging);
+			model.addAttribute("pageNo", current_page);
+			model.addAttribute("dataCount", dataCount);
+			model.addAttribute("total_page", total_page);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+        return "main/news_pick";
+        
+	}
+	
+	
+	
 	//101->201, 102->301 카테고리번호변경
 	public static int cChange(int categoryNo) {
 		int cChange;
