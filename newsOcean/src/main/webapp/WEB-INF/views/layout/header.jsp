@@ -198,7 +198,7 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 					</div>
 					<div class="row div-menu-text">
 						<div class="col p-2">
-							<a href="#" title="뉴스">최신뉴스</a>
+							<a href="${pageContext.request.contextPath}/recent?categoryNo=100" title="뉴스">최신뉴스</a>
 						</div>
 						<div class="col p-2">
 							<a href="${pageContext.request.contextPath}/sub/main" title="구독" data-bs-toggle="dropdown" aria-expanded="false">구독</a>
