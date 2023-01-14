@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="picknews">
+	<select id="pick_news" parameterType="map" resultType="com.sp.app.main.Picknews">
+		SELECT pickNo, memberNo, pickTitle, pickDate, pickLink, keyword
+		FROM news_pick
+		WHERE memberNo = #{memberNo}
+	</select>
+	
+	<!-- 전체 기사 갯수 - 페이징 처리 때문에  -->
+	<select id="total_dataCount_pick_news" parameterType="map" resultType="Integer">
+		SELECT count(pickNo)
+		FROM news_pick
+		WHERE memberNo = #{memberNo}
+	</select>
+	
+	<!-- 키워드별 기사 갯수 : 추천 기사가 1개이면 출력 안할거임  -->
+	<select id="each_dataCount_pick_news" parameterType="map" resultType="Integer">
+		SELECT count(pickNo)
+		FROM news_pick
+		WHERE memberNo = #{memberNo} AND keyword = #{keyword}
+	</select>
+
+</mapper>

@@ -26,6 +26,7 @@
 	 height: 340px;
 	 margin-bottom: 10px;
 	 margin-top: 20px;
+	 width: 100%
 }
 
 .wordCloud_img:hover {
@@ -198,6 +199,35 @@ display:flex;
 .pick_news_span {
 	height: 30px;
 	vertical-align: middle;
+	padding-top: 5px;
+}
+
+.pick_news_a_tag:hover {
+	text-decoration: none;
+}
+
+
+.keyword__list__container {
+	font-family: 'line_font_b';
+	font-size: 13px;
+	width: 330px;
+	margin-left: 347px;
+	margin-bottom: 20px;
+}
+
+.keyword__list__st {
+	display:inline-block;
+	color: #fff;
+	border-radius: 7px 7px 0px 0px;
+	background: #004b81;
+	width: 100px;
+	height: 30px;
+	text-align: center;
+	padding-top: 5px;
+	margin-right: 4px;
+	
+	
+
 }
 
 </style>
@@ -221,7 +251,15 @@ display:flex;
     	</div>
     </div>
    <div class="main__line_first" style="margin-top: 70px;">────────────────────</div>
+   
+   <c:if test="${not empty keywordList}">
    <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 관심 키워드 추천 뉴스 </div>
+   		<div class="keyword__list__container">
+   			<c:forEach items="${keywordList}" var="kk">
+   				<span class="keyword__list__st shadow-sm">${kk.keywordName}</span>
+   			</c:forEach>
+   			
+   		</div>
 	   <div class="row" style="margin-bottom: 40px;">
 	   			<div class="pick_news_container shadow">
 					<div class=" row" >
@@ -229,19 +267,20 @@ display:flex;
 						<span class="col-7 text-center" style="margin-left: 10px;">뉴스 제목</span>
 						<span class="col-2 text-right" style="margin-left: 10px;">업로드 일자</span>
 					</div>
-					<div class=" row" >	
-						<span class="col-1 text-center" >키워드</span>
-						<span class="col-7 text-center" style="margin-left: 10px;">뉴스 제목</span>
-						<span class="col-2 text-right" style="margin-left: 10px;">업로드 일자</span>
-							
-					</div>
-					<c:if test="${empty keywordList}">
-						<div class="pick_news_span row">
-							<span class="col text-center" >마이페이지-키워드에서 키워드를 추가해주세요</span>
+					<c:forEach items="${pick_news}" var="pick">
+						<div class="pick_news_span row" >	
+							<a href="#" class="pick_news_a_tag">
+								<span class="col-1 text-center" >${pick.keyword}</span>
+								<span class="col-7 text-center" style="margin-left: 10px;">${pick.pickTitle}</span>
+								<span class="col-2 text-right" style="margin-left: 10px;">${pick.pickDate}</span>
+							</a>
 						</div>
-					</c:if>
+					</c:forEach>
 				</div>
-	   	</div>
+			
+		</div>
+	</c:if>	
+</div>
     
     
     <div class="main_title_intro"><img style="width: 60px; " src="${pageContext.request.contextPath}/resources/images/man_swim.gif"> 뉴스 인기 키워드</div>
@@ -293,7 +332,47 @@ display:flex;
 
 
 
-<script>
+<script type="text/javascript">
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+	    	if(jqXHR.status === 403) {
+	    		login();
+	    		return false;
+	    	} else if(jqXHR.status === 402) {
+	    		alert("권한이 없습니다.");
+	    		return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+	    	} else if(jqXHR.status === 410) {
+	    		alert("삭제된 게시물입니다.");
+	    		return false;
+	    	}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+
+$(function(){
+	//pick_news();
+
+});
+
+
 
 
 </script>
