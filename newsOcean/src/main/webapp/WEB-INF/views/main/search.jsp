@@ -53,6 +53,7 @@ $(function(){
 	          return false;
 	    },
 		minLength: 2, 
+		autoFocus: true,
 		error: function(request, status, error){
                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
         }
@@ -131,12 +132,18 @@ cursor: pointer;
 	cursor: pointer;
 }
 #displayList{
-style=border: solid 1px gray; 
-height: 100px; 
-overflow: auto; 
-margin-left: 77px; 
-margin-top; -1px; 
-border-top: 0px;
+	style=border: solid 1px gray; 
+	height: 100px; 
+	overflow: auto; 
+	margin-left: 77px; 
+	margin-top; -1px; 
+	border-top: 0px;
+}
+.ui-autocomplete {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
 }
 </style>
 <div class="body-container2">
@@ -158,7 +165,7 @@ border-top: 0px;
 							<option value="keyword">키워드</option>
 						</select>
 						<input type="text" id="searchName" name="searchName" size="100" autocomplete="off" size="50">
-						<label for="searchName" ></label>
+						<label for="searchName" id="searchitemList"></label>
 					</div>
 
 				</div>

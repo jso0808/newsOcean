@@ -43,7 +43,7 @@ public class MainController {
 			HttpServletRequest req,
 			Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if(info == null) return ".member.login";
+		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("memberNo", info.getMemberNo());
@@ -281,8 +281,8 @@ public class MainController {
 			if(wordList2 != null) {
 				for(String word : wordList2) {
 					JSONObject jsonObj = new JSONObject();
-					if(word.length()>=20) {
-						word = word.substring(0, 20);
+					if(word.length()>=40) {
+						word = word.substring(0, 40);
 						word += "...";
 					}
 					jsonObj.put("word", word);			

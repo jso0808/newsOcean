@@ -6,10 +6,10 @@
 
 <style type="text/css">
 .replyDisplay1{
-	min-height:820px;
+	min-height:120px;
 }
 .replyDisplay2{
-	min-height:820px;
+	min-height:120px;
 }
 #newsReplyitem{
 	width:100%;
@@ -196,6 +196,13 @@ $(function(){
 					나의 뉴스글 댓글
 				</div>
 				<div id="newsReplyList" class="input-group-text  flex-wrap">
+					<c:if test="${empty list}">
+						<div style="display: inline-block;" class="save-newsReply">
+							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
+								<div style="width:100%; white-space: normal;text-align: left;">뉴스글에 댓글단 이력이 없습니다.</div>
+							</div>
+						</div>
+					</c:if>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<div style="display: inline-block;" class="save-newsReply">
 							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
@@ -218,6 +225,13 @@ $(function(){
 					나의 Qna 댓글
 				</div>
 				<div id="qnaReplyList" class="input-group-text flex-wrap" >
+					<c:if test="${empty QnaReplylist}">
+						<div style="display: inline-block;" class="save-newsReply">
+							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
+								<div style="width:100%; white-space: normal;text-align: left;">Qna댓글 이력이 없습니다.</div>
+							</div>
+						</div>
+					</c:if>
 					<c:forEach var="dto" items="${QnaReplylist}" varStatus="status">
 						<div style="display: inline-block;width:100%" class="save-qnaReply m-2">
 							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;"  class="badge bg-light text-dark m-2 activity-tag" >
