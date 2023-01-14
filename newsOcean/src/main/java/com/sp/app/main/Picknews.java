@@ -1,6 +1,6 @@
 package com.sp.app.main;
 
-public class Keyword {
+public class Picknews {
 	private long pickNo;
 	private long memberNo;
 	private String pickTitle;
@@ -46,5 +46,4 @@ public class Keyword {
 		this.keyword = keyword;
 	}
 	
-
 }

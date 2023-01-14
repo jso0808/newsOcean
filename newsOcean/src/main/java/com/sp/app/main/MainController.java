@@ -33,6 +33,8 @@ public class MainController {
 	@Autowired
 	private MypageService mpservice;
 	@Autowired
+	private PicknewsService pickservice;
+	@Autowired
 	private MainMongoOperations mainMongo;
 	@Autowired
 	private MyUtil myUtil;
@@ -50,6 +52,16 @@ public class MainController {
 			List<Keyword> keywordList = mpservice.readMyKeyword(map);
 			
 			model.addAttribute("keywordList", keywordList);
+			
+			
+			List<Picknews> pick_news = pickservice.pick_news(map);
+			
+			System.out.println(pick_news);
+			System.out.println("gkgkgkgkgk");
+			
+			model.addAttribute("pick_news", pick_news);
+
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
