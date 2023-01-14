@@ -209,7 +209,7 @@ display:flex;
 
 .keyword__list__container {
 	font-family: 'line_font_b';
-	font-size: 13px;
+	font-size: 15px;
 	width: 330px;
 	margin-left: 347px;
 	margin-bottom: 20px;
@@ -218,12 +218,12 @@ display:flex;
 .keyword__list__st {
 	display:inline-block;
 	color: #fff;
-	border-radius: 7px 7px 0px 0px;
+	border-radius: 7px;
 	background: #004b81;
 	width: 100px;
 	height: 30px;
 	text-align: center;
-	padding-top: 5px;
+	padding-top: 4px;
 	margin-right: 4px;
 	
 	
