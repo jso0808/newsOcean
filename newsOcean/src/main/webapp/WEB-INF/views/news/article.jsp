@@ -502,23 +502,9 @@ function shareKakao() {
 						<img class="img-logo btn" id="btnKakao"
 							src="${pageContext.request.contextPath}/resources/images/icon-kakao.png" onclick="shareKakao();">
 					</td>
-				
-					<td width="50%">
-						<c:choose>
-							<c:when test="${sessionScope.member.memberShip > 50}">
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/news/update?newsNo=${dto.newsNo}&page=${page}';">수정</button>
-							</c:when>
-						</c:choose>
-				    	
-						<c:choose>
-				    		<c:when test="${sessionScope.member.memberShip > 50}">
-				    			<button type="button" class="btn btn-light" onclick="deleteNews();">삭제</button>
-				    		</c:when>
-				    	</c:choose>
-					</td>
 					
-					<td class="text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/news/list?${query}';">리스트</button>
+					<td width="11%" class="text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/recent?categoryNo=100';">리스트</button>
 					</td>
 				</tr>
 				
@@ -528,7 +514,7 @@ function shareKakao() {
 			<div class="reply">
 				<form name="replyForm" method="post">
 					<div class='form-header'>
-						<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
+						<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 댓글을 지양해주세요.</span>
 					</div>
 					
 					<table class="table table-borderless reply-form">

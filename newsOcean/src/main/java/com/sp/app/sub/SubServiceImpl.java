@@ -58,9 +58,6 @@ public class SubServiceImpl implements SubService {
 		try {
 			s = dao.selectOne("subscript.findBySubPayInfo", map);
 			refundOrNot = dao.selectOne("subscript.findBySubPayInfoRefund", map);
-			System.out.println("**********************");
-			System.out.println(refundOrNot);
-			System.out.println("**********************");
 			if(refundOrNot!= 0) {
 				s.setRefundOrNot(1);
 			} else {

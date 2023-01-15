@@ -264,10 +264,6 @@ $(function() {
 	 	    var html_amount = '';
 	 	    html_amount += '<div class="modal-paid_amount div-content-list" value="'+info.paid_amount+'"> 최종 결제 금액: '+info.paid_amount+'원</div>';
 	 	    
-	 	    console.log(info.subNo);
-	 	    console.log(info.firstMailOrNot);
-	 	    console.log(info.refundOrNot);
-	 	    
 	 		// 오늘날짜까 첫 메일 발송일 이전이면 환불 가능
 	 	    $(".modal-btnRefund").empty();
 	 	    if(info.firstMailOrNot === 1 && info.refundOrNot === 0) {
