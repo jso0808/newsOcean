@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <div id="guideForm">
 <p style="text-align:center;">
+    &nbsp;
+</p>
+<p style="text-align:center;">
     <span style="font-family:나눔고딕, NanumGothic, Arial;font-size:21px;"><strong>NEWS OCEAN</strong></span>
 </p>
 <p style="text-align:center;">

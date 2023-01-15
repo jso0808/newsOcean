@@ -14,6 +14,8 @@ public class News {
 	private int hitCount;
 	private long categoryNo;
 	private String categoryName;
+	
+	private int newsLikeCount;
 	private int bookMarked;
 	private long bookMarkNum;
 	
@@ -72,5 +74,11 @@ public class News {
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public int getNewsLikeCount() {
+		return newsLikeCount;
+	}
+	public void setNewsLikeCount(int newsLikeCount) {
+		this.newsLikeCount = newsLikeCount;
 	}
 }

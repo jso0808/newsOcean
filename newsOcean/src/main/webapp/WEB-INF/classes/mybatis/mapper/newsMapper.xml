@@ -10,7 +10,7 @@
 	
 	<select id="readNews" parameterType="map" resultType="com.sp.app.news.News">
 		SELECT n.newsNo, title, originLink, hitCount, n.categoryNo, categoryName
-			,NVL(bookMarked, 0) bookMarked
+			,NVL(bookMarked, 0) bookMarked, NVL(newsLikeCount, 0) newsLikeCount
 		FROM NEWS n
 		LEFT OUTER JOIN(
 		    SELECT newsNo, COUNT(*) bookMarked
@@ -19,6 +19,11 @@
 		    WHERE m.memberNo = #{memberNo}
 		    GROUP BY newsNo
 		) bm ON bm.newsNo = n.newsNo
+        LEFT OUTER JOIN(
+            SELECT newsNo, COUNT(*) newsLikeCount
+            FROM newsLike nl
+            GROUP BY newsNo
+        ) nl ON nl.newsNo = n.newsNo
 		LEFT OUTER JOIN category c ON c.categoryNo = n.categoryNo
 		WHERE originLink = #{originLink}
 		ORDER BY newsNo
@@ -42,8 +47,13 @@
 	<insert id="insertNewsLike" parameterType="com.sp.app.news.News">
 		INSERT INTO newsLike(newsNo, memberNo) 
 			VALUES(#{newsNo}, #{memberNo})
-		
 	</insert>
+	
+	<select id="newsLikeCount" parameterType="Long" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) newsLikeCount
+		FROM newsLike
+		WHERE newsNo = #{newsNo}
+	</select>
 	
 	<select id="replyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
@@ -94,12 +104,6 @@
 		SELECT newsNo, memberNo 
 		FROM newsLike 
 		WHERE newsNo = #{newsNo} AND memberNo = #{memberNo}
-	</select>
-	
-	<select id="newsLikeCount" parameterType="Long" resultType="Integer">
-		SELECT COUNT(*)
-		FROM newsLike
-		WHERE newsNo = #{newsNo}
 	</select>
 	
 	<update id="updateReply" parameterType="map">

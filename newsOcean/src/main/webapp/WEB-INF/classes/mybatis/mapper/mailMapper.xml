@@ -15,7 +15,7 @@
 			DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
 		</if>
 		<if test="condition=='senderName' ">
-			senderName=#{senderName}
+			INSTR(nickName, #{keyword}) &gt; 0
 		</if>
 	</sql>
 

@@ -128,7 +128,7 @@ $(function(){
 				}
 				
 				let count = data.newsLikeCount;
-				$("#newsLikeCount").text(count);
+				$(".newsLikeCount").text(count);
 			} else if(state === "liked") {
 				alert("공감은 한 번만 가능합니다.");
 			} else if(state === "false") {
@@ -485,6 +485,7 @@ function shareKakao() {
 					<tr>
 						<td colspan="2" class="text-center p-3">
 							<div class="divNewsLike">
+								<div class="newsLikeCount">${dto.newsLikeCount}</div>
 								<button type='button' class='btn btn-light btnSendNewsLike' title="좋아요"><i class="${userNewsLiked ? 'fa-solid':'fa-regular'} fa-heart"></i></button>      
 							</div>
 						</td>

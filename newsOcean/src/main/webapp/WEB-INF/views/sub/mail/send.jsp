@@ -78,7 +78,6 @@ function ajaxFun(url, method, query, dataType, fn) {
 
 $(document).ready(function() {
 	let url = "${pageContext.request.contextPath}/sub/mail/guideForm"; // <div id="guideForm">
- 	console.log("시작하자마자!");	
  	const fn = function(guideForm) {
  		console.log(guideForm);
  		// $(selector).html(data);

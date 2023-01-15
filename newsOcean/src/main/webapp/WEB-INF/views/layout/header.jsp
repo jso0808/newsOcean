@@ -207,6 +207,12 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 									href="${pageContext.request.contextPath}/sub/main">구독권</a></li>
 								<li><a class="dropdown-item"
 									href="${pageContext.request.contextPath}/sub/list">구독내역</a></li>
+								<c:if test="${sessionScope.member.memberShip > 50}">
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath}/sub/mail/send">구독메일 작성</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath}/sub/mail/listSendMail">구독메일 발신함</a></li>
+								</c:if>
 							</ul>
 						</div>
 						<div class="col p-2" style="width: 180px;">
