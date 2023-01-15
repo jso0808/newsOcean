@@ -13,7 +13,7 @@ public interface SubService {
 	public List<Subscript> listSubPay(long memberNo);
 	public List<Subscript> listSubPaySelectSub(Map<String, Object> map);
 	
-	public Subscript findBysubPayInfo(String imp_uid);
+	public Subscript findBysubPayInfo(Map<String, Object> map);
 	public int findBySubIng(long memberNo);
 	public int findBySubRefund(long subNo);
 	

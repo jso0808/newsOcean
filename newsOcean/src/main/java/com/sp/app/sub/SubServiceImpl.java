@@ -52,11 +52,20 @@ public class SubServiceImpl implements SubService {
 	}
 	
 	@Override
-	public Subscript findBysubPayInfo(String imp_uid) {
+	public Subscript findBysubPayInfo(Map<String, Object> map) {
 		Subscript s = null;
-		
+		int refundOrNot = 0;
 		try {
-			s = dao.selectOne("subscript.findBySubPayInfo", imp_uid);
+			s = dao.selectOne("subscript.findBySubPayInfo", map);
+			refundOrNot = dao.selectOne("subscript.findBySubPayInfoRefund", map);
+			System.out.println("**********************");
+			System.out.println(refundOrNot);
+			System.out.println("**********************");
+			if(refundOrNot!= 0) {
+				s.setRefundOrNot(1);
+			} else {
+				s.setRefundOrNot(0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -171,11 +171,18 @@ public class SubController {
 	// AJAX - html: 결제내역 상세보기 (modal)
 	@PostMapping(value = "subPayInfo")
 	@ResponseBody
-	public void findBySubPayInfo(String imp_uid, HttpServletResponse resp) throws IOException {
+	public void findBySubPayInfo(
+			@RequestParam (value = "imp_uid") String imp_uid,
+			@RequestParam (value = "subNo") long subNo,
+			HttpServletResponse resp) throws IOException {
 		Subscript sb = null;
 		
 		try {
-			sb =  service.findBysubPayInfo(imp_uid);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("imp_uid", imp_uid);
+			paramMap.put("subNo", subNo);
+			
+			sb =  service.findBysubPayInfo(paramMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -191,6 +198,7 @@ public class SubController {
 		job.put("firstMail", sb.getFirstMail());
 		job.put("endOrNot", sb.getEndOrNot());
 		job.put("firstMailOrNot", sb.getFirstMailOrNot());
+		job.put("refundOrNot", sb.getRefundOrNot());
 		
 		resp.setContentType("text/html; charset=utf-8"); 
 		PrintWriter out = resp.getWriter();
