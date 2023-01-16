@@ -20,17 +20,23 @@
 	</sql>
 
 	<select id="listSubscripter" resultType="com.sp.app.sub.Subscript">
-		SELECT subNo, email, s.memberNo, nickName, TO_CHAR(subStart,'YYYY-MM-DD') subStart, nickName,
-		TO_CHAR(subEnd,'YYYY-MM-DD') subEnd
+		SELECT s.subNo, email, s.memberNo, nickName, TO_CHAR(subStart,'YYYY-MM-DD') subStart, nickName,
+		    TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, NVL(refundOrNot, 0) refundOrNot
 		FROM subscript s
 		JOIN member m ON m.memberNo = s.memberNo
-		WHERE SYSDATE &gt;= subStart AND SYSDATE &lt;= subEnd
+		LEFT OUTER JOIN(
+		    SELECT subNo, COUNT(*) refundOrNot
+		    FROM subrefund
+		    GROUP BY subNo
+		) srf ON srf.subNo = s.subNo
+		WHERE SYSDATE BETWEEN subStart AND subEnd
 	</select>
 	
 	<select id="sequenceSubMail" resultType="Long">
-		SELECT LAST_NUMBER
-		FROM USER_SEQUENCES
-		WHERE SEQUENCE_NAME='SUBMAIL_SEQ'
+		SELECT mailNo
+		FROM subMail
+		ORDER BY mailNo DESC
+		FETCH FIRST 1 ROW ONLY
 	</select>
 	
 	<insert id="insertSubMail" parameterType="com.sp.app.sub.mail.Mail">

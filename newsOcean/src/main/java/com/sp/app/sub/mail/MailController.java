@@ -130,6 +130,7 @@ public class MailController {
 		
 		// 현재 날짜 기준, 구독중인  구독자의 이메일 리스트 가져오기
 		List<Subscript> list = service.listSubscripter();
+		
 		// 수신인 카운트
 		int cnt = 0;
 		
@@ -142,6 +143,10 @@ public class MailController {
 		
 		// 구독자들에게 메일 전송하기. 구독자 수 만큼 반복.
 		for (int i = 0; i < list.size(); i++) {
+			// 환불된 구독권이라면 건너뛰기
+			if(list.get(i).getRefundOrNot() == 1) {
+				continue;
+			}
 			// 구독자리스트의 이메일로 메일 전송. 전송 성공 여부 변수 b에 저장. 
 			b = mailSender.mailSendSubscripter(dto, list.get(i).getEmail());
 			
