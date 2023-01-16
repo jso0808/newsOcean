@@ -12,7 +12,7 @@
 	</insert>
 	
 	
-	<select id="listSubPay" parameterType="long" resultType="com.sp.app.sub.Subscript">
+	<select id="listSubPay" parameterType="map" resultType="com.sp.app.sub.Subscript">
 		SELECT s.subNo, nickName, email, TO_CHAR(subStart,'YYYY-MM-DD') subStart, TO_CHAR(subEnd,'YYYY-MM-DD') subEnd, 
 		    TO_CHAR(firstMail,'YYYY-MM-DD') firstMail, subType, paid_amount, imp_uid, 
 		    merchant_uid, TO_CHAR(paid_at,'YYYY-MM-DD HH24:MI:MM') paid_at, pg_tid, 
@@ -26,7 +26,8 @@
 		    FROM subRefund 
 		    GROUP BY subNo) sr ON sr.subNo = s.subNo
 		WHERE s.memberNo = #{memberNo}
-		ORDER BY sr.subNo DESC
+		ORDER BY paid_at DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<select id="listSubPaySelectSub" parameterType="map" resultType="com.sp.app.sub.Subscript">
@@ -43,7 +44,8 @@
 		    FROM subRefund 
 		    GROUP BY subNo) sr ON sr.subNo = s.subNo
 		WHERE s.memberNo = #{memberNo} and subType = #{selectSub}
-		ORDER BY sr.subNo DESC
+		ORDER BY paid_at DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<!-- 글개수 -->

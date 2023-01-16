@@ -41,7 +41,7 @@
 	
 	<delete id="deleteNewsLike" parameterType="com.sp.app.news.News">
 		DELETE FROM newsLike
-		WHERE newsNo = #{newsNo} 
+		WHERE newsNo = #{newsNo} AND memberNo = #{memberNo}
 	</delete>
 	
 	<insert id="insertNewsLike" parameterType="com.sp.app.news.News">

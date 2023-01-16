@@ -25,11 +25,11 @@ public class SubServiceImpl implements SubService {
 	
 	// 조건 X
 	@Override
-	public List<Subscript> listSubPay(long memberNo) {
+	public List<Subscript> listSubPay(Map<String, Object> map) {
 		List<Subscript> list = null;
 		
 		try {
-			list = dao.selectList("subscript.listSubPay", memberNo);
+			list = dao.selectList("subscript.listSubPay", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

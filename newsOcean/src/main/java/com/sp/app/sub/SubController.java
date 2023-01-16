@@ -118,7 +118,7 @@ public class SubController {
 			Model model, 
 			HttpSession session) throws Exception {
 		
-		int size = 5;
+		int size = 3;
 		int total_page = 0;
 		int dataCount = 0;
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -155,12 +155,13 @@ public class SubController {
 		
 		map.put("offset", offset);
 		map.put("size", size);
+		map.put("memberNo", info.getMemberNo());
 		
 		List<Subscript> list = null;
 		
 		// 검색 조건 판별하기
 		if (selectSub == 0) { //X (조건 없을 때)
-			list = service.listSubPay(info.getMemberNo());
+			list = service.listSubPay(map);
 		} else { // 1개월 or 12개월 구독권만 
 			list = service.listSubPaySelectSub(map);
 		}

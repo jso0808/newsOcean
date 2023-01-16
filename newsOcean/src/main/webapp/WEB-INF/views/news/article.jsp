@@ -435,10 +435,10 @@ function shareKakao() {
 	    content: {
 	      title: "NewsOcean", // 보여질 제목
 	      description: "거친 파도를 유연하게 헤엄치는 서퍼처럼", // 보여질 설명
-	      imageUrl: "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}", // 콘텐츠 URL
+	      imageUrl: "http://localhost:9090/app/news/article?crawlUrl="+"${dtoOrigin.crawlUrl}", // 콘텐츠 URL
 	      link: {
-	         mobileWebUrl: "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}",
-	         webUrl: "http://localhost:9090/app/news/article?newsNo="+"${dto.newsNo}"
+	         mobileWebUrl: "http://localhost:9090/app/news/article?crawlUrl="+"${dtoOrigin.crawlUrl}",
+	         webUrl: "http://localhost:9090/app/news/article?crawlUrl="+"${dtoOrigin.crawlUrl}"
 	      }
 	    }
 	  });
