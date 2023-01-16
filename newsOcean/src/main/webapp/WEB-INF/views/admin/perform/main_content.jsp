@@ -101,7 +101,7 @@ $(function(){
 <!-- 본문 차트 그래프 부분 -->
 <div class="print-body">
 	<div class="perform__title2" style="display: flex; justify-content:space-between;"> 
-		<span style="font-family: 'line_font_b';">가입자수 통계<button class="more__sales" onclick="updateKpi();">+ KPI 등록/수정 </button></span>
+		<span style="font-family: 'line_font_b';">가입자수 통계</span>
 	</div>
 	
 	<div class="row">
@@ -110,7 +110,7 @@ $(function(){
 	</div>
 	
 	<div class="perform__title3" style="display: flex; justify-content:space-between;"> 
-		<span style="font-family: 'line_font_b'; margin-left: 20px;" >일자별 가입자 내역<span class="hit__title">컨텐츠 조회수</span></span>
+		<span style="font-family: 'line_font_b'; margin-left: 20px;" >일자별 가입자 내역</span>
 	</div>
 	
 	
@@ -197,7 +197,7 @@ function reload(){
 
 $(function(){
 	listPage(1);
-	listPage2(1);
+	//listPage2(1);
 	
 });
 
@@ -216,6 +216,8 @@ function listPage(page) {
 
 }
 
+
+/*
 //테이블 리스트  - 2
 function listPage2(page) {
 	let url = "${pageContext.request.contextPath}/admin/perform/list_hitcount";
@@ -229,6 +231,7 @@ function listPage2(page) {
 	ajaxFun(url, "get", query, "html", fn);
 
 }
+*/
 	
 
 

@@ -387,42 +387,5 @@ public class PerformController {
 		
 	
 	
-	@RequestMapping(value = "list_hitcount")
-	public String list_hitcount(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "") String year,
-			HttpServletRequest req,
-			Model model) throws Exception {
-		
-		//전체 페이지 수 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("year", year);
-		
-
-		
-		List<Perform> list = null;
-		
-		
-		
-		model.addAttribute("list", list);
-		
-		
-		return "/admin/perform/list_hitcount";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
