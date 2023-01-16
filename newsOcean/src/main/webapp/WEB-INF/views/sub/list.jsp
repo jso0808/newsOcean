@@ -10,6 +10,10 @@
 	max-height: 1200px;
 }
 
+.body-main {
+	padding-top: 30px;
+}
+
 .area-title{
 	border-top: 100px;
 	font-size: 30px;
@@ -339,10 +343,11 @@ $(function() {
 
 <div class="main-container">
 	<div class="body-container">	
-		<div class="area-title"></div>
+		<div class="body-title">
+			<h3><i class="fa-solid fa-basket-shopping"></i> 구독권 내역 </h3>
+		</div>
 		
 		<div class="body-main">
-		
 			<!-- 페이지 타이틀, 최신순 버튼 -->
 			<div class="row div-area1">
 				<div class="col-8">

@@ -15,11 +15,14 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
+
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 @Controller("news.newsController")
 @RequestMapping("/news/*")
@@ -48,7 +51,7 @@ public class NewsController {
 	}
 	
 	// ${pageContext.request.contextPath}/news/article?originLink=${dto.crawlUrl}
-	@RequestMapping(value = "article")
+	@RequestMapping(value = "article", method = RequestMethod.GET)
 	public String article( 
 			News news,
 			@RequestParam(value = "crawlUrl") String crawlUrl,
@@ -56,6 +59,9 @@ public class NewsController {
 			Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		if(info == null) return ".member.login";
+		
 		int newsLikeCount = 0;
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();

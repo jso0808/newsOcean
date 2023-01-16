@@ -51,7 +51,7 @@
 		<intercept-url pattern="/sub/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 		
 		<!-- 뉴스글 페이지 -->
-		<intercept-url pattern="/news/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+		<intercept-url pattern="/news/article/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 		
 		<!-- 모든 페이지 -->
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>

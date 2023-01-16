@@ -11,6 +11,10 @@
 	max-height: 1200px;
 }
 
+.body-main {
+	padding-top: 60px;
+}
+
 .area-title {
 	border-top: 100px;
 	font-size: 30px;
@@ -434,9 +438,10 @@ function execKakaoPay() {
 
 <div class="main-container">
 	<div class="body-container">	
-		<div class="area-title">
-			뉴스오션 구독하기
+		<div class="body-title">
+			<h3><i class="fa-regular fa-credit-card"></i> 구독권 결제하기 </h3>
 		</div>
+		
 		<div class="body-main">
 			<div class="row row-cols-2">
 				<div class="col div-area">

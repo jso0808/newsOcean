@@ -35,7 +35,11 @@ public class SubController {
 	private MyUtil myUtil;
 
 	@RequestMapping(value = "main")
-	public String main(Model model) {
+	public String main(Model model, HttpSession session) {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		if(info == null) return ".member.login";
 		
 		return ".sub.main";
 	}
@@ -118,6 +122,8 @@ public class SubController {
 		int total_page = 0;
 		int dataCount = 0;
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		if(info == null) return ".member.login";
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("selectSub", selectSub);
