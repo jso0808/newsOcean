@@ -5,7 +5,18 @@
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 
 <style type="text/css">
-
+#keyworditem{
+	min-width:100px;
+	min-height:50px;
+	font-size: 25px;
+	border:none;
+	color:black;
+}
+#keyworditem:hover, #keyworditem:active{
+	color: white;
+    border: none;
+    background: rgba(255,0,0,0.5);
+}
 </style>
 
 <script type="text/javascript">
@@ -46,7 +57,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 $(function(){
 	$(document).on("click", "button[id='addMyKeyword_btn']", function(){
 		let addKeyword = $("#addMykeyword_input").val();
-        let keywordhtml = "<span id='keyworditem' style='font-size:1.5rem;' class='badge bg-light text-dark'>"+addKeyword+"</span>";
+        let keywordhtml = "<span id='keyworditem' style='font-size:1.5rem;' class='btn btn-light'>"+addKeyword+"</span>";
         keywordhtml += "<input type='hidden' name='keywordName' value="+addKeyword+">";
 		if(!confirm("키워드"+addKeyword+"를 추가하시겠습니까?")){
 			return;
@@ -101,14 +112,14 @@ $(function(){
 		<div class="body-main input-group-text">
 			<form name ="keywordForm" action="${pageContext.request.contextPath}/mypage/keyword" method="post">
 				'<div class='addMyKeywordList input-group-text'>
-					<input type='text' id="addMykeyword_input">
+					<input style="min-width: 810px;" type='text' id="addMykeyword_input">
 					<button class='btn btn-light' type="button" id='addMyKeyword_btn'>나의 키워드 추가</button>
 				</div>
 				<c:if test="${not empty keywordList}">
 				<div id="keywordList" class="input-group-text">
 					<c:forEach var="dto" items="${keywordList}" varStatus="status">
 						<div style="display: inline-block;" class="save-keyword"><!--db저장된 키워드-->
-							<span id="keyworditem" class="badge bg-light text-dark" style="font-size:1.5rem;">${dto.keywordName}</span>
+							<span id="keyworditem" class="btn" style="">${dto.keywordName}</span>
 						</div>
 					</c:forEach>
 				</div>

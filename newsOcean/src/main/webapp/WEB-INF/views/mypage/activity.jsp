@@ -12,9 +12,8 @@
 	min-height:120px;
 }
 #newsReplyitem{
-	width:100%;
-	cursor:pointer;
-    display: flex;
+	width:41px;
+	height:41px;
 }
 #qnaReplyitem{
 	display: flex;
@@ -35,65 +34,46 @@ span{
     align-items: center;
 	font-size: 20px;
 }
+.badge div{
+display: flex; align-items: center; 
+font-size:15px;		
+}
 .save-newsReply{
 	width:100%;
 	word-break: break-all;
     word-wrap: normal;
+    border-bottom: 1px solid #e1e5ef;
+
 }
 .save-qnaReply{
-	display: flex;
-	flex-direction:column;
+	width:100%;
+	word-break: break-all;
+    word-wrap: normal;
+    border-bottom: 1px solid #e1e5ef;
 }
 .words{
 display:flex;
 flex-wrap: wrap;	
 }
-#newsReplyitem{
-	width:41px;
-}
+
 .activity-title{
+ margin-bottom:0px;
 }
 .activity-content{
+	margin-top:0px;
 }
-.qnaReplyList{
-
+#qnaReplyList{
+    border: none;
+}
+#newsReplyList{
+	border: none;
+}
+.myTitle{
+	width:910px;
+	font-size:24px;
 }
 </style>
 
-<script type="text/javascript">
-
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,
-		url:url,
-		data:query,
-		dataType:dataType,
-		success:function(data) {
-			fn(data);
-		},
-		beforeSend:function(jqXHR) {
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error:function(jqXHR) {
-	    	if(jqXHR.status === 403) {
-	    		login();
-	    		return false;
-	    	} else if(jqXHR.status === 402) {
-	    		alert("권한이 없습니다.");
-	    		return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패 했습니다.");
-				return false;
-	    	} else if(jqXHR.status === 410) {
-	    		alert("삭제된 게시물입니다.");
-	    		return false;
-	    	}
-	    	
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-</script>
 <script>
 $(function(){
 	function deleteqnaReply(tag) {
@@ -117,63 +97,14 @@ $(function(){
 	});
 });
 </script>
-<script type="text/javascript">
 
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,
-		url:url,
-		data:query,
-		dataType:dataType,
-		success:function(data) {
-			fn(data);
-		},
-		beforeSend:function(jqXHR) {
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error:function(jqXHR) {
-	    	if(jqXHR.status === 403) {
-	    		login();
-	    		return false;
-	    	} else if(jqXHR.status === 402) {
-	    		alert("권한이 없습니다.");
-	    		return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패 했습니다.");
-				return false;
-	    	} else if(jqXHR.status === 410) {
-	    		alert("삭제된 게시물입니다.");
-	    		return false;
-	    	}
-	    	
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-</script>
 <script>
+//뉴스댓글 삭제
 $(function(){
-	$(document).on("click", "button[id='addMynewsReply_btn']", function(){
-		  let addnewsReply = $("#addMynewsReply_input").val();
-          let newsReplyhtml = "<span id='newsReplyitem' style='font-size:1.5rem;' class='badge bg-light text-dark'>"+addnewsReply+"</span>";
-          newsReplyhtml += "<input type='hidden' name='content' value="+addnewsReply+">";
-
-          $("#newsReplyList").append(newsReplyhtml);
-          $("#addMynewsReply_input").val("");
-	});
-	
-	$(document).on("click", "#newsReplyitem", function(){
-		if($(this).parent(".save-newsReply") != null){
-			deletenewsReply($(this));
-		}
-		$(this).next("input[type='hidden']").remove();
-		$(this).remove();
-	});
-	
 	function deletenewsReply(tag) {
 		let url = "${pageContext.request.contextPath}/mypage/newsReplyDelete";
-		let query = "qnaAnswer="+tag.text();
-		console.log("qnaAnswer=",tag.text());
+		let query = "replyNo="+tag.val();
+		console.log("replyNo=",tag.val());	
 		
 		const fn = function(data){
 			tag.html(data);
@@ -182,6 +113,15 @@ $(function(){
 		ajaxFun(url, "get", query, "html", fn);
 
 	}
+	
+	$(document).on("click", "#newsReplyitem", function(){
+		if($(this).parent().parent(".save-newsReply") != null){
+			deletenewsReply($(this).parent().next("input[name=replyNo]"));
+		}
+		$(this).parent().parent().remove();
+	});
+	
+	
 })
 </script>
 <div class="container">
@@ -192,7 +132,7 @@ $(function(){
 		
 		<div class="body-main input-group-text replyDisplay1 d-felx flex-column">
 			<form action="${pageContext.request.contextPath}/mypage/activity">
-				<div style="font-size:24px;">
+				<div class="myTitle">
 					나의 뉴스글 댓글
 				</div>
 				<div id="newsReplyList" class="input-group-text  flex-wrap">
@@ -213,7 +153,7 @@ $(function(){
 								<button id="newsReplyitem"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
 							</div>
 							<input type="hidden" name="content" value="${dto.content}">
-							<input type="hidden" name="newsNo" value="${dto.newsNo}">
+							<input type="text" name="replyNo" value="${dto.replyNo}">
 						</div>
 					</c:forEach>
 				</div>
@@ -221,12 +161,12 @@ $(function(){
 		</div>
 		<div class="body-main input-group-text replyDisplay1 d-flex flex-column">
 			<form action="${pageContext.request.contextPath}/mypage/activity">
-				<div style="font-size:24px;">
+				<div  class="myTitle">
 					나의 Qna 댓글
 				</div>
 				<div id="qnaReplyList" class="input-group-text flex-wrap" >
 					<c:if test="${empty QnaReplylist}">
-						<div style="display: inline-block;" class="save-newsReply">
+						<div style="display: inline-block;" class="save-qnaReply">
 							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
 								<div style="width:100%; white-space: normal;text-align: left;">Qna댓글 이력이 없습니다.</div>
 							</div>
@@ -257,3 +197,38 @@ $(function(){
 		
 	</div>
 </div>
+
+<script type="text/javascript">
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+	    	if(jqXHR.status === 403) {
+	    		login();
+	    		return false;
+	    	} else if(jqXHR.status === 402) {
+	    		alert("권한이 없습니다.");
+	    		return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+	    	} else if(jqXHR.status === 410) {
+	    		alert("삭제된 게시물입니다.");
+	    		return false;
+	    	}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+</script>

@@ -7,15 +7,19 @@
 min-height:600px;
 display:flex;
 align-items: flex-start;
+background-color: #fafafa;
+border: 1px solid #e1e5ef;
+padding: 15px;
 }
-.keyworditem{
-	min-width:100px;
-	min-height:50px;
-	font-size: 25px;
+.body-main > div{
+	background-color: #fafafa;
+    border: 1px solid #e1e5ef;
 }
-input{
-min-width:810px;
+.input-group-text{
+	background-color: #fafafa;
+    border: 1px solid #e1e5ef;
 }
+
 #submit_btnbox{
 margin:3px;
 display:flex;
@@ -24,7 +28,9 @@ justify-content:flex-end;
 .container{
 	display:block;
 }
-
+input-group-text {
+	
+}
 .main-container {
 	display: flex;
 }

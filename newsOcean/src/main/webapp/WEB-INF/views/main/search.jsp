@@ -122,12 +122,14 @@ $(function(){
 }
 .input-group-text{
 justify-content: center;
+background-color: #fafafa;
+    border: 1px solid #e1e5ef;
 }
 .bigCategory, .smallCategory{
 cursor: pointer;
 }
 .bigCategory_selected, .smallCategory_selected{
-	background-color:#80B5FF;
+	background-color:#6c757d;;
 	color:white;
 	cursor: pointer;
 }

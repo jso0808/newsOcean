@@ -2,6 +2,8 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
 <style type="text/css">
 *{margin:0; padding:0;}
 .body-container2{
@@ -22,11 +24,8 @@
 }
 
 .wordCloud_img{
-	 height: 340px;
-	 margin-bottom: 10px;
-	 margin-top: 20px;
-	 width: 2000px;
-	 margin-left: 360px;
+	display: flex;
+    justify-content: center;
 }
 
 .wordCloud_img:hover {
@@ -47,28 +46,28 @@ display:flex;
 .category_link{
 	display: flex;
 	width:100px;
-	min-height:70px;
+	min-height:40px;
     display: flex;
     justify-content: center;
     margin: 0 1rem;
     box-sizing: border-box;
-    font-size: 1.125rem;
-    color: #051619;
-    cursor: pointer;
 }
 .category_link span{
 	display: flex;
-	width:100px;
-	min-height:70px;
     justify-content: center;
     align-items:center;
+    color: #004b81;
+    font-size: 1.125rem;
+    cursor: pointer;
 }
 
 .search_icon{
 	display:flex;
-	justify-content: center;
-	align-items:center;
-	font-size: 30px;
+	 justify-content: center;
+    align-items:center;
+    color: #004b81;
+    font-size: 1.125rem;
+    cursor: pointer;
 }
 .main_section{
 	display:flex;
@@ -88,12 +87,15 @@ display:flex;
 	min-width:300px;
 	max-width:350px;
 	display:block;
-	border:1px solid black;
+	border:none;
 	box-sizing:border-box;
 	position:relative;
 	cursor:pointer;
 	font-size:18px;
 	padding:15px;
+	border-radius: 5px;
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+	margin:5px;
 }
 
 .img__area {
@@ -321,13 +323,13 @@ display:flex;
 	<section class="main_section container">
 		<div class="posts row">
 			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
-				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
+				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl};">
 					<span>${dto.crawlTitle}</span>
-					<div style="opacity: 0.5;">${dto.crawlDate}&nbsp;&nbsp;&nbsp;${dto.crawlPress}</div>
+					<div style="opacity: 0.5;"><span style="font-size:14px;">${dto.crawlDate}</span>&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">${dto.crawlPress}</span></div>
 				</a>
 			</c:forEach>
 		</div>
-	</section>
+	</section>	
 </div>
 <div class="page-navigation">${paging}</div>
 </html>

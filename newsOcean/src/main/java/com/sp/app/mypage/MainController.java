@@ -1,5 +1,6 @@
 package com.sp.app.mypage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,20 +119,17 @@ public class MainController {
 		long memberNo = info.getMemberNo();
 		map.put("memberNo", memberNo);
 		List<Reply> list = service.readMyReply(map);
-		
 		List<QnaReply> QnaReplylist = service.readMyQnaReply(map);
 		
 		for(Reply s : list) {
 			System.out.println(s.getContent());
 			News news = new News();
 			news.setMemberNo(memberNo);
-			//news.setNewsNo(newsNo);
-			service.readNews(news);
+			System.out.println(news.getTitle());
 		}
 		for(QnaReply s : QnaReplylist) {
 			System.out.println(s.getQnaAContent());
 		}
-		
 		model.addAttribute("list", list);
 		model.addAttribute("QnaReplylist", QnaReplylist);
 		
@@ -156,14 +154,15 @@ public class MainController {
 	}
 	@RequestMapping("newsReplyDelete")
 	public String newsReplyDelete(Model model,HttpSession session,
-				@RequestParam long qnaNo) {
+				@RequestParam long replyNo) {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			if(info == null) return ".member.login";
 			long memberNo = info.getMemberNo();
 			map.put("memberNo", memberNo);
-			map.put("qnaNo", qnaNo);
+			map.put("replyNo", replyNo);
+			System.out.println(replyNo);
 			service.deleteMyReply(map);
 		} catch (Exception e) {
 			e.printStackTrace();

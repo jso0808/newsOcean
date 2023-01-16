@@ -76,23 +76,12 @@
 	</delete>
 <!--뉴스글 댓글 -->
 	<select id="listReply" parameterType="map" resultType="com.sp.app.mypage.Reply">
-		SELECT nr.replyNo, content, regDate,nr.newsNo, news.title, nr.memberNo, nickName, NVL(likeCount,0) likeCount,
-			NVL(userReplyLiked,0) userReplyLiked, profile
+		SELECT nr.replyNo, content, regDate,nr.newsNo, news.title, nr.memberNo, nickName, profile, news.originlink
 		FROM newsReply nr
 		JOIN member m ON m.memberNo = nr.memberNo
-		LEFT OUTER JOIN (
-		    SELECT replyNo, COUNT(*) likeCount
-		    FROM newsReplyLike GROUP BY replyNo
-		) nrl ON nr.replyNo = nrl.replyNo
-		LEFT OUTER JOIN (
-		    SELECT replyNo, COUNT(*) userReplyLiked
-		    FROM newsReplyLike nrlRe
-            JOIN member m ON m.memberNo = nrlRe.memberNo
-            GROUP BY replyNo
-		) nrl2 ON nr.replyNo = nrl2.replyNo
         JOIN news on nr.newsNo = news.newsNo
 		WHERE nr.memberNo = #{memberNo}
-		ORDER BY replyNo
+		ORDER BY regDate
 	</select>
 	
 	<delete id="deleteReply" parameterType="map">

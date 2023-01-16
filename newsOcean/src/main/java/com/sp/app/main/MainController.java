@@ -133,6 +133,7 @@ public class MainController {
 		cChange = (categoryNo%10+1)*100+1;
 		return cChange;
 	}
+	
 	@GetMapping("/recent")
 	public String recent(@RequestParam int categoryNo,
 			HttpSession session,

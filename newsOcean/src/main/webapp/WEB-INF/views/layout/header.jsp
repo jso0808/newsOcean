@@ -216,7 +216,17 @@ a:hover, a:active{ text-decoration: underline; cursor: pointer; color: #004B81; 
 							</ul>
 						</div>
 						<div class="col p-2" style="width: 180px;">
-							<a href="${pageContext.request.contextPath}/mypage/main" title="마이페이지">마이페이지</a>
+							<a href="${pageContext.request.contextPath}/mypage/main" title="마이페이지" data-bs-toggle="dropdown" aria-expanded="false">마이페이지</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item"
+									href="${pageContext.request.contextPath}/mypage/keyword">나의 키워드</a></li>
+								<li><a class="dropdown-item"
+									href="${pageContext.request.contextPath}/mypage/info">회원정보수정</a></li>
+								<li><a class="dropdown-item"
+									href="${pageContext.request.contextPath}/mypage/activity">나의 댓글 관리</a></li>
+								<li><a class="dropdown-item"
+									href="${pageContext.request.contextPath}/mypage/bookmark">나의북마크</a></li>
+							</ul>
 						</div>
 						<div class="col p-2">
 							<a href="${pageContext.request.contextPath}/cs/main" title="고객센터">고객센터</a>
