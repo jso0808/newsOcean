@@ -215,12 +215,6 @@ public class SubController {
 		try {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			
-			/*
-			 * 로직 다시 생각하기.
-			 * 구독권이 있고, 환불이 아닌 것
-			 * 구독권이 있고, 환불인 것
-			 *  -> 서비스단에서, 두 변수를 if문로 판단. 새 변수 x에 저장하고, x를 return?
-			 */
 			ing = service.findBySubIng(info.getMemberNo());
 			
 			state = "true";

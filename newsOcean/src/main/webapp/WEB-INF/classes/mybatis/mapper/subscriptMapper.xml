@@ -66,11 +66,12 @@
 		FROM subscript s
 		LEFT OUTER JOIN member m ON m.memberNo = s.memberNo
 		WHERE subEnd &gt; sysdate AND s.memberNo = #{memberNo}
-		GROUP BY subNo
+		ORDER BY subNo DESC
+		FETCH FIRST 1 ROWS ONLY
 	</select>
 	
 	<select id="findBySubRefund" parameterType="Long" resultType="Integer">
-		SELECT COUNT(*) 
+		SELECT NVL(COUNT(*), 0) refundOrNot
 		FROM subRefund 
 		WHERE subNo = #{subNo}
 	</select>

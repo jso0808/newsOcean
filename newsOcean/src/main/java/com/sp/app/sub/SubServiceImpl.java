@@ -101,6 +101,10 @@ public class SubServiceImpl implements SubService {
 		int ing = 0;
 		try {
 			subNo = dao.selectOne("subscript.findBySubIng", memberNo);
+			System.out.println("********************");
+			System.out.println(subNo);
+			System.out.println("********************");
+			
 			if(subNo != null) {
 				refundOrNot = dao.selectOne("subscript.findBySubRefund", subNo);
 			}
@@ -112,6 +116,9 @@ public class SubServiceImpl implements SubService {
 			} else if(subNo!=null || (subNo!=null&&refundOrNot==0)) {
 				ing = 1;
 			}
+			System.out.println("********************");
+			System.out.println(ing);
+			System.out.println("********************");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
