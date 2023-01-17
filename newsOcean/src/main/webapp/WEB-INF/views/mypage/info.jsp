@@ -11,6 +11,7 @@
 <script type="text/javascript">
 function Withdrawal(){
 	if($("#withdrawalcheck").is(':checked')){
+		const f = document.infoForm;
 		f.action = "${pageContext.request.contextPath}/mypage/withDrawal";
 	    f.submit();
 	}else{
@@ -20,28 +21,7 @@ function Withdrawal(){
 function memberOk() {
 	const f = document.infoForm;
 	let str;
-	
-	str = f.email1.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email1.focus();
-        return;
-    }
-
-    str = f.email2.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email1.focus();
-        return;
-    }
-
-	if(f.emailValid.value === "false") {
-		str = "이메일 중복 검사가 실행되지 않았습니다.";
-		alert(str);
-		f.email1.focus();
-		return;
-	}
-	
+		
 	if( f.nickNameValid.value === "nickNameValid") {
 		str = "닉네임 중복 검사가 실행되지 않았습니다.";
 		f.nickNameValid.focus();
@@ -105,61 +85,6 @@ function changeEmail() {
     }	
 }
 
-function emailCheck() {
-	// 이메일 중복 검사
-	let email1 = $("#email1").val();
-	let email2 = $("#email2").val();
-	if(!email1) { 
-		let str = "이메일을 입력해주세요";
-		$("#email1").focus();
-		return;
-	}
-	
-	if(!email2) { 
-		let str = "이메일을 입력해주세요";
-		$("#email1").focus();
-		return;
-	}
-	
-	let url = "${pageContext.request.contextPath}/member/emailCheck";
-	let email = email1 + "@" + email2
-	$("#email").val(email);
-	console.log(email)
-	let query = "email=" + email;
-	
-	$.ajax({
-		type:"POST"
-		,url:url
-		,data:query
-		,dataType:"json"
-		,success:function(data) {
-			let passed = data.passed;
-			if("${dto.email}" ==email){
-				passed = "true";
-				let str = "<span style='color:blue; font-weight: bold;'>" + email1+"@"+email2 + "</span> 기존이메일";
-				$(".email-box").find(".help-block").html(str);
-				$(".email-box").find(".help-block").css("color","blue");
-				$("#emailValid").val("true");
-			}
-			else if(passed === "true") {
-				console.log('passed = true')
-				
-				let str = "<span style='color:blue; font-weight: bold;'>" + email1+"@"+email2 + "</span> 사용 가능합니다.";
-				$(".email-box").find(".help-block").html(str);
-				$(".email-box").find(".help-block").css("color","blue");
-				$("#emailValid").val("true");
-			} else {
-				console.log('passed = false')
-				let str = "<span style='color:red; font-weight: bold;'>" + email1+"@"+email2 + "</span> 사용할 수 없는 이메일입니다.";
-				$(".email-box").find(".help-block").css("color","red");
-				$(".email-box").find(".help-block").html(str);
-				$("#emailValid").val("");
-				$("#emailValid").val("false");
-				$("#emailValid").focus();
-			}
-		}
-	});
-}
 
 function nickNameCheck() {
 	// 닉네임 중복 검사
@@ -227,38 +152,7 @@ function nickNameCheck() {
 		<div class="body-main">
 
 			<form name="infoForm" method="post">
-				<div class="row mb-3">
-			        <label class="col-sm-2 col-form-label" for="selectEmail">이메일</label>
-			        <div class="col-sm-10 row email-box">
-						<div class="col-3 pe-0">
-							<select name="selectEmail" id="selectEmail" class="form-select" onchange="changeEmail();">
-								<option value="">선 택</option>
-								<option value="naver.com" ${dto.email2=="naver.com" ? "selected='selected'" : ""}>naver</option>
-								<option value="gmail.com" ${dto.email2=="gmail.com" ? "selected='selected'" : ""}>gmail</option>
-								<option value="daum.net" ${dto.email2=="daum.net" ? "selected='selected'" : ""}>daum</option>
-								<option value="hotmail.com" ${dto.email2=="hotmail.com" ? "selected='selected'" : ""}>hotmail</option>
-								<option value="direct">직접입력</option>
-							</select>
-						</div>
-						
-						<div class="col input-group">
-							<input type="text" name="email1" id="email1" class="form-control" maxlength="30" value="${dto.email1}" >
-						    <span class="input-group-text p-1" style="border: none; background: none;">@</span>
-							<input type="text" name="email2" id="email2" class="form-control" maxlength="30" value="${dto.email2}" readonly="readonly">
-						</div>		
-						
-						<div class="col-3 ps-1">
-							<button type="button" class="btn btn-light" onclick="emailCheck();">이메일 중복검사</button>
-						</div>
-							
-						<div class="row-3">
-							<small class="form-control-plaintext help-block">이메일 중복검사를 해주세요.</small>
-						</div>
-					</div>
-	
-			    </div>
-			 
-				<div class="row mb-3">
+					<div class="row mb-3" style="width:1000px;">
 					<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
 					<div class="col-sm-10">
 			            <input type="password" name="pwd" id="pwd" class="form-control" autocomplete="off" placeholder="패스워드" value="">

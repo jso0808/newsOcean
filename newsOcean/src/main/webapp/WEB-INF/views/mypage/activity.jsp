@@ -92,7 +92,7 @@ $(function(){
 		if($(this).parent().parent(".save-qnaReply") != null){
 			deleteqnaReply($(this).parent().find("#qnaAnswer"));
 		}
-		$(this.parent().parent()).remove();
+		$($(this).parent().parent()).remove();
 		
 	});
 });
@@ -115,8 +115,10 @@ $(function(){
 	}
 	
 	$(document).on("click", "#newsReplyitem", function(){
-		if($(this).parent().parent(".save-newsReply") != null){
-			deletenewsReply($(this).parent().next("input[name=replyNo]"));
+		if($(this).parent().parent(	".save-newsReply") != null){	
+			let tag = $(this).parent().siblings("input[name=replyNo]");
+			console.log("첫콘손",tag.val(), tag.text());
+			deletenewsReply(tag);
 		}
 		$(this).parent().parent().remove();
 	});
@@ -130,7 +132,7 @@ $(function(){
 			<h3><i class="bi bi-app"></i>나의 댓글</h3>
 		</div>
 		
-		<div class="body-main input-group-text replyDisplay1 d-felx flex-column">
+		<div class="body-main input-group-text replyDisplay1 d-felx flex-column mb-4">
 			<form action="${pageContext.request.contextPath}/mypage/activity">
 				<div class="myTitle">
 					나의 뉴스글 댓글
@@ -146,14 +148,18 @@ $(function(){
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<div style="display: inline-block;" class="save-newsReply">
 							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
-								<div style="width:100%; white-space: normal;text-align: left;">뉴스제목 : ${dto.title}</div>
+								<div style="width:100%; white-space: normal;text-align: left;">
+									<a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}">뉴스제목 : ${dto.title}</a>
+								</div>
 							</div>
-							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;"  class="badge bg-light text-dark m-2 activity-tag activity-content">
-								<div style="width:100%; white-space: normal;text-align: left;">뉴스댓글 : ${dto.content}</div>
+							<div style="display:flex; justify-content: space-between;font-size:1.5rem;"  class="badge bg-light text-dark m-2 activity-tag activity-content">
+								<div style="width:100%; white-space: normal;text-align: left;">
+									<a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}">뉴스댓글 : ${dto.content}</a>
+								</div>
 								<button id="newsReplyitem"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
 							</div>
 							<input type="hidden" name="content" value="${dto.content}">
-							<input type="text" name="replyNo" value="${dto.replyNo}">
+							<input type="hidden" name="replyNo" value="${dto.replyNo}">
 						</div>
 					</c:forEach>
 				</div>
@@ -175,20 +181,19 @@ $(function(){
 					<c:forEach var="dto" items="${QnaReplylist}" varStatus="status">
 						<div style="display: inline-block;width:100%" class="save-qnaReply m-2">
 							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;"  class="badge bg-light text-dark m-2 activity-tag" >
-								<div style="width:100%; white-space: normal;text-align: left;">QNA제목 : ${dto.qnaSubject}</div>
+								<div style="width:100%; white-space: normal;text-align: left;"><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}">QNA제목 : ${dto.qnaSubject}</a></div>
 								<button id="qnaReplyitem"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
 								<input type="hidden" id="qnaAnswer" name="qnaAnswer" value="${dto.qnaAnswer}">
 							</div>
 							<div  style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag" >
-								<div style="width:100%; white-space: normal;text-align: left;">QNA질문 : ${dto.qnaContent}</div>
+								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}" >QNA질문 : ${dto.qnaContent}</a></div>
 							</div>
 							<div style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag">
-								<div style="width:100%; white-space: normal;text-align: left;">QNA질문의 답변 : ${dto.qnaAContent}</div>
+								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}" >QNA질문의 답변 : ${dto.qnaAContent}</a></div>
 							</div>
 							<input type="hidden" name="qnaNo" value="${dto.qnaNo}">
 							<input type="hidden" name="qnaAContent" value="${dto.qnaAContent}">
-							<input type="hidden" name="qnaAContent" value="${dto.qnaContent}">
-							
+							<input type="hidden" name="qnaContent" value="${dto.qnaContent}">
 						</div>
 					</c:forEach>
 				</div>

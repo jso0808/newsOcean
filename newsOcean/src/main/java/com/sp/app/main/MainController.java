@@ -330,19 +330,19 @@ public class MainController {
 	@GetMapping(value="/searchform")
 	public String wordSearchShow(@RequestParam String searchType,
 			HttpServletRequest req, HttpSession session,
-			@RequestParam(value = "searchWord",required = false, defaultValue = "")  String searchWord) {
+			@RequestParam(value = "searchName",required = false, defaultValue = "")  String searchName) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		if(info == null) return ".member.login";
 		try {
 			if (req.getMethod().equalsIgnoreCase("GET"))  // GET 방식인 경우
-				searchWord = URLDecoder.decode(searchWord, "utf-8");
+				searchName = URLDecoder.decode(searchName, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("searchType", searchType);// subject,searchName
-		map.put("searchWord", searchWord);
-		List<String> wordList2 = mainMongo.wordSearchShow(searchType, searchWord);
+		map.put("searchWord", searchName);
+		List<String> wordList2 = mainMongo.wordSearchShow(searchType, searchName);
 		//List<String> wordList = service.wordSearchShow(map);
 		System.out.println(wordList2);
 		JSONArray jsonArr = new JSONArray();  
@@ -350,7 +350,7 @@ public class MainController {
 				for(String word : wordList2) {
 					JSONObject jsonObj = new JSONObject();
 					if(word.length()>=40) {
-						word = word.substring(0, 40);
+						word = word.trim().substring(0, 40);
 						word += "...";
 					}
 					jsonObj.put("word", word);			
@@ -360,10 +360,10 @@ public class MainController {
 		return jsonArr.toString();
 	}
 
-	@GetMapping("/searchresult")
+	@RequestMapping("/searchresult")
 	public String searchresult(@RequestParam(value = "page", defaultValue = "1") int current_page,
-			@RequestParam(name="searchName",required=false) String searchName,
-			@RequestParam(name="categoryNo",required=false) String categoryNoString,
+			@RequestParam(value="searchName",required=false) String searchName,
+			@RequestParam(value="categoryNo",required=false) String categoryNoString,
 			//여러개를 넘겨받을때 string으로 받으면 ,로 구분되어 들어온다.
 			@RequestParam String searchType,
 			HttpServletRequest req,
@@ -383,12 +383,41 @@ public class MainController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			search.setMemberNo(memberNo);
-			if(searchName!=null) {
+			search.setCategoryNo(categoryNoString);//203, 204, 205
+			System.out.println("---------------------");
+			//검색어o, 카테고리x
+			if(searchName !=null && categoryNoString == null) {
+				categoryNoString="200,300,400,500,600";
+				search.setCategoryNo(categoryNoString);
 				search.setSearchName(searchName); 
 				search.setSearchType(searchType); 
+				//카테고리 여러개
+				List<Integer> categoryNo = new ArrayList<Integer>();
+				//categoryNoList2에 값을 trim해서 categoryNoList에 넣어줌
+				String[] categoryNoArray = categoryNoString.split(",");
+				List<String> categoryNoList2 = new ArrayList<String>(Arrays.asList(categoryNoArray));
+				List<String> categoryNoList = new ArrayList<String>();
+				for(String s : categoryNoList2) {
+					String strim = s.trim();
+					categoryNoList.add(strim);
+					System.out.print(strim+",");
+					categoryNo.add(Integer.parseInt(strim));
+				}
+				model.addAttribute("categoryNo", categoryNo);
+				//뉴스리스트
+				//return: List<News> list(뉴스리스트), long count(뉴스리스트총개수)
+				map = mainMongo.searchlistNews(searchType, searchName, categoryNoList, current_page, size);
+				@SuppressWarnings("unchecked")
+				List<News> list = (List<News>)map.get("list");
+				count = Integer.parseInt(String.valueOf(map.get("count")));
+				System.out.println("count: "+count);
+				System.out.println(list);
+				model.addAttribute("list", list);
+				System.out.println("검색어o, 카테고리x");
 			}
-			if(categoryNoString!=null) {
-				search.setCategoryNo(categoryNoString);//203, 204, 205
+			
+			//검색어있거나 없거나, 카테고리o
+			if(categoryNoString != null) {
 				
 				//카테고리번호 1개보다 많은경우
 				if(categoryNoString.length()>4) {
@@ -400,11 +429,12 @@ public class MainController {
 					for(String s : categoryNoList2) {
 						String strim = s.trim();
 						categoryNoList.add(strim);
+						categoryNo.add(Integer.parseInt(strim));
 					}
-				//뉴스리스트
+					model.addAttribute("categoryNo", categoryNo);
+					//뉴스리스트
 					//return: List<News> list(뉴스리스트), long count(뉴스리스트총개수)
 					map = mainMongo.searchlistNews(searchType, searchName, categoryNoList, current_page, size);
-					
 					@SuppressWarnings("unchecked")
 					List<News> list = (List<News>)map.get("list");
 					count = Integer.parseInt(String.valueOf(map.get("count")));
@@ -412,10 +442,12 @@ public class MainController {
 					System.out.println("count: "+count);
 					System.out.println(list);
 					model.addAttribute("list", list);
+					search.setCategoryNo(categoryNoString);
+					System.out.println("검색어있거나 없거나, 카테고리여러개");
 				//카테고리번호  1개인경우(categoryNo가 int 하나)	
-				}else {
+				}else if(categoryNoString.length()<=4 && categoryNoString.length()>0) {
 					categoryNoString = categoryNoString.trim();
-					int categoryNo = Integer.parseInt(categoryNoString);
+					int categoryNo = Integer.parseInt(categoryNoString); 
 					model.addAttribute("categoryNo", categoryNo);
 					//map -return list, count
 					map = mainMongo.searchNews(searchType,searchName, categoryNoString, current_page, size);
@@ -426,9 +458,12 @@ public class MainController {
 					System.out.println("count: "+count);
 					System.out.println(list);
 					model.addAttribute("list", list);
-					
+					System.out.println("검색어있거나 없거나, 카테고리하나");
 				}
 			}
+			//카테고리 선택안한경우(searchName있으면 카테고리전체, 	
+			search.setSearchName(searchName); 
+			search.setSearchType(searchType); 
 			
 			if (count != 0) {
 				total_page = myUtil.pageCount(count, size);
@@ -441,11 +476,9 @@ public class MainController {
 			
 			//검색기록저장
 			service.insertSearchHistory(search);
-			
 			String cp = req.getContextPath();
-			String listUrl = cp + "/main/searchresult";
+			String listUrl = cp + "/searchresult?searchType="+searchType+"&searchName="+searchName+"&categoryNo="+categoryNoString;
 			String paging = myUtil.pagingUrl(current_page, total_page, listUrl);
-			
 			
 			//페이징
 			model.addAttribute("page", current_page);
@@ -453,11 +486,10 @@ public class MainController {
 			model.addAttribute("size", size);
 			model.addAttribute("total_page", total_page);
 			model.addAttribute("paging", paging);
-			
+				
 			//paging으로 다시 가져올 파라미터
 			model.addAttribute("searchName", searchName);
 			model.addAttribute("searchType", searchType);
-			model.addAttribute("categoryNo", categoryNoString);
 		} catch (Exception e) {
 			model.addAttribute("message", "데이터 등록이 실패했습니다.");
 			e.printStackTrace();

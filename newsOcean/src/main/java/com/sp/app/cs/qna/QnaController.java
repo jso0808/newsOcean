@@ -33,7 +33,7 @@ public class QnaController {
 	@RequestMapping(value = "list")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String keyword,		
 			HttpServletRequest req,
 			Model model) throws Exception {
 

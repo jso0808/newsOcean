@@ -10,12 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 @Service("main.mainMongoOperations")
@@ -158,36 +155,51 @@ public class MainMongoOperations {
 	public Map<String, Object>  searchlistNews(String searchType,String searchName,List<String> categoryNo, int page, int size) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		List<News>  list = null;
+		List<News>  list2 = null;
 		long count=0;
 		try {
 			
 			// 페이징 처리 
 			page = page >= 1 ? (page - 1) : 0;
 			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
-			
+			//검색타입 제목
 			if(searchType.equals("subject")) {	
 				//BasicQuery query = new BasicQuery("{kor : {$gte : 80}}");
 				// {$and : [{'crawlTitle': { $regex: '박용진'}},{'category' : {$in : ['200', '201']} }]}
 				
-				String a = "[";
+				String category = "[";
 				for(String s : categoryNo) {
-					a += "'" + s + "',";
-				}
-				a = a.substring(0, a.length()-1) + "]";
+					category += "'" + s + "',";
+				}	
+				category = category.substring(0, category.length()-1) + "]";
 				
-				String bq = "{$and : [{'crawlTitle': { $regex: '"+searchName+"'}},{'category' : {$in : "+a+"} }]}";
-				
+				String bq = "{$and : [{'crawlTitle': { $regex: '"+searchName+"'}},{'category' : {$in : "+category+"} }]}";
+				//전체 리스트개수
 				BasicQuery query = new BasicQuery(bq);
-				query.with(pageable);
-				list = mongo.find(query, News.class);
-				count = list.size();
-			} else if(searchType.equals("searchName")) {
-				for(String dto : categoryNo) {
-				BasicQuery query = new BasicQuery("{$and : [{'crawlSummary': { $regex: '"+searchName+"' },'category' :'"+dto+"' }]}");
-				query.with(pageable);
-				list = mongo.find(query, News.class);
-				count += mongo.count(query, News.class);
+				list2 = mongo.find(query, News.class);
+				count = list2.size();
+				
+				//페이징 리스트 반환
+				BasicQuery querypage = new BasicQuery(bq);
+				querypage.with(pageable);
+				list = mongo.find(querypage, News.class);
+			//검색타입 keyword
+			} else if(searchType.equals("keyword")) {
+				String category = "[";
+				for(String s : categoryNo) {
+					category += "'" + s + "',";
 				}
+				category = category.substring(0, category.length()-1) + "]";
+				
+				String bq = "{$and : [{'crawlContent': { $regex: '"+searchName+"'}},{'category' : {$in : "+category+"} }]}";
+				BasicQuery query = new BasicQuery(bq);
+				list2 = mongo.find(query, News.class);
+				count = list2.size();
+				
+				//페이징 리스트 반환
+				BasicQuery querypage = new BasicQuery(bq);
+				querypage.with(pageable);
+				list = mongo.find(querypage, News.class);
 			}
 			System.out.println(list);
 			resultMap.put("list", list);
@@ -202,22 +214,62 @@ public class MainMongoOperations {
 	//categoryNo 하나
 	public Map<String, Object>  searchNews(String searchType,String searchName,String categoryNo, int page, int size) {
 		List<News>  list = new ArrayList<News>();
+		List<News>  list2 = null;
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		long count=0;
+		
 		try {
 			page = page >= 1 ? (page - 1) : 0;
 			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
 			
 			if(searchType.equals("subject")) {
-				BasicQuery query = new BasicQuery("{$and : [{'crawlTitle': { $regex: '"+searchName+"' },'category' :'"+categoryNo+"' }]");
-				query.with(pageable);
-				list = mongo.find(query, News.class);
-				count += mongo.count(query, News.class);
-			} else if(searchType.equals("searchName")) {
-				BasicQuery query = new BasicQuery("{$and : [{'crawlSummary': { $regex: '"+searchName+"' },'category' :'"+categoryNo+"' }]");
-				query.with(pageable);
-				list = mongo.find(query, News.class);
-				count += mongo.count(query, News.class);
+				
+				//검색어없는경우
+				if(searchName.isEmpty()) {
+					BasicQuery query = new BasicQuery("{'category' :'"+categoryNo+"' }");
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					System.out.println(searchName + "   " + categoryNo+ "count"+count);
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery("{'category' :'"+categoryNo+"' }");
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+				}
+				//검색어 있는경우
+				else {
+					BasicQuery query = new BasicQuery("{$and : [{'crawlTitle': { $regex: '"+searchName+"' },'category' :'"+categoryNo+"' }]");
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery("{$and : [{'crawlTitle': { $regex: '"+searchName+"' },'category' :'"+categoryNo+"' }]");
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+				}
+			} else if(searchType.equals("keyword")) {
+				
+				//키워드없는 경우
+				if(searchName.isEmpty()){
+					BasicQuery query = new BasicQuery("{'category' :'"+categoryNo+"' }");
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery("{'category' :'"+categoryNo+"' }");
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+					
+				//키워드있는경우
+				}else {
+					BasicQuery query = new BasicQuery("{$and : [{'crawlContent': { $regex: '"+searchName+"' },'category' :'"+categoryNo+"' }]");
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery("{$and : [{'crawlContent': { $regex: '"+searchName+"' },'category' :'"+categoryNo+"' }]");
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+				}
 			}
 			System.out.println("-------------------------");
 			System.out.println("list:"+list);

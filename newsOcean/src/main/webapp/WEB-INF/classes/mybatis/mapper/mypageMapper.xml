@@ -19,7 +19,7 @@
 	</insert>
 	  -->
 	<update id="updateMyKeyword" parameterType="map">
-		UPDATE keyword k JOIN authority a ON k.memberNo = a.memberNo
+		UPDATE keyword k 
 			SET keywordNo = #{keywordNo}
 			WHERE a.memberNo = #{memberNo}
 	</update>
@@ -31,30 +31,34 @@
 <!-- 나의 회원정보 리스트(memberNo, email, pwd, name, nickname, birth, gender, -->	
 	<select id="readMyInfo" parameterType="String"  resultType="com.sp.app.member.Member">
 		SELECT m.memberNo, email, name, nickName, pwd, TO_CHAR(birth, 'YYYY-MM-DD') birth, 
-			gender, modifyDate, recentDate, profile, authority, enabled, memberShip
+			gender, modifyDate, recentDate, profile, authority, enabled, memberShip	
 		FROM member m
 		JOIN Authority a ON m.memberNo = a.memberNo
 		WHERE email = #{email}
 	</select>
 	
 	<update id="updateMyInfo" parameterType="com.sp.app.member.Member">
-		UPDATE member m JOIN authority a ON a.memberNo = m.memberNo
+		UPDATE member m 
 		SET m.email = #{email}, m.name= #{name}, 
 		m.nickName= #{nickName}, m.birth = TO_DATE(#{birth},'YYYY-MM-DD')
+		WHERE m.memberNo = #{memberNo}
 	</update>
 	
 	<update id="updateMyInfoPwd" parameterType="com.sp.app.member.Member">
-		UPDATE member m JOIN authority a ON a.memberNo = m.memberNo
+		UPDATE member m 
 		SET m.email = #{email}, m.pwd= #{pwd}, m.name= #{name}, 
 		m.nickName= #{nickName}, m.birth = TO_DATE(#{birth},'YYYY-MM-DD')
+		WHERE m.memberNo = #{memberNo}
 	</update>
-	<delete id="deleteMyInfo" parameterType="com.sp.app.member.Member">
-		DELETE FROM member 
-		where memberNo = #{memberNo}
-	</delete>
+	
+	<update id="deleteMyInfo" parameterType="com.sp.app.member.Member">
+		UPDATE member m JOIN authority a ON a.memberNo = m.memberNo
+		SET pwd= null, name= null, nickName= null, birth = null, enabled = 0, membership = 1,authority = no
+		WHERE email = #{email}
+	</update>
 
 <!-- 나의 댓글 리스트, 수정  -->
-	<select id="readMyQnaReply" parameterType="map" resultType="com.sp.app.cs.qna.QnaReply">
+	<select id="readMyQnaReply" parameterType="map" resultType="com.sp.app.mypage.QnaReply">
 		SELECT r.qnaAnswer, r.memberNo, nickName, q.qnaNo, qnaAContent, r.qnaARegdate, q.qnaContent,
 			   qnaSubject, NVL(qnaAReplyCount, 0) qnaAReplyCount
 		FROM QnaReply r
@@ -113,13 +117,5 @@
 		WHERE n.newsNo = #{newsNo}
 		ORDER BY newsNo
 	</select>
-<!-- 회원 이미지, 전화번호, 이메일, 개인정보 수정-->
-<!-- 회원 이미지, 전화번호, 이메일, 개인정보 삭제 -->
-<!-- 회원탈퇴? -->
-<!-- 즐겨찾기한 회원리스트 select -->
-<!-- 즐겨찾기한 회원리스트 insert ? -->
-<!-- 즐겨찾기한 회원리스트 delete -->
-<!-- 작성한 댓글 확인  select -->
-<!-- 북마크한 뉴스기사 분류(bookmarkType(북마크날짜, 카테고리별 검색)  -->
 
 </mapper>

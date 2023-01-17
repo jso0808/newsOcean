@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.app.common.dao.CommonDAO;
-import com.sp.app.cs.qna.QnaReply;
 import com.sp.app.member.Member;
 import com.sp.app.news.News;
 
@@ -99,7 +98,7 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public void deleteMyInfo(Member dto) throws Exception{;
 		try {
-			dao.deleteData("mypage.deleteMyInfo", dto);
+			dao.updateData("mypage.deleteMyInfo", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

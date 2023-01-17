@@ -1,14 +1,13 @@
 package com.sp.app.mypage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp.app.cs.qna.QnaReply;
-import com.sp.app.main.MainMongoOperations;
-import com.sp.app.main.SearchService;
 import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
@@ -34,6 +30,8 @@ public class MainController {
 	@Autowired
 	private MemberService mservice;
 	
+	@Autowired
+	private BCryptPasswordEncoder bcrytp;
 	
 	
 	@RequestMapping(value = "main")
@@ -229,8 +227,7 @@ public class MainController {
 	}
 	
 	@PostMapping(value = "infoSubmit")
-	public String infoSubmit(@RequestParam String email, 
-			@RequestParam String birth,
+	public String infoSubmit(@RequestParam String birth,
 			@RequestParam String gender,
 			@RequestParam String name,
 			@RequestParam String nickName,
@@ -241,20 +238,16 @@ public class MainController {
 		if(info == null) return ".member.login";
 		Member dto = service.readMyInfo(info.getEmail());
 		
-		dto.setPwd(null);
-		dto.setEmail(email);
+		String encPassword = bcrytp.encode(pwd);
+		dto.setPwd(encPassword);
+		dto.setEmail(info.getEmail());
 		dto.setBirth(birth);
 		dto.setGender(gender);
 		dto.setName(name);
 		dto.setNickName(nickName);
-		dto.setPwd(pwd);
+		
 		
 		// 패스워드 검사
-		boolean bPwd = mservice.isPasswordCheck(info.getEmail(), pwd);
-		if( ! bPwd ) {
-			model.addAttribute("msg", "패스워드가 일치하지 않습니다.");
-			return ".mypage.info";
-		}
 		//수정 데이터 입력
 		//패스워드 미수정(미입력)시
 		if(pwd==null) {
@@ -275,10 +268,9 @@ public class MainController {
 	}
 	
 
-	
+	//멤버 nickname, name, birth 개인정보 삭제, enabled 0, membership1로 설정 하여 비활성화
 	@PostMapping(value="withDrawal")
-	public String  withDrawal(@RequestParam String userPwd,
-			HttpSession session,
+	public String  withDrawal(HttpSession session,
 			Model model) {
 	
 		SessionInfo info = (SessionInfo) session.getAttribute("member");

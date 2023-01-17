@@ -105,7 +105,7 @@ window.addEventListener("load", function(){
 	<section class="main_section container">
 		<div class="posts row">
 			<c:forEach var="dto" items="${list}" varStatus="status">
-				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl};">
+				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
 					<span>${dto.crawlTitle}</span>
 					<div style="opacity: 0.5;"><span style="font-size:14px;">${dto.crawlDate}</span>&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">${dto.crawlPress}</span></div>
 				</a>
@@ -116,8 +116,3 @@ window.addEventListener("load", function(){
 <div class="page-navigation">
 		${paging}
 </div>
-<form action="${pageContext.request.contextPath}/searchresult">
-	<input type="hidden" name="categoryNo" value="${categoryNo}">
-	<input type="hidden" name="searchName" value="${searchName}">
-	<input type="hidden" name="searchType" value="${searchType}">
-</form>

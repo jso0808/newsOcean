@@ -323,7 +323,7 @@ display:flex;
 	<section class="main_section container">
 		<div class="posts row">
 			<c:forEach var="dto" items="${subCategoryNews}" varStatus="status">
-				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl};">
+				<a class="card col-md-3 col-lg-4"  href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.crawlUrl}">
 					<span>${dto.crawlTitle}</span>
 					<div style="opacity: 0.5;"><span style="font-size:14px;">${dto.crawlDate}</span>&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">${dto.crawlPress}</span></div>
 				</a>

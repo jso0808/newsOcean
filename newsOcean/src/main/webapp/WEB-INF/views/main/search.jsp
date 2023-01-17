@@ -69,7 +69,20 @@ $(function(){
 </script>
 <script>
 $(function(){
-	
+	$(".search_submit").click(function(){
+		const f = document.searchForm;
+		
+		searchName = f.elements.searchName;
+		categoryNo = f.elements.categoryNo;
+		//선택하지 않은경우
+		if(searchName== null && categoryNo ==null){
+			return;
+		}
+		//검색한  내용이 있는 경우(카테고리 혹은 검색어)
+		f.action = "${pageContext.request.contextPath}/searchresult";
+	    f.submit();
+	});
+   
 	$('form input[name=category]').click(function() {
 	    $(this).toggleClass('category_selected');
 	});
@@ -95,6 +108,8 @@ $(function(){
 	        $(this).addClass("smallCategory_selected");
 	    }
 	});
+	
+	
 	/*
 	$(".bigCategory").click(function(){
 		let b = $(this).is(":checked");
@@ -149,7 +164,7 @@ cursor: pointer;
 }
 </style>
 <div class="body-container2">
-	<form action="${pageContext.request.contextPath}/searchresult" method="get" name="searchForm">
+	<form action="${pageContext.request.contextPath}/searchresult" method="post" name="searchForm">
 		<div class="search_content input-group-text">
 			<div class="search_detail_content">
 				<div class="search_detail_row input-group-text">
@@ -177,20 +192,19 @@ cursor: pointer;
 						<c:forEach var="dto" items="${categorylist}" varStatus="status">
 							<c:if test="${dto.categoryNo%100 == 0}">
 								<div class="m-2 bigCategory">
-									<input class="chkAll m-2 mt-0" type="checkbox" style="display: none;" name="categoryNo" data-categoryName="${dto.categoryName}" value="${dto.categoryNo} ">
 		      						<span class="input-group-text">${dto.categoryName}</span>
+									<input class="chkAll m-2 mt-0" type="checkbox" style="display: none;" name="categoryNo" value="${dto.categoryNo} ">
 								</div>
-								<input type="hidden" name="categoryName" class="" value="${dto.categoryName}">
 							</c:if>
 							<c:if test="${dto.categoryNo%100 != 0}">
 	      						<span class="input-group-text smallCategory" style="display:inline-block;">${dto.categoryName}</span>
-								<input class="category m-2 mt-0" type="checkbox" style="display: none;" name="categoryNo"  data-categoryName="${dto.categoryName}" value="${dto.categoryNo}">
+								<input class="category m-2 mt-0" type="checkbox" style="display: none;" name="categoryNo"  value="${dto.categoryNo}">
 							</c:if>
 						</c:forEach>
 					</div>
 				</div>
 				<div class="search_detail_row input-group-text">
-					<input type="submit" class="search_submit btn btn-secondary btn-sm" value="검색">
+					<input type="button" class="search_submit btn btn-secondary btn-sm" value="검색">
 				</div>
 			</div>
 		</div>

@@ -15,6 +15,16 @@ public class Reply {
 	private int complainCount;
 	private int showHide;
 	
+	private String originlink;
+	
+	public final String getOriginlink() {
+		return originlink;
+	}
+
+	public final void setOriginlink(String originlink) {
+		this.originlink = originlink;
+	}
+
 	public final String getTitle() {
 		return title;
 	}

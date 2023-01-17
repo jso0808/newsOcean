@@ -107,12 +107,12 @@ function ajaxFun(url, method, query, dataType, fn) {
 					<c:forEach var="dto" items="${bookmarkList}" varStatus="status">
 						<div class="save-bookmark" ><!--db저장된 키워드-->
 							<div class="d-flex">
-								<div id="bookmarkitem" name="bookmarkName" style="cursor:pointer"  onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originLink}';"  class="badge bg-light text-dark">${dto.bookmarkName}</div>
+								<div id="bookmarkitem" name="bookmarkName" style="cursor:pointer;"  onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originLink}';"  class="badge bg-light text-dark">${dto.bookmarkName}</div>
 								<button id="bookmarkdelete"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
 								<input type="hidden" name="bookmarkNum" value="${dto.bookmarkNum}">
 								<input type="hidden" name="bookmarkName" value="${dto.bookmarkName}">
 							</div>		
-							<div name="title" class="myTitle badge bg-light text-dark"onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originLink}';"  class="badge bg-light text-dark">${dto.title}</div>
+							<div name="title"  style="cursor:pointer;" class="myTitle badge bg-light text-dark"onclick="location.href='${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originLink}';"  class="badge bg-light text-dark">${dto.title}</div>
 						</div>
 					</c:forEach>
 				</div>
