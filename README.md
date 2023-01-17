@@ -149,8 +149,8 @@
 - 카테고리별 뉴스
 - 키워드 뉴스 검색 (작업중)
 - 관리자 1:1 채팅
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033826-fc6ef510-5311-4f5f-a74f-454c38f30642.jpg" height="200" name="뉴스"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033822-53e2e884-a435-4392-ab00-50ce172edb89.jpg" height="200"  name="카테고리"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033824-96621b05-1336-4c92-b9e0-f79ecda30c1a.jpg" height="100" name="카테고리뉴스"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033821-a90078f3-43ca-4d14-a84c-3eb881cd2fe0.PNG" height="300" name="문의카톡챗봇"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033831-2145ea91-7b3b-4d3e-8e9b-5fb8f3688bc6.PNG" height="300" name="문의카톡유저"/>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033826-fc6ef510-5311-4f5f-a74f-454c38f30642.jpg" height="500" name="뉴스"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033822-53e2e884-a435-4392-ab00-50ce172edb89.jpg" height="200 name="카테고리"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033824-96621b05-1336-4c92-b9e0-f79ecda30c1a.jpg" height="500 name="카테고리뉴스"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033821-a90078f3-43ca-4d14-a84c-3eb881cd2fe0.PNG" height="400 name="문의카톡챗봇"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213033831-2145ea91-7b3b-4d3e-8e9b-5fb8f3688bc6.PNG" height="300 name="문의카톡유저"/>
