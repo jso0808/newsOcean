@@ -41,6 +41,7 @@
    - 조건별 검색 가능
 - 발신 메일 상세보기
    - 메일 상세 내용과 수신한 구독자 수 출력
+   - 이전글, 다음글 바로가기 출력
 
 ##### ✔ 뉴스글 주요 기능
 - 크롤링한 뉴스 데이터 출력
@@ -122,24 +123,25 @@
 <br>
 <br>
 
-### 📌 로그인/회원가입 주요 기능
+### 📌 로그인/회원가입 화면
 #### ✔ 로그인
 - 임시 패스워드 발급
 ![로그인](https://user-images.githubusercontent.com/58289304/213025064-8b3025da-547d-4685-b471-53ccabd7d832.png)
 ![이메일 입력](https://user-images.githubusercontent.com/58289304/213025066-35376655-ec9d-47e0-b744-114026523e4f.png)
 ![패스워드 발급](https://user-images.githubusercontent.com/58289304/213025060-3d8a1e9d-2bf6-466e-aa67-9219ca741eee.png)
 ![패스워드 메일](https://user-images.githubusercontent.com/58289304/213025053-4c56e788-ed47-47fe-b8ab-dac6ac2b646d.png)
+#### ✔ 회원가입
+![회원가입](https://user-images.githubusercontent.com/58289304/213028494-a9ee7b36-cdd4-4cfa-bf9b-d397fe3897ee.png)
 
 
-
-### 📌 구독 주요 기능
-#### ✔ 구독권 결제
+### 📌 구독 주요 기능 화면
+#### ✔ 구독권 결제 화면
 - 카카오페이API를 이용한 구독권 결제 
 - 구독권 선택 시 구독기간 계산되어 출력
    - 첫 메일 발송일: 돌아오는 화요일
 - 구독기간이 남은 구독권이 있다면 결제 불가
 ![구독 메인](https://user-images.githubusercontent.com/58289304/213019693-91752326-1007-4157-89ed-f3c0d7531a1b.png)
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020018-9514d06c-e00a-4a13-a09e-4f37ff167008.png" width="500" height="80"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020018-9514d06c-e00a-4a13-a09e-4f37ff167008.png" width="400" height="80"/></p>
 <p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020515-864c3f97-bd57-45af-a527-6023cfa6f4d5.png" width="300" height="400"/></p>
 <p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020560-7897e5c1-d567-4647-99a9-8051e6bda865.PNG" width="300" height="400"/></p>
 <br>
@@ -155,7 +157,10 @@
 <br>
 
 
-
-
-
+##### ✔ 구독 메일 발송 주요 기능
+![메일 작성](https://user-images.githubusercontent.com/58289304/213028869-d257ce14-35de-48e2-9c3b-6dec6116589b.png)
+![실제 메일 확인](https://user-images.githubusercontent.com/58289304/213028291-cee7ed78-0d9a-4bb1-ab2e-1a7495e47bec.png)
+![메일발신함](https://user-images.githubusercontent.com/58289304/213028290-139145a2-abf5-4b1c-93e1-d272ef68adb9.PNG)
+![메일 상세1](https://user-images.githubusercontent.com/58289304/213028281-d4e2e80a-932d-4927-a885-8ae7d7e876a4.png)
+![메일 상세2](https://user-images.githubusercontent.com/58289304/213028283-d25f249a-bfe9-4adf-b8bf-e3b2d02a1650.png)
 
