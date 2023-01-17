@@ -19,7 +19,7 @@
    - 이메일, 닉네임 중복 검사
 - 접근 권한
    -  관리자만 접근 가능한 페이지 진입 시 접근제한페이지 출력
-<br>
+
 ##### ✔ 구독 결제 주요 기능
 - 구독권 결제하기
    - 카카오페이API를 이용한 구독권 결제 
@@ -31,7 +31,7 @@
    - 구독권 종류로 검색 가능
    - 구독권 선택 시 해당 구독권의 상세 내역 확인
    - 첫 메일 발송일이 지난 구독권은 환불 불가
-<br>
+
 ##### ✔ 구독 메일 발송 주요 기능
 - 메일 작성
    - ck에디터 내부에 작성 가이드폼 출력
@@ -41,7 +41,7 @@
    - 조건별 검색 가능
 - 발신 메일 상세보기
    - 메일 상세 내용과 수신한 구독자 수 출력
-<br>
+
 ##### ✔ 뉴스글 주요 기능
 - 크롤링한 뉴스 데이터 출력
 - 뉴스글 공감 설정/해제
@@ -51,7 +51,7 @@
    - 댓글 좋아요
 - SNS 공유
    - Twitter, KakaoTalk 공유 링크 생성
-<br>
+
 ##### ✔ 챗봇 주요 기능
 - 최신 뉴스
 - 카테고리별 뉴스
@@ -126,9 +126,10 @@
 #### ✔ 로그인
 - 임시 패스워드 발급
 ![로그인](https://user-images.githubusercontent.com/58289304/213025064-8b3025da-547d-4685-b471-53ccabd7d832.png)
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213025066-35376655-ec9d-47e0-b744-114026523e4f.png" width="300" height="80"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213025060-3d8a1e9d-2bf6-466e-aa67-9219ca741eee.png" width="300" height="80"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213025053-4c56e788-ed47-47fe-b8ab-dac6ac2b646d.png" width="300" height="80"/></p>
+![이메일 입력](https://user-images.githubusercontent.com/58289304/213025066-35376655-ec9d-47e0-b744-114026523e4f.png)
+![패스워드 발급](https://user-images.githubusercontent.com/58289304/213025060-3d8a1e9d-2bf6-466e-aa67-9219ca741eee.png)
+![패스워드 메일](https://user-images.githubusercontent.com/58289304/213025053-4c56e788-ed47-47fe-b8ab-dac6ac2b646d.png)
+
 
 
 ### 📌 구독 주요 기능
@@ -147,9 +148,9 @@
 - 구독권 종류로 검색 가능
 - 구독권 선택 시 해당 구독권의 상세 내역 확인
 - 첫 메일 발송일이 지난 구독권은 환불 불가
-![구독권 리스트](https://user-images.githubusercontent.com/58289304/213023741-1202a803-b724-4001-a308-bc18791a70b6.png)
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213019686-0b309f76-e789-4255-bbfa-6d8df99b0860.png" width="200" height="350"/></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213019692-93c12be6-6b59-485e-9f25-aa71f8d74439.png" width="200" height="350"/></p>
+![구독권 리스트](https://user-images.githubusercontent.com/58289304/213026678-bed4bed7-f835-4859-b990-d45f064589b2.png)
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213019686-0b309f76-e789-4255-bbfa-6d8df99b0860.png" width="400"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213019692-93c12be6-6b59-485e-9f25-aa71f8d74439.png" width="400"/></p>
 <br>
 
 
