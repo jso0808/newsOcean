@@ -1,4 +1,4 @@
-##  뉴스 요약  및 챗봇 - <img src="https://user-images.githubusercontent.com/58289304/213015326-ed32c5b3-66eb-4b06-9390-f052e38c4adb.png" width="150" height="30"/>
+##  뉴스 요약 웹사이트 및 챗봇  <img src="https://user-images.githubusercontent.com/58289304/213034909-5c18ef4d-b2f3-4154-b797-103ad1182783.png" width="300"/>
 <br>
 
 ### 📌 개발 기간
