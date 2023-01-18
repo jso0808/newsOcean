@@ -103,7 +103,7 @@
    - 첫 메일 발송일: 돌아오는 화요일
 - 구독기간이 남은 구독권이 있다면 결제 불가
 ![구독 메인](https://user-images.githubusercontent.com/58289304/213019693-91752326-1007-4157-89ed-f3c0d7531a1b.png)
-<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020018-9514d06c-e00a-4a13-a09e-4f37ff167008.png" width="400" height="80"/></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020018-9514d06c-e00a-4a13-a09e-4f37ff167008.png" width="400" height="200"/></p>
 <p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020515-864c3f97-bd57-45af-a527-6023cfa6f4d5.png" width="300" height="400"/></p>
 <p align="center"><img src="https://user-images.githubusercontent.com/58289304/213020560-7897e5c1-d567-4647-99a9-8051e6bda865.PNG" width="300" height="400"/></p>
 <br>
