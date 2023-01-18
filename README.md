@@ -43,9 +43,9 @@
 <br>
 <br>
 
-### 📌 요구사항 명세서
-![요구사항1](https://user-images.githubusercontent.com/58289304/213016685-b47fcb5c-8563-4626-a5f7-17f969e322f2.PNG)
-![요구사항2](https://user-images.githubusercontent.com/58289304/213016733-79fada27-22c6-4f63-8a97-92235e354081.PNG)
+### 📌 요구사항 정의서
+![정의서1](https://user-images.githubusercontent.com/58289304/213047579-75a9ffee-e3db-467f-84d1-1f6481a9b6dc.PNG)
+![정의서2](https://user-images.githubusercontent.com/58289304/213047593-3e62ad21-ee29-4528-8875-41b9139f75d5.PNG)
 <br>
 <br>
    
