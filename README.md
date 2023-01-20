@@ -130,7 +130,7 @@
    - 메일 상세 내용과 수신한 구독자 수 출력
    - 이전글, 다음글 바로가기 출력
 ![메일 작성](https://user-images.githubusercontent.com/58289304/213028869-d257ce14-35de-48e2-9c3b-6dec6116589b.png)
-![실제 메일 확인](https://user-images.githubusercontent.com/58289304/213028291-cee7ed78-0d9a-4bb1-ab2e-1a7495e47bec.png)
+![실제 메일 확인](https://user-images.githubusercontent.com/58289304/213633306-10a6f9b4-84c1-448c-8a05-a36f509c0544.png)
 ![메일발신함](https://user-images.githubusercontent.com/58289304/213028290-139145a2-abf5-4b1c-93e1-d272ef68adb9.PNG)
 ![메일 상세1](https://user-images.githubusercontent.com/58289304/213028281-d4e2e80a-932d-4927-a885-8ae7d7e876a4.png)
 ![메일 상세2](https://user-images.githubusercontent.com/58289304/213028283-d25f249a-bfe9-4adf-b8bf-e3b2d02a1650.png)
