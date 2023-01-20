@@ -36,18 +36,13 @@
 <div class="">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="fa-solid fa-envelope-open-text"></i> 구독 메일 발신함 </h3>
+			<h3><i class="fa-solid fa-envelope-open-text"></i> ${dto.subject} </h3>
 		</div>
 		
 		<div class="body-main">
 
 			<table class="table mb-0">
 				<thead>
-					<tr>
-						<td colspan="2" align="center">
-							<div class="div-subject">${dto.subject}</div>
-						</td>
-					</tr>
 				</thead>
 				
 				<tbody>

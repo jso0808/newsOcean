@@ -32,6 +32,7 @@
 
 .tdTitle {
 	width: 200px;
+	font-size: 20px;
 }
 
 .ck.ck-editor {
@@ -44,6 +45,30 @@
 
 .ck-content { font-size: 12px; }
 
+.tdNewsBring {
+	width: 100%;
+	display: flex;
+    justify-content: space-around;
+}
+
+.newsBring { 
+	animation-duration: 3s; 
+	animation-name: rainbowLink; 
+	animation-iteration-count: infinite;     
+	font-size: 25px;
+	border-color: #000;
+	border-radius: 30px;
+} 
+@keyframes rainbowLink {     
+ 0% { color: #ff2a2a; }
+ 15% { color: #ff7a2a; }
+ 30% { color: #ffc52a; }
+ 45% { color: #43ff2a; }
+ 60% { color: #2a89ff; }
+ 75% { color: #202082; }
+ 90% { color: #6b2aff; } 
+ 100% { color: #e82aff; }
+}
 
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
@@ -75,7 +100,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
-
+/*
 $(document).ready(function() {
 	let url = "${pageContext.request.contextPath}/sub/mail/guideForm"; // <div id="guideForm">
  	const fn = function(guideForm) {
@@ -86,6 +111,9 @@ $(document).ready(function() {
 	ajaxFun(url, "get", "", "html", fn);
 	
 });
+*/
+
+
 
 // 보낼 그룹 (selectReceiver) 선택할 때마다 input값 변경
 $(function() {
@@ -132,6 +160,15 @@ function sendOk() {
 	f.action="${pageContext.request.contextPath}/sub/mail/send";
 	f.submit();
 }
+
+
+$(function() {
+	$(".btnNewsBring").click(function() {
+		alert("클릭");
+	});
+})
+
+
 </script>
 
 <div class="container mail-container">
@@ -153,14 +190,21 @@ function sendOk() {
 					</tr>
 
 					<tr>
-						<td class="table-light col-sm-3 tdTitle" scope="row">제 목</td>
+						<td class="table-light col-sm-3 tdTitle" scope="row">제  목</td>
 						<td>
 							<input type="text" name="subject" class="form-control" placeholder="제 1호">
 						</td>
 					</tr>
+					
+					<tr class="trNewsBring">
+						<td></td>
+						<td class="tdNewsBring">
+							<button type="button" class="btn newsBring btnNewsBring">⛵ 뉴스 가져오기 ⛵</button>
+						</td>
+					</tr>
 
 					<tr>
-						<td class="table-light col-sm-3 tdTitle" scope="row">내용</td>
+						<td class="table-light col-sm-3 tdTitle" scope="row">내  용</td>
 						<td class="editorTd">
 							<div class="editor"></div>
 							<input type="hidden" name="content">
@@ -174,7 +218,7 @@ function sendOk() {
 						<td class="text-center">
 							<button type="button" class="btn btn-dark" onclick="sendOk();">메일 전송&nbsp;<i class="bi bi-check2"></i></button>
 							<button type="reset" class="btn btn-light">다시입력</button>
-							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/';">전송 취소&nbsp;<i class="bi bi-x"></i></button>
+							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/listSendMail';">전송 취소&nbsp;<i class="bi bi-x"></i></button>
 						</td>
 					</tr>
 				</table>
