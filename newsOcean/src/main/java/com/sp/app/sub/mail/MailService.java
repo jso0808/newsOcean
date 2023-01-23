@@ -3,6 +3,7 @@ package com.sp.app.sub.mail;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.app.news.NewsOriginal;
 import com.sp.app.sub.Subscript;
 
 public interface MailService {
@@ -23,5 +24,7 @@ public interface MailService {
 	public long sequenceSubMail();
 	public void insertSubMail(Mail mail);
 	public void insertSubMailInfo(Mail mail);
+	
+	public List<NewsOriginal> listNews();
 	
 }

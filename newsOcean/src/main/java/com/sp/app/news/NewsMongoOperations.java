@@ -3,11 +3,14 @@ package com.sp.app.news;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 
 @Service("news.newsMongoOperations")
 public class NewsMongoOperations {
@@ -58,5 +61,23 @@ public class NewsMongoOperations {
 			throw e;
 		}
 	}
+	
+	// 구독 메일 작성 - 뉴스글 5개 제목,요약내용 리스트 가져오기
+	public List<NewsOriginal> listNews(int page, int size) {
+		List<NewsOriginal> list = null;
+		
+		try {
+			// page = page >= 1 ? (page - 1) : 0;
+			// 업로드일 내림차순으로 뉴스글 가져오기
+			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "_id"));
+			Query query = new Query();
+			query.with(pageable);
+			list = mongo.find(query, NewsOriginal.class);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	
 }

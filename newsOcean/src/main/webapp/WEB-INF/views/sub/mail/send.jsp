@@ -164,7 +164,13 @@ function sendOk() {
 
 $(function() {
 	$(".btnNewsBring").click(function() {
-		alert("클릭");
+		let url = "${pageContext.request.contextPath}/sub/mail/guideFormNewsList"; 
+	 	const fn = function(guideForm) {
+	 		console.log(guideForm);
+	 		// $(selector).html(data);
+	 		window.editor.setData(guideForm);
+	 	}
+		ajaxFun(url, "get", "", "html", fn);
 	});
 })
 
@@ -217,7 +223,6 @@ $(function() {
  					<tr>
 						<td class="text-center">
 							<button type="button" class="btn btn-dark" onclick="sendOk();">메일 전송&nbsp;<i class="bi bi-check2"></i></button>
-							<button type="reset" class="btn btn-light">다시입력</button>
 							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sub/mail/listSendMail';">전송 취소&nbsp;<i class="bi bi-x"></i></button>
 						</td>
 					</tr>

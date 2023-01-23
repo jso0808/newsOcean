@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.app.common.MyUtil;
+import com.sp.app.news.NewsOriginal;
 import com.sp.app.sub.Subscript;
 
 @Controller("mail.mailController")
@@ -51,11 +52,6 @@ public class MailController {
 			HttpServletRequest req,
 			Model model, 
 			HttpSession session) throws Exception {
-		
-		System.out.println("*******************");
-		System.out.println(condition);
-		System.out.println(keyword);
-		System.out.println("*******************");
 		
 		int total_page = 0;
 		int dataCount = 0;
@@ -195,5 +191,16 @@ public class MailController {
 		model.addAttribute("nextDto", nextMail);
 		
 		return ".sub.mail.article";
+	}
+	
+	// AJAX 구독 메일 작성 
+	@GetMapping(value="guideFormNewsList")
+	public String guideFormNewsList(Model model) throws Exception {
+		
+		List<NewsOriginal> list = service.listNews();
+		
+		model.addAttribute("list", list);
+		
+		return "sub/mail/guideForm";
 	}
 }

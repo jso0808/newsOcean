@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.app.common.dao.CommonDAO;
+import com.sp.app.news.NewsMongoOperations;
+import com.sp.app.news.NewsOriginal;
 import com.sp.app.sub.Subscript;
 
 @Service("mail.mailService")
@@ -14,6 +16,9 @@ public class MailServiceImpl implements MailService{
 
 	@Autowired
 	private CommonDAO dao;
+	
+	@Autowired
+	private NewsMongoOperations newsMongo;
 	
 	@Override
 	public List<Mail> listSendMail(Map<String, Object> map) {
@@ -132,6 +137,20 @@ public class MailServiceImpl implements MailService{
 			e.printStackTrace();
 		}
 		return mail;
+	}
+
+	@Override
+	public List<NewsOriginal> listNews() {
+		List<NewsOriginal> list = null;
+		
+		try {
+			// (page, size)
+			list = newsMongo.listNews(2, 5);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	
