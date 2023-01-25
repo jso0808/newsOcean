@@ -55,6 +55,7 @@
 		WHERE newsNo = #{newsNo}
 	</select>
 	
+	<!-- < : lt  -->
 	<select id="replyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM NEWSREPLY nr
@@ -113,7 +114,7 @@
 	
 	<delete id="deleteReply" parameterType="map">
 		DELETE FROM newsReply
-		WHERE replyNo = #{replyNo} AND memberNo = #{memberNo}
+		WHERE replyNo = #{replyNo}
 	</delete>
 	
 	<delete id="beforeDeleteReply" parameterType="map">

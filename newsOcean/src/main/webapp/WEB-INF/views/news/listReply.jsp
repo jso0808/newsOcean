@@ -49,7 +49,7 @@
 		</tr>
 		
 		<tr>
-			<td class="td-content" colspan='2' valign='top'>${vo.content}</td>
+			<td colspan='2' valign='top' class="td-content ${vo.showHide == -1 ? 'text-primary text-opacity-50':''}">${vo.content}</td>
 		</tr>
 	
 	</c:forEach>

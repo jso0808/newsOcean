@@ -59,6 +59,7 @@
 			</if>
 		</where>
 		ORDER BY mailNo DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">

@@ -312,6 +312,10 @@ $(function() {
 	$(document).on("click", ".btnRefund", function() {
 		// insertSubRefund
 		
+		if(! confirm('선택한 구독권을 환불하시겠습니까 ? ')) {
+		return;
+		}
+		
 		let subNo = $(".modal-input-subNo").val(); // 결제번호
 		let paid_amount = $(".modal-input-paid_amount").val();
 		paid_amount = paid_amount.replace(",","");
@@ -326,7 +330,8 @@ $(function() {
  		const fn = function(data) {
  			
  			if(data.state === "true") {
- 				
+ 				let listUrl = "${pageContext.request.contextPath}/sub/list";
+ 	    		location.replace(listUrl);
  			} else {
  				alert("환불 처리에 실패했습니다.");
  			}

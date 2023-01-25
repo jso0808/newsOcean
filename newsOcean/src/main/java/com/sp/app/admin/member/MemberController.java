@@ -35,9 +35,6 @@ public class MemberController {
 		return ".admin.member.main";
 	}
 	
-	
-	
-	
 	@RequestMapping(value = "list")
 	public String list(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,

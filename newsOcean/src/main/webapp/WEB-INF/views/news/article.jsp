@@ -477,7 +477,7 @@ function shareKakao() {
 					
 					<tr>
 						<td colspan="2" valign="top" height="200" style="border-bottom: none;">
-							<div class="btn btnBookMark"><i class="${dto.bookMarkNum==1 ? 'fa-solid':'fa-regular'} fa-bookmark fa-2x"></i></div>
+							<div class="btn btnBookMark"><i class="${dto.bookMarked==1 ? 'fa-solid':'fa-regular'} fa-bookmark fa-2x"></i></div>
 							<div class="crawlSummary">${dtoOrigin.crawlSummary}</div>
 						</td>
 					</tr>

@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
-
 @Controller("news.newsController")
 @RequestMapping("/news/*")
 public class NewsController {
@@ -293,13 +291,16 @@ public class NewsController {
 	@RequestMapping(value = "replyShowHide")
 	@ResponseBody
 	public Map<String, Object> replyShowHide(
-			@RequestParam Map<String, Object> paramMap,
+			@RequestParam(value = "replyNo") long replyNo,
+			@RequestParam(value = "showHide") int showHide,
 			HttpSession session) {
 		String state = "true";
 		
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		try {
-			paramMap.put("memberNo", info.getMemberNo());
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("replyNo", replyNo);
+			paramMap.put("showHide", showHide);
+			
 			service.updateReplyShowHide(paramMap);
 		} catch (Exception e) {
 			state = "false";

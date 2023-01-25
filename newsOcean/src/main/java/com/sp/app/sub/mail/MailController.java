@@ -1,7 +1,6 @@
 package com.sp.app.sub.mail;
 
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,13 +47,13 @@ public class MailController {
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(value = "condition", defaultValue = "all") String condition,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
-			@RequestParam(value = "size", defaultValue = "5") int size,
 			HttpServletRequest req,
 			Model model, 
 			HttpSession session) throws Exception {
 		
 		int total_page = 0;
 		int dataCount = 0;
+		int size = 5;
 		
 		// GET 방식인 경우
 		if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -89,27 +88,16 @@ public class MailController {
 		List<Mail> list = service.listSendMail(map);
 		
 		String cp = req.getContextPath();
-		String query = "size="+size;
-		String listUrl = cp + "/sub/mail/listSendMail";
 		String articleUrl = cp + "/sub/mail/article?page="+current_page;
-		
-		if (keyword.length() != 0) {
-			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
-		}
-		
-		if (query.length() != 0) {
-			listUrl += "&" + query;
-			articleUrl += "&" + query;
-		}
-		
-		String paging = myUtil.paging(current_page, total_page, listUrl);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("size", size);
 		model.addAttribute("total_page", total_page);
-		model.addAttribute("paging", paging);
+		
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("articleUrl", articleUrl);
 		
 		return ".sub.mail.listSendMail";

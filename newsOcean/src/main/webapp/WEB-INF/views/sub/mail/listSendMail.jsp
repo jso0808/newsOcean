@@ -31,24 +31,32 @@
 }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/paginate-boot.js"></script>
+
+<c:url var="listUrl" value="/sub/mail/listSendMail">
+	<c:if test="${not empty keyword}">
+		<c:param name="condition" value="${condition}"/>
+		<c:param name="keyword" value="${keyword}"/>
+	</c:if>
+</c:url>
 
 <script type="text/javascript">
-/*
-$(function(){
-	$("#tab-${group}").addClass("active");
+window.addEventListener("load", function(){
+	let page = ${page};
+	let pageSize = ${size};
+	let dataCount = ${dataCount};
+	let url = "${listUrl}"; 
 	
-    $("button[role='tab']").on("click", function(e){
-		const tab = $(this).attr("data-tab");
-		let url = "${pageContext.request.contextPath}/sbbs/list?group="+tab;	
-		location.href = url;
-    });
+	let total_page = pageCount(dataCount, pageSize);
+	let paging = pagingUrl(page, total_page, url);
+	
+	document.querySelector(".dataCount").innerHTML = dataCount+"개 ("
+			+page+"/"+total_page+"페이지)";
+
+	document.querySelector(".page-navigation").innerHTML = 
+		dataCount === 0 ? "등록된 게시물이 없습니다." : paging;
 });
 
-function searchList() {
-	const f = document.searchForm;
-	f.submit();
-}
-*/
 $(function(){
 	$(".board-list tbody>tr").hover(function(){
 		$(this).addClass("over");
@@ -77,6 +85,12 @@ function searchList() {
 		</div>
 		
 		<div class="body-main">
+		
+			<div class="row board-list-header">
+	            <div class="col-auto me-auto dataCount">
+	            </div>
+	            <div class="col-auto">&nbsp;</div>
+	        </div>	
 			
 			<div class="tab-content pt-2" id="nav-tabContent">
 				<div class="tab-pane fade show active mt-3" id="nav-content" role="tabpanel" aria-labelledby="nav-tab-content">
@@ -103,9 +117,7 @@ function searchList() {
 						</tbody>
 					</table>
 					
-					<div class="page-navigation">
-						${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-					</div>
+					<div class="page-navigation"></div>
 		
 					<div class="row board-list-footer">
 						<div class="col">
