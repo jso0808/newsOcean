@@ -184,7 +184,7 @@ function nickNameCheck() {
 				$("#nickNameValid").val("true");
 			} else {
 				console.log('passed = false')
-				let str = "<span style='color:red; font-weight: bold;'>" + nickName + "</span> 사용할 수 없는 이메일입니다.";
+				let str = "<span style='color:red; font-weight: bold;'>" + nickName + "</span> 사용할 수 없는 닉네임입니다.";
 				$(".nickName-box").find(".help-block").css("color","red");
 				$(".nickName-box").find(".help-block").html(str);
 				$("#nickNameValid").val("");
