@@ -165,41 +165,42 @@ $(function(){
 				</div>
 			</form>
 		</div>
-		<div class="body-main input-group-text replyDisplay1 d-flex flex-column">
-			<form action="${pageContext.request.contextPath}/mypage/activity">
-				<div  class="myTitle">
-					나의 Qna 댓글
-				</div>
-				<div id="qnaReplyList" class="input-group-text flex-wrap" >
-					<c:if test="${empty QnaReplylist}">
-						<div style="display: inline-block;" class="save-qnaReply">
-							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
-								<div style="width:100%; white-space: normal;text-align: left;">Qna댓글 이력이 없습니다.</div>
+		<c:if test="${Authority ne 'no'}">
+			<div class="body-main input-group-text replyDisplay1 d-flex flex-column">
+				<form action="${pageContext.request.contextPath}/mypage/activity">
+					<div  class="myTitle">
+						나의 Qna 댓글
+					</div>
+					<div id="qnaReplyList" class="input-group-text flex-wrap" >
+						<c:if test="${empty QnaReplylist}">
+							<div style="display: inline-block;" class="save-qnaReply">
+								<div  style="display:flex; justify-content: space-between;font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag activity-title">
+									<div style="width:100%; white-space: normal;text-align: left;">Qna댓글 이력이 없습니다.</div>
+								</div>
 							</div>
-						</div>
-					</c:if>
-					<c:forEach var="dto" items="${QnaReplylist}" varStatus="status">
-						<div style="display: inline-block;width:100%" class="save-qnaReply m-2">
-							<div  style="display:flex; justify-content: space-between;font-size:1.5rem;"  class="badge bg-light text-dark m-2 activity-tag" >
-								<div style="width:100%; white-space: normal;text-align: left;"><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}">QNA제목 : ${dto.qnaSubject}</a></div>
-								<button id="qnaReplyitem"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
-								<input type="hidden" id="qnaAnswer" name="qnaAnswer" value="${dto.qnaAnswer}">
+						</c:if>
+						<c:forEach var="dto" items="${QnaReplylist}" varStatus="status">
+							<div style="display: inline-block;width:100%" class="save-qnaReply m-2">
+								<div  style="display:flex; justify-content: space-between;font-size:1.5rem;"  class="badge bg-light text-dark m-2 activity-tag" >
+									<div style="width:100%; white-space: normal;text-align: left;"><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}">QNA제목 : ${dto.qnaSubject}</a></div>
+									<button id="qnaReplyitem"  type="button" class="btn btn-danger" ><i class="bi bi-x"></i></button>
+									<input type="hidden" id="qnaAnswer" name="qnaAnswer" value="${dto.qnaAnswer}">
+								</div>
+								<div  style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag" >
+									<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=" >QNA질문 : ${dto.qnaContent}</a></div>
+								</div>
+								<div style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag">
+									<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=" >QNA질문의 답변 : ${dto.qnaAContent}</a></div>
+								</div>
+								<input type="hidden" name="qnaNo" value="${dto.qnaNo}">
+								<input type="hidden" name="qnaAContent" value="${dto.qnaAContent}">
+								<input type="hidden" name="qnaContent" value="${dto.qnaContent}">
 							</div>
-							<div  style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag" >
-								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=" >QNA질문 : ${dto.qnaContent}</a></div>
-							</div>
-							<div style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag">
-								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=" >QNA질문의 답변 : ${dto.qnaAContent}</a></div>
-							</div>
-							<input type="hidden" name="qnaNo" value="${dto.qnaNo}">
-							<input type="hidden" name="qnaAContent" value="${dto.qnaAContent}">
-							<input type="hidden" name="qnaContent" value="${dto.qnaContent}">
-						</div>
-					</c:forEach>
-				</div>
-			</form>
-		</div>
-		
+						</c:forEach>
+					</div>
+				</form>
+			</div>
+		</c:if>	
 	</div>
 </div>
 

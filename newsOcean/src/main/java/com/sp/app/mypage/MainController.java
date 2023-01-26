@@ -118,20 +118,19 @@ public class MainController {
 		map.put("memberNo", memberNo);
 		List<Reply> list = service.readMyReply(map);
 		List<QnaReply> QnaReplylist = service.readMyQnaReply(map);
-		
+		String Authority ="";
 		//not admin
-		if(!service.checkAuthority(memberNo)) {
-			QnaReplylist =null;
-		}
+		
 		for(Reply s : list) {
 			System.out.println(s.getContent());
 			News news = new News();
 			news.setMemberNo(memberNo);
 			System.out.println(news.getTitle());
 		}
-		for(QnaReply s : QnaReplylist) {
-			System.out.println(s.getQnaAContent());
+		if(!service.checkAuthority(memberNo)) {
+			Authority ="no";
 		}
+		model.addAttribute("Authority", Authority);
 		model.addAttribute("list", list);
 		model.addAttribute("QnaReplylist", QnaReplylist);
 		
