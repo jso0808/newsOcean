@@ -110,7 +110,7 @@ public class MainController {
 	
 	
 	@GetMapping("activity")
-	public String activityForm(Model model,HttpSession session) {
+	public String activityForm(Model model,HttpSession session) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		if(info == null) return ".member.login";
@@ -119,6 +119,10 @@ public class MainController {
 		List<Reply> list = service.readMyReply(map);
 		List<QnaReply> QnaReplylist = service.readMyQnaReply(map);
 		
+		//not admin
+		if(!service.checkAuthority(memberNo)) {
+			QnaReplylist =null;
+		}
 		for(Reply s : list) {
 			System.out.println(s.getContent());
 			News news = new News();

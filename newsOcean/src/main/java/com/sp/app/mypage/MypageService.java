@@ -29,6 +29,7 @@ public interface MypageService {
 	public void deleteMyReply(Map<String, Object> map) throws Exception;
 	public List<QnaReply> readMyQnaReply(Map<String, Object> map);
 	public void deleteMyQnaReply(Map<String, Object> map) throws Exception;
+	public boolean checkAuthority(long memberNo) throws Exception;
 	//나의 북마크
 	public List<Bookmark> readMyBookmark(long memberNo);
 	//public void updateMyBookmark(Map<String, Object> map) throws Exception;

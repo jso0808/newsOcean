@@ -186,10 +186,10 @@ $(function(){
 								<input type="hidden" id="qnaAnswer" name="qnaAnswer" value="${dto.qnaAnswer}">
 							</div>
 							<div  style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag" >
-								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}" >QNA질문 : ${dto.qnaContent}</a></div>
+								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=" >QNA질문 : ${dto.qnaContent}</a></div>
 							</div>
 							<div style="display:flex; font-size:1.5rem;" class="badge bg-light text-dark m-2 activity-tag">
-								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/news/article?crawlUrl=${dto.originlink}" >QNA질문의 답변 : ${dto.qnaAContent}</a></div>
+								<div style="width:100%; white-space: normal;text-align: left;" ><a href="${pageContext.request.contextPath}/cs/qna/article?qnaNo=${dto.qnaNo}&page=" >QNA질문의 답변 : ${dto.qnaAContent}</a></div>
 							</div>
 							<input type="hidden" name="qnaNo" value="${dto.qnaNo}">
 							<input type="hidden" name="qnaAContent" value="${dto.qnaAContent}">

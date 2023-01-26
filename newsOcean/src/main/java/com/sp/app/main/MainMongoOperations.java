@@ -158,48 +158,68 @@ public class MainMongoOperations {
 		List<News>  list2 = null;
 		long count=0;
 		try {
-			
 			// 페이징 처리 
 			page = page >= 1 ? (page - 1) : 0;
 			Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "crawlDate")); // page, size
 			//검색타입 제목
 			if(searchType.equals("subject")) {	
-				//BasicQuery query = new BasicQuery("{kor : {$gte : 80}}");
-				// {$and : [{'crawlTitle': { $regex: '박용진'}},{'category' : {$in : ['200', '201']} }]}
 				
-				String category = "[";
-				for(String s : categoryNo) {
-					category += "'" + s + "',";
-				}	
-				category = category.substring(0, category.length()-1) + "]";
-				
-				String bq = "{$and : [{'crawlTitle': { $regex: '"+searchName+"'}},{'category' : {$in : "+category+"} }]}";
-				//전체 리스트개수
-				BasicQuery query = new BasicQuery(bq);
-				list2 = mongo.find(query, News.class);
-				count = list2.size();
-				
-				//페이징 리스트 반환
-				BasicQuery querypage = new BasicQuery(bq);
-				querypage.with(pageable);
-				list = mongo.find(querypage, News.class);
+				if(categoryNo==null || categoryNo.isEmpty()) {
+					String bq = "{'crawlTitle': { $regex: '"+searchName+"' }}";
+					BasicQuery query = new BasicQuery(bq);
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery(bq);
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+				}else {
+					String category = "[";
+					for(String s : categoryNo) {
+						category += "'" + s + "',";
+					}	
+					category = category.substring(0, category.length()-1) + "]";
+					String bq = "{$and : [{'crawlTitle': { $regex: '"+searchName+"'}},{'category' : {$in : "+category+"} }]}";
+					//전체 리스트개수
+					BasicQuery query = new BasicQuery(bq);
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery(bq);
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+				}
 			//검색타입 keyword
 			} else if(searchType.equals("keyword")) {
-				String category = "[";
-				for(String s : categoryNo) {
-					category += "'" + s + "',";
+				if(categoryNo==null || categoryNo.isEmpty()) {
+					String bq = "{'crawlContent': { $regex: '"+searchName+"' }}";
+					BasicQuery query = new BasicQuery(bq);
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery(bq);
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
+				}else {
+					String category = "[";
+					for(String s : categoryNo) {
+						category += "'" + s + "',";
+					}
+					category = category.substring(0, category.length()-1) + "]";
+					
+					String bq = "{$and : [{'crawlContent': { $regex: '"+searchName+"'}},{'category' : {$in : "+category+"} }]}";
+					BasicQuery query = new BasicQuery(bq);
+					list2 = mongo.find(query, News.class);
+					count = list2.size();
+					
+					//페이징 리스트 반환
+					BasicQuery querypage = new BasicQuery(bq);
+					querypage.with(pageable);
+					list = mongo.find(querypage, News.class);
 				}
-				category = category.substring(0, category.length()-1) + "]";
-				
-				String bq = "{$and : [{'crawlContent': { $regex: '"+searchName+"'}},{'category' : {$in : "+category+"} }]}";
-				BasicQuery query = new BasicQuery(bq);
-				list2 = mongo.find(query, News.class);
-				count = list2.size();
-				
-				//페이징 리스트 반환
-				BasicQuery querypage = new BasicQuery(bq);
-				querypage.with(pageable);
-				list = mongo.find(querypage, News.class);
 			}
 			System.out.println(list);
 			resultMap.put("list", list);

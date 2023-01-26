@@ -30,7 +30,7 @@ function memberOk() {
 
     str = f.name.value;
     if( !/^[가-힣]{2,5}$/.test(str) ) {
-        alert("이름을 다시 입력하세요. ");
+        alert("이름을 다시 입력하세요. 2~5자리 이름만 입력가능합니다.");
         f.name.focus();
         return;
     }
@@ -182,7 +182,7 @@ function nickNameCheck() {
 			        <div class="col-sm-10 row nickName-box">
 				        <div class="col-sm-7">
 				            <input type="text" name="nickName" id="nickName" class="form-control" value="${dto.nickName}" 
-				            		readonly='readonly' placeholder="닉네임">
+				            		placeholder="닉네임">
 				        </div>
 				        <div class="col-3 ps-1">
 							<button type="button" class="btn btn-light" onclick="nickNameCheck();">닉네임중복검사</button>

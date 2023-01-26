@@ -39,7 +39,7 @@ margin-left:2.5rem;
 $(function(){
 	let searchType = "${searchType}";
 	let sType ="";
-	if(searchType == "searchName"){
+	if(searchType == "keyword"){
 		sType = '키워드';
 	}else if(searchType== "subject"){
 		sType = '제목';
@@ -47,7 +47,7 @@ $(function(){
 	if("${searchName}"==""){
 		return;
 	}
-	let searchName = '<span>'+sType+"로 검색한 "+'"${searchName}"'+"의 검색결과입니다"+'</span>';
+	let searchName = '<span>'+sType+" : "+'"${searchName}"'+"의 검색결과입니다"+'</span>';
 	$(".search_searchName").html(searchName);
 })
 

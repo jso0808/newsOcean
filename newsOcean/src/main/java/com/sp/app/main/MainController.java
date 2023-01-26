@@ -387,7 +387,7 @@ public class MainController {
 			System.out.println("---------------------");
 			//검색어o, 카테고리x
 			if(searchName !=null && categoryNoString == null) {
-				categoryNoString="200,300,400,500,600";
+				categoryNoString="200,201,202,203,204,205,206,207,208,300,301,302,303,304,305,306,307,308,400,401,402,403,404,405,405,406,407,408,500,501,502,503,504,505,506,600,601,602,603,604,605,606";
 				search.setCategoryNo(categoryNoString);
 				search.setSearchName(searchName); 
 				search.setSearchType(searchType); 

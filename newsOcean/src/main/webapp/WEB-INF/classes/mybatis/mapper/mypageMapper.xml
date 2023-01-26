@@ -117,5 +117,8 @@
 		WHERE n.newsNo = #{newsNo}
 		ORDER BY newsNo
 	</select>
-
+	
+	<select id="checkAuthority" parameterType="Long" resultType="String">
+		SELECT Authority from Authority WHERE memberNo = #{memberNo}
+	</select>
 </mapper>

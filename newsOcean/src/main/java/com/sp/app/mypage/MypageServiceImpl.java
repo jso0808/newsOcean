@@ -188,6 +188,21 @@ public class MypageServiceImpl implements MypageService {
 		return dto;
 	}
 
+	//권한 admin : true , else - return false
+	@Override
+	public boolean checkAuthority(long memberNo) throws Exception {
+		try {
+			String Authority =null;
+			Authority = dao.selectOne("mypage.checkAuthority", memberNo);
+			if(Authority.equals("ROLE_ADMIN")) {
+				return true;
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return false;
+	}
+
 
 
 }
