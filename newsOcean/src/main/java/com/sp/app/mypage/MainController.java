@@ -240,7 +240,9 @@ public class MainController {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		if(info == null) return ".member.login";
 		Member dto = service.readMyInfo(info.getEmail());
-		
+		if((pwd.isEmpty() || pwd==null)) {
+			pwd="";
+		}
 		String encPassword = bcrytp.encode(pwd);
 		dto.setPwd(encPassword);
 		dto.setEmail(info.getEmail());
@@ -249,11 +251,10 @@ public class MainController {
 		dto.setName(name);
 		dto.setNickName(nickName);
 		
-		
 		// 패스워드 검사
 		//수정 데이터 입력
 		//패스워드 미수정(미입력)시
-		if(pwd==null) {
+		if(pwd.isEmpty() || pwd==null) {
 			try {
 				service.updateMyInfo(dto);
 			} catch (Exception e) {

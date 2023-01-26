@@ -99,6 +99,7 @@ public class MypageServiceImpl implements MypageService {
 	public void deleteMyInfo(Member dto) throws Exception{;
 		try {
 			dao.updateData("mypage.deleteMyInfo", dto);
+			dao.updateData("mypage.deleteMyInfoAuth", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
