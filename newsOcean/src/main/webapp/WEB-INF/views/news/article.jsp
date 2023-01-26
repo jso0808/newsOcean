@@ -290,9 +290,9 @@ $(function(){
 		let replyNo = $(this).attr("data-replyNo");
 		let showHide = $(this).attr("data-showHide");
 		
-		let msg = "댓글을 숨김 하시겠습니까 ? ";
+		let msg = "댓글 숨김을 해제 하시겠습니까 ? ";
 		if(showHide === "0") {
-			msg = "댓글 숨김을 해제 하시겠습니까 ? ";
+			msg = "댓글을 숨김 하시겠습니까 ? ";
 		}
 		if(! confirm(msg)) {
 			return false;
