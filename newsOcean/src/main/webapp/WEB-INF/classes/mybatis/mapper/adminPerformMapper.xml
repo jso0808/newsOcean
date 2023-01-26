@@ -38,6 +38,7 @@
 		    SUM(paid_amount) OVER(PARTITION BY TO_CHAR(substart, 'YYYY-MM')) AS month,
 		    SUM(paid_amount) OVER(PARTITION BY TO_CHAR(substart, 'YYYY')) AS year
 		FROM subscript
+		WHERE TO_CHAR(substart, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
 		ORDER BY substart DESC) ss 
 		GROUP BY substart, day, month, year
 		ORDER BY substart DESC
@@ -51,6 +52,7 @@
 		    COUNT(memberNo) OVER(PARTITION BY TO_CHAR(joindate, 'YYYY-MM')) AS month,
 		    COUNT(memberNo) OVER(PARTITION BY TO_CHAR(joindate, 'YYYY')) AS year
 		FROM member
+		WHERE TO_CHAR(joindate, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
 		ORDER BY joindate DESC) ss 
 		GROUP BY joindate, day, month, year
 		ORDER BY joindate DESC
