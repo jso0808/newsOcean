@@ -44,8 +44,9 @@ function memberOk() {
 		return;
 	}
 	
-	if(mode === "member" && f.nickNameValid.value === "nickNameValid") {
+	if(mode === "member" && f.nickNameValid.value === "false") {
 		str = "닉네임 중복 검사가 실행되지 않았습니다.";
+		alert(str);
 		f.nickNameValid.focus();
 		return;
 	}

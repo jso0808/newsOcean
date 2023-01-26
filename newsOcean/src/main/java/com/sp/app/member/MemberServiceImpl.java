@@ -81,7 +81,9 @@ public class MemberServiceImpl implements MemberService{
 		
 		try {
 			dto = dao.selectOne("member.readNickNameMember", nickName);
-			
+			System.out.println("***********");
+			System.out.println(nickName);
+			System.out.println("***********");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
