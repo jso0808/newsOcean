@@ -27,10 +27,7 @@
 #### ✔ Programming Language
 - JAVA 1.8
 - Javascript
-- jQuery, AJAX
-- XML
 - HTML5, CSS
-- Servlet & JSP
 - Python
 #### ✔ DBMS
 - Oracle DB 18
@@ -38,7 +35,6 @@
 #### ✔ Server
 - Apache Tomcat 9.0  
 #### ✔ 기타
-- ck 에디터
 - Bootstrap 5.2
 <br>
 <br>
